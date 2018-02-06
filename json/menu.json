@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Auto",
+        "description": "It can fly not vegan",
+        "price": [14.979, 15.10, 19.90, 21.90, 25.20, 100],
+        "size": ["s", "standard", "l", "xl", "party", "family"],
+        "type": "car",
+        "tags": ["fly", ""],
+        "picture": "car.png"
+
+    }
+]
