@@ -1,0 +1,23 @@
+div.table {
+	display: table;
+	border-collapse: collapse;
+}
+
+div.tr {
+	display: table-row;
+}
+
+div.td {
+	display: table-cell;
+	border: thin solid black;
+	padding: 10px;
+}
+
+div.td#input {
+	border: none;
+	padding: 5px;
+}
+
+div.td#head {
+	font-weight: bold;
+}
