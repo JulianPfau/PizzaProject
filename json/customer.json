@@ -1,0 +1,18 @@
+[
+    {
+        "id": 12,
+        "firstname": "",
+        "lastname": "",
+        "email": "",
+        "password": "passwort",
+        "contact": {
+            "name": "Max Mustermann",
+            "postcode": 82299,
+            "street": "Daheim",
+            "nr": "1",
+            "phone": "999901"
+        }
+
+
+    }
+]
