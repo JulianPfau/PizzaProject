@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="./css/admin.css">
-    <script src="./js/uploadImage.js"></script>
-  <title>Admin - Pizza Verwaltung</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <script language="javascript" type="text/javascript" src="js/submitJSON.js"></script>
+    <script src="js/uploadImage.js"></script>
+
+    <title>Admin - Pizza Verwaltung</title>
 </head>
 <body>
 
-  <h1>PIZZA ADMIN</h1>
-  <div class="table">
+<h1>PIZZA ADMIN</h1>
+Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
+<div class="table">
     <div class="tr" id="head">
-      <div class="td">Name</div>
-      <div class="td">Description</div>
-      <div class="td">Prices</div>
-      <div class="td">Sizes</div>
-      <div class="td">Type</div>
-      <div class="td">Tags</div>
-      <div class="td">Picture</div>
+        <div class="td">Name</div>
+        <div class="td">Description</div>
+        <div class="td">Prices</div>
+        <div class="td">Sizes</div>
+        <div class="td">Type</div>
+        <div class="td">Tags</div>
+        <div class="td">Picture</div>
     </div>
-    <div class="tr">
-      <div class="td"><span class="Input" id="Name" contenteditable="true" ></span></div>
-      <div class="td"><span class="Input" id="Description" contenteditable="true"></span></div>
-      <div class="td"><span class="Input" id="Prices" contenteditable="true"></span></div>
-      <div class="td"><span class="Input" id="Sizes" contenteditable="true"></span></div>
-      <div class="td"><span class="Input" id="Type" contenteditable="true"></span></div>
-      <div class="td"><span class="Input" id="Tags" contenteditable="true"></span></div>
-      <div class="td"><input type="file" id="Picture" onchange="uploadFile(this.files)">
-      </div>
+    <div class="tr" id="footer">
+        <div class="td"><span class="Input" id="Name" contenteditable="true" ></span></div>
+        <div class="td"><span class="Input" id="Description" contenteditable="true"></span></div>
+        <div class="td"><span class="Input" id="Prices" contenteditable="true"></span></div>
+        <div class="td"><span class="Input" id="Sizes" contenteditable="true"></span></div>
+        <div class="td"><span class="Input" id="Type" contenteditable="true"></span></div>
+        <div class="td"><span class="Input" id="Tags" contenteditable="true"></span></div>
+        <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
     </div>
-  </div>
+</div>
 
-  <br><button class="button" style="vertical-align:middle"><span>Submit</span></button>
+<span id="check"></span><br>
+<button class="button" style="vertical-align:middle" onclick="createNewJSON()"><span>Submit</span></button>
 
 </body>
 </html>
