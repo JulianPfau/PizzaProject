@@ -19,6 +19,17 @@ div.td#input {
 	padding: 5px;
 }
 
+div.td#img {
+	padding: 1px;
+}
+
+img#img {
+	border: none;
+	height: 1.5em;
+	width: 1.5em;
+    bottom: 0px;
+}
+
 div.tr#head {
 	font-weight: bold;
     text-decoration: underline;
