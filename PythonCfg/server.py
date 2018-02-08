@@ -38,7 +38,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             data = json.loads(content)
             en_string = data['fileData']
             global server_dir
-            img_dir = os.path.sep.join(server_dir.split(os.path.sep)[:-1]) + "/images/"
+            img_dir = os.path.sep.join(server_dir.split(os.path.sep)[:-1]) + "/img/"
             f = open(img_dir + data['name'], 'wb')  # Datei wird erstellt
             de_string = en_string.split(',')[1]
             f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
