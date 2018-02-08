@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="./css/admin.css">
     <script language="javascript" type="text/javascript" src="js/submitJSON.js"></script>
+    <script src="js/uploadImage.js"></script>
 
     <title>Admin - Pizza Verwaltung</title>
 </head>
@@ -27,7 +28,7 @@ Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
         <div class="td"><span class="Input" id="Sizes" contenteditable="true"></span></div>
         <div class="td"><span class="Input" id="Type" contenteditable="true"></span></div>
         <div class="td"><span class="Input" id="Tags" contenteditable="true"></span></div>
-        <div class="td"><input type="file" id="fileinput" accept="image/*;capture=camera"/></div>
+        <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
     </div>
 </div>
 
