@@ -1,12 +1,36 @@
-import sys, os, json, http.server, mimetypes, ssl,codecs,base64
+import sys, os, json, http.server, mimetypes, ssl,base64
 from socketserver import ThreadingMixIn
 server_dir = os.path.dirname(os.path.abspath(__file__))
-class MyServer(http.server.BaseHTTPRequestHandler):
+img_dir = os.path.sep.join(server_dir.split(os.path.sep)[:-1]) + "/img/"
 
+
+def fileupload(request):
+    try:
+        en_string = request['fileData']
+        global img_dir
+        f = open(img_dir + request['name'], 'wb')  # Datei wird erstellt
+        de_string = en_string.split(',')[1]
+        f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
+        f.close()                             # und abgespeichert
+        response = {
+            'STATUS': 'OK',
+            'imgPath': str("./img/" + request['name'])
+        }
+        return json.dumps(response)
+    except IOError:
+        return False
+
+
+def imglist():
+    global img_dir
+    imglist = os.listdir(img_dir)
+    return json.dumps(imglist)
+
+
+class MyServer(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
         rootdir = '/Users/Julian/WE1/'  # file location
-
         mime, encoding = mimetypes.guess_type(self.path)
 
         try:
@@ -31,19 +55,18 @@ class MyServer(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
+        self.send_header('Access-Control-Allow-Origin', '*  ')
         self.end_headers()
+        request = self.rfile.read(int(self.headers['Content-Length']))
+        data = json.loads(request)
         try:
-            length = int(self.headers['Content-Length'])
-            content = self.rfile.read(length)
-            data = json.loads(content)
-            en_string = data['fileData']
-            global server_dir
-            img_dir = os.path.sep.join(server_dir.split(os.path.sep)[:-1]) + "/img/"
-            f = open(img_dir + data['name'], 'wb')  # Datei wird erstellt
-            de_string = en_string.split(',')[1]
-            f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
-            f.close()                             # und abgespeichert
-            self.wfile.write(bytes(data['name'] + " was saved successfully", "UTF8"))
+            if data['request'] == 'fileUpload':
+                response = fileupload(data)
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'images':
+                response = imglist()
+                self.wfile.write(bytes(response, 'UTF8'))
+
         except IOError:
             self.send_error(404, "Something went wrong")
 
@@ -72,3 +95,4 @@ try:
         server.handle_request()
 except KeyboardInterrupt:
     print("Shutting down server per users request.")
+
