@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="./css/admin.css">
     <script language="javascript" type="text/javascript" src="js/submitJSON.js"></script>
@@ -31,9 +31,35 @@ Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
         <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
     </div>
 </div>
+<div id ="dropDown">
 
+</div>
 <span id="check"></span><br>
 <button class="button" style="vertical-align:middle" onclick="createNewJSON()"><span>Submit</span></button>
+
+<script >
+    window.onload = function(){
+        loadJSCONToTable();
+
+        window.addEventListener("dragover",function(e){
+            e = e || event;
+            e.preventDefault();
+        },false);
+        window.addEventListener("drop",function(e){
+            e = e || event;
+            e.preventDefault();
+        },false);
+    }
+</script>
+
+<div id="dropZone" ondrop="dropHandler(event);" ondragover="dragHandler(event)" ondragend="dragEndHandler(event)"
+style="
+     display: inline-block;
+     padding-top: 40px;
+     padding-left: 5px;"
+>
+    <strong> Drag & Drop files to upload </strong>
+</div>
 
 </body>
 </html>
