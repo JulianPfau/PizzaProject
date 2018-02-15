@@ -46,7 +46,7 @@ def imglist():
 class MyServer(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
-        rootdir = '/Users/Julian/WE1/'  # file location
+        rootdir = server_root  # file location
         mime, encoding = mimetypes.guess_type(self.path)
 
         try:
