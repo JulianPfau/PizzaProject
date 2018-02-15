@@ -1,25 +1,8 @@
 body {
-    background: #2B2B2B;;
-    height:100%;
-}
-
-header {
-    background: #4F4F4F;
-	flex-direction: column;
-	align-items: stretch;
-}
-
-div#menue {
-    flex-wrap: nowrap;
-    flex-direction: row;
-    display: block;
-    justify-content: space-around;
+    height: 100%
 }
 
 img {
-	overflow: hidden;
-
-    background-size: contain;
-    min-height: 100%;
-    width: 32%;
+	max-width:100%;
+	height:auto;
 }
