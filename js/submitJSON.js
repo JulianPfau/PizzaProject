@@ -35,7 +35,7 @@ function createNewJSON() {
 }
 
 function loadJSCONToTable() {
-    var json = {"name":"Pizza","description":"SAD","price":["45,77","zo"],"size":["X","L"],"type":"asd","tags":["Dlo","POK","ASD"]};
+    var json = {"name":"Salami Pizza","description":"Pizza","price":["45,77","zo"],"size":["X","L"],"type":"asd","tags":["Dlo","POK","ASD"]};
 
     var table = document.getElementsByClassName("table")[0];
 
