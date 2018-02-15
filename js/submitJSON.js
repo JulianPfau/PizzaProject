@@ -5,7 +5,7 @@ window.onload = loadJSCONToTable;
 
 function loadJSONfromServer(file){
     var res,file,xhttp,senddata;
-    file = "menu";
+    file = "menu"; // menu , customer, orders
 
     senddata = new Object();
     senddata.request = "jsonRequest";
