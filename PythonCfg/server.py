@@ -1,7 +1,23 @@
 import sys, os, json, http.server, mimetypes, ssl,base64
 from socketserver import ThreadingMixIn
 server_dir = os.path.dirname(os.path.abspath(__file__))
-img_dir = os.path.sep.join(server_dir.split(os.path.sep)[:-1]) + "/img/"
+server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
+img_dir = server_root + "/img/"
+json_dir = server_root + "/json/"
+
+
+def jsonData(request):
+    try:
+        global json_dir
+        f = open(json_dir + request['file'], 'r')  # Datei wird erstellt
+        json_data = f.read(f)
+        response = {
+            'STATUS': 'OK',
+            'jsonData': json_data
+        }
+        return response
+    except IOError:
+        return False
 
 
 def fileupload(request):
@@ -66,6 +82,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'images':
                 response = imglist()
                 self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'jsonRequest':
+                response = jsonData(data)
+                self.wfile.writeby(bytes(response, 'UTF8'))
 
         except IOError:
             self.send_error(404, "Something went wrong")
