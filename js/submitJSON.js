@@ -2,6 +2,31 @@
 
 window.onload = loadJSCONToTable;
 
+
+function loadJSONfromServer(file){
+    var res,file,xhttp,senddata;
+    file = "menu";
+
+    senddata = new Object();
+    senddata.request = "jsonRequest";
+    senddata.file = file;
+
+    xhttp = new XMLHttpRequest();
+
+        var data = JSON.stringify(senddata);
+
+        xhttp.open("POST", "https://localhost:8080", true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(data);
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200){
+            res = this.response;
+            console.log(res);
+        }
+    };
+}
+
 function createNewJSON() {
     var name = document.getElementById("Name").innerHTML;
     var description = document.getElementById("Description").innerHTML;
