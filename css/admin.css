@@ -1,0 +1,12 @@
+header {
+    background: red;
+}
+
+.row {
+    flex: 1;
+}
+
+.bgimage {
+    background: url(../img/gesamt_txt.jpg) no-repeat;
+    background-size: auto;
+}
