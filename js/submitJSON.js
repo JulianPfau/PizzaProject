@@ -12,7 +12,6 @@ function loadJSONfromServer(file){
     senddata.file = file;
 
     xhttp = new XMLHttpRequest();
-
         var data = JSON.stringify(senddata);
 
         xhttp.open("POST", "https://localhost:8080", true);
