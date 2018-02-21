@@ -1,0 +1,2 @@
+data = '[{"name" : "Ashwin", "age" : "20", "favouritecolor":"blue"},{"name" : "Abhinandan", "age" : "20", "favouritecolor":"yellow"}]';
+data2 = '[{"name" : "Johnson", "age" : "14", "favouritecolor":"heeh"},{"name" : "Juliet", "age" : "87", "favouritecolor":"adas"}]';
