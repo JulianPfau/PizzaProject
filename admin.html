@@ -2,35 +2,38 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="./css/admin.css">
-
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/pizza.css" rel="stylesheet" />
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
 
     <title>Admin - Pizza Verwaltung</title>
 </head>
 <body>
-    <header>Pizza Admin</header>
-    <br>
-    <div class="container-fluid">
-        <div class="d-flex flex-row justify-content-between flex-wrap row">
-            <a href="./admin/orders.html">
-                <div class="d-flex col">
-                    <img src="./img/tmpBestellungen_klein.jpg" class="img-fluid">
-                </div>
-            </a>
-            <a href="./admin/menu.html">
-                <div class="d-flex col">
-                    <img src="./img/tmpFood_klein.jpg" class="img-fluid">
-                </div>
-            </a>
-            <a href="./admin/customer.html">
-                <div class="d-flex col">
-                    <img src="./img/tmpNutzer_klein.jpg" class="img-fluid">
-                </div>
-            </a>
-        </div>
-    </div>
+        <img src="./img/tmpBestellungen_klein.jpg" class="img-drittel" onclick="window.location.href='../admin/orders.html'">
+        <img src="./img/tmpFood_klein.jpg" class="img-drittel" onclick="window.location.href='../admin/menu.html'">
+        <img src="./img/tmpNutzer_klein.jpg" class="img-drittel" onclick="window.location.href='../admin/customer.html'">
+
+        <script>
+
+
+            window.onload = resize;
+            window.onresize = resize;
+
+            function resize() {
+                var x = document.getElementsByClassName("img-drittel");
+                var i = 0;
+
+                while (i < x.length) {
+
+                    if (window.innerWidth <= 600) {
+                        x[i].height = ((window.innerHeight - document.getElementsByTagName("header")[0].scrollHeight) - 25) / 3;
+                        x[i].width = (document.getElementsByTagName("header")[0].scrollWidth);
+                    } else {
+                        x[i].width = (window.innerWidth / 3) - 20;
+                        x[i].height = (window.innerHeight);
+                    }
+                    i++;
+                }
+
+            }
+        </script>
 </body>
 </html>
