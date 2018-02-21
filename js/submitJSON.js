@@ -2,10 +2,13 @@
 
 window.onload = loadJSCONToTable;
 
+
+var reqResponse;
+
 //Unused for now
 function loadJSONfromServer(file){
-    var res,file,xhttp,senddata;
-    file = "menu"; // menu , customer, orders
+    var res,xhttp,senddata;
+    //file = "menu"; // menu , customer, orders
 
     senddata = new Object();
     senddata.request = "jsonRequest";
@@ -23,6 +26,10 @@ function loadJSONfromServer(file){
         if (this.readyState == 4 && this.status == 200){
             res = this.response;
             console.log(res);
+
+            //testing(res);
+            return res;
+            //reqResponse = res;
         }
     };
 }
@@ -144,4 +151,25 @@ function loadJSCONToTable() {
     type.appendChild(typeSpan);
     tags.appendChild(tagsSpan);
     picture.appendChild(pictureIMG);
+}
+
+
+
+function testing(res) {
+
+    var response = JSON.parse(res);
+
+
+    alert(res);
+    alert(response.jsonData[1].description);
+}
+
+function testing2() {
+
+    var response = loadJSONfromServer("menu");
+
+    alert(response);
+
+    alert("!");
+    //alert(response.jsonData[1].description);
 }
