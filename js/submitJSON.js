@@ -101,6 +101,7 @@ function loadJSCONToTable() {
     tagsSpan.setAttribute('class', 'Input');
     picture.setAttribute('id','img');
 
+    
     nameSpan.setAttribute('id', 'Name');
     descriptionSpan.setAttribute('id', 'Description');
     pricesSpan.setAttribute('id', 'Prices');

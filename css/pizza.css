@@ -86,12 +86,12 @@ input:focus{
 }
 
 .grey-o5{
-    background-color: rgba(66, 66, 6,, 0.5);
+    background-color: rgba(66, 66, 6, 0.5);
     color: white;
 }
 
 .text-grey-o5{
-    color: rgba(66, 66, 6,, 0.5);
+    color: rgba(66, 66, 6, 0.5);
 }
 
 .light-grey{
