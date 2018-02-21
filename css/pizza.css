@@ -1,0 +1,108 @@
+/* boxes */
+@keyframes fadeIn {
+    0% {opacity: 0; margin-top: 50px}
+    100% {opacity: 1; margin-top: 25px}
+}
+
+.box{
+    box-shadow: 10px 10px 0px rgba(255, 255, 255, 0.5);
+    margin-top: 25px;
+    animation: fadeIn ease;
+    animation-duration: 1s;
+}
+
+.box .row{
+    padding: 20px;
+}
+
+.box.login{
+    padding-top: 12.5%;
+    padding-bottom: 12.5%;
+}
+
+/* OVERRIDES */
+
+.btn{
+    border-radius: 0px !important;
+    transition: 0.4s;
+}
+
+.btn:active{
+    margin-top: 4px;
+    margin-bottom: -4px;
+    transition: 0.4s;
+}
+
+.btn.orange {
+	box-shadow: 5px 5px 0px rgba(225, 111, 85, 0.5) !important;
+    transition: 0.4s;
+}
+
+.btn.orange:active {
+	box-shadow: 1px 1px 0px rgba(225, 111, 85, 0.5) !important;
+    transition: 0.4s;
+}
+
+input{
+    border: 2px solid rgba(66, 66, 66, 0.15) !important;
+    transition: 0.4s;
+}
+
+input:focus{
+    border: 2px solid rgba(66, 66, 66, 0.45) !important;
+    transition: 0.4s;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+}
+
+/* COLORS */
+.orange{
+    background-color: #e16f55;
+    color: white;
+}
+
+.text-orange{
+    color: #e16f55;
+}
+
+.orange-o75{
+    background-color: rgba(225, 111, 85, 0.75);
+    color: white;
+}
+
+.text-orange-o75{
+    color: rgba(225, 111, 85, 0.75);
+}
+
+.grey{
+    background-color: #424242;
+    color: white;
+}
+
+.text-grey{
+    color: #424242;
+}
+
+.grey-o5{
+    background-color: rgba(66, 66, 6, 0.5);
+    color: white;
+}
+
+.text-grey-o5{
+    color: rgba(66, 66, 6, 0.5);
+}
+
+.light-grey{
+    background-color: #ecf0f1;
+}
+
+.white{
+    background-color: #ffffff;
+    color: #424242;
+}
+
+.text-white{
+    color: #ffffff;
+}
