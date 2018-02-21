@@ -2,7 +2,7 @@
 
 window.onload = loadJSCONToTable;
 
-
+//Unused for now
 function loadJSONfromServer(file){
     var res,file,xhttp,senddata;
     file = "menu"; // menu , customer, orders
@@ -59,6 +59,8 @@ function createNewJSON() {
     }
 }
 
+
+//Called to load JSON Content into the table
 function loadJSCONToTable() {
     var json = {"name":"Salami Pizza","description":"Pizza","price":["45,77","zo"],"size":["X","L"],"type":"asd","tags":["Dlo","POK","ASD"]};
 
