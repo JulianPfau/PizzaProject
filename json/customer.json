@@ -9,6 +9,7 @@
             "name": "Max Mustermann",
             "postcode": 82299,
             "street": "Daheim",
+            "city": "Musterstadt",
             "nr": "1",
             "phone": "999901"
         }
