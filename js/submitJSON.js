@@ -61,7 +61,7 @@ function createNewJSON() {
 
 //Called to load JSON Content into the table
 function loadJSCONToTable() {
-    var json = JSON.parse(getJSON());
+    var json = [{"name":"Salami Pizza","description":"A tasty meat Pizza","price":["5,99","7,99"],"size":["X","L"],"type":"Pizza","tags":["Meat","Pizza","Classic"]},{"name":"Cola","description":"Classic Coca Cola","price":["2,99","4,99"],"size":["0.33","0.5"],"type":"Getränk","tags":["Getränk","Cola","Classic"]}];
 
     var table = document.getElementsByClassName("table")[0];
 
@@ -142,8 +142,4 @@ function loadJSCONToTable() {
     type.appendChild(typeSpan);
     tags.appendChild(tagsSpan);
     picture.appendChild(pictureIMG);
-}
-
-function getJSON() {
-    return [{"name":"Salami Pizza","description":"A tasty meat Pizza","price":["5,99","7,99"],"size":["X","L"],"type":"Pizza","tags":["Meat","Pizza","Classic"]},{"name":"Cola","description":"Classic Coca Cola","price":["2,99","4,99"],"size":["0.33","0.5"],"type":"Getränk","tags":["Getränk","Cola","Classic"]}];
 }
