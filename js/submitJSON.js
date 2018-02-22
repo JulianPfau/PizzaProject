@@ -2,50 +2,32 @@
 
 window.onload = loadJSCONToTable;
 
+/*  Requests a JSON file in the /json directory of the server and calls a
+    specified function with the parsed JSON Element as parameter.
 
-var reqResponse;
+    Parameters:
+    - cFunction     the Function to call then successful
+    - file          the file name without the .json ending
 
-//Unused for now
-function loadJSONfromServer(file, funcToCall){
-    var res,xhttp,senddata;
-    //file = "menu"; // menu , customer, orders
+    Nothing happens on Error.
+*/
 
-    senddata = new Object();
-    senddata.request = "jsonRequest";
-    senddata.file = file;
+function getJsonByRequest(cFunction, file) {
+    var url  = "https://localhost:8080/json/" + file + ".json";
+    var xhr  = new XMLHttpRequest()
 
-    xhttp = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
-    var data = JSON.stringify(senddata);
-
-    xhttp.open("POST", "https://localhost:8080", false);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send(data);
-
-
-    /*
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200){
-            res = this.response;
-            console.log(res);
-
-            //testing(res);
-            //return res;
-            //reqResponse = res;
-
-            funcToCall();
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            var element = JSON.parse(this.responseText);
+            cFunction(element);
+        } else {
+            //Nothing here, as this is called multiple times, even if it is successful.
         }
-    };
-    */
-
-    if (xhttp.status === 200) {
-        console.log(xhttp.responseText);
-        console.log(xhttp.response);
-        console.log("test");
-    } else {
-
     }
 
+    xhr.open('GET', url, true);
+    xhr.send(null);
 }
 
 function createNewJSON() {
@@ -168,26 +150,3 @@ function loadJSCONToTable() {
 }
 
 
-
-function testing(res) {
-
-    var response = JSON.parse(res);
-
-
-    alert(res);
-    alert(response.jsonData[1].description);
-}
-
-function testing2() {
-
-    var response = loadJSONfromServer("menu");
-
-    alert(response);
-
-    alert("!");
-    //alert(response.jsonData[1].description);
-}
-
-function simpleTest() {
-    alert("It worked!");
-}
