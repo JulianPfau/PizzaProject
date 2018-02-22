@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title> Verwaltung Speisekarte </title>
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/pizza.css" rel="stylesheet" />
+    <link href="../css/admin.css" rel="stylesheet" />
+    <script src="../js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/accounts.js"></script>
 </head>
-<body>
+<body class="light-grey">
+<div class="container">
+    <div class="topnav">
+        <a href="orders.html"> Bestellungen </a>
+        <a class="active" href=""> Speisekarte </a>
+        <a href="customer.html"> Benutzer </a>
+        <div class="search-container">
+            <form action="">
+                <input type="text" placeholder="Suchen.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+
+    Prices, Sizes und Tags k&ouml;nnen mit &quot;;&quot; getrennt werden!
+    <div class="table">
+        <div class="tr" id="head">
+            <div class="td">Delete?</div>
+            <div class="td">Name</div>
+            <div class="td">Description</div>
+            <div class="td">Prices</div>
+            <div class="td">Sizes</div>
+            <div class="td">Type</div>
+            <div class="td">Tags</div>
+            <div class="td">Picture</div>
+        </div>
+        <div class="tr" id="footer">
+            <div class="td"></div>
+            <div class="td"><span class="Input footer" id="Name" contenteditable="true" ></span></div>
+            <div class="td"><span class="Input footer" id="Description" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Prices" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
+            <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html>

@@ -2,60 +2,43 @@
 
 window.onload = loadJSCONToTable;
 
+/*  Requests a JSON file in the /json directory of the server and calls a
+    specified function with the parsed JSON Element as parameter.
 
-var reqResponse;
+    Parameters:
+    - cFunction     the Function to call then successful
+    - file          the file name without the .json ending
 
-//Unused for now
-function loadJSONfromServer(file, funcToCall){
-    var res,xhttp,senddata;
-    //file = "menu"; // menu , customer, orders
+    Nothing happens on Error.
+*/
 
-    senddata = new Object();
-    senddata.request = "jsonRequest";
-    senddata.file = file;
+function getJsonByRequest(cFunction, file) {
+    var url  = "https://localhost:8080/json/" + file + ".json";
+    var xhr  = new XMLHttpRequest()
 
-    xhttp = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
 
-    var data = JSON.stringify(senddata);
-
-    xhttp.open("POST", "https://localhost:8080", false);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send(data);
-
-
-    /*
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200){
-            res = this.response;
-            console.log(res);
-
-            //testing(res);
-            //return res;
-            //reqResponse = res;
-
-            funcToCall();
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            var element = JSON.parse(this.responseText);
+            cFunction(element);
+        } else {
+            //Nothing here, as this is called multiple times, even if it is successful.
         }
-    };
-    */
-
-    if (xhttp.status === 200) {
-        console.log(xhttp.responseText);
-        console.log(xhttp.response);
-        console.log("test");
-    } else {
-
     }
 
+    xhr.open('GET', url, true);
+    xhr.send(null);
 }
 
 function createNewJSON() {
-    var name = document.getElementById("Name").innerHTML;
-    var description = document.getElementById("Description").innerHTML;
-    var prices = document.getElementById("Prices").innerHTML.split("+");
-    var sizes = document.getElementById("Sizes").innerHTML.split("+");
-    var type = document.getElementById("Type").innerHTML;
-    var tags = document.getElementById("Tags").innerHTML.split("+");
-    var selectedFile = document.getElementById('fileinput').files[0];
+    var input = document.getElementsByClassName("footer");
+
+    var name = (input.item(0).innerHTML == "") ? "tbd" : input.item(0).innerHTML;
+    var description = (input.item(1).innerHTML == "") ? "tbd" : input.item(1).innerHTML;
+    var prices = (input.item(2).innerHTML == "") ? "tbd" : input.item(2).innerHTML;
+    var sizes = (input.item(3).innerHTML == "") ? "tbd" : input.item(3).innerHTML;
+    var type = (input.item(4).innerHTML == "") ? "tbd" : input.item(4).innerHTML;
+    var tags = (input.item(5).innerHTML == "") ? "tbd" : input.item(5).innerHTML;
 
 
     if (prices.length == sizes.length) {
@@ -65,16 +48,8 @@ function createNewJSON() {
             "price"         :   prices,
             "size"          :   sizes,
             "type"          :   type,
-            "tags"          :   tags,
-            "picture"       :   selectedFile
+            "tags"          :   tags
         };
-
-        if (document.getElementById('fileinput').files.length == 0) {
-            alert(json.name + json.description + json.price + json.size + json.type + json.tags);
-        } else {
-            alert(json.name + json.description + json.price + json.size + json.type + json.tags + json.picture.name);
-        }
-        alert(JSON.stringify(json));
     } else {
         document.getElementById("check").innerHTML = "Die Anzahl an Preisen muss mit der Anzahl an Gr&ouml;&szlig;en &uuml;bereinstimmen!";
     }
@@ -82,112 +57,69 @@ function createNewJSON() {
 
 
 //Called to load JSON Content into the table
-function loadJSCONToTable() {
-    var json = {"name":"Salami Pizza","description":"Pizza","price":["45,77","zo"],"size":["X","L"],"type":"asd","tags":["Dlo","POK","ASD"]};
-
+function loadJSONToTable(json, index) {
     var table = document.getElementsByClassName("table")[0];
 
-    var row = document.createElement('div');
-    var name = document.createElement('div');
-    var description = document.createElement('div');
-    var prices = document.createElement('div');
-    var sizes = document.createElement('div');
-    var type = document.createElement('div');
-    var tags = document.createElement('div');
-    var picture = document.createElement('div');
+    for (var i = 0; i < json.length; i++) {
+        var row = document.createElement('div');
+        row.setAttribute('class', 'tr menuElement');
 
-    var nameSpan = document.createElement('span');
-    var descriptionSpan = document.createElement('span');
-    var pricesSpan = document.createElement('span');
-    var sizesSpan = document.createElement('span');
-    var typeSpan = document.createElement('span');
-    var tagsSpan = document.createElement('span');
-    var pictureIMG = document.createElement('img');
+        var menuRow = new Array();
+        var menuInhalt = new Array();
 
+        //MenuRow
+        for (var k = 0; k < 8; k++) {
+            menuRow[k] = document.createElement('div');
+            menuRow[k].setAttribute('class', 'td');
+        }
+        menuRow[7].setAttribute('id', 'img');
 
-    row.setAttribute('class', 'tr');
-    name.setAttribute('class', 'td');
-    description.setAttribute('class', 'td');
-    prices.setAttribute('class', 'td');
-    sizes.setAttribute('class', 'td');
-    type.setAttribute('class', 'td');
-    tags.setAttribute('class', 'td');
-    picture.setAttribute('class', 'td');
-
-    nameSpan.setAttribute('class', 'Input');
-    descriptionSpan.setAttribute('class', 'Input');
-    pricesSpan.setAttribute('class', 'Input');
-    sizesSpan.setAttribute('class', 'Input');
-    typeSpan.setAttribute('class', 'Input');
-    tagsSpan.setAttribute('class', 'Input');
-    picture.setAttribute('id','img');
-
-    
-    nameSpan.setAttribute('id', 'Name');
-    descriptionSpan.setAttribute('id', 'Description');
-    pricesSpan.setAttribute('id', 'Prices');
-    sizesSpan.setAttribute('id', 'Sizes');
-    typeSpan.setAttribute('id', 'Type');
-    tagsSpan.setAttribute('id', 'Tags');
-    pictureIMG.setAttribute('src', "img/" + json.picture + ".png");
-
-    nameSpan.setAttribute('contenteditable', 'true');
-    descriptionSpan.setAttribute('contenteditable', 'true');
-    pricesSpan.setAttribute('contenteditable', 'true');
-    sizesSpan.setAttribute('contenteditable', 'true');
-    typeSpan.setAttribute('contenteditable', 'true');
-    tagsSpan.setAttribute('contenteditable', 'true');
+        //MenuInhalt
+        menuInhalt[0] = document.createElement('input');
+        menuInhalt[0].setAttribute('type', 'checkbox');
+        for (var n = 0; n < 8; n++) {
+            if (n > 0 && n < 7) {
+                menuInhalt[n] = document.createElement('span');
+                menuInhalt[n].setAttribute('class', 'Input');
+                menuInhalt[n].setAttribute('contenteditable', 'true');
+            }
+        }
+        menuInhalt[7] = document.createElement('img');
+        menuInhalt[7].setAttribute('id', 'img');
 
 
-    nameSpan.innerHTML = json.name;
-    descriptionSpan.innerHTML = json.description;
-    pricesSpan.innerHTML = json.price;
-    sizesSpan.innerHTML = json.size;
-    typeSpan.innerHTML = json.type;
-    tagsSpan.innerHTML = json.tags;
-    pictureIMG.setAttribute('id', 'img');
+        //Inhalt Menu
+        menuInhalt[1].setAttribute('id', 'Name');
+        menuInhalt[2].setAttribute('id', 'Description');
+        menuInhalt[3].setAttribute('id', 'Prices');
+        menuInhalt[4].setAttribute('id', 'Sizes');
+        menuInhalt[5].setAttribute('id', 'Type');
+        menuInhalt[6].setAttribute('id', 'Tags');
+        menuInhalt[7].setAttribute('src', "./img/" + json.picture + ".png");
+
+        menuInhalt[1].innerHTML = json[i].name;
+        menuInhalt[2].innerHTML = json[i].description;
+        menuInhalt[3].innerHTML = splitArray(json[i].price);
+        menuInhalt[4].innerHTML = splitArray(json[i].size);
+        menuInhalt[5].innerHTML = json[i].type;
+        menuInhalt[6].innerHTML = splitArray(json[i].tags);
 
 
-    table.insertBefore(row, document.getElementById("footer"));
+        //Einfügen in HTML
+        table.insertBefore(row, document.getElementById("footer"));
 
-    row.appendChild(name);
-    row.appendChild(description);
-    row.appendChild(prices);
-    row.appendChild(sizes);
-    row.appendChild(type);
-    row.appendChild(tags);
-    row.appendChild(picture);
-
-    name.appendChild(nameSpan);
-    description.appendChild(descriptionSpan);
-    prices.appendChild(pricesSpan);
-    sizes.appendChild(sizesSpan);
-    type.appendChild(typeSpan);
-    tags.appendChild(tagsSpan);
-    picture.appendChild(pictureIMG);
+        for (var c = 0; c < 8; c++) {
+            row.appendChild(menuRow[c]);
+            menuRow[c].appendChild(menuInhalt[c]);
+        }
+    }
 }
 
-
-
-function testing(res) {
-
-    var response = JSON.parse(res);
-
-
-    alert(res);
-    alert(response.jsonData[1].description);
-}
-
-function testing2() {
-
-    var response = loadJSONfromServer("menu");
-
-    alert(response);
-
-    alert("!");
-    //alert(response.jsonData[1].description);
-}
-
-function simpleTest() {
-    alert("It worked!");
+function splitArray(array) {
+    var str = "";
+    for (var i = 0; i < array.length; i++) {
+        str += array[i] + ";";
+    }
+    str = str.substr(0, str.length - 1);
+    return str;
 }
