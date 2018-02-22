@@ -4,17 +4,20 @@ server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
 json_dir = server_root + "/json/"
-
+# commit
 
 def jsonData(request):
+    print(request)
     try:
         global json_dir
-        f = open(json_dir + request['file'], 'r')  # Datei wird erstellt
-        json_data = f.read(f)
+        # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
+        with open(json_dir + request['file'] + ".json") as json_data:
+            d = json.load(json_data)
         response = {
             'STATUS': 'OK',
-            'jsonData': json_data
+            'jsonData': d
         }
+        response = json.dumps(response)
         return response
     except IOError:
         return False
@@ -32,7 +35,7 @@ def fileupload(request):
             'STATUS': 'OK',
             'imgPath': str("./img/" + request['name'])
         }
-        return json.dumps(response)
+        return response
     except IOError:
         return False
 
@@ -46,7 +49,8 @@ def imglist():
 class MyServer(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
-        rootdir = server_root  # file location
+        global server_root
+        rootdir = server_root
         mime, encoding = mimetypes.guess_type(self.path)
 
         try:
@@ -84,7 +88,8 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'jsonRequest':
                 response = jsonData(data)
-                self.wfile.writeby(bytes(response, 'UTF8'))
+                #print(response)
+                self.wfile.write(bytes(response, 'UTF8'))
 
         except IOError:
             self.send_error(404, "Something went wrong")
