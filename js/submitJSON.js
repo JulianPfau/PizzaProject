@@ -1,5 +1,35 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
+window.onload = loadJSCONToTable;
+
+/*  Requests a JSON file in the /json directory of the server and calls a
+    specified function with the parsed JSON Element as parameter.
+
+    Parameters:
+    - cFunction     the Function to call then successful
+    - file          the file name without the .json ending
+
+    Nothing happens on Error.
+*/
+
+function getJsonByRequest(cFunction, file) {
+    var url  = "https://localhost:8080/json/" + file + ".json";
+    var xhr  = new XMLHttpRequest()
+
+    xhr.onreadystatechange = function () {
+
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            var element = JSON.parse(this.responseText);
+            cFunction(element);
+        } else {
+            //Nothing here, as this is called multiple times, even if it is successful.
+        }
+    }
+
+    xhr.open('GET', url, true);
+    xhr.send(null);
+}
+
 function createNewJSON() {
     var input = document.getElementsByClassName("footer");
 
