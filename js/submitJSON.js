@@ -2,10 +2,13 @@
 
 window.onload = loadJSCONToTable;
 
+
+var reqResponse;
+
 //Unused for now
-function loadJSONfromServer(file){
-    var res,file,xhttp,senddata;
-    file = "menu"; // menu , customer, orders
+function loadJSONfromServer(file, funcToCall){
+    var res,xhttp,senddata;
+    //file = "menu"; // menu , customer, orders
 
     senddata = new Object();
     senddata.request = "jsonRequest";
@@ -13,18 +16,36 @@ function loadJSONfromServer(file){
 
     xhttp = new XMLHttpRequest();
 
-        var data = JSON.stringify(senddata);
+    var data = JSON.stringify(senddata);
 
-        xhttp.open("POST", "https://localhost:8080", true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(data);
+    xhttp.open("POST", "https://localhost:8080", false);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send(data);
 
+
+    /*
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200){
             res = this.response;
             console.log(res);
+
+            //testing(res);
+            //return res;
+            //reqResponse = res;
+
+            funcToCall();
         }
     };
+    */
+
+    if (xhttp.status === 200) {
+        console.log(xhttp.responseText);
+        console.log(xhttp.response);
+        console.log("test");
+    } else {
+
+    }
+
 }
 
 function createNewJSON() {
@@ -144,4 +165,29 @@ function loadJSCONToTable() {
     type.appendChild(typeSpan);
     tags.appendChild(tagsSpan);
     picture.appendChild(pictureIMG);
+}
+
+
+
+function testing(res) {
+
+    var response = JSON.parse(res);
+
+
+    alert(res);
+    alert(response.jsonData[1].description);
+}
+
+function testing2() {
+
+    var response = loadJSONfromServer("menu");
+
+    alert(response);
+
+    alert("!");
+    //alert(response.jsonData[1].description);
+}
+
+function simpleTest() {
+    alert("It worked!");
 }
