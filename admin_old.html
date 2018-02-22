@@ -13,7 +13,7 @@
 <body>
 
 <h1>PIZZA ADMIN</h1>
-Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
+Prices, Sizes und Tags k&ouml;nnen mit &quot;;&quot; getrennt werden!
 <div class="table">
     <div class="tr" id="head">
         <div class="td">Delete?</div>
@@ -44,7 +44,7 @@ Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
 
 <script >
     window.onload = function(){
-        loadJSONToTable();
+        loadJSONToTable([{"name":"Salami Pizza","description":"A classic meat Pizza","price":["4,99","7,99"],"size":["X","L"],"type":"Pizza","tags":["Meat","Pizza","Classic"],"picture":"undefined.png"},{"name":"Cola","description":"A classic Coca Cola","price":["2,99","4,99"],"size":["0,33","0,5"],"type":"Getr&auml;nk","tags":["Getr&auml;nk","Cola","Classic"]}], 1);
 
         window.addEventListener("dragover",function(e){
             e = e || event;

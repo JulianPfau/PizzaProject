@@ -57,95 +57,61 @@ function createNewJSON() {
 
 
 //Called to load JSON Content into the table
-function loadJSONToTable() {
-    var json = [{"name":"Salami Pizza","description":"A classic meat Pizza","price":["4,99","7,99"],"size":["X","L"],"type":"Pizza","tags":["Meat","Pizza","Classic"]},{"name":"Cola","description":"A classic Coca Cola","price":["2,99","4,99"],"size":["0,33","0,5"],"type":"Getr&auml;nk","tags":["Getr&auml;nk","Cola","Classic"]}];
-
+function loadJSONToTable(json, index) {
     var table = document.getElementsByClassName("table")[0];
 
     for (var i = 0; i < json.length; i++) {
         var row = document.createElement('div');
-        var del = document.createElement('div');
-        var name = document.createElement('div');
-        var description = document.createElement('div');
-        var prices = document.createElement('div');
-        var sizes = document.createElement('div');
-        var type = document.createElement('div');
-        var tags = document.createElement('div');
-        var picture = document.createElement('div');
-
-        var delBox = document.createElement('input')
-        var nameSpan = document.createElement('span');
-        var descriptionSpan = document.createElement('span');
-        var pricesSpan = document.createElement('span');
-        var sizesSpan = document.createElement('span');
-        var typeSpan = document.createElement('span');
-        var tagsSpan = document.createElement('span');
-        var pictureIMG = document.createElement('img');
-
-
         row.setAttribute('class', 'tr menuElement');
-        del.setAttribute('class', 'td');
-        name.setAttribute('class', 'td');
-        description.setAttribute('class', 'td');
-        prices.setAttribute('class', 'td');
-        sizes.setAttribute('class', 'td');
-        type.setAttribute('class', 'td');
-        tags.setAttribute('class', 'td');
-        picture.setAttribute('class', 'td');
 
-        delBox.setAttribute('type', 'checkbox');
-        nameSpan.setAttribute('class', 'Input');
-        descriptionSpan.setAttribute('class', 'Input');
-        pricesSpan.setAttribute('class', 'Input');
-        sizesSpan.setAttribute('class', 'Input');
-        typeSpan.setAttribute('class', 'Input');
-        tagsSpan.setAttribute('class', 'Input');
-        picture.setAttribute('id', 'img');
+        var menuRow = new Array();
+        var menuInhalt = new Array();
 
-        nameSpan.setAttribute('id', 'Name');
-        descriptionSpan.setAttribute('id', 'Description');
-        pricesSpan.setAttribute('id', 'Prices');
-        sizesSpan.setAttribute('id', 'Sizes');
-        typeSpan.setAttribute('id', 'Type');
-        tagsSpan.setAttribute('id', 'Tags');
-        pictureIMG.setAttribute('src', "img/" + json.picture + ".png");
+        //MenuRow
+        for (var k = 0; k < 8; k++) {
+            menuRow[k] = document.createElement('div');
+            menuRow[k].setAttribute('class', 'td');
+        }
+        menuRow[7].setAttribute('id', 'img');
 
-        nameSpan.setAttribute('contenteditable', 'true');
-        descriptionSpan.setAttribute('contenteditable', 'true');
-        pricesSpan.setAttribute('contenteditable', 'true');
-        sizesSpan.setAttribute('contenteditable', 'true');
-        typeSpan.setAttribute('contenteditable', 'true');
-        tagsSpan.setAttribute('contenteditable', 'true');
+        //MenuInhalt
+        menuInhalt[0] = document.createElement('input');
+        menuInhalt[0].setAttribute('type', 'checkbox');
+        for (var n = 0; n < 8; n++) {
+            if (n > 0 && n < 7) {
+                menuInhalt[n] = document.createElement('span');
+                menuInhalt[n].setAttribute('class', 'Input');
+                menuInhalt[n].setAttribute('contenteditable', 'true');
+            }
+        }
+        menuInhalt[7] = document.createElement('img');
+        menuInhalt[7].setAttribute('id', 'img');
 
 
-        nameSpan.innerHTML = json[i].name;
-        descriptionSpan.innerHTML = json[i].description;
-        pricesSpan.innerHTML = splitArray(json[i].price);
-        sizesSpan.innerHTML = splitArray(json[i].size);
-        typeSpan.innerHTML = json[i].type;
-        tagsSpan.innerHTML = splitArray(json[i].tags);
-        pictureIMG.setAttribute('id', 'img');
+        //Inhalt Menu
+        menuInhalt[1].setAttribute('id', 'Name');
+        menuInhalt[2].setAttribute('id', 'Description');
+        menuInhalt[3].setAttribute('id', 'Prices');
+        menuInhalt[4].setAttribute('id', 'Sizes');
+        menuInhalt[5].setAttribute('id', 'Type');
+        menuInhalt[6].setAttribute('id', 'Tags');
+        menuInhalt[7].setAttribute('src', "./img/" + json.picture + ".png");
+
+        menuInhalt[1].innerHTML = json[i].name;
+        menuInhalt[2].innerHTML = json[i].description;
+        menuInhalt[3].innerHTML = splitArray(json[i].price);
+        menuInhalt[4].innerHTML = splitArray(json[i].size);
+        menuInhalt[5].innerHTML = json[i].type;
+        menuInhalt[6].innerHTML = splitArray(json[i].tags);
 
 
+        //Einfügen in HTML
         table.insertBefore(row, document.getElementById("footer"));
 
-        row.appendChild(del);
-        row.appendChild(name);
-        row.appendChild(description);
-        row.appendChild(prices);
-        row.appendChild(sizes);
-        row.appendChild(type);
-        row.appendChild(tags);
-        row.appendChild(picture);
-
-        del.appendChild(delBox);
-        name.appendChild(nameSpan);
-        description.appendChild(descriptionSpan);
-        prices.appendChild(pricesSpan);
-        sizes.appendChild(sizesSpan);
-        type.appendChild(typeSpan);
-        tags.appendChild(tagsSpan);
-        picture.appendChild(pictureIMG);
+        for (var c = 0; c < 8; c++) {
+            row.appendChild(menuRow[c]);
+            menuRow[c].appendChild(menuInhalt[c]);
+        }
     }
 }
 
