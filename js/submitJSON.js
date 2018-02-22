@@ -53,7 +53,7 @@ function loadJSONToTable() {
         var pictureIMG = document.createElement('img');
 
 
-        row.setAttribute('class', 'tr');
+        row.setAttribute('class', 'tr menuElement');
         del.setAttribute('class', 'td');
         name.setAttribute('class', 'td');
         description.setAttribute('class', 'td');
