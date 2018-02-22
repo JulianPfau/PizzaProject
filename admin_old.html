@@ -16,6 +16,7 @@
 Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
 <div class="table">
     <div class="tr" id="head">
+        <div class="td">Delete?</div>
         <div class="td">Name</div>
         <div class="td">Description</div>
         <div class="td">Prices</div>
@@ -25,12 +26,13 @@ Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
         <div class="td">Picture</div>
     </div>
     <div class="tr" id="footer">
-        <div class="td"><span class="Input" id="Name" contenteditable="true" ></span></div>
-        <div class="td"><span class="Input" id="Description" contenteditable="true"></span></div>
-        <div class="td"><span class="Input" id="Prices" contenteditable="true"></span></div>
-        <div class="td"><span class="Input" id="Sizes" contenteditable="true"></span></div>
-        <div class="td"><span class="Input" id="Type" contenteditable="true"></span></div>
-        <div class="td"><span class="Input" id="Tags" contenteditable="true"></span></div>
+        <div class="td"></div>
+        <div class="td"><span class="Input footer" id="Name" contenteditable="true" ></span></div>
+        <div class="td"><span class="Input footer" id="Description" contenteditable="true"></span></div>
+        <div class="td"><span class="Input footer" id="Prices" contenteditable="true"></span></div>
+        <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
+        <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
+        <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
         <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
     </div>
 </div>
@@ -46,7 +48,7 @@ Prices, Sizes und Tags k&ouml;nnen mit &quot;+&quot; getrennt werden!
 
 <script >
     window.onload = function(){
-        loadJSCONToTable();
+        loadJSONToTable();
 
         window.addEventListener("dragover",function(e){
             e = e || event;
