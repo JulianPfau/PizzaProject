@@ -6,7 +6,7 @@
                 "name": "",
                 "size": "",
                 "price": "",
-                "extras": "",
+                "extras": [1, 2],
                 "count": 154
             }
         ],
@@ -15,10 +15,11 @@
         "contact": {
             "name": "Max Mustermann",
             "postcode": 82299,
+            "city": "Musterstadt",
             "street": "Daheim",
             "nr": "1",
             "phone": "999901"
         },
         "done": 0
-}
+    }
 ]
