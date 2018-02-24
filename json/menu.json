@@ -1,23 +1,21 @@
 [
     {
-        "name": "Auto",
-        "description": "It can fly not vegan",
-        "price": [14.979, 15.10, 19.90, 21.90, 25.20, 100],
-        "size": ["s", "standard", "l", "xl", "party", "family"],
-        "type": "car",
-        "tags": ["fly", ""],
-        "extras": [1, 2],
-        "picture": "car.png"
+        "name":"Salami Pizza",
+        "description":"A classic meat Pizza",
+        "price":[4.99,7.99],
+        "size":["X","L"],
+        "type":"Pizza",
+        "tags":["Meat","Pizza","Classic"],
+        "extras":[1,2],
+        "picture":"undefined.png"
     },
-
     {
-        "name": "Ein anderer Eintrag",
-        "description": "Das könnte ein Beispiel sein",
-        "price": [5, 6, 7, 8],
-        "size": ["s", "m", "l", "xl"],
-        "type": "entry",
-        "tags": ["nice", "beautiful"],
-        "picture": "nothing.png"
-        "extras": ["dies", "das"]
+        "name":"Cola",
+        "description":"A classic Coca Cola",
+        "price":[2.99,4.99],
+        "size":["0.33","0.5"],
+        "type":"Getr&auml;nk",
+        "tags":["Getr&auml;nk","Cola","Classic"],
+        "extras":[1,2]
     }
 ]
