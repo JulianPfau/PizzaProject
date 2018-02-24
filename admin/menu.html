@@ -8,6 +8,7 @@
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.js"></script>
     <script src="../js/accounts.js"></script>
+    <script src="../js/submitJSON.js"></script>
 </head>
 <body class="light-grey">
 <div class="container">
@@ -23,17 +24,17 @@
         </div>
     </div>
 
-
-    Prices, Sizes und Tags k&ouml;nnen mit &quot;;&quot; getrennt werden!
+    Prices, Sizes, Tags und Extras k&ouml;nnen mit &quot;;&quot; getrennt werden!
     <div class="table">
         <div class="tr" id="head">
-            <div class="td">Delete?</div>
+            <div class="td">Delete</div>
             <div class="td">Name</div>
             <div class="td">Description</div>
             <div class="td">Prices</div>
             <div class="td">Sizes</div>
             <div class="td">Type</div>
             <div class="td">Tags</div>
+            <div class="td">Extras</div>
             <div class="td">Picture</div>
         </div>
         <div class="tr" id="footer">
@@ -44,12 +45,38 @@
             <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Extras" contenteditable="true"></span></div>
             <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
         </div>
     </div>
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <ul id="extrasBox">
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>loadJSONToTable([{"name":"Salami Pizza","description":"A classic meat Pizza","price":["4,99","7,99"],"size":["X","L"],"type":"Pizza","tags":["Meat","Pizza","Classic"],"extras":[1,2],"picture":"undefined.png"},{"name":"Cola","description":"A classic Coca Cola","price":["2,99","4,99"],"size":["0,33","0,5"],"type":"Getr&auml;nk","tags":["Getr&auml;nk","Cola","Classic"],"extras":[1,2]}] ,1);</script>
 
 </body>
 </html>

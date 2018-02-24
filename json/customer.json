@@ -1,12 +1,12 @@
 [
     {
         "id": 12,
-        "firstname": "",
-        "lastname": "",
+        "firstid": "",
+        "lastid": "",
         "email": "",
         "password": "passwort",
         "contact": {
-            "name": "Max Mustermann",
+            "id": "Max Mustermann",
             "postcode": "82299",
             "street": "Daheim",
             "city": "Musterstadt",

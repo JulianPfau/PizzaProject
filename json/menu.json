@@ -6,8 +6,8 @@
         "size": ["s", "standard", "l", "xl", "party", "family"],
         "type": "car",
         "tags": ["fly", ""],
-        "picture": "car.png",
-        "extras": [1, 2]
+        "extras": [1, 2],
+        "picture": "car.png"
     },
 
     {
