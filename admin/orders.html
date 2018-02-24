@@ -15,7 +15,7 @@
     <div class="topnav">
         <a class="active" href=""> Bestellungen </a>
         <a href="menu.html"> Speisekarte </a>
-        <a href="customer.html"> Benutzer </a>
+        <a href="customers.html"> Benutzer </a>
         <div class="search-container">
             <form action="">
                 <input type="text" placeholder="Suchen.." name="search">
@@ -81,7 +81,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalExtrasItems">Modal title</h5>
+                    <h5 class="modal-title" id="modalExtrasItems">Extras:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -138,7 +138,7 @@
         </div>
     </div>
 
-    <script>loadJSONToTable([{"id": 10180206123143,"items": [{"name": "Salami Pizza","size": "L","price": 7.99,"extras": [1, 2],"count": 1},{"name": "Cola","size": 0.5,"price": 4.99,"extras": [],"count": 2}],"total": 17.97,"customerID": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 0    },{"id": 20180206123143,"items": [{"name": "Cola","size": 0.3,"price": 2.99,"extras": [],"count": 1}],"total": 2.99,"customerID": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 0}], 3)</script>
+    <script>getJsonByRequest(loadJSONToTable, "orders");</script>
 
 </div>
 

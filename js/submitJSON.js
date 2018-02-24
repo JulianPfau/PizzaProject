@@ -1,5 +1,7 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
+var extras;
+
 /*  Requests a JSON file in the /json directory of the server and calls a
     specified function with the parsed JSON Element as parameter.
 
@@ -18,7 +20,7 @@ function getJsonByRequest(cFunction, file) {
 
         if (xhr.readyState == 4 && xhr.status == "200") {
             var element = JSON.parse(this.responseText);
-            cFunction(element);
+            cFunction(element, file);
         } else {
             //Nothing here, as this is called multiple times, even if it is successful.
         }
@@ -30,20 +32,9 @@ function getJsonByRequest(cFunction, file) {
 
 //Called to load JSON Content into the table
 function loadJSONToTable(json, index) {
-    var length = 0;
+    getJsonByRequest(getExtras,"extras");
+    var length = (index == "menu") ? 9 : 7;
     var table = document.getElementsByClassName("table")[0];
-
-    switch (index) {
-        case 1:
-            length = 9;
-            break; //Menu
-        case 2:
-            length = 7;
-            break; //Customer
-        case 3:
-            length = 7;
-            break; //Orders
-    }
 
     for (var i = 0; i < json.length; i++) {
 
@@ -60,7 +51,7 @@ function loadJSONToTable(json, index) {
             menuRow[k].setAttribute('class', 'td');
         }
 
-        if (index == 1) { //Menu
+        if (index == "menu") { //Menu
             menuRow[8].setAttribute('id', 'img');
         }
 
@@ -74,11 +65,11 @@ function loadJSONToTable(json, index) {
         menuInhalt[0].setAttribute('type', 'checkbox');
 
         switch (index) {
-            case 1:
+            case "menu":
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'loadExtras(' + JSON.stringify(json[i]) + ', [{"id": 1,"name": "Extra K&auml;se","preis": 1.0},{"id": 2,"name": "Extra Bacon","preis": 1.5},{"id": 3,"name": "schneiden","preis": 0}])');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ')');
 
                 menuInhalt[8] = document.createElement('img');
                 menuInhalt[8].setAttribute('id', 'img');
@@ -101,7 +92,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[6].innerHTML = splitArray(json[i].tags);
                 menuInhalt[7].innerHTML = splitArray(json[i].extras);
                 break;
-            case 2:
+            case "customers":
                 menuInhalt[6] = document.createElement('span');
                 menuInhalt[6].setAttribute('data-toggle', 'modal');
                 menuInhalt[6].setAttribute('data-target', '#modal');
@@ -122,7 +113,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].innerHTML = json[i].password;
                 menuInhalt[6].innerHTML = json[i].contact.id;
                 break;
-            case 3:
+            case "orders":
                 menuInhalt[2].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
@@ -195,11 +186,9 @@ function loadContactOrder(json) {
     document.getElementById("Phone").innerHTML = json.phone;
 }
 
-//Parameter Extras = extras JSON
-function loadExtras(all, extras) {
-    var json = all.extras;
+function loadExtras(product) {
 
-    document.getElementById("modalExtrasItems").innerHTML = all.name + " Extras";
+    document.getElementById("modalExtrasItems").innerHTML = product.name + " Extras";
     var extrasBox = document.getElementById("extrasBox");
 
     while (extrasBox.firstChild) {
@@ -208,30 +197,33 @@ function loadExtras(all, extras) {
 
     for (var i = 0; i < extras.length; i++) {
         var li = document.createElement('li');
-        var lable = document.createElement('label');
+        var label = document.createElement('label');
         var input = document.createElement('input');
         var span = document.createElement('span');
 
         input.setAttribute('type', 'checkbox');
         span.innerHTML = extras[i].name;
 
-        for (var n = 0; n < json.length; n++) {
-            if (json[n] == extras[i].id)
-                input.setAttribute('checked', '');
+        for (var k = 0; k < extras.length;k ++) {
+            if (product.extras[k] == extras[i].id)
+                input.setAttribute('checked','');
         }
 
-        lable.appendChild(input);
-        lable.appendChild(span);
-        li.appendChild(lable);
+        label.appendChild(input);
+        label.appendChild(span);
+        li.appendChild(label);
         extrasBox.appendChild(li);
-
     }
+}
+
+function getExtras(json) {
+    extras = json;
 }
 
 function loadItems(json) {
     var table = document.getElementById("modal-table");
     var length = 6;
-    console.log(json);
+
     document.getElementById("modalItemsTitle").innerText = "Items:";
 
     for (var y = table.children.length - 1; y > 0; y--) {
@@ -275,7 +267,7 @@ function loadItems(json) {
         menuInhalt[4].removeAttribute('contenteditable');
         menuInhalt[4].setAttribute('data-toggle', 'modal');
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
-        menuInhalt[4].setAttribute('onClick', 'loadExtras(' + JSON.stringify(json[i]) + ', [{"id": 1,"name": "Extra K&auml;se","preis": 1.0},{"id": 2,"name": "Extra Bacon","preis": 1.5},{"id": 3,"name": "schneiden","preis": 0}])');
+        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ')');
 
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
