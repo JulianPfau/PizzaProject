@@ -122,6 +122,37 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].innerHTML = json[i].password;
                 menuInhalt[6].innerHTML = json[i].contact.id;
                 break;
+            case 3:
+                menuInhalt[2].removeAttribute('contenteditable');
+                menuInhalt[2].setAttribute('data-toggle', 'modal');
+                menuInhalt[2].setAttribute('data-target', '#modalItems');
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ')');
+
+                menuInhalt[5].removeAttribute('contenteditable');
+                menuInhalt[5].setAttribute('data-toggle', 'modal');
+                menuInhalt[5].setAttribute('data-target', '#modal');
+                menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ')');
+
+                //Inhalt Menu
+                menuInhalt[1].setAttribute('id', 'ID');
+                menuInhalt[2].setAttribute('id', 'Items');
+                menuInhalt[3].setAttribute('id', 'Total');
+                menuInhalt[4].setAttribute('id', 'CustomerID');
+                menuInhalt[5].setAttribute('id', 'Contact');
+                menuInhalt[6].setAttribute('id', 'Done');
+
+                var items = new Array();
+                for (var k = 0; k < json[i].items.length; k++) {
+                    items[k] = json[i].items[k].name;
+                }
+
+                menuInhalt[1].innerHTML = json[i].id;
+                menuInhalt[2].innerHTML = splitArray(items);
+                menuInhalt[3].innerHTML = json[i].total;
+                menuInhalt[4].innerHTML = json[i].customerID;
+                menuInhalt[5].innerHTML = json[i].contact.name;
+                menuInhalt[6].innerHTML = json[i].done;
+                break;
         }
 
         //Einfügen in HTML
@@ -153,12 +184,27 @@ function loadContact(json) {
     document.getElementById("Phone").innerHTML = json.phone;
 }
 
+function loadContactOrder(json) {
+
+    document.getElementById("modalContactsTitle").innerHTML = json.name;
+    document.getElementById("Name").innerHTML = json.name;
+    document.getElementById("Postcode").innerHTML = json.postcode;
+    document.getElementById("Street").innerHTML = json.street;
+    document.getElementById("City").innerHTML = json.city;
+    document.getElementById("Nr").innerHTML = json.nr;
+    document.getElementById("Phone").innerHTML = json.phone;
+}
+
 //Parameter Extras = extras JSON
 function loadExtras(all, extras) {
     var json = all.extras;
 
-    document.getElementsByClassName("modal-title")[0].innerHTML = all.name + " Extras";
+    document.getElementById("modalExtrasItems").innerHTML = all.name + " Extras";
     var extrasBox = document.getElementById("extrasBox");
+
+    while (extrasBox.firstChild) {
+        extrasBox.removeChild(extrasBox.firstChild);
+    }
 
     for (var i = 0; i < extras.length; i++) {
         var li = document.createElement('li');
@@ -178,6 +224,66 @@ function loadExtras(all, extras) {
         lable.appendChild(span);
         li.appendChild(lable);
         extrasBox.appendChild(li);
+
+    }
+}
+
+function loadItems(json) {
+    var table = document.getElementById("modal-table");
+    var length = 6;
+    console.log(json);
+    document.getElementById("modalItemsTitle").innerText = "Items:";
+
+    for (var y = table.children.length - 1; y > 0; y--) {
+        if (table.children[y].classList.contains("menuElement")) {
+            table.removeChild(table.children[y]);
+        }
+    }
+
+    for (var i = 0; i < json.length; i++) {
+
+        //Table Row
+        var row = document.createElement('div');
+        row.setAttribute('class', 'tr menuElement');
+
+        var menuRow = new Array();
+        var menuInhalt = new Array();
+
+        //Table Row content
+        for (var k = 0; k < length; k++) {
+            menuRow[k] = document.createElement('div');
+            menuRow[k].setAttribute('class', 'td');
+        }
+
+        //MenuInhalt
+        for (var n = 1; n < length; n++) {
+            menuInhalt[n] = document.createElement('span');
+            menuInhalt[n].setAttribute('class', 'Input');
+            menuInhalt[n].setAttribute('contenteditable', 'true');
+        }
+        menuInhalt[0] = document.createElement('input');
+        menuInhalt[0].setAttribute('type', 'checkbox');
+
+        menuInhalt[1].innerHTML = json[i].name;
+        menuInhalt[2].innerHTML = json[i].size;
+        menuInhalt[3].innerHTML = json[i].price;
+        var extras = (json[i].extras.length == 0) ? "None" : json[i].extras
+        menuInhalt[4].innerHTML = extras;
+        menuInhalt[5].innerHTML = json[i].count;
+
+
+        menuInhalt[4].removeAttribute('contenteditable');
+        menuInhalt[4].setAttribute('data-toggle', 'modal');
+        menuInhalt[4].setAttribute('data-target', '#modalExtras');
+        menuInhalt[4].setAttribute('onClick', 'loadExtras(' + JSON.stringify(json[i]) + ', [{"id": 1,"name": "Extra K&auml;se","preis": 1.0},{"id": 2,"name": "Extra Bacon","preis": 1.5},{"id": 3,"name": "schneiden","preis": 0}])');
+
+        //Einfügen in HTML
+        table.insertBefore(row, document.getElementById("modal-footer"));
+
+        for (var c = 0; c < length; c++) {
+            row.appendChild(menuRow[c]);
+            menuRow[c].appendChild(menuInhalt[c]);
+        }
 
     }
 }
