@@ -63,6 +63,7 @@ function loadJSONToTable(json, index) {
         }
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
+        menuInhalt[0].setAttribute('onchange', 'markDelet()');
 
         switch (index) {
             case "menu":
@@ -82,7 +83,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Type');
                 menuInhalt[6].setAttribute('id', 'Tags');
                 menuInhalt[6].setAttribute('id', 'Extras');
-                menuInhalt[8].setAttribute('src', "./img/" + json.picture + ".png");
+                menuInhalt[8].setAttribute('src', json.picture + ".png");
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
@@ -278,4 +279,8 @@ function loadItems(json) {
         }
 
     }
+}
+
+function markDelet() {
+    alert("Kommt von Henry");
 }
