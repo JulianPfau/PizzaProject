@@ -8,6 +8,7 @@
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.js"></script>
     <script src="../js/accounts.js"></script>
+    <script src="../js/submitJSON.js"></script>
 </head>
 <body class="light-grey">
     <div class="container">
@@ -24,13 +25,66 @@
         </div>
 
         <div class="table">
-            <!--
-            Tabellenerzeugung anhand von JSON
-            -->
+            <div class="tr" id="head">
+                <div class="td">Delete</div>
+                <div class="td">ID</div>
+                <div class="td">FirstID</div>
+                <div class="td">LastID</div>
+                <div class="td">E-Mail</div>
+                <div class="td">Password</div>
+                <div class="td">Contact</div>
+            </div>
+            <div class="tr" id="footer">
+                <div class="td"></div>
+                <div class="td"><span class="Input footer" id="ID" contenteditable="true" ></span></div>
+                <div class="td"><span class="Input footer" id="FirstID" contenteditable="true"></span></div>
+                <div class="td"><span class="Input footer" id="LastID" contenteditable="true"></span></div>
+                <div class="td"><span class="Input footer" id="E-Mail" contenteditable="true"></span></div>
+                <div class="td"><span class="Input footer" id="Password" contenteditable="true"></span></div>
+                <div class="td"><span class="Input footer" id="Contact"></span></div>
+            </div>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table">
+                        <div class="tr" id="head">
+                            <div class="td">ID</div>
+                            <div class="td">Postcode</div>
+                            <div class="td">Street</div>
+                            <div class="td">City</div>
+                            <div class="td">Nr.</div>
+                            <div class="td">Phone</div>
+                        </div>
+                        <div class="tr" id="footer">
+                            <div class="td"><span class="Input" id="IDContact" contenteditable="true"></span></div>
+                            <div class="td"><span class="Input" id="Postcode" contenteditable="true"></span></div>
+                            <div class="td"><span class="Input" id="Street" contenteditable="true"></span></div>
+                            <div class="td"><span class="Input" id="City" contenteditable="true"></span></div>
+                            <div class="td"><span class="Input" id="Nr" contenteditable="true"></span></div>
+                            <div class="td"><span class="Input" id="Phone" contenteditable="true"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>loadJSONToTable([{"id":"1","firstid":"1","lastid":"1","email":"maxmusterman@test.com","password":"12345","contact":{"id":"Max Mustermann","postcode":"82299","street":"Daheim","city":"Musterstadt","nr":"1","phone":"01245556783"}},{"id":"2","firstid":"2","lastid":"2","email":"sabinemusterfrau@test.com","password":"password","contact":{"id":"Sabine Mustermann","postcode":"82299","street":"Daheim","city":"Musterstadt","nr":"1","phone":"01245556783"}}], 2);</script>
 
 </body>
 </html>

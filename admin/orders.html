@@ -8,6 +8,7 @@
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.js"></script>
     <script src="../js/accounts.js"></script>
+    <script src="../js/submitJSON.js"></script>
 </head>
 <body class="light-grey">
 <div class="container">
@@ -23,11 +24,28 @@
         </div>
     </div>
 
+    Prices, Sizes und Tags k&ouml;nnen mit &quot;;&quot; getrennt werden!
     <div class="table">
-        <!--
-        Tabellenerzeugung anhand von JSON
-        -->
+        <div class="tr" id="head">
+            <div class="td">Delete</div>
+            <div class="td">ID</div>
+            <div class="td">Items</div>
+            <div class="td">Total</div>
+            <div class="td">CustomerID</div>
+            <div class="td">Contact</div>
+            <div class="td">Done</div>
+        </div>
+        <div class="tr" id="footer">
+            <div class="td"></div>
+            <div class="td"><span class="Input footer" id="ID" contenteditable="true" ></span></div>
+            <div class="td"><span class="Input footer" id="Items"></span></div>
+            <div class="td"><span class="Input footer" id="Total" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="CustomerID" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Contact"></span></div>
+            <div class="td"><span class="Input footer" id="Done" contenteditable="true"></span></div>
+        </div>
     </div>
+
 </div>
 
 
