@@ -6,8 +6,8 @@
         "size":["X","L"],
         "type":"Pizza",
         "tags":["Meat","Pizza","Classic"],
-        "extras":[1,2],
-        "picture":"undefined.png"
+        "extras":[3,2],
+        "picture":"salamipizza.png"
     },
     {
         "name":"Cola",
@@ -16,6 +16,7 @@
         "size":["0.33","0.5"],
         "type":"Getr&auml;nk",
         "tags":["Getr&auml;nk","Cola","Classic"],
-        "extras":[1,2]
+        "extras":[1],
+        "picture":"cola.png"
     }
 ]

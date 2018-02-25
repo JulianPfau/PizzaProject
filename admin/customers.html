@@ -1,5 +1,6 @@
 <html>
 <head>
+    <link rel="icon" href="../img/favicon.ico">
     <title> Benutzerverwaltung </title>
     <link href="../css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -41,7 +42,7 @@
                 <div class="td"><span class="Input footer" id="LastID" contenteditable="true"></span></div>
                 <div class="td"><span class="Input footer" id="E-Mail" contenteditable="true"></span></div>
                 <div class="td"><span class="Input footer" id="Password" contenteditable="true"></span></div>
-                <div class="td"><span class="Input footer" id="Contact"></span></div>
+                <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(loadContact,'customers')"><span class="Input footer" id="Contact"></span></div>
             </div>
         </div>
     </div>

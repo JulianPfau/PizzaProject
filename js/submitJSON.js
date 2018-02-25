@@ -32,7 +32,7 @@ function getJsonByRequest(cFunction, file) {
 
 //Called to load JSON Content into the table
 function loadJSONToTable(json, index) {
-    getJsonByRequest(getExtras,"extras");
+    getJsonByRequest(getExtras, "extras");
     var length = (index == "menu") ? 9 : 7;
     var table = document.getElementsByClassName("table")[0];
 
@@ -83,7 +83,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Type');
                 menuInhalt[6].setAttribute('id', 'Tags');
                 menuInhalt[6].setAttribute('id', 'Extras');
-                menuInhalt[8].setAttribute('src', json.picture + ".png");
+                menuInhalt[8].setAttribute('src', "../img/" + json[i].picture);
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
@@ -167,13 +167,13 @@ function splitArray(array) {
 }
 
 function loadContact(json) {
-    document.getElementsByClassName("modal-title")[0].innerHTML = json.id;
-    document.getElementById("IDContact").innerHTML = json.id;
-    document.getElementById("Postcode").innerHTML = json.postcode;
-    document.getElementById("Street").innerHTML = json.street;
-    document.getElementById("City").innerHTML = json.city;
-    document.getElementById("Nr").innerHTML = json.nr;
-    document.getElementById("Phone").innerHTML = json.phone;
+    document.getElementsByClassName("modal-title")[0].innerHTML = (json.id == undefined) ? "" : json.id;
+    document.getElementById("IDContact").innerHTML = (json.id == undefined) ? "" : json.id;
+    document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
+    document.getElementById("Street").innerHTML = (json.street == undefined) ? "" : json.street;
+    document.getElementById("City").innerHTML = (json.city == undefined) ? "" : json.city;
+    document.getElementById("Nr").innerHTML = (json.nr == undefined) ? "" : json.nr;
+    document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
 }
 
 function loadContactOrder(json) {
@@ -189,7 +189,7 @@ function loadContactOrder(json) {
 
 function loadExtras(product) {
 
-    document.getElementById("modalExtrasItems").innerHTML = product.name + " Extras";
+    document.getElementById("modalExtrasItems").innerHTML = (product == undefined) ? "Extras" : product.name + " Extras";
     var extrasBox = document.getElementById("extrasBox");
 
     while (extrasBox.firstChild) {
@@ -205,9 +205,11 @@ function loadExtras(product) {
         input.setAttribute('type', 'checkbox');
         span.innerHTML = extras[i].name;
 
-        for (var k = 0; k < extras.length;k ++) {
-            if (product.extras[k] == extras[i].id)
-                input.setAttribute('checked','');
+        if (product != undefined) {
+            for (var k = 0; k < extras.length; k++) {
+                if (product.extras[k] == extras[i].id)
+                    input.setAttribute('checked', '');
+            }
         }
 
         label.appendChild(input);
