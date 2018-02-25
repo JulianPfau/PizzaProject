@@ -51,10 +51,6 @@ function loadJSONToTable(json, index) {
             menuRow[k].setAttribute('class', 'td');
         }
 
-        if (index == "menu") { //Menu
-            menuRow[8].setAttribute('id', 'img');
-        }
-
         //MenuInhalt
         for (var n = 1; n < length; n++) {
             menuInhalt[n] = document.createElement('span');
@@ -63,6 +59,7 @@ function loadJSONToTable(json, index) {
         }
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
+        if (index == 'menu') menuInhalt[0].setAttribute('class', 'sizeUp');
         menuInhalt[0].setAttribute('onchange', 'markDelet()');
 
         switch (index) {
@@ -74,6 +71,7 @@ function loadJSONToTable(json, index) {
 
                 menuInhalt[8] = document.createElement('img');
                 menuInhalt[8].setAttribute('id', 'img');
+                menuInhalt[8].setAttribute('src', "../img/menu/" + json[i].picture);
 
                 //Inhalt Menu
                 menuInhalt[1].setAttribute('id', 'Name');
@@ -83,7 +81,6 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Type');
                 menuInhalt[6].setAttribute('id', 'Tags');
                 menuInhalt[6].setAttribute('id', 'Extras');
-                menuInhalt[8].setAttribute('src', "../img/" + json[i].picture);
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
