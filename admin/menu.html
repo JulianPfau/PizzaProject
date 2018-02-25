@@ -1,5 +1,6 @@
 <html>
 <head>
+    <link rel="icon" href="../img/favicon.ico">
     <title> Verwaltung Speisekarte </title>
     <link href="../css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -46,7 +47,7 @@
             <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
-            <div class="td"><span class="Input footer" id="Extras" contenteditable="true"></span></div>
+            <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
             <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
         </div>
     </div>
