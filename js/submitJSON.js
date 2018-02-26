@@ -83,7 +83,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Types');
                 menuInhalt[6].setAttribute('id', 'Tags');
                 menuInhalt[7].setAttribute('id', 'Extras');
-                menuInhalt[8].setAttribute('src', "../img/" + json[i].picture);
+                menuInhalt[8].setAttribute('src', "./img/" + json[i].picture);
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
@@ -155,6 +155,7 @@ function loadJSONToTable(json, index) {
             menuRow[c].appendChild(menuInhalt[c]);
         }
     }
+    extendTable();
 }
 
 function splitArray(array) {
