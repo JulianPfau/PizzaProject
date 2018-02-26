@@ -1,3 +1,5 @@
+//Komment für Push
+
 function saveInput(table) {
     var input = document.getElementById("input").value;
     updateTable(table, "");
