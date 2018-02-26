@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../img/favicon.ico">
     <title> Verwaltung Extras </title>
     <link href="../css/bootstrap.css" rel="stylesheet" />
@@ -12,13 +13,13 @@
     <script src="../js/uploadImage.js"></script>
 </head>
 <body class="light-grey">
-<div class="container">
-    <div class="topnav">
+    <div class="topnav" id="Topnav">
         <a href="orders.html"> Bestellungen </a>
         <a href="menu.html"> Speisekarte </a>
         <a href="customers.html"> Benutzer </a>
         <a href="extras.html"> Extras </a>
         <a class="active" href="#"> File Upload </a>
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
         <div class="search-container">
             <form action="">
                 <input type="text" placeholder="Suchen.." name="search">
@@ -26,7 +27,7 @@
             </form>
         </div>
     </div>
-</div>
+
     <br>
     <script>
         window.onload = function(){
