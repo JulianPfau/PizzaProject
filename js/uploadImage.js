@@ -105,19 +105,19 @@ function saveTableToServer(table) {
             break;
         case "menu":
             var node;
-
             for (var i = 0; i < rows.length; i++){
                 var objElement = new Object();
                 row = rows[i].children;
-                console.log(row);
+                //console.log(row);
                 for (var n = 1; n < row.length; n++){
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
                     value = node.firstChild.innerHTML;
+                    //console.log(value);
                     if (key == "img"){
                         var path = node.firstChild.src;
                         path = path.split("/");
-                        value = path[4];
+                        value = path[5];
                         key = "picture";
                     }else if(key == "pictureselection"){
                         value = node.firstChild.value;
@@ -125,15 +125,17 @@ function saveTableToServer(table) {
                     else{
                         value = node.firstChild.innerHTML;
                     }
-                    if(value.includes(";")){
-                        value = value.split(";");
+                    if (value) {
+                        if (value.includes(";")) {
+                            value = value.split(";");
+                        }
                     }
                     objElement[key] = value;
                 }
                 if(objElement.name && objElement.description) {
                     json.push(objElement);
                 }
-                //console.log(json);
+                console.log(json);
             }
             break;
 
@@ -157,11 +159,21 @@ function saveTableToServer(table) {
             break;
         case "extras":
             //Placeholder
-
+            for (var i = 0; i < rows.length; i++) {
+                var objElement = new Object();
+                row = rows[i].childNodes;
+                for (var n = 1; n < row.length; n++){
+                    console.log(row[n.firstChild]);
+                    key = row[n].firstChild.id.toLowerCase();
+                    value = row[n].firstChild.innerHTML;
+                    objElement[key] = value;
+                }
+                json.push(objElement);
+            }
             break;
     }
-    //console.log(json);
-    sendJSONtoServer(json,table);
+    console.log(json);
+    //sendJSONtoServer(json,table);
 }
 
 
@@ -207,7 +219,7 @@ function pictureSelection(param) {
             var parent = param.parentElement.parentElement;
             var cols = parent.children;
             var img = cols[cols.length -2 ].firstChild;
-            img.src = "../img/"+param.value;
+            img.src = "../img/menu/"+param.value;
             closeAllLists();
         });
 
@@ -334,7 +346,6 @@ function createTablefromJSON(rawData){
 
         for(var i = 1; i < table.children.length; i++){
             var elRow = document.createElement("div");
-
             var row = table.children[i].children;
             var img = row[row.length - 1];
             var input = document.createElement("input");
@@ -389,8 +400,6 @@ function extendTable() {
         input.setAttribute("id","pictureSelection");
         input.setAttribute('oninput', 'pictureSelection(this)');
         var img = elements[i].children[elements[i].children.length -1];
-
-        console.log(img.firstChild);
 
         var value = img.firstChild.src.split("/");
         // img file name
