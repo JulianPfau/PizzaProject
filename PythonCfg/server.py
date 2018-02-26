@@ -47,7 +47,7 @@ def fileupload(request):
 	try:
 		en_string = request['fileData']
 		global img_dir
-		f = open(img_dir + request['name'], 'wb')  # Datei wird erstellt
+		f = open(img_dir+"/menu/" + request['name'], 'wb')  # Datei wird erstellt
 		de_string = en_string.split(',')[1]
 		f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
 		f.close()							 # und abgespeichert
@@ -55,9 +55,14 @@ def fileupload(request):
 			'STATUS': 'OK',
 			'imgPath': str("../img/menu/" + request['name'])
 		}
-		return response
 	except IOError:
-		return False
+		response = {
+			'STATUS': 'ERROR',
+			'img': request['name']
+		}
+
+		json.dumps(response)
+	return response
 
 
 def imglist():

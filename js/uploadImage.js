@@ -159,21 +159,24 @@ function saveTableToServer(table) {
             break;
         case "extras":
             //Placeholder
-            for (var i = 0; i < rows.length; i++) {
+            for (var i = 0; i < rows.length; i++){
                 var objElement = new Object();
-                row = rows[i].childNodes;
+                row = rows[i].children;
+                //console.log(row);
                 for (var n = 1; n < row.length; n++){
-                    console.log(row[n.firstChild]);
-                    key = row[n].firstChild.id.toLowerCase();
-                    value = row[n].firstChild.innerHTML;
+                    node = row[n];
+                    key = node.firstChild.id.toLowerCase();
+                    value = node.firstChild.innerHTML;
                     objElement[key] = value;
                 }
-                json.push(objElement);
+                if(objElement.id && objElement.name) {
+                    json.push(objElement);
+                }
             }
             break;
     }
     console.log(json);
-    //sendJSONtoServer(json,table);
+    sendJSONtoServer(json,table);
 }
 
 
