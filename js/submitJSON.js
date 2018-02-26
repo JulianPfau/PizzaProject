@@ -2,7 +2,7 @@
 
 var extras;
 
-/*  Requests a JSON file in the /json directory of the server and calls a
+/**  Requests a JSON file in the /json directory of the server and calls a
     specified function with the parsed JSON Element as parameter.
 
     Parameters:
@@ -10,7 +10,7 @@ var extras;
     - file          the file name without the .json ending
 
     Nothing happens on Error.
-*/
+**/
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
     var xhr = new XMLHttpRequest()
@@ -316,6 +316,6 @@ function markDelete(box) {
     if (box.checked) {
         box.parentElement.parentElement.setAttribute('class','tr bg-danger');
     } else {
-        box.parentElement.parentElement.setAttribute('class','tr');
+        box.parentElement.parentElement.setAttribute('class','tr menuElement');
     }
 }
