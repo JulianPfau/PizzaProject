@@ -40,7 +40,7 @@
             <div class="td">Extras</div>
             <div class="td">Picture</div>
         </div>
-        <div class="tr" id="footer">
+        <div class="tr menuElement" id="footer">
             <div class="td"></div>
             <div class="td"><span class="Input footer" id="Name" contenteditable="true" ></span></div>
             <div class="td"><span class="Input footer" id="Description" contenteditable="true"></span></div>
@@ -49,9 +49,7 @@
             <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
             <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
-            <div class="td">
-                <input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/>
-                <label for="fileinput"><span>Upload file</span></label>
+            <div class="td" id="img"><img src="../img/pizza.png" id="img" width="25px">
             </div>
         </div>
     </div>
