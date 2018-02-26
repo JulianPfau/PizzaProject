@@ -1,5 +1,5 @@
-function saveinput() {
-    var input = document.getElementById("search").value;
-
-    alert(input);
+function Saveinput() {
+    var search = document.getElementById("inputsearch").value;
+    alert(search);
+    alert("lol");
 }
