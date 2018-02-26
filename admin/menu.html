@@ -8,8 +8,8 @@
     <link href="../css/admin.css" rel="stylesheet" />
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.js"></script>
-    <script src="../js/accounts.js"></script>
     <script src="../js/submitJSON.js"></script>
+    <script src="../js/uploadImage.js"></script>
 </head>
 <body class="light-grey">
 <div class="container">
@@ -48,7 +48,10 @@
             <div class="td"><span class="Input footer" id="Type" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
             <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
-            <div class="td"><input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/></div>
+            <div class="td">
+                <input onchange="uploadFile(this.files)" type="file" id="fileinput" accept="image/*;capture=camera"/>
+                <label for="fileinput"><span>Upload file</span></label>
+            </div>
         </div>
     </div>
 </div>

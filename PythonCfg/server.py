@@ -34,7 +34,7 @@ def fileupload(request):
 		f.close()							 # und abgespeichert
 		response = {
 			'STATUS': 'OK',
-			'imgPath': str("./img/" + request['name'])
+			'imgPath': str("../img/menu/" + request['name'])
 		}
 		return response
 	except IOError:
