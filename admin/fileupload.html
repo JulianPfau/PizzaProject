@@ -26,7 +26,28 @@
             </form>
         </div>
     </div>
+</div>
     <br>
+    <script>
+        window.onload = function(){
+            window.addEventListener("dragover",function(e){
+                e = e || event;
+                e.preventDefault();
+            },false);
+            window.addEventListener("drop",function(e){
+                e = e || event;
+                e.preventDefault();
+            },false);
+        }
+    </script>
 
+    <div id="dropZone" ondrop="dropHandler(event);" ondragover="dragHandler(event)" ondragend="dragEndHandler(event)"
+         style="
+      display: inline-block;
+      padding-top: 40px;
+      padding-left: 5px;
+      ">
+        <strong> Drag & Drop files to upload </strong>
+    </div>
 </body>
 </html>
