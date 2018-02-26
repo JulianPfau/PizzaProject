@@ -3,7 +3,7 @@ from socketserver import ThreadingMixIn
 import ajaxGoogleAPI
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
-img_dir = server_root + "../img/"
+img_dir = server_root + "/img/"
 json_dir = server_root + "/json/"
 # commit
 
