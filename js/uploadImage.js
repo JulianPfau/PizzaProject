@@ -105,9 +105,11 @@ function saveTableToServer(table) {
             break;
         case "menu":
             var node;
+
             for (var i = 0; i < rows.length; i++){
                 var objElement = new Object();
-                row = rows[i].childNodes;
+                row = rows[i].children;
+                console.log(row);
                 for (var n = 1; n < row.length; n++){
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
@@ -131,6 +133,7 @@ function saveTableToServer(table) {
                 if(objElement.name && objElement.description) {
                     json.push(objElement);
                 }
+                //console.log(json);
             }
             break;
 
@@ -157,7 +160,7 @@ function saveTableToServer(table) {
 
             break;
     }
-    console.log(json);
+    //console.log(json);
     sendJSONtoServer(json,table);
 }
 
