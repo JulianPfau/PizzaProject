@@ -367,7 +367,7 @@ function createTablefromJSON(rawData){
 function extendTable() {
     var elements = document.getElementsByClassName("tr menuElement");
     var footer = document.getElementById("footer");
-
+    //console.log(elements);
     var headCol = document.createElement("div");
     headCol.setAttribute("name","pictureSelection");
     headCol.setAttribute("class","td");
@@ -386,7 +386,8 @@ function extendTable() {
         input.setAttribute("id","pictureSelection");
         input.setAttribute('oninput', 'pictureSelection(this)');
         var img = elements[i].children[elements[i].children.length -1];
-        console.log(img);
+
+        console.log(img.firstChild);
 
         var value = img.firstChild.src.split("/");
         // img file name
