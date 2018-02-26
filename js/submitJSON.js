@@ -80,16 +80,16 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].setAttribute('id', 'Description');
                 menuInhalt[3].setAttribute('id', 'Prices');
                 menuInhalt[4].setAttribute('id', 'Sizes');
-                menuInhalt[5].setAttribute('id', 'Type');
+                menuInhalt[5].setAttribute('id', 'Types');
                 menuInhalt[6].setAttribute('id', 'Tags');
-                menuInhalt[6].setAttribute('id', 'Extras');
+                menuInhalt[7].setAttribute('id', 'Extras');
                 menuInhalt[8].setAttribute('src', "../img/" + json[i].picture);
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
-                menuInhalt[3].innerHTML = splitArray(json[i].price);
-                menuInhalt[4].innerHTML = splitArray(json[i].size);
-                menuInhalt[5].innerHTML = json[i].type;
+                menuInhalt[3].innerHTML = splitArray(json[i].prices);
+                menuInhalt[4].innerHTML = splitArray(json[i].sizes);
+                menuInhalt[5].innerHTML = json[i].types;
                 menuInhalt[6].innerHTML = splitArray(json[i].tags);
                 menuInhalt[7].innerHTML = splitArray(json[i].extras);
                 break;
