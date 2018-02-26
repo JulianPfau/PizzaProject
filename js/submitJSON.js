@@ -67,10 +67,13 @@ function loadJSONToTable(json, index) {
             menuInhalt[n] = document.createElement('span');
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
+            menuInhalt[n].onkeydown = function() {
+                this.setAttribute('class', 'bg-warning');
+            };
         }
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
-        menuInhalt[0].setAttribute('onchange', 'markDelet()');
+        menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
 
         switch (index) {
             case "menu":
@@ -92,13 +95,13 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].setAttribute('id', 'Extras');
                 menuInhalt[8].setAttribute('src', "../img/menu/" + json[i].picture);
 
-                menuInhalt[1].innerHTML = json[i].name;
-                menuInhalt[2].innerHTML = json[i].description;
-                menuInhalt[3].innerHTML = splitArray(json[i].prices);
-                menuInhalt[4].innerHTML = splitArray(json[i].sizes);
-                menuInhalt[5].innerHTML = json[i].types;
-                menuInhalt[6].innerHTML = splitArray(json[i].tags);
-                menuInhalt[7].innerHTML = splitArray(json[i].extras);
+                menuInhalt[1].innerHTML = (json[i].name == "") ? "tbd" : json[i].name;
+                menuInhalt[2].innerHTML = (json[i].description == "") ? "tbd" : json[i].description;
+                menuInhalt[3].innerHTML = (json[i].prices == "") ? "tbd" :splitArray(json[i].prices) ;
+                menuInhalt[4].innerHTML = (json[i].sizes == "") ? "tbd" : splitArray(json[i].sizes);
+                menuInhalt[5].innerHTML = (json[i].types == "") ? "tbd" : json[i].types;
+                menuInhalt[6].innerHTML = (json[i].tags == "") ? "-" : splitArray(json[i].tags);
+                menuInhalt[7].innerHTML = (json[i].extras == "") ? "tbd" : splitArray(json[i].extras);
                 break;
             case "customers":
                 menuInhalt[6] = document.createElement('span');
@@ -114,12 +117,12 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Password');
                 menuInhalt[6].setAttribute('id', 'Contact');
 
-                menuInhalt[1].innerHTML = json[i].id;
-                menuInhalt[2].innerHTML = json[i].firstid;
-                menuInhalt[3].innerHTML = json[i].lastid;
-                menuInhalt[4].innerHTML = json[i].email;
-                menuInhalt[5].innerHTML = json[i].password;
-                menuInhalt[6].innerHTML = json[i].contact.id;
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
+                menuInhalt[2].innerHTML = (json[i].firstid == "") ? "tbd" : json[i].firstid;
+                menuInhalt[3].innerHTML = (json[i].lastid == "") ? "tbd" : json[i].lastid;
+                menuInhalt[4].innerHTML = (json[i].email == "") ? "tbd" : json[i].email;
+                menuInhalt[5].innerHTML = (json[i].password == "") ? "tbd" : json[i].password;
+                menuInhalt[6].innerHTML = (json[i].contact.id == "") ? "tbd" : json[i].contact.id;
                 break;
             case "orders":
                 menuInhalt[2].removeAttribute('contenteditable');
@@ -145,17 +148,21 @@ function loadJSONToTable(json, index) {
                     items[k] = json[i].items[k].name;
                 }
 
-                menuInhalt[1].innerHTML = json[i].id;
-                menuInhalt[2].innerHTML = splitArray(items);
-                menuInhalt[3].innerHTML = json[i].total;
-                menuInhalt[4].innerHTML = json[i].customerID;
-                menuInhalt[5].innerHTML = json[i].contact.name;
-                menuInhalt[6].innerHTML = json[i].done;
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
+                menuInhalt[2].innerHTML = (items == "") ? "tbd" : items;
+                menuInhalt[3].innerHTML = (json[i].total == "") ? "tbd" : json[i].total;
+                menuInhalt[4].innerHTML = (json[i].customerID == "") ? "tbd" : json[i].customerID;
+                menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "tbd" : json[i].contact.name;
+                menuInhalt[6].innerHTML = (json[i].done == "") ? "tbd" : json[i].done;
                 break;
             case "extras":
-                menuInhalt[1].innerHTML = json[i].id;
-                menuInhalt[2].innerHTML = json[i].name;
-                menuInhalt[3].innerHTML = json[i].preis;
+                menuInhalt[1].setAttribute('id', 'ID');
+                menuInhalt[2].setAttribute('id', 'Name');
+                menuInhalt[3].setAttribute('id', 'Preis');
+
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
+                menuInhalt[2].innerHTML = (json[i].name == "") ? "tbd" : json[i].name;
+                menuInhalt[3].innerHTML = (json[i].preis == "") ? "tbd" : json[i].preis;
                 break;
         }
 
@@ -217,6 +224,9 @@ function loadExtras(product) {
 
         input.setAttribute('type', 'checkbox');
         span.innerHTML = extras[i].name;
+        span.onkeydown = function() {
+            this.setAttribute('class', 'bg-warning');
+        };
 
         if (product != undefined) {
             for (var k = 0; k < extras.length; k++) {
@@ -268,6 +278,9 @@ function loadItems(json) {
             menuInhalt[n] = document.createElement('span');
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
+            menuInhalt[n].onkeydown = function() {
+                this.setAttribute('class', 'bg-warning');
+            };
         }
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
@@ -296,6 +309,10 @@ function loadItems(json) {
     }
 }
 
-function markDelet() {
-    alert("Kommt von Henry");
+function markDelete(box) {
+    if (box.checked) {
+        box.parentElement.parentElement.setAttribute('class','tr bg-danger');
+    } else {
+        box.parentElement.parentElement.setAttribute('class','tr');
+    }
 }
