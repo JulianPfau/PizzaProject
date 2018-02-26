@@ -102,7 +102,7 @@ div.tr {
 div.td {
     display: table-cell;
     border: thin solid black;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
 }
 
@@ -111,15 +111,13 @@ div.td#input {
     padding: 5px;
 }
 
-div.td#img {
-    padding: 1px;
-}
-
 img#img {
     border: none;
-    height: 1.5em;
-    width: 1.5em;
-    bottom: 0px;
+    top: 0;
+
+    max-height:50px;
+    width:auto;
+    height:auto;
 }
 
 div.tr#head {
@@ -135,8 +133,22 @@ fieldset {
     border: none;
 }
 
-input {
+input[type=checkbox].sizeUp {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+}
+
+input[type=file] {
     margin-right: 1em;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 ul {
