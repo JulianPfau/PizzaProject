@@ -62,7 +62,7 @@ def fileupload(request):
 
 def imglist():
 	global img_dir
-	imglist = os.listdir(server_root+"/img/")
+	imglist = os.listdir(server_root+"/img/menu/")
 	return json.dumps(imglist)
 
 
