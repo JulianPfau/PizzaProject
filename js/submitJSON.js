@@ -33,7 +33,14 @@ function getJsonByRequest(cFunction, file) {
 //Called to load JSON Content into the table
 function loadJSONToTable(json, index) {
     getJsonByRequest(getExtras, "extras");
-    var length = (index == "menu") ? 9 : 7;
+    var length;
+    if (index == "menu") {
+        length = 9;
+    } else if (index == "extras") {
+        length = 4;
+    } else {
+        length = 7;
+    }
     var table = document.getElementsByClassName("table")[0];
 
     for (var i = 0; i < json.length; i++) {
@@ -83,7 +90,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Types');
                 menuInhalt[6].setAttribute('id', 'Tags');
                 menuInhalt[7].setAttribute('id', 'Extras');
-                menuInhalt[8].setAttribute('src', "./img/" + json[i].picture);
+                menuInhalt[8].setAttribute('src', "../img/menu/" + json[i].picture);
 
                 menuInhalt[1].innerHTML = json[i].name;
                 menuInhalt[2].innerHTML = json[i].description;
@@ -145,6 +152,11 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].innerHTML = json[i].contact.name;
                 menuInhalt[6].innerHTML = json[i].done;
                 break;
+            case "extras":
+                menuInhalt[1].innerHTML = json[i].id;
+                menuInhalt[2].innerHTML = json[i].name;
+                menuInhalt[3].innerHTML = json[i].preis;
+                break;
         }
 
         //Einfügen in HTML
@@ -155,7 +167,7 @@ function loadJSONToTable(json, index) {
             menuRow[c].appendChild(menuInhalt[c]);
         }
     }
-    extendTable();
+    if (index == "menu") extendTable();
 }
 
 function splitArray(array) {
