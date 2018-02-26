@@ -98,13 +98,13 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].setAttribute('id', 'Extras');
                 menuInhalt[8].setAttribute('src', "../img/menu/" + json[i].picture);
 
-                menuInhalt[1].innerHTML = (json[i].name == "") ? "tbd" : json[i].name;
-                menuInhalt[2].innerHTML = (json[i].description == "") ? "tbd" : json[i].description;
-                menuInhalt[3].innerHTML = (json[i].prices == "") ? "tbd" :splitArray(json[i].prices) ;
-                menuInhalt[4].innerHTML = (json[i].sizes == "") ? "tbd" : splitArray(json[i].sizes);
-                menuInhalt[5].innerHTML = (json[i].types == "") ? "tbd" : json[i].types;
-                menuInhalt[6].innerHTML = (json[i].tags == "") ? "-" : splitArray(json[i].tags);
-                menuInhalt[7].innerHTML = (json[i].extras == "") ? "tbd" : splitArray(json[i].extras);
+                menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
+                menuInhalt[2].innerHTML = (json[i].description == "") ? "None" : json[i].description;
+                menuInhalt[3].innerHTML = (json[i].prices == "") ? "None" :splitArray(json[i].prices) ;
+                menuInhalt[4].innerHTML = (json[i].sizes == "") ? "None" : splitArray(json[i].sizes);
+                menuInhalt[5].innerHTML = (json[i].types == "") ? "None" : json[i].types;
+                menuInhalt[6].innerHTML = (json[i].tags == "") ? "None" : splitArray(json[i].tags);
+                menuInhalt[7].innerHTML = (json[i].extras == "") ? "None" : splitArray(json[i].extras);
                 break;
             case "customers":
                 menuInhalt[6] = document.createElement('span');
@@ -120,12 +120,12 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('id', 'Password');
                 menuInhalt[6].setAttribute('id', 'Contact');
 
-                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
-                menuInhalt[2].innerHTML = (json[i].firstid == "") ? "tbd" : json[i].firstid;
-                menuInhalt[3].innerHTML = (json[i].lastid == "") ? "tbd" : json[i].lastid;
-                menuInhalt[4].innerHTML = (json[i].email == "") ? "tbd" : json[i].email;
-                menuInhalt[5].innerHTML = (json[i].password == "") ? "tbd" : json[i].password;
-                menuInhalt[6].innerHTML = (json[i].contact.id == "") ? "tbd" : json[i].contact.id;
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
+                menuInhalt[2].innerHTML = (json[i].firstid == "") ? "None" : json[i].firstid;
+                menuInhalt[3].innerHTML = (json[i].lastid == "") ? "None" : json[i].lastid;
+                menuInhalt[4].innerHTML = (json[i].email == "") ? "None" : json[i].email;
+                menuInhalt[5].innerHTML = (json[i].password == "") ? "None" : json[i].password;
+                menuInhalt[6].innerHTML = (json[i].contact.id == "") ? "None" : json[i].contact.id;
                 break;
             case "orders":
                 menuInhalt[2].removeAttribute('contenteditable');
@@ -151,21 +151,21 @@ function loadJSONToTable(json, index) {
                     items[k] = json[i].items[k].name;
                 }
 
-                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
-                menuInhalt[2].innerHTML = (items == "") ? "tbd" : items;
-                menuInhalt[3].innerHTML = (json[i].total == "") ? "tbd" : json[i].total;
-                menuInhalt[4].innerHTML = (json[i].customerid == "") ? "tbd" : json[i].customerid;
-                menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "tbd" : json[i].contact.name;
-                menuInhalt[6].innerHTML = (json[i].done == "") ? "tbd" : json[i].done;
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
+                menuInhalt[2].innerHTML = (items == "") ? "None" : items;
+                menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
+                menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
+                menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
+                menuInhalt[6].innerHTML = (json[i].done == "") ? "None" : json[i].done;
                 break;
             case "extras":
                 menuInhalt[1].setAttribute('id', 'ID');
                 menuInhalt[2].setAttribute('id', 'Name');
                 menuInhalt[3].setAttribute('id', 'Preis');
 
-                menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
-                menuInhalt[2].innerHTML = (json[i].name == "") ? "tbd" : json[i].name;
-                menuInhalt[3].innerHTML = (json[i].preis == "") ? "tbd" : json[i].preis;
+                menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
+                menuInhalt[2].innerHTML = (json[i].name == "") ? "None" : json[i].name;
+                menuInhalt[3].innerHTML = (json[i].preis == "") ? "None" : json[i].preis;
                 break;
         }
 
@@ -201,13 +201,13 @@ function loadContact(json) {
 
 function loadContactOrder(json) {
 
-    document.getElementById("modalContactsTitle").innerHTML = json.name;
-    document.getElementById("Name").innerHTML = json.name;
-    document.getElementById("Postcode").innerHTML = json.postcode;
-    document.getElementById("Street").innerHTML = json.street;
-    document.getElementById("City").innerHTML = json.city;
-    document.getElementById("Nr").innerHTML = json.nr;
-    document.getElementById("Phone").innerHTML = json.phone;
+    document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
+    document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
+    document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
+    document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
+    document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
+    document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
+    document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
 }
 
 function loadExtras(product) {
@@ -226,7 +226,7 @@ function loadExtras(product) {
         var span = document.createElement('span');
 
         input.setAttribute('type', 'checkbox');
-        span.innerHTML = extras[i].name;
+        span.innerHTML = " " + extras[i].name;
         span.onkeydown = function() {
             this.setAttribute('class', 'bg-warning');
         };
@@ -288,12 +288,11 @@ function loadItems(json) {
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
 
-        menuInhalt[1].innerHTML = json[i].name;
-        menuInhalt[2].innerHTML = json[i].size;
-        menuInhalt[3].innerHTML = json[i].price;
-        var extras = (json[i].extras.length == 0) ? "None" : json[i].extras
-        menuInhalt[4].innerHTML = extras;
-        menuInhalt[5].innerHTML = json[i].count;
+        menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
+        menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
+        menuInhalt[3].innerHTML = (json[i].price == "") ? "None" : json[i].price;
+        menuInhalt[4].innerHTML = (json[i].extras.length == 0) ? "None" : json[i].extras;;
+        menuInhalt[5].innerHTML = (json[i].count == "") ? "None" : json[i].count;
 
 
         menuInhalt[4].removeAttribute('contenteditable');
