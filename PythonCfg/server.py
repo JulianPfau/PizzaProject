@@ -4,8 +4,27 @@ import ajaxGoogleAPI
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "../img/"
-json_dir = server_root + "../json/"
+json_dir = server_root + "/json/"
 # commit
+
+
+def saveJSON(request):
+	global json_dir
+	try:
+		with open(json_dir + request["fileName"] + ".json", "w") as file:
+			file.write(json.dumps(request["jsonData"]))
+
+		response = {
+			'STATUS': 'OK'
+		}
+
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	response = json.dumps(response)
+	return response
+
 
 def jsonData(request):
 	print(request)
@@ -43,7 +62,7 @@ def fileupload(request):
 
 def imglist():
 	global img_dir
-	imglist = os.listdir(img_dir)
+	imglist = os.listdir(server_root+"/img/")
 	return json.dumps(imglist)
 
 
@@ -99,6 +118,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 			if data['request'] == 'ajaxGoogleAPI':
 				response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
 				self.wfile.write(bytes(response, 'UTF8'))
+			if data['request'] == 'saveJSON':
+				response = saveJSON(data)
+				self.wfile.write(bytes(response, 'UTF8'))
 
 		except IOError:
 			self.send_error(404, "Something went wrong")
@@ -121,7 +143,6 @@ server.socket = ssl.wrap_socket(server.socket,
 								certfile=server_dir + '/server_org.pem',
 								ssl_version=ssl.PROTOCOL_TLSv1
 								)
-
 try:
 	while 1:
 		sys.stdout.flush()
