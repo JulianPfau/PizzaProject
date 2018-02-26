@@ -151,7 +151,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "tbd" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "tbd" : items;
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "tbd" : json[i].total;
-                menuInhalt[4].innerHTML = (json[i].customerID == "") ? "tbd" : json[i].customerID;
+                menuInhalt[4].innerHTML = (json[i].customerid == "") ? "tbd" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "tbd" : json[i].contact.name;
                 menuInhalt[6].innerHTML = (json[i].done == "") ? "tbd" : json[i].done;
                 break;
