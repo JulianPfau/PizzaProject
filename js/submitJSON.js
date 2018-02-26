@@ -11,22 +11,25 @@ var extras;
 
     Nothing happens on Error.
 */
-
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
     var xhr = new XMLHttpRequest()
 
     xhr.onreadystatechange = function () {
-
+        //readystate == 4       = Request is DONE
+        //status == 200         = was successful
         if (xhr.readyState == 4 && xhr.status == "200") {
+            //Creating element from the responsetext
             var element = JSON.parse(this.responseText);
+            //Calling the function with the object as parameter);
             cFunction(element, file);
         } else {
             //Nothing here, as this is called multiple times, even if it is successful.
         }
     }
-
+    //Initializes the request
     xhr.open('GET', url, true);
+    //Sends the request
     xhr.send(null);
 }
 
