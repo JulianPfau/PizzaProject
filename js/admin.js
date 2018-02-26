@@ -3,15 +3,6 @@ function saveInput() {
     alert(search);
 }
 
-function myFunction() {
-    var x = document.getElementById("Topnav");
-    if (x.className === "topnav") {
-        x.className += " responsive";
-    } else {
-        x.className = "topnav";
-    }
-}
-
 function updateTable(table, value) {
     var rows = document.getElementsByClassName("tr menuElement");
 
@@ -61,5 +52,12 @@ function updateTable(table, value) {
                 }
             }
         }
+
+function myFunction() {
+    var x = document.getElementById("Topnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
     }
 }
