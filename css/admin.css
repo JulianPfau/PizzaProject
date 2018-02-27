@@ -219,7 +219,7 @@ li:nth-child(3) button {
     background-size: 100% 100%;
 }
 
-button {
+.indexbutton {
     position: relative;
     background-size: 25% 25%;
     width: 256px;
