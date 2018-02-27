@@ -11,15 +11,17 @@
     <script src="../js/bootstrap.js"></script>
     <script src="../js/submitJSON.js"></script>
     <script src="../js/uploadImage.js"></script>
+    <script src="../js/admin.js"></script>
 </head>
 <body class="light-grey">
-    <div class="topnav" id="Topnav">
+<div class="container">
+    <div class="topnav" id="navbar">
         <a href="orders.html"> Bestellungen </a>
         <a href="menu.html"> Speisekarte </a>
         <a href="customers.html"> Benutzer </a>
         <a href="extras.html"> Extras </a>
         <a class="active" href="#"> File Upload </a>
-        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="unfold()">&#9776;</a>
         <div class="search-container">
             <form action="">
                 <input type="text" placeholder="Suchen.." name="search">
@@ -50,5 +52,6 @@
       ">
         <strong> Drag & Drop files to upload </strong>
     </div>
+</div>
 </body>
 </html>

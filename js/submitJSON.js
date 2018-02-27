@@ -186,9 +186,9 @@ function loadJSONToTable(json, index) {
 function splitArray(array) {
     var str = "";
     for (var i = 0; i < array.length; i++) {
-        str += array[i] + ";";
+        str += array[i] + "; ";
     }
-    str = str.substr(0, str.length - 1);
+    str = str.substr(0, str.length - 2);
     return str;
 }
 
