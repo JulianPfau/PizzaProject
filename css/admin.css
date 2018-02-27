@@ -207,23 +207,23 @@ li {
     margin: 0 20px;
 }
 li:nth-child(1) button {
-    background: url("https://www.shareicon.net/download/2017/01/06/868300_business_512x512.png");
+    background: url(../img/orders.png);
     background-size: 100% 100%;
 }
 li:nth-child(2) button {
-    background: url("http://topslice.ca/wp-content/uploads/2016/03/pizza-icon-65951.png");
+    background: url(../img/menu.png);
     background-size: 100% 100%;
 }
 li:nth-child(3) button {
-    background: url("http://icons.iconarchive.com/icons/martz90/circle/512/contacts-icon.png");
+    background: url(../img/customers.png);
     background-size: 100% 100%;
 }
 
 .indexbutton {
     position: relative;
     background-size: 25% 25%;
-    width: 256px;
-    height: 256px;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
     border: 5px solid white;
     color: white;
