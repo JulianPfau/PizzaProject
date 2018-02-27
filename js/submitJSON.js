@@ -70,8 +70,10 @@ function loadJSONToTable(json, index) {
             menuInhalt[n] = document.createElement('span');
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
-            menuInhalt[n].onkeydown = function() {
-                this.setAttribute('class', 'bg-warning');
+            menuInhalt[n].onkeydown = function(event) {
+                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+                if (!keys.includes(event.keyCode))
+                    this.setAttribute('class', 'bg-warning');
             };
         }
         menuInhalt[0] = document.createElement('input');
@@ -344,4 +346,15 @@ function markDelete(box) {
     } else {
         box.parentElement.parentElement.setAttribute('class','tr menuElement');
     }
+}
+
+function logOut() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./index.html", true);
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
+    xhr.onload = function () {
+        console.log(xhr.responseText);
+        window.location = "../index.html"
+    };
+    xhr.send();
 }
