@@ -152,3 +152,9 @@ new HoverButton(btn2);
 
 var btn3 = document.querySelector('li:nth-child(3) button');
 new HoverButton(btn3);
+
+var btn4 = document.querySelector('li:nth-child(4) button');
+new HoverButton(btn4);
+
+var btn5 = document.querySelector('li:nth-child(5) button');
+new HoverButton(btn5);
