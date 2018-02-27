@@ -7,7 +7,7 @@ function uploadFile(tmpFile) {
     senddata.date = tmpFile.lastModified;
     senddata.size = tmpFile.size;
     senddata.type = tmpFile.type;
-
+    var res;
     reader.onload = function (theFileData) {
         senddata.fileData = theFileData.target.result; // Ergebnis vom FileReader auslesen
 
@@ -15,13 +15,15 @@ function uploadFile(tmpFile) {
 
         var data = JSON.stringify(senddata);
 
-        xhttp.open("POST", "https://localhost:8080", true);
+        xhttp.open("POST", "https://localhost:8080",false);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(data);
+
+        res = xhttp.responseText;
     }
 
     reader.readAsDataURL(tmpFile);
-
+    return res;
 }
 
 function dragHandler(evt){
@@ -35,8 +37,7 @@ function dropHandler(ev) {
     var files = ev.dataTransfer.files;
 
     for(var i = 0; i < ev.dataTransfer.files.length ; i++){
-        uploadFile(files[i]);
-
+        console.log(uploadFile(files[i]));
     }
     listImages();
 }
