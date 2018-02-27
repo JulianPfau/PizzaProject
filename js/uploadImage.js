@@ -15,7 +15,7 @@ function uploadFile(tmpFile) {
 
         var data = JSON.stringify(senddata);
 
-        xhttp.open("POST", "https://localhost:8080",false);
+        xhttp.open("POST", "https://localhost:8080", true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(data);
 
@@ -26,7 +26,13 @@ function uploadFile(tmpFile) {
     return res;
 }
 
-function dragHandler(evt){
+/*
+*   Handler um das standard "drag"-Event des Browsers zu unterbinden
+*
+*   Parameter
+*   evt - "drag"-Event des Browsers
+ */
+function dragHandler(evt) {
     evt.preventDefault();
     evt.stopPropagation();
 }
@@ -37,12 +43,20 @@ function dropHandler(ev) {
     var files = ev.dataTransfer.files;
 
     for(var i = 0; i < ev.dataTransfer.files.length ; i++){
-        console.log(uploadFile(files[i]));
-    }
-    listImages();
-}
+        uploadFile(files[i]);
 
-function dragEndHandler(evt){
+    }
+}
+/*
+*   Handler um das standard "dropEnd"-Event des Browsers zu unterbinden
+*   und sobald die Datei gedroppt wurde alle Items aus dem Speicher
+*   dataTransfer entfernen
+*
+*   Parameter
+*   evt - "dragEnd"-Event des Browsers
+*
+ */
+function dragEndHandler(evt) {
     evt.preventDefault();
     evt.stopPropagation();
     var dt = evt.dataTransfer;
@@ -55,8 +69,11 @@ function dragEndHandler(evt){
     }
 }
 
-
-function listImages(){
+/*
+*  Gibt ein Array aller Bilder im Verzeichnis "/img/menu" des Webservers aus
+*
+ */
+function listImages() {
     var xhttp = new XMLHttpRequest();
     var req = new Object();
     var res;
@@ -74,6 +91,16 @@ function listImages(){
     xhttp.send(data);
     return res;
 }
+
+
+/*
+*   Die dargestellt Tabelle wird Zeile für Zeile ausgelesen und in einem Array gespeichert.
+*   Anschließend wird dieses Objekt an die Uploadfunktion zusammen mit dem Dateinamen übergeben
+*
+*   Parameter
+*   table - Bezeichnung der Tabelle, die gespeichert werden soll
+*
+ */
 
 function saveTableToServer(table) {
     var rows = document.getElementsByClassName("tr menuElement");
@@ -106,24 +133,21 @@ function saveTableToServer(table) {
             break;
         case "menu":
             var node;
-            for (var i = 0; i < rows.length; i++){
+            for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].children;
-                //console.log(row);
-                for (var n = 1; n < row.length; n++){
+                for (var n = 1; n < row.length; n++) {
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
                     value = node.firstChild.innerHTML;
-                    //console.log(value);
-                    if (key == "img"){
+                    if (key == "img") {
                         var path = node.firstChild.src;
                         path = path.split("/");
                         value = path[5];
                         key = "picture";
-                    }else if(key == "pictureselection"){
+                    } else if (key == "pictureselection") {
                         value = node.firstChild.value;
-                    }
-                    else{
+                    } else {
                         value = node.firstChild.innerHTML;
                     }
                     if (value) {
@@ -136,7 +160,6 @@ function saveTableToServer(table) {
                 if(objElement.name && objElement.description) {
                     json.push(objElement);
                 }
-                console.log(json);
             }
             break;
 
@@ -176,10 +199,17 @@ function saveTableToServer(table) {
             }
             break;
     }
-    console.log(json);
     sendJSONtoServer(json,table);
 }
 
+/*
+*   Funktion um die übergebene JSON Daten an den Webserver zu übertragen per POST-Anfrage
+*
+*   Parameter
+*   jsonData - JSON Daten von Funktion saveTabletoServer();
+*   fileName - Name der Datei bzw. des Datensatzes
+*
+ */
 
 function sendJSONtoServer(jsonData,fileName){
     var xhttp = new XMLHttpRequest();
@@ -191,6 +221,16 @@ function sendJSONtoServer(jsonData,fileName){
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(JSON.stringify(data));
 }
+
+/*
+*   Funktion um ein Dropdown für Bilder zu erzeugen um somit Bilder
+*   den Datensätzen zuordnen zu können.
+*   Dabei wird das Dropdown anhand des Inputs des Feldes generiert.
+*
+*   Parameter
+*    param - HTML-Objekt des Input Feldes
+*
+ */
 
 function pictureSelection(param) {
 
@@ -229,6 +269,10 @@ function pictureSelection(param) {
 
         a.appendChild(b);
     }
+    /*
+    *   Funktion damit alle Elemente des Bilder Dropdowns gelöscht werden.
+    *
+     */
 
 
     function closeAllLists(elmnt) {
@@ -242,6 +286,41 @@ function pictureSelection(param) {
 
 }
 
+/*
+* Funktion um die existierende Tabelle mit einer Spalte für den Bilder zu
+* erweitern. Input Field wird mit dem Dateinamen des bereits bestehenden Bildes gefüllt.
+*
+ */
+function extendTable() {
+    var elements = document.getElementsByClassName("tr menuElement");
+    var headCol = document.createElement("div");
+    headCol.setAttribute("name", "pictureSelection");
+    headCol.setAttribute("class", "td");
+    headCol.innerHTML = "Picture selection";
+    document.getElementById('head').appendChild(headCol);
+
+    for (var i = 0; i < elements.length; i++) {
+        var elRow = document.createElement("div");
+        var input = document.createElement("input");
+
+        elRow.setAttribute("class", "td");
+        elRow.setAttribute("id", "autocomplete");
+        elRow.style.position = "relative";
+
+        input.setAttribute("class", "input");
+        input.setAttribute("id", "pictureSelection");
+        input.setAttribute('oninput', 'pictureSelection(this)');
+        var img = elements[i].children[elements[i].children.length - 1];
+
+        var value = img.firstChild.src.split("/");
+        input.value = value[value.length - 1];
+
+        elRow.appendChild(input);
+        elements[i].appendChild(elRow);
+
+    }
+
+}
 
 function loadJSONfromServer(name, callback){
     var xhttp = new XMLHttpRequest();
@@ -379,39 +458,5 @@ function createTablefromJSON(rawData){
         col.firstChild.innerHTML = "";
     }
     table.appendChild(emptyRow);
-
-}
-
-function extendTable() {
-    var elements = document.getElementsByClassName("tr menuElement");
-    var footer = document.getElementById("footer");
-    //console.log(elements);
-    var headCol = document.createElement("div");
-    headCol.setAttribute("name","pictureSelection");
-    headCol.setAttribute("class","td");
-    headCol.innerHTML = "Picture selection";
-    document.getElementById('head').appendChild(headCol);
-
-    for ( var i = 0; i < elements.length; i++){
-        var elRow = document.createElement("div");
-        var input = document.createElement("input");
-
-        elRow.setAttribute("class","td");
-        elRow.setAttribute("id", "autocomplete");
-        elRow.style.position = "relative";
-
-        input.setAttribute("class","input");
-        input.setAttribute("id","pictureSelection");
-        input.setAttribute('oninput', 'pictureSelection(this)');
-        var img = elements[i].children[elements[i].children.length -1];
-
-        var value = img.firstChild.src.split("/");
-        // img file name
-        input.value = value[value.length -1];
-
-        elRow.appendChild(input);
-        elements[i].appendChild(elRow);
-
-    }
 
 }
