@@ -61,7 +61,7 @@ def fileupload(request):
 			'img': request['name']
 		}
 
-		json.dumps(response)
+	response = json.dumps(response)
 	return response
 
 
