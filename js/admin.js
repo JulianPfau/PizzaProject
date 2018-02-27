@@ -35,7 +35,7 @@ function updateTable(table, value) {
 
                             break;
                         case "customers":
-                            if (node.id == "Contact" || node.id == "EMail") {
+                            if (node.id == "Contact" || node.id == "EMail" || node.id == "Firtname" || node.id == "Lastname") {
                                 if (!node.innerHTML.toUpperCase().includes(value.toUpperCase())) {
                                     node.parentElement.parentElement.style.display = 'none';
                                 }
