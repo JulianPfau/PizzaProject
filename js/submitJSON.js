@@ -90,6 +90,7 @@ function loadJSONToTable(json, index) {
 
                 //Inhalt Menu
                 menuInhalt[1].setAttribute('id', 'Name');
+                menuInhalt[1].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('id', 'Description');
                 menuInhalt[3].setAttribute('id', 'Prices');
                 menuInhalt[4].setAttribute('id', 'Sizes');
@@ -114,18 +115,19 @@ function loadJSONToTable(json, index) {
 
                 //Inhalt Menu
                 menuInhalt[1].setAttribute('id', 'ID');
-                menuInhalt[2].setAttribute('id', 'FirstID');
-                menuInhalt[3].setAttribute('id', 'LastID');
+                menuInhalt[1].removeAttribute('contenteditable');
+                menuInhalt[2].setAttribute('id', 'Firstname');
+                menuInhalt[3].setAttribute('id', 'Lastname');
                 menuInhalt[4].setAttribute('id', 'EMail');
                 menuInhalt[5].setAttribute('id', 'Password');
                 menuInhalt[6].setAttribute('id', 'Contact');
 
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
-                menuInhalt[2].innerHTML = (json[i].firstid == "") ? "None" : json[i].firstid;
-                menuInhalt[3].innerHTML = (json[i].lastid == "") ? "None" : json[i].lastid;
+                menuInhalt[2].innerHTML = (json[i].firstname == "") ? "None" : json[i].firstname;
+                menuInhalt[3].innerHTML = (json[i].lastname == "") ? "None" : json[i].lastname;
                 menuInhalt[4].innerHTML = (json[i].email == "") ? "None" : json[i].email;
                 menuInhalt[5].innerHTML = (json[i].password == "") ? "None" : json[i].password;
-                menuInhalt[6].innerHTML = (json[i].contact.id == "") ? "None" : json[i].contact.id;
+                menuInhalt[6].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
                 break;
             case "orders":
                 menuInhalt[2].removeAttribute('contenteditable');
@@ -140,6 +142,7 @@ function loadJSONToTable(json, index) {
 
                 //Inhalt Menu
                 menuInhalt[1].setAttribute('id', 'ID');
+                menuInhalt[1].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('id', 'Items');
                 menuInhalt[3].setAttribute('id', 'Total');
                 menuInhalt[4].setAttribute('id', 'CustomerID');
@@ -190,8 +193,8 @@ function splitArray(array) {
 }
 
 function loadContact(json) {
-    document.getElementsByClassName("modal-title")[0].innerHTML = (json.id == undefined) ? "" : json.id;
-    document.getElementById("IDContact").innerHTML = (json.id == undefined) ? "" : json.id;
+    document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
+    document.getElementById("IDContact").innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
     document.getElementById("Street").innerHTML = (json.street == undefined) ? "" : json.street;
     document.getElementById("City").innerHTML = (json.city == undefined) ? "" : json.city;
@@ -200,14 +203,34 @@ function loadContact(json) {
 }
 
 function loadContactOrder(json) {
-
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
+    document.getElementById("modalContactsTitle").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
+    document.getElementById("Name").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
+    document.getElementById("Postcode").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
+    document.getElementById("Street").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
+    document.getElementById("City").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
+    document.getElementById("Nr").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
+    document.getElementById("Phone").onkeydown = function() {
+        this.setAttribute('class', 'bg-warning');
+    };
 }
 
 function loadExtras(product) {
@@ -287,6 +310,7 @@ function loadItems(json) {
         }
         menuInhalt[0] = document.createElement('input');
         menuInhalt[0].setAttribute('type', 'checkbox');
+        menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
 
         menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
         menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
