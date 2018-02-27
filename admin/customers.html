@@ -22,7 +22,7 @@
             <a href="fileupload.html"> File Upload </a>
             <a href="javascript:void(0);" class="icon" onclick="unfold()">&#9776;</a>
             <div class="search-container">
-                    <input type="text" placeholder="Suchen.." id="input">
+                    <input type="text" oninput="itemSearch(this)" placeholder="Suchen.." id="input">
                     <button type="submit" onclick="saveInput('customers')"><i class="fa fa-search"></i></button>
             </div>
         </div>
@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    <script>getJsonByRequest(loadJSONToTable, "customers");;</script>
+    <script>getJsonByRequest(loadJSONToTable, "customers");</script>
 
 </body>
 </html>

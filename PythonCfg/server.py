@@ -120,6 +120,12 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', mime)
         self.end_headers()
 
+    def delete_header(self):
+        self.send_response(200)
+        self.send_header("Authorization"," ")
+        self.end_headers()
+        return "OK"
+
     def __convertHTML(self, path, encoding = 'UTF8'):
         return bytes(open(path, 'r').read(), encoding)
 
@@ -148,6 +154,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'saveJSON':
                 response = saveJSON(data)
                 self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'deleteHeader':
+                response = MyServer.delete_header(self)
+                self.wfile.write(bytes(response, "UTF8"))
         except IOError:
             self.send_error(404, "Something went wrong")
 
