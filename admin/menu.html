@@ -6,6 +6,7 @@
     <link href="../css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="../css/admin.css" rel="stylesheet" />
+    <script src="../js/admin.js"></script>
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
     <script src="../js/bootstrap.js"></script>
     <script src="../js/submitJSON.js"></script>
@@ -20,10 +21,8 @@
         <a href="extras.html"> Extras </a>
         <a href="fileupload.html"> File Upload </a>
         <div class="search-container">
-            <form action="">
-                <input type="text" placeholder="Suchen.." name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <input type="text" placeholder="Suchen.." id="input">
+            <button type="submit" onclick="saveInput('menu')"><i class="fa fa-search"></i></button>
         </div>
     </div>
 
@@ -50,7 +49,7 @@
             <div class="td"><span class="Input footer" id="Types" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
             <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
-            <div class="td" id="img"><img src="../img/pizza.png" id="img" width="25px"></div>
+            <div class="td" id="img"><img src="../img/menu/default.png" id="img" width="25px"></div>
         </div>
     </div>
 </div>
