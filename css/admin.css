@@ -3,12 +3,12 @@ header {
 }
 
 #dropZone {
-    position:fixed;
+    position:relative;
     top: 50%;
     left: 50%;
-    width:30em;
-    height:18em;
-    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    width: 600px;
+    height:500px;
+    margin-top: 10px; /*set to a negative number 1/2 of your height*/
     margin-left: -15em; /*set to a negative number 1/2 of your width*/
     border-style: dashed;
     background-color: #e9e9e9;
@@ -16,11 +16,11 @@ header {
     vertical-align: middle;
     line-height: 90px;
 }
-.row {
-    flex: 1;
-}
-header {
-    background: red;
+
+#dropZone:hover {
+    background-color: coral;
+    color: black;
+    transition: 0.3s;
 }
 
 .row {
@@ -80,8 +80,11 @@ body {
 .topnav input[type=text] {
     padding: 6px;
     margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 8px;
     font-size: 17px;
     border: none;
+    width: 170px;
 }
 
 .topnav .search-container button {
@@ -102,7 +105,7 @@ body {
 .topnav .icon{
     display: none;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
     .topnav a:not(:first-child) {display: none;}
     .topnav a.icon {
         float: right;
@@ -110,7 +113,7 @@ body {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
     .topnav.responsive {position: relative;}
     .topnav.responsive .icon {
         position: absolute;
