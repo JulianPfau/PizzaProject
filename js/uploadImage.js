@@ -460,3 +460,64 @@ function createTablefromJSON(rawData){
     table.appendChild(emptyRow);
 
 }
+
+function savePopup(btn){
+    var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
+    var list = modal.getElementsByTagName("label");
+    //console.log(getJsonByRequest(null,"extras"));
+    var extras = [];
+    var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
+    for (var i = 0; i < list.length; i++){
+        if (list[i].firstChild.checked){
+            extras.push(list[i].firstChild.id);
+        }
+    }
+    var row = document.getElementsByClassName("tr menuElement")[index].children;
+    for(var n = 0; n < row.length;n++){
+
+        if(row[n].firstChild.id.toLowerCase() == "extras"){
+           var input = row[n].firstChild;
+           var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
+           var paramString = onclickString[1].split("},")[0]+"}";
+           var object = JSON.parse(paramString);
+           object.extras = extras;
+           var param = JSON.stringify(object);
+           var fnstr = onclickString[0] + "loadExtras("+param+","+index+")";
+           input.setAttribute('onclick',fnstr);
+           input.innerHTML = splitArray(object.extras);
+
+        }
+
+    }
+
+    document.getElementById("closeModal").click();
+
+
+}
+
+function itemSearch(input){
+    var searchPattern = input.value.toLowerCase();
+    var content = "";
+    var rows = document.getElementsByClassName("tr menuElement");
+
+    for (var i = 0; i < rows.length;i++){
+        var element = rows[i];
+        var elements = rows[i].children;
+        for(var n = 0; n < elements.length; n++){
+            if(elements[i].id == "img"){
+
+                content += elements[n].firstChild.src + ",";
+            }else{
+                content += elements[n].innerText.toLowerCase()+ ",";
+            }
+        }
+        if(!content.includes(searchPattern)){
+            element.style.display = "none";
+        }else{
+            element.style.display = "table-row";
+        }
+        content ="";
+    }
+}
+
+
