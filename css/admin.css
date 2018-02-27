@@ -46,6 +46,15 @@ body {
     box-shadow: 0px 0px 10px rgba(0,0,0,.8);
 }
 
+.index{
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgrey;
+}
+
 .topnav {
     margin-top: 10px;
     overflow: hidden;
@@ -189,68 +198,41 @@ input[type=file] {
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
+    padding: 0;
 }
 
-#menu {
-    text-align: center; }
+li {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0 20px;
+}
+li:nth-child(1) button {
+    background: url("https://www.shareicon.net/download/2017/01/06/868300_business_512x512.png");
+    background-size: 100% 100%;
+}
+li:nth-child(2) button {
+    background: url("http://topslice.ca/wp-content/uploads/2016/03/pizza-icon-65951.png");
+    background-size: 100% 100%;
+}
+li:nth-child(3) button {
+    background: url("http://icons.iconarchive.com/icons/martz90/circle/512/contacts-icon.png");
+    background-size: 100% 100%;
+}
 
-
-.fader {
-    /* Giving equal sizes to each element */
-    width:    512px;
-    height:   512px;
-
-    /* Positioning elements in lines */
-    display:  inline-block;
-
-    /* This is necessary for position:absolute to work as desired */
+.indexbutton {
     position: relative;
-    margin-top: 20px;
-
-    /* Preventing zoomed images to grow outside their elements */
-    overflow: hidden; }
-
-
-.fader img {
-    /* Stretching the images to fill whole elements */
-    width:       80%;
-    height:      80%;
-
-    /* Preventing blank space below the image */
-    line-height: 0;
-
-    /* A one-second transition was to disturbing for me */
-    -webkit-transition: all 0.3s ease;
-    -moz-transition:    all 0.3s ease;
-    -o-transition:      all 0.3s ease;
-    -ms-transition:     all 0.3s ease;
-    transition:         all 0.3s ease;
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%)}
-
-.fader img:hover {
-    /* Making images appear bigger and transparent on mouseover */
-    opacity: 0.5;
-    width:   100%;
-    height:  100%;
-    -webkit-filter: grayscale(0%);
+    background-size: 25% 25%;
+    width: 256px;
+    height: 256px;
+    border-radius: 50%;
+    border: 5px solid white;
+    color: white;
+    font-weight: bold;
+    font-size: 50px;
+    cursor: pointer;
+    padding: 0;
+    filter: grayscale(100%);
+}
+button:hover{
     filter: grayscale(0%);
-    }
-
-.fader .text {
-    /* Placing text behind images */
-    z-index: -10;
-
-    /* Positioning text top-left conrner in the middle of elements */
-    position: absolute;
-    top:      50%;
-    left:     50%; }
-
-.fader .text p {
-    /* Positioning text contents 50% left and top relative
-       to text container's top left corner */
-    margin-top:  -50%;
-    margin-left: -50%; }
+}
