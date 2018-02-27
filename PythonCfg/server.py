@@ -82,8 +82,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
+
     def do_GET(self):
         global server_root
+        rootdir = server_root
         mime, encoding = mimetypes.guess_type(self.path)
         if ("admin" in self.path):
             if('Basic '+ MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers['Authorization'] == None):
@@ -93,14 +95,14 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             elif(self.headers['Authorization'] in 'Basic '+ MyServer.key.decode("utf-8")):
                 print("passed")
                 self.__set_header(mime)
-                self.__getfile(self.path, encoding)
+                self.__getfile(self.path,encoding,mime)
                 pass
         else:
             self.__set_header(mime)
-            self.__getfile(self.path, encoding)
+            self.__getfile(self.path,encoding,mime)
             pass
 
-    def __getfile(self,encoding):
+    def __getfile(self,path,encoding,mime):
         global server_root
         try:
             if encoding is None:
@@ -134,6 +136,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(request)
+        #print(type(data['request']))
         try:
             if data['request'] == 'fileUpload':
                 response = fileupload(data)
