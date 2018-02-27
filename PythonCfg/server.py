@@ -82,10 +82,8 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-
     def do_GET(self):
         global server_root
-        rootdir = server_root
         mime, encoding = mimetypes.guess_type(self.path)
         if ("admin" in self.path):
             if('Basic '+ MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers['Authorization'] == None):
@@ -95,14 +93,14 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             elif(self.headers['Authorization'] in 'Basic '+ MyServer.key.decode("utf-8")):
                 print("passed")
                 self.__set_header(mime)
-                self.__getfile(self.path,encoding,mime)
+                self.__getfile(self.path, encoding)
                 pass
         else:
             self.__set_header(mime)
-            self.__getfile(self.path,encoding,mime)
+            self.__getfile(self.path, encoding)
             pass
 
-    def __getfile(self,path,encoding,mime):
+    def __getfile(self,encoding):
         global server_root
         try:
             if encoding is None:
@@ -120,6 +118,12 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', mime)
         self.end_headers()
 
+    def delete_header(self):
+        self.send_response(200)
+        self.send_header("Authorization"," ")
+        self.end_headers()
+        return "OK"
+
     def __convertHTML(self, path, encoding = 'UTF8'):
         return bytes(open(path, 'r').read(), encoding)
 
@@ -130,7 +134,6 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(request)
-        #print(type(data['request']))
         try:
             if data['request'] == 'fileUpload':
                 response = fileupload(data)
@@ -148,6 +151,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'saveJSON':
                 response = saveJSON(data)
                 self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'deleteHeader':
+                response = MyServer.delete_header(self)
+                self.wfile.write(bytes(response, "UTF8"))
         except IOError:
             self.send_error(404, "Something went wrong")
 

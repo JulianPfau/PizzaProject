@@ -83,7 +83,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ')');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ','+ i +')');
 
                 menuInhalt[8] = document.createElement('img');
                 menuInhalt[8].setAttribute('id', 'img');
@@ -233,12 +233,14 @@ function loadContactOrder(json) {
     };
 }
 
-function loadExtras(product) {
+function loadExtras(product,index) {
 
     document.getElementById("modalExtrasItems").innerHTML = (product == undefined) ? "Extras" : product.name + " Extras";
     var extrasBox = document.getElementById("extrasBox");
+    extrasBox.setAttribute('name',index);
 
     while (extrasBox.firstChild) {
+        console.log(extrasBox.firstChild);
         extrasBox.removeChild(extrasBox.firstChild);
     }
 
@@ -249,6 +251,7 @@ function loadExtras(product) {
         var span = document.createElement('span');
 
         input.setAttribute('type', 'checkbox');
+        input.setAttribute('id',extras[i].id);
         span.innerHTML = " " + extras[i].name;
         span.onkeydown = function() {
             this.setAttribute('class', 'bg-warning');
