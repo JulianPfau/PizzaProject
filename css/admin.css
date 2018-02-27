@@ -231,4 +231,8 @@ button {
     font-size: 50px;
     cursor: pointer;
     padding: 0;
+    filter: grayscale(100%);
+}
+button:hover{
+    filter: grayscale(0%);
 }
