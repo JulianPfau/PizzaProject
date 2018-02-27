@@ -47,7 +47,7 @@ def fileupload(request):
 	try:
 		en_string = request['fileData']
 		global img_dir
-		f = open(img_dir+"/menu/" + request['name'], 'wb')  # Datei wird erstellt
+		f = open(img_dir + request['name'], 'wb')  # Datei wird erstellt
 		de_string = en_string.split(',')[1]
 		f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
 		f.close()							 # und abgespeichert
@@ -61,7 +61,7 @@ def fileupload(request):
 			'img': request['name']
 		}
 
-		json.dumps(response)
+	response = json.dumps(response)
 	return response
 
 
@@ -72,7 +72,47 @@ def imglist():
 
 
 class MyServer(http.server.BaseHTTPRequestHandler):
-	
+	def do_AUTHHEAD(self):
+		print("send header")
+		self.send_response(401)
+		self.send_header('WWW-Authenticate', 'Basic realm=\"test\"')
+		self.send_header('Content-type', 'text/html')
+		self.end_headers()
+
+
+	def do_GET(self):
+		global server_root
+		rootdir = server_root
+		mime, encoding = mimetypes.guess_type(self.path)
+
+		''' Present frontpage with user authentication. '''
+		if ("admin" in self.path and self.headers['Authorization'] == None ):
+			self.do_AUTHHEAD()
+			self.wfile.write('no auth header received')
+			pass
+		elif ("admin" in self.path and self.headers['Authorization'] == 'Basic QmFzaWM6dGVzdA=='):
+			self.__set_header(mime)
+			self.__getfile(self.path,encoding,mime)
+			pass
+		else:
+			self.__set_header(mime)
+			self.__getfile(self.path,encoding,mime)
+			# self.wfile.write(bytes('not authenticated',"UTF8"))
+			pass
+
+	def __getfile(self,path,encoding,mime):
+		global server_root
+		try:
+			if encoding is None:
+				f = open(server_root + self.path, 'rb')  # open requested file
+				self.wfile.write(bytes(f.read()))
+			else:
+				f = open(server_root + self.path)
+				self.wfile.write(bytes(f.read(), "UTF8"))
+				f.close()
+		except IOError:
+			self.send_error(404, "FILE NOT FOUND")
+
 	def __set_header(self, mime):
 		self.send_response(200)
 		self.send_header('Content-type', mime)
@@ -80,26 +120,6 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 	
 	def __convertHTML(self, path, encoding = 'UTF8'):
 		return bytes(open(path, 'r').read(), encoding)
-	
-	def do_GET(self):
-		global server_root
-		rootdir = server_root
-		mime, encoding = mimetypes.guess_type(self.path)
-
-		try:
-			self.__set_header(mime)
-			if encoding is None:
-				f = open(rootdir + self.path, 'rb')  # open requested file
-				self.wfile.write(bytes(f.read()))
-			else:
-				f = open(rootdir + self.path)
-				self.wfile.write(bytes(f.read(), "UTF8"))
-				f.close()
-
-			return
-
-		except IOError:
-			self.send_error(404, "FILE NOT FOUND")
 
 	def do_POST(self):
 		self.send_response(200)
