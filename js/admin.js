@@ -4,6 +4,15 @@ function saveInput(table) {
     updateTable(table, input);
 }
 
+function unfold() {
+    var x = document.getElementById("navbar");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}
+
 function updateTable(table, value) {
     var rows = document.getElementsByClassName("tr menuElement");
 
