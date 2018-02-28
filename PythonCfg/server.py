@@ -168,6 +168,7 @@ class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
 '''
 This sets the listening port, default port 8080
 '''
+
 if sys.argv[1:]:
     PORT = int(sys.argv[1])
 else:
@@ -178,10 +179,12 @@ server.socket = ssl.wrap_socket(server.socket,
                                 certfile=server_dir + '/server_org.pem',
                                 ssl_version=ssl.PROTOCOL_TLSv1
                                 )
+print("running..")
 try:
     while 1:
         sys.stdout.flush()
         server.handle_request()
+
 except KeyboardInterrupt:
     print("Shutting down server per users request.")
 
