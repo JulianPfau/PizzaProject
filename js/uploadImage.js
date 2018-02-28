@@ -484,12 +484,11 @@ function savePopup(btn){
            var param = JSON.stringify(object);
            var fnstr = onclickString[0] + "loadExtras("+param+","+index+")";
            input.setAttribute('onclick',fnstr);
-           input.innerHTML = splitArray(object.extras);
+           input.innerHTML = splitArray(object.extras).replace(/\s/g,'');
 
         }
 
     }
-
     document.getElementById("closeModal").click();
 
 
@@ -503,12 +502,19 @@ function itemSearch(input){
     for (var i = 0; i < rows.length;i++){
         var element = rows[i];
         var elements = rows[i].children;
-        for(var n = 0; n < elements.length; n++){
-            if(elements[i].id == "img"){
 
-                content += elements[n].firstChild.src + ",";
+        for(var n = 0; n < elements.length; n++){
+            if(elements[n].id == "img"){
+                content += elements[n].firstChild.src.split("/")[elements[n].firstChild.src.split("/").length - 1] + ",";
+            }else if(elements[n].children[0]){
+                if(elements[n].children[0].hasAttribute("onclick")){
+                    try {
+                        content += elements[n].firstChild.getAttribute('onclick').toString();
+                    }catch (err){
+                    }
             }else{
-                content += elements[n].innerText.toLowerCase()+ ",";
+                    content += elements[n].innerHTML.toLowerCase()+ ",";
+                }
             }
         }
         if(!content.includes(searchPattern)){
