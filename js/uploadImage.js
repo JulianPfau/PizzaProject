@@ -200,7 +200,7 @@ function saveTableToServer(table) {
             break;
     }
     console.log(json);
-    //sendJSONtoServer(json,table);
+    sendJSONtoServer(json,table);
 }
 
 /*
