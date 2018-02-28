@@ -199,7 +199,8 @@ function saveTableToServer(table) {
             }
             break;
     }
-    sendJSONtoServer(json,table);
+    console.log(json);
+    //sendJSONtoServer(json,table);
 }
 
 /*
@@ -484,12 +485,12 @@ function savePopup(btn){
            var param = JSON.stringify(object);
            var fnstr = onclickString[0] + "loadExtras("+param+","+index+")";
            input.setAttribute('onclick',fnstr);
-           input.innerHTML = splitArray(object.extras);
+           input.innerHTML = splitArray(object.extras).replace(/\s/g,'');
 
         }
 
     }
-
+    console.log(fnstr);
     document.getElementById("closeModal").click();
 
 
@@ -504,9 +505,8 @@ function itemSearch(input){
         var element = rows[i];
         var elements = rows[i].children;
         for(var n = 0; n < elements.length; n++){
-            if(elements[i].id == "img"){
-
-                content += elements[n].firstChild.src + ",";
+            if(elements[n].id == "img"){
+                content += elements[n].firstChild.src.split("/")[elements[n].firstChild.src.split("/").length - 1] + ",";
             }else{
                 content += elements[n].innerText.toLowerCase()+ ",";
             }
