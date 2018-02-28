@@ -199,7 +199,6 @@ function saveTableToServer(table) {
             }
             break;
     }
-    console.log(json);
     sendJSONtoServer(json,table);
 }
 
@@ -490,7 +489,6 @@ function savePopup(btn){
         }
 
     }
-    console.log(fnstr);
     document.getElementById("closeModal").click();
 
 
@@ -504,11 +502,19 @@ function itemSearch(input){
     for (var i = 0; i < rows.length;i++){
         var element = rows[i];
         var elements = rows[i].children;
+
         for(var n = 0; n < elements.length; n++){
             if(elements[n].id == "img"){
                 content += elements[n].firstChild.src.split("/")[elements[n].firstChild.src.split("/").length - 1] + ",";
+            }else if(elements[n].children[0]){
+                if(elements[n].children[0].hasAttribute("onclick")){
+                    try {
+                        content += elements[n].firstChild.getAttribute('onclick').toString();
+                    }catch (err){
+                    }
             }else{
-                content += elements[n].innerText.toLowerCase()+ ",";
+                    content += elements[n].innerHTML.toLowerCase()+ ",";
+                }
             }
         }
         if(!content.includes(searchPattern)){
