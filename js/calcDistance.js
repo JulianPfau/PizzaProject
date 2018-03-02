@@ -1,7 +1,9 @@
 //'use strict';
 
 function getPLZ() {
-  var plz = document.getElementById("plz").value;
+													//input feld muss diese Funtion bei onkeyup aufrufen
+													//Bsp.: <input type="text" id="fname" onkeyup="getPLZ()">
+  var plz = document.getElementById("plz").value;	//hier muss "plz" geändert werden!
   calcDistance(plz);
 }
 
@@ -15,7 +17,9 @@ function ajaxPLZ(pizza, user) {
   
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("ans").innerHTML = this.responseText;
+      document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rücmeldung
+																	//vom server kam -> hier ifabfrage und einfärbung
+																	//und blocken des weiter machen.
     }
   };
 
