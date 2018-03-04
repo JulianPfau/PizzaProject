@@ -1,6 +1,7 @@
 import sys, os, json, http.server, mimetypes, ssl,base64
 from socketserver import ThreadingMixIn
 import ajaxGoogleAPI
+import requestsJSON
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
@@ -157,6 +158,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'deleteHeader':
                 response = MyServer.delete_header(self)
                 self.wfile.write(bytes(response, "UTF8"))
+            if data['request'] == 'newOrder':
+                response = requestsJSON.appendOrder(json_dir, data)
+                self.wfile.write(bytes(response, "UTF8"))
+
         except IOError:
             self.send_error(404, "Something went wrong")
 
