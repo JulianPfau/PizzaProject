@@ -27,7 +27,7 @@ def saveJSON(request):
     return response
 
 
-def jsonData(request):
+def jsondata(request):
     print(request)
     try:
         global json_dir
@@ -72,8 +72,85 @@ def imglist():
     return json.dumps(imglist)
 
 
+def login(request):
+    try:
+        global json_dir
+        with open(json_dir + "customers.json") as json_data:
+            customers = json.load(json_data)
+
+        response = {
+            'STATUS': 'ERROR'
+        }
+        for customer in customers:
+            if (request["value"]["email"] == customer["email"]
+                    and request["value"]["password"] == customer["password"]):
+                response = {
+                    'STATUS': 'OK'
+                }
+        response = json.dumps(response)
+        return response
+
+    except IOError:
+        return False
+
+
+def register(request):
+    global json_dir
+
+    try:
+        with open(json_dir + "customers.json", "r+") as file:
+            contacts = json.loads(file.read())
+            number = 0
+            value = request["value"]
+            found = False
+
+            for contact in contacts:
+                if (value["email"] == contact["email"]):
+                    response = {
+                        'STATUS': 'ERROR'
+                    }
+                    found = True
+                    break
+
+                if (number < int(contact["id"])):
+                    number = int(contact["id"])
+
+            if (not found):
+                data = {
+                    "id": (number + 1),
+                    "firstname": value["firstname"],
+                    "lastname": value["lastname"],
+                    "email": value["email"],
+                    "password": value["password"],
+                    "contact": {
+                        "name": value["firstname"] + " " + value["lastname"],
+                        "postcode": value["postcode"],
+                        "street": value["street"],
+                        "city": value["city"],
+                        "nr": value["streetNr"],
+                        "phone": value["phone"]
+                    }
+                }
+                contacts.append(data)
+                file.seek(0)
+                file.truncate()
+                file.write(json.dumps(contacts))
+                response = {
+                    'STATUS': 'OK'
+                }
+
+        file.close()
+
+    except IOError:
+        response = {
+            'STATUS': 'ERROR'
+        }
+    response = json.dumps(response)
+    return response
+
+
 class MyServer(http.server.BaseHTTPRequestHandler):
-    key = "Basic:test" #Benutzer & Kennwort für admin Bereich
+    key = "Basic:test"  # Benutzer & Kennwort für admin Bereich
     key = base64.b64encode(bytes(key, "UTF8"))
 
     def do_AUTHHEAD(self):
@@ -83,15 +160,20 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-
     def do_GET(self):
         global server_root
-        rootdir = server_root
+        # rootdir = server_root
+
+        if (self.path == "/"):
+            self.path = "/index.html"
+        if (self.path == "/admin"):
+            self.path = "/admin.html"
+
         mime, encoding = mimetypes.guess_type(self.path)
         if ("admin" in self.path):
             if('Basic '+ MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers['Authorization'] == None):
                 self.do_AUTHHEAD()
-                self.wfile.write(bytes('no auth header received',"UTF8"))
+                self.wfile.write(bytes(open(server_root + "/401.html").read(),"UTF8"))
                 pass
             elif(self.headers['Authorization'] in 'Basic '+ MyServer.key.decode("utf-8")):
                 print("passed")
@@ -114,7 +196,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(f.read(), "UTF8"))
                 f.close()
         except IOError:
-            self.send_error(404, "FILE NOT FOUND")
+            self.wfile.write(bytes(open(server_root + "/404.html").read(),"UTF8"))
 
     def __set_header(self, mime):
         self.send_response(200)
@@ -137,7 +219,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(request)
-        #print(type(data['request']))
+
         try:
             if data['request'] == 'fileUpload':
                 response = fileupload(data)
@@ -146,8 +228,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = imglist()
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'jsonRequest':
-                response = jsonData(data)
-                #print(response)
+                response = jsondata(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'ajaxGoogleAPI':
                 response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
@@ -162,6 +243,12 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = requestsJSON.appendOrder(json_dir, data)
                 self.wfile.write(bytes(response, "UTF8"))
 
+            if data['request'] == 'login':
+                response = login(data)
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'register':
+                response = register(data)
+                self.wfile.write(bytes(response, 'UTF8'))
         except IOError:
             self.send_error(404, "Something went wrong")
 

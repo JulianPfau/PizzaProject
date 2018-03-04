@@ -37,11 +37,13 @@
         </div>
         <div class="tr menuElement" id="footer">
             <div class="td" ></div>
-            <div class="td" id="id"><span class="Input footer" id="ID" contenteditable="true" ></span></div>
+            <div class="td" id="id"><span class="Input footer" id="ID" contenteditable="true" onblur="loadNewFooter(this)"></span></div>
             <div class="td" id="name"><span class="Input footer" id="Name" contenteditable="true"></span></div>
             <div class="td" id="preis"><span class="Input footer" id="Preis" contenteditable="true"></span></div>
         </div>
     </div>
+    <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('extras');">Speichern</a>
+    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
 
 
