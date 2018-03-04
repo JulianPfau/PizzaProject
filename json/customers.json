@@ -1,13 +1,13 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "firstname": "Max",
     "lastname": "Mustermann",
     "email": "maxmusterman@test.com",
     "password": "12345",
     "contact": {
       "name": "Max Mustermann",
-      "postcode": "82299",
+      "postcode": 82299,
       "street": "Daheim",
       "city": "Musterstadt",
       "nr": "1",
@@ -15,14 +15,14 @@
     }
   },
   {
-    "id": "2",
+    "id": 2,
     "firstname": "Sabine",
     "lastname": "Musterfrau",
     "email": "sabinemusterfrau@test.com",
     "password": "password",
     "contact": {
       "name": "Sabine Musterfrau",
-      "postcode": "82299",
+      "postcode": 82299,
       "street": "Daheim",
       "city": "Musterstadt",
       "nr": "1",

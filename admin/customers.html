@@ -43,11 +43,13 @@
                 <div class="td"><span class="Input footer" id="ID" contenteditable="true" ></span></div>
                 <div class="td"><span class="Input footer" id="FirstID" contenteditable="true"></span></div>
                 <div class="td"><span class="Input footer" id="LastID" contenteditable="true"></span></div>
-                <div class="td"><span class="Input footer" id="E-Mail" contenteditable="true"></span></div>
+                <div class="td"><span class="Input footer" id="E-Mail" contenteditable="true" onblur="loadNewFooter(this)"></span></div>
                 <div class="td"><span class="Input footer" id="Password" contenteditable="true"></span></div>
                 <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(loadContact,'customers')"><span class="Input footer" id="Contact"></span></div>
             </div>
         </div>
+        <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('customers');">Speichern</a>
+        <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
     </div>
 
     <!-- Modal -->

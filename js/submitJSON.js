@@ -13,7 +13,7 @@ var extras;
 **/
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         //readystate == 4       = Request is DONE
@@ -26,7 +26,7 @@ function getJsonByRequest(cFunction, file) {
         } else {
             //Nothing here, as this is called multiple times, even if it is successful.
         }
-    }
+    };
     //Initializes the request
     xhr.open('GET', url, true);
     //Sends the request
@@ -35,7 +35,9 @@ function getJsonByRequest(cFunction, file) {
 
 //Called to load JSON Content into the table
 function loadJSONToTable(json, index) {
+
     getJsonByRequest(getExtras, "extras");
+
     var length;
     if (index == "menu") {
         length = 9;
@@ -72,8 +74,9 @@ function loadJSONToTable(json, index) {
             menuInhalt[n].setAttribute('contenteditable', 'true');
             menuInhalt[n].onkeydown = function(event) {
                 var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-                if (!keys.includes(event.keyCode))
-                    this.setAttribute('class', 'bg-warning');
+                if (!keys.includes(event.keyCode)) {
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    this.setAttribute('class', 'bg-warning');}
             };
         }
         menuInhalt[0] = document.createElement('input');
@@ -161,7 +164,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
                 menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
-                menuInhalt[6].innerHTML = (json[i].done == "") ? "None" : json[i].done;
+                menuInhalt[6].innerHTML = json[i].done;
                 break;
             case "extras":
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -170,7 +173,7 @@ function loadJSONToTable(json, index) {
 
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (json[i].name == "") ? "None" : json[i].name;
-                menuInhalt[3].innerHTML = (json[i].preis == "") ? "None" : json[i].preis;
+                menuInhalt[3].innerHTML = json[i].preis;
                 break;
         }
 
@@ -187,10 +190,10 @@ function loadJSONToTable(json, index) {
 
 function splitArray(array) {
     var str = "";
-    for (var i = 0; i < array.length; i++) {
-        str += array[i] + "; ";
+    for (var i = 0;i < array.length;i++) {
+        str += array[i] + ";";
     }
-    str = str.substr(0, str.length - 2);
+    str = str.substr(0, str.length - 1);
     return str;
 }
 
@@ -207,7 +210,10 @@ function loadContact(json) {
 function loadContactOrder(json) {
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
     document.getElementById("modalContactsTitle").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
     document.getElementById("Name").onkeydown = function() {
@@ -215,23 +221,38 @@ function loadContactOrder(json) {
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
     document.getElementById("Postcode").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
     document.getElementById("Street").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
     document.getElementById("City").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
     document.getElementById("Nr").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
     document.getElementById("Phone").onkeydown = function() {
-        this.setAttribute('class', 'bg-warning');
+        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+        if (!keys.includes(event.keyCode)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.setAttribute('class', 'bg-warning');}
     };
 }
 
@@ -242,7 +263,6 @@ function loadExtras(product,index) {
     extrasBox.setAttribute('name',index);
 
     while (extrasBox.firstChild) {
-        console.log(extrasBox.firstChild);
         extrasBox.removeChild(extrasBox.firstChild);
     }
 
@@ -256,9 +276,11 @@ function loadExtras(product,index) {
         input.setAttribute('id',extras[i].id);
         span.innerHTML = " " + extras[i].name;
         span.onkeydown = function() {
-            this.setAttribute('class', 'bg-warning');
+            var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+            if (!keys.includes(event.keyCode)) {
+                document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                this.setAttribute('class', 'bg-warning');}
         };
-
         if (product != undefined) {
             for (var k = 0; k < extras.length; k++) {
                 if (product.extras[k] == extras[i].id)
@@ -310,7 +332,10 @@ function loadItems(json) {
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
             menuInhalt[n].onkeydown = function() {
-                this.setAttribute('class', 'bg-warning');
+                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
+                if (!keys.includes(event.keyCode)) {
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    this.setAttribute('class', 'bg-warning');}
             };
         }
         menuInhalt[0] = document.createElement('input');
@@ -320,7 +345,7 @@ function loadItems(json) {
         menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
         menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
         menuInhalt[3].innerHTML = (json[i].price == "") ? "None" : json[i].price;
-        menuInhalt[4].innerHTML = (json[i].extras.length == 0) ? "None" : json[i].extras;;
+        menuInhalt[4].innerHTML = (json[i].extras.length == 0) ? "None" : json[i].extras;
         menuInhalt[5].innerHTML = (json[i].count == "") ? "None" : json[i].count;
 
 
@@ -350,11 +375,68 @@ function markDelete(box) {
 
 function logOut() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "./index.html", true);
+    xhr.open("GET", "./admin.html", true);
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
     xhr.onload = function () {
-        console.log(xhr.responseText);
+        console.log(xhr.response);
         window.location = "../index.html"
     };
     xhr.send();
+}
+
+function dropdownItems(json) {
+    while (document.getElementById("dropDownList").firstChild) {
+        document.getElementById("dropDownList").removeChild(document.getElementById("dropDownList").firstChild);
+    }
+
+    for (var i = 0; i < json.length; i++) {
+        var dropDown = document.getElementById("dropDownList");
+        var li = document.createElement("li");
+        li.setAttribute('class', 'align-baseline');
+        li.setAttribute("onClick", "fillItems(this, " + JSON.stringify(json[i]) + ")");
+        li.innerHTML = json[i].name;
+        dropDown.appendChild(li);
+    }
+}
+
+function fillItems(btn, json) {
+    var span = btn.parentElement.parentElement;
+    span.getElementsByTagName("span")[0].innerHTML = json.name;
+
+    var row = span.parentElement.parentElement.children;
+    console.log(json);
+    row[2].firstChild.innerHTML = json.sizes[json.sizes.length - 1];
+    row[3].firstChild.innerHTML = json.prices[json.prices.length - 1];
+}
+
+function loadNewFooter(span) {
+    if (span.innerHTML != "") {
+        var row = span.parentElement.parentElement;
+        row.removeAttribute("id");
+        row.parentElement.appendChild(row.cloneNode(true));
+        row.setAttribute("id", "footer")
+
+        for (var k = 0; k < row.children.length; k++) {
+            if (row.children[k].firstChild != null) {
+                row.children[k].firstChild.setAttribute("class", "Input bg-warning");
+                row.children[k].firstChild.removeAttribute("onBlur");
+            }
+        }
+
+        var del = document.createElement('input');
+        del.setAttribute('type', 'checkbox');
+        del.setAttribute('onchange', 'markDelete(this)');
+
+        row.firstElementChild.appendChild(del);
+
+        var newRow = row.parentElement.lastChild;
+        for (var i = 0; i < newRow.childNodes.length; i++) {
+            if (newRow.childNodes[i].firstElementChild != null) {
+                newRow.childNodes[i].firstElementChild.innerHTML = "";
+                newRow.childNodes[i].firstElementChild.removeAttribute("bg-warning");
+                if (newRow.childNodes[i].id == "img")
+                    newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
+            }
+        }
+    }
 }

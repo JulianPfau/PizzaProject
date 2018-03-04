@@ -5,6 +5,7 @@
     <title> Benutzerverwaltung </title>
     <link href="../css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <link href="../css/admin.css" rel="stylesheet" />
     <script src="../js/admin.js"></script>
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
@@ -64,7 +65,13 @@
                         </div>
                         <div class="tr" id="modal-footer">
                             <div class="td"></div>
-                            <div class="td"><span class="Input footer" id="ItemName" contenteditable="true" ></span></div>
+                            <div class="td">
+                                <div class="dropdown" data-toggle="dropdown" onclick="getJsonByRequest(dropdownItems, 'menu')">
+                                    <span class="dropdown-toggle">New</span>
+                                    <ul class="dropdown-menu" id="dropDownList">
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="td"><span class="Input footer" id="Size" contenteditable="true"></span></div>
                             <div class="td"><span class="Input footer" id="Prices" contenteditable="true"></span></div>
                             <div class="td" data-toggle="modal" data-target="#modalExtras" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
@@ -141,7 +148,8 @@
             </div>
         </div>
     </div>
-
+    <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('orders');">Speichern</a>
+    <a class="btn btn-lg disabled" role="button" id="reload" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
     <script>getJsonByRequest(loadJSONToTable, "orders");</script>
 
 </div>
