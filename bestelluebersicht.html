@@ -7,6 +7,9 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/formularinput.js"></script>
 	<script src="js/uebersichterstellen.js"></script>
+    <script src="js/calcDistance.js"></script>
+
+
 </head>
 
 <body class="light-grey">
@@ -59,7 +62,8 @@
                     </div>
                     <div class="form-group">
                         <label for="postcode">PLZ</label>
-                        <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="PLZ">
+                        <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="PLZ" onkeyup="getPLZ()">
+                        <div id="ans"></div>
                     </div>
                     <div class="form-group">
                         <label for="town">Ort</label>

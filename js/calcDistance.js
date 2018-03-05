@@ -3,7 +3,7 @@
 function getPLZ() {
 													//input feld muss diese Funtion bei onkeyup aufrufen
 													//Bsp.: <input type="text" id="fname" onkeyup="getPLZ()">
-  var plz = document.getElementById("plz").value;	//hier muss "plz" geändert werden!
+  var plz = document.getElementById("postcode").value;	//hier muss "plz" geändert werden!
   calcDistance(plz);
 }
 
@@ -17,9 +17,17 @@ function ajaxPLZ(pizza, user) {
   
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rücmeldung
+      //document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rückmeldung
 																	//vom server kam -> hier ifabfrage und einfärbung
 																	//und blocken des weiter machen.
+        var distance = this.responseText;
+        if(distance <= 20000){
+          document.getElementById("postcode").style.backgroundColor = 'green';
+          }
+          if(distance > 20000){
+              document.getElementById("postcode").style.backgroundColor = 'red';
+          }
+
     }
   };
 
