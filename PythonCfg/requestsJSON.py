@@ -53,3 +53,33 @@ def appendOrder(json_dir, request):
 		}
 	response = json.dumps(response)
 	return response
+
+'''
+JSON-String to get a Order by it's ID
+	{
+		"request" : "getOrder",
+		"file" : "orders",
+		"order_id" : ""
+	}
+'''
+def getOrderbyId(json_dir,  request):
+	try:
+		with open(json_dir + request["file"] + ".json", "r") as f:
+			data = json.load(f)
+			
+		pos = 0
+		for i in range(len(data)-1):
+			if data[i]["id"] == request["order_id"]:
+				pos = i
+				break
+				
+		response = {
+			'STATUS' : 'OK',
+			'response_data' : data[pos]
+		}
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	response = json.dumps(response)
+	return response
