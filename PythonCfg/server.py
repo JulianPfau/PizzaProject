@@ -256,7 +256,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'newOrder':
                 response = requestsJSON.appendOrder(json_dir, data)
                 self.wfile.write(bytes(response, "UTF8"))
-
+            if data['request'] == 'getOrder':
+                response = requestsJSON.getOrderbyId(json_dir, data)
+                self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'login':
                 response = login(data)
                 self.wfile.write(bytes(response, 'UTF8'))
