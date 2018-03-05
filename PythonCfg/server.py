@@ -1,11 +1,21 @@
-import sys, os, json, http.server, mimetypes, ssl,base64
+import base64
+import http.server
+import json
+import mimetypes
+import os
+import ssl
+import sys
 from socketserver import ThreadingMixIn
+
 import ajaxGoogleAPI
 import requestsJSON
+
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
 json_dir = server_root + "/json/"
+
+
 # commit
 
 
@@ -51,7 +61,7 @@ def fileupload(request):
         f = open(img_dir + "/menu/" + request['name'], 'wb')  # Datei wird erstellt
         de_string = en_string.split(',')[1]
         f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
-        f.close()							 # und abgespeichert
+        f.close()  # und abgespeichert
         response = {
             'STATUS': 'OK',
             'imgPath': str("../img/menu/" + request['name'])
@@ -68,7 +78,7 @@ def fileupload(request):
 
 def imglist():
     global img_dir
-    imglist = os.listdir(server_root+"/img/menu/")
+    imglist = os.listdir(server_root + "/img/menu/")
     return json.dumps(imglist)
 
 
@@ -166,26 +176,30 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
         if (self.path == "/"):
             self.path = "/index.html"
-        if (self.path == "/admin"):
-            self.path = "/admin.html"
+
+        if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
+                ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(
+            ".png") or self.path.endswith(".jpg") or self.path.endswith(".ico"))):
+            self.path += ".html"
 
         mime, encoding = mimetypes.guess_type(self.path)
         if ("admin" in self.path):
-            if('Basic '+ MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers['Authorization'] == None):
+            if ('Basic ' + MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers[
+                'Authorization'] == None):
                 self.do_AUTHHEAD()
-                self.wfile.write(bytes(open(server_root + "/401.html").read(),"UTF8"))
+                self.wfile.write(bytes(open(server_root + "/401.html").read(), "UTF8"))
                 pass
-            elif(self.headers['Authorization'] in 'Basic '+ MyServer.key.decode("utf-8")):
+            elif (self.headers['Authorization'] in 'Basic ' + MyServer.key.decode("utf-8")):
                 print("passed")
                 self.__set_header(mime)
-                self.__getfile(self.path,encoding,mime)
+                self.__getfile(self.path, encoding, mime)
                 pass
         else:
             self.__set_header(mime)
-            self.__getfile(self.path,encoding,mime)
+            self.__getfile(self.path, encoding, mime)
             pass
 
-    def __getfile(self,path,encoding,mime):
+    def __getfile(self, path, encoding, mime):
         global server_root
         try:
             if encoding is None:
@@ -196,7 +210,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(f.read(), "UTF8"))
                 f.close()
         except IOError:
-            self.wfile.write(bytes(open(server_root + "/404.html").read(),"UTF8"))
+            self.wfile.write(bytes(open(server_root + "/404.html").read(), "UTF8"))
 
     def __set_header(self, mime):
         self.send_response(200)
@@ -205,11 +219,11 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
     def delete_header(self):
         self.send_response(200)
-        self.send_header("Authorization"," ")
+        self.send_header("Authorization", " ")
         self.end_headers()
         return "OK"
 
-    def __convertHTML(self, path, encoding = 'UTF8'):
+    def __convertHTML(self, path, encoding='UTF8'):
         return bytes(open(path, 'r').read(), encoding)
 
     def do_POST(self):
@@ -279,4 +293,3 @@ try:
 
 except KeyboardInterrupt:
     print("Shutting down server per users request.")
-
