@@ -22,8 +22,9 @@
         <a href="fileupload.html"> File Upload </a>
         <a href="javascript:void(0);" class="icon" onclick="unfold()">&#9776;</a>
         <div class="search-container">
-            <input type="text" placeholder="Suchen.." id="input" oninput="itemSearch(this);">
-            <button type="submit" onclick="saveInput('menu')"><i class="fa fa-search"></i></button>
+            <input type="text" oninput="itemSearch(this)" placeholder="Suchen.." id="input">
+            <button type="submit" onclick="logOut()"><i class="fa fa-sign-out"></i></button>
+            <button type="submit" onclick="saveInput('customers')"><i class="fa fa-search"></i></button>
         </div>
     </div>
 
