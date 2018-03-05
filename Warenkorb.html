@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+
+<html lang="de">
+
+<head>
+    <title>PizzaProjekt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=2.0" charset="UTF-8"/>
+    <link rel="icon" href="./img/favicon.ico">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/pizza.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/accounts.js"></script>
+    <script src="js/Warenkorb.js"></script>
+    
+<script>
+        
+function bestellen () {
+
+    //Weiterleitung auf Bestellübersicht
+    location.href="https://localhost:8080/bestelluebersicht.html";
+        
+}
+
+</script>
+
+</head>
+
+<body>
+<p>Bestellung</p><p>
+<form>
+    <label for="pizzaIn">pizza:</label>
+    <input id="pizzaIn" type="text" name="pizzaIn" />
+    <br>
+    Größe
+    <br>
+    <label for="sizeS">klein<input id="sizeS" type="checkbox" name="klein" /></label>
+    <label for="sizeS">mittel<input id="sizeM" type="checkbox" name="mittel" /></label>
+    <label for="sizeS">groß<input id="sizeL" type="checkbox" name="groß" /></label>
+    <br>
+    <form>
+        <h3>Wählen Sie die Extras aus</h3>
+        <fieldset>
+    <ul>
+      <li> 
+        <label>
+          <input type="checkbox" name="zutat1" id="1" value="1">
+          Extra Käse
+        </label>
+      </li>
+      <li> 
+        <label>
+           <input type="checkbox" name="zutat2" id="2" value="2">
+           Oliven
+        </label>
+      </li>
+      <li>  
+        <label>
+          <input type="checkbox" name="zutat3" id="3" value="3">
+          scharf
+        </label>
+      </li>
+    </ul> 
+  </fieldset>
+    <br>
+    <label for="count">count:</label>
+    <input id="count" type="number" name="count"/>
+    <br>
+    <button typ="button" id="start" onclick="speicherntemp()">Extras</button>
+    <dialog id="dialog">
+        <h2>test<h2>
+    </dialog>
+    </dialog>
+    <br>
+    <button type="button" onclick="speicherntemp()">inWarenkorb</button>
+    <br>
+    <button type="button" onclick="bestellen()">bestellen</button>
+    <br>
+    
+</form>
+</body>
+</html>
