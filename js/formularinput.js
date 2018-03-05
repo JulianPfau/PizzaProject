@@ -4,9 +4,12 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    // click Event an Button anhängen
             var elem = document.getElementById('bestelluebersicht');
             elem.addEventListener('click', schreibe);
 
+
+    // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
             function schreibe() {
                 var firstname = document.getElementById('firstname').value;
 
@@ -24,7 +27,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 var phone = document.getElementById('phone').value;
 
-                var zahlung = document.getElementsByName('Zahlmethode').checked==true;
+                if(document.getElementById('bar').checked === true){
+                    var zahlung = "bar";
+                }
+                if(document.getElementById('mc').checked === true){
+                     zahlung = "mc";
+                }
+                if(document.getElementById('vi').checked === true){
+                     zahlung = "vi";
+                }
+                if(document.getElementById('ae').checked ===true){
+                     zahlung = "ae";
+                }
+
 
                 var objcontact = {
                         name: name,
@@ -32,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         street: street,
                         city: town,
                         nr: nr,
-                        phone: phone
+                        phone: phone,
+                        zahlung: zahlung
                 };
 
 			var bestellung = sessionStorage["bestellung"];
