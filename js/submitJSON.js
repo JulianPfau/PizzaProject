@@ -171,6 +171,9 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + i + ')' );
                 menuInhalt[2].setAttribute('identification', 'spanElement' + i);
 
+                //Setting an identifier for the total, so the sum can be calculated lateron.
+                menuInhalt[3].setAttribute('identification-of-total', 'total' + i);
+
                 //Sets everything to open Contact Popup
                 menuInhalt[5].removeAttribute('contenteditable');
                 menuInhalt[5].setAttribute('data-toggle', 'modal');
@@ -468,7 +471,7 @@ function loadItems(json, indexOfSpan) {
 
 
 
-    buttonModalItemsSave = document.getElementById("button-modal-items-save");
+    var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
 
 
@@ -593,94 +596,202 @@ function loadNewFooter(span) {
     }
 }
 
-
-
+/*
+ *  Function to store the changes made in the modal items window.
+ *
+ *  Parameters:
+ *      -   indexOfSpan:    int value to specify which element in which row was being clicked on
+ *                          This will help tu find in later on.
+ *
+ *  This is being called, when the save button of the modal items window (the one that is opened, when someone
+ *  on orders.html clicks on one of the "items" elements) is being pressed.
+ *
+ *  The items elements in the table of orders.html have following onclick-event:
+ *  EXAMPLE:     loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1}], 0)
+ *
+ *  This calls the loadItems() Function with the parameters:
+ *      -   jsonElement for the content:                    [{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1}]
+ *      -   int index of which element was clicked on:      0
+ *
+ *  The loadItems() Function builds the modal items window with the content that is given in the json object.
+ *
+ *  This(!) function (storeItemsInOrders) basically takes all the content of the modal-table and generates the onclick
+ *  attribute that looks like the example above. When this is generated, it is overwritten to the element that is found by
+ *  using the parameter indexOfSpan.
+ *
+ *
+ *  Last Change:    6.3.2018            Author:     Nickels Witte
+ */
 function storeItemsInOrders(indexOfSpan) {
 
-    //alert(indexOfSpan);
-
-    //Format: loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}], 0)
-
+    //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
+    //Getting all the entries with the class "menuElement", which basically are the tableRows (that are not marked to be deleted)
     var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
 
+    //This part will find the element that was clicked on by using the identifier
+    var thisElementThatWasClickedOn;
+    var itemsSpanElements = document.querySelectorAll('[identification]');
+    for (var i4 = 0, lengthOfSpanElements = itemsSpanElements.length; i4 < lengthOfSpanElements; ++i4) {
+        if (itemsSpanElements[i4].getAttribute("identification") == ("spanElement" + indexOfSpan)) {
+            thisElementThatWasClickedOn = itemsSpanElements[i4];
+        }
+    }
+
+    //This part will get the total element that is next to the items element, that was clicked on (The total cost element).
+    var totalElement;
+    var totalsSpanElements = document.querySelectorAll('[identification-of-total]');
+
+    for (var i5 = 0, lengthofTotalsSpanElements = totalsSpanElements.length; i5 < lengthofTotalsSpanElements; ++i5) {
+        if (totalsSpanElements[i5].getAttribute("identification-of-total") == ("total" + indexOfSpan)) {
+            totalElement = totalsSpanElements[i5];
+        }
+    }
+
+    //Storing the amount of menuElement-elements we have for further use.
+    var lengthOfEntriesOfTable = entriesOfTable.length;
+
+    //Array with the json keywords
     var jsonFormatting = ["name", "size", "price", "extras", "count"];
 
+    //When there are any elements that are not marked to be deleted (or in other words, if there are more than 0 elements
+    //with the class menuElement), then do the following
+    if (lengthOfEntriesOfTable > 0) {
 
+        //String where the onclickattribute will be stored in. It will have the following format:
+        //Format: loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}], 0)
+        var itemsStoredToJson = 'loadItems([';
+        //The names of all items for the table of orders.html
+        var namesOfItems = "";
+        //The sum of all the costs
+        var costSumOfAllItems = 0;
 
-    var itemsStoredToJson = 'loadItems([';
+        //First for loop to cycle through the rows
+        for (var i2 = 0; i2 < lengthOfEntriesOfTable; ++i2) {
+            //The beginning of one json element
+            itemsStoredToJson += '{';
 
-    for (var i2 = 0, lengthOfEntries = entriesOfTable.length; i2 < lengthOfEntries; ++i2) {
-        itemsStoredToJson += '{';
+            //Storing the count of this row for further use
+            var countOfThisRow = parseInt(entriesOfTable[i2].children[5].children[0].innerHTML);
 
+            //Second for loop to iterate through the actual table cells
+            for (var i3 = 1, lengthOfElements = 6; i3 < lengthOfElements; ++i3) {
+                //Getting the current element of the table
+                //This needs two children-calls, as the spans are nested in divs.
+                var currentElement = entriesOfTable[i2].children[i3].children[0];
 
-        for (var i3 = 1, lengthOfElements = 6; i3 < lengthOfElements; ++i3) {
+                //Switch to differenciate between the different kinds of cells
+                switch(i3) {
+                    //For the "name"
+                    case 1:
+                        //attaching "name":"VALUE" to the string
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        //Getting the count to properly display the names
 
-            switch(i3) {
-                //For the "name"
-                case 1:
-                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
-                    break;
+                        if (countOfThisRow == 1) {
+                            namesOfItems += currentElement.innerHTML;
+                        } else if (countOfThisRow > 1) {
+                            namesOfItems += countOfThisRow + " x " + currentElement.innerHTML;
+                        } else {
+                            //Nothing
+                        }
 
-                //For the "size"
-                case 2:
-                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
-                    break;
+                        //attaching the name to the string that will hold the names for further use
 
-                //For the Price
-                case 3:
-                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + entriesOfTable[i2].children[i3].children[0].innerHTML;
-                    break;
+                        break;
 
-                //For the extras
-                case 4:
-                    var extrasTemp = entriesOfTable[i2].children[i3].children[0].innerHTML;
-                    if (extrasTemp == "None") {
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[]';
-                    } else {
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[' + entriesOfTable[i2].children[i3].children[0].innerHTML + ']';
-                    }
-                    break;
-                //For the "count"
-                case 5:
-                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + entriesOfTable[i2].children[i3].children[0].innerHTML;
-                    break;
+                    //For the "size"
+                    case 2:
+                        //like above
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        break;
 
-                default:
+                    //For the Price
+                    case 3:
+                        //Here we dont use the "" to make it int.
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+
+                        //Getting the count of this row to use it to calculate the actual cost
+                        costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
+                        break;
+
+                    //For the extras
+                    case 4:
+                        //Extras are a little bit special: They are in an array itself and this needs to be considered.
+                        if (currentElement.innerHTML == "None") {
+                            itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[]';
+                        } else {
+                            itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[' + currentElement.innerHTML + ']';
+                        }
+                        break;
+                    //For the "count"
+                    case 5:
+                        //Same as in case 3
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+                        break;
+
+                    default:
                     //Nothing happens
 
+                }
+
+                //This happens every time after an table cell element, but not the last time
+                if (i3 < lengthOfElements - 1) {
+                    //attaching an comma to the string, so the json elements are properly seperated
+                    itemsStoredToJson += ',';
+                }
             }
 
-            //itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
-            //entriesOfTable[i2].children[i3].children[0]
+            //Attaching this to end the jsonElement
+            itemsStoredToJson += '}';
 
-            if (i3 < lengthOfElements - 1) {
+            //Things to do every end of a row, except the last time
+            if (i2 < lengthOfEntriesOfTable - 1) {
+                //separating the elements
                 itemsStoredToJson += ',';
+                //separating the names
+                namesOfItems += ', ';
             }
         }
 
-        itemsStoredToJson += '}';
-        if (i2 < lengthOfEntries - 1) {
-            itemsStoredToJson += ',';
+        //Ending the string with the end of the array and the index.
+        itemsStoredToJson += '], ' + indexOfSpan + ')';
+
+        //When there is a change in the data
+        if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
+            //then mark the element as being edited
+            thisElementThatWasClickedOn.className = "bg-warning";
         }
+
+        //This is then written to the onclick attribute of the original element (that was clicked on)
+        //So then, the next time the changed content is being loaded.
+        thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+        //The element's innerHTML gets the nameString, as the Items may have changed
+        thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+        //The Total also might have changed and this is updated too.
+        totalElement.innerHTML = costSumOfAllItems;
+
+
+
+
+        //In case of no Item that can be stored
+    } else {
+        //Setting the onclick attribute, but making the content empty
+        thisElementThatWasClickedOn.setAttribute('onclick', 'loadItems([], ' + indexOfSpan + ')');
+        //Setting the innerHTML
+        thisElementThatWasClickedOn.innerHTML = "Error: No Items";
+
+        //Because the total of no elements is 0
+        totalElement.innerHTML = 0;
+
+        //Finding the right checkboxElement
+        //This is that way, because the HTMLStructure is designed that way.
+        var checkboxElement = thisElementThatWasClickedOn.parentElement.parentElement.firstChild.firstChild;
+
+        //As there are no items, the whole order probably makes no sense anymore and I mark it to be deleted.
+        checkboxElement.checked = true;
+        markDelete(checkboxElement);
     }
-
-    itemsStoredToJson += '], ' + indexOfSpan + ')';
-    console.log(itemsStoredToJson);
-
-
-
-
-
-
-    var spansElements = document.querySelectorAll('[identification]');
-
-    for (var i4 = 0, lengthOfSpanElements = spansElements.length; i4 < lengthOfSpanElements; ++i4) {
-        if (spansElements[i4].getAttribute("identification") == ("spanElement" + indexOfSpan)) {
-            spansElements[i4].setAttribute('onclick', itemsStoredToJson);
-        }
-    }
-
-
 
 }
