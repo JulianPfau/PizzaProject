@@ -88,8 +88,7 @@ function loadJSONToTable(json, index) {
             //Also add the event for highlighting changes
             menuInhalt[n].onkeydown = function(event) {
                 //Key-Codes which will be ignored
-                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-                if (!keys.includes(event.keyCode)) {
+                if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     //Activates the del changes button
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
                     this.setAttribute('class', 'bg-warning');}
@@ -269,50 +268,43 @@ function loadContactOrder(json) {
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
     //Change Event
     document.getElementById("modalContactsTitle").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
     document.getElementById("Name").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+            if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
     document.getElementById("Postcode").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
     document.getElementById("Street").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
     document.getElementById("City").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
     document.getElementById("Nr").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
     document.getElementById("Phone").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.setAttribute('class', 'bg-warning');}
     };
@@ -352,8 +344,7 @@ function loadExtras(product,index) {
         //Content & Change Event for extra
         span.innerHTML = " " + extras[i].name;
         span.onkeydown = function() {
-            var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-            if (!keys.includes(event.keyCode)) {
+            if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                 document.getElementById("reload").setAttribute("class", "btn btn-lg active")
                 this.setAttribute('class', 'bg-warning');}
         };
@@ -427,8 +418,7 @@ function loadItems(json, element) {
             menuInhalt[n].setAttribute('contenteditable', 'true');
             //Onchange event
             menuInhalt[n].onkeydown = function() {
-                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-                if (!keys.includes(event.keyCode)) {
+                if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
                     this.setAttribute('class', 'bg-warning');}
             };
