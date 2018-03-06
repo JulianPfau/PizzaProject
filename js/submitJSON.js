@@ -1,6 +1,7 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
 var extras;
+var object;
 
 /**  Requests a JSON file in the /json directory of the server and calls a
     specified function with the parsed JSON Element as parameter.
@@ -135,7 +136,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
-                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ')');
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', this)');
 
                 menuInhalt[5].removeAttribute('contenteditable');
                 menuInhalt[5].setAttribute('data-toggle', 'modal');
@@ -277,7 +278,7 @@ function getExtras(json) {
     extras = json;
 }
 
-function loadItems(json) {
+function loadItems(json, elementThatWasClickedOn) {
     var table = document.getElementById("modal-table");
     var length = 6;
 
@@ -338,6 +339,14 @@ function loadItems(json) {
         }
 
     }
+
+    object = elementThatWasClickedOn;
+
+    var saveButton = document.getElementById("button-save-extras");
+    saveButton.setAttribute('onClick', 'saveChangesOfItems(object)');
+    //saveButton.onclick = saveChangesOfItems();
+
+
 }
 
 function markDelete(box) {
@@ -357,4 +366,30 @@ function logOut() {
         window.location = "../index.html"
     };
     xhr.send();
+}
+
+
+
+function saveChangesOfItems(elementToSaveTo) {
+    alert(elementToSaveTo.id);
+
+    elementToSaveTo.id = "neueId";
+
+
+    var tableModal = document.getElementById("modal-table");
+
+
+    //Get the chilren of the children of the tr menuElement elements (which are the spans) and store them in an array
+    //var spans = tableModal.chil
+
+    //get their values and format them
+
+    //store them in elementToSave.onclick properly
+
+
+
+
+
+
+
 }
