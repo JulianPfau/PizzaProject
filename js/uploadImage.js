@@ -20,7 +20,7 @@ function uploadFile(tmpFile) {
         xhttp.send(data);
 
         res = xhttp.responseText;
-    }
+    };
 
     reader.readAsDataURL(tmpFile);
     return res;
@@ -122,9 +122,14 @@ function saveTableToServer(table) {
                         var tmp = row[n].firstChild;
                         var data = tmp.onclick.toString().split("loadItems(")[1];
                         value = JSON.parse(data.split("\)")[0]);
-
                     } else {
                         value = row[n].firstChild.innerHTML;
+                        console.log(key);
+                        if (key == "id" || key == "done" || key == "customerid") {
+                            value = parseInt(value);
+                        } else if (key == "total") {
+                            value = parseFloat(value);
+                        }
                     }
                     objElement[key] = value;
                 }
@@ -149,10 +154,18 @@ function saveTableToServer(table) {
                         value = node.firstChild.value;
                     } else {
                         value = node.firstChild.innerHTML;
+                        if (key == "extras" && (value == "" || value == "None")) {
+                            value = [];
+                        }
                     }
                     if (value) {
                         if (value.includes(";")) {
                             value = value.split(";");
+                            if (key == "prices" || key == "extras") {
+                                for (var p = 0; p < value.length; p++) {
+                                    value[p] = parseFloat(value[p]);
+                                }
+                            }
                         }
                     }
                     objElement[key] = value;
@@ -169,12 +182,15 @@ function saveTableToServer(table) {
                 row = rows[i].childNodes;
                 for (var n = 1; n < row.length; n++){
                     key = row[n].firstChild.id.toLowerCase();
-                    if(key == "contact") {
+                    if (key == "contact") {
                         var tmp = row[n].firstChild;
                         var data = tmp.onclick.toString().split("loadContact(")[1];
                         value = JSON.parse(data.replace("\)","").replace("\}",""));
-                    }else {
+                    } else {
                         value = row[n].firstChild.innerHTML;
+                        if (key == "id") {
+                            value = parseInt(value);
+                        }
                     }
                     objElement[key] = value;
                 }
@@ -186,11 +202,12 @@ function saveTableToServer(table) {
             for (var i = 0; i < rows.length; i++){
                 var objElement = new Object();
                 row = rows[i].children;
-                //console.log(row);
                 for (var n = 1; n < row.length; n++){
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
                     value = node.firstChild.innerHTML;
+                    if (key == "id" || key == "preis")
+                        value = parseFloat(value);
                     objElement[key] = value;
                 }
                 if(objElement.id && objElement.name) {
@@ -200,7 +217,9 @@ function saveTableToServer(table) {
             break;
     }
     sendJSONtoServer(json,table);
+    location.reload();
 }
+
 
 /*
 *   Funktion um die übergebene JSON Daten an den Webserver zu übertragen per POST-Anfrage
@@ -259,6 +278,8 @@ function pictureSelection(param) {
         b.innerHTML += arrPictures[i].substr(input.length);
         b.innerHTML += "<input type='hidden' value='" + arrPictures[i] + "'>";
         b.addEventListener("click", function(e) {
+            this.parentElement.parentElement.getElementsByTagName("input")[0].style.backgroundColor = "#FFC107"
+            console.log(this.parentElement.getElementsByTagName("input")[0]);
             param.value = this.getElementsByTagName("input")[0].value;
             var parent = param.parentElement.parentElement;
             var cols = parent.children;
@@ -291,6 +312,7 @@ function pictureSelection(param) {
 * erweitern. Input Field wird mit dem Dateinamen des bereits bestehenden Bildes gefüllt.
 *
  */
+
 function extendTable() {
     var elements = document.getElementsByClassName("tr menuElement");
     var headCol = document.createElement("div");
@@ -310,6 +332,7 @@ function extendTable() {
         input.setAttribute("class", "input");
         input.setAttribute("id", "pictureSelection");
         input.setAttribute('oninput', 'pictureSelection(this)');
+
         var img = elements[i].children[elements[i].children.length - 1];
 
         var value = img.firstChild.src.split("/");
@@ -334,19 +357,19 @@ function loadJSONfromServer(name, callback){
     xhttp.onreadystatechange = function (ev) {
         res = xhttp.responseText;
 
-    }
+    };
 
     xhttp.send(JSON.stringify(senddata));
     callback(res);
 }
 
-
 function createTablefromJSON(rawData){
-    var json = JSON.parse(rawData)["jsonData"];
+    var json = rawData;
     var table = document.getElementsByClassName("table")[0];
     var arrKeys = Object.keys(json[0]);
     var tblHead,delHead;
     var picture = false;
+
     //remove all rows if exists
     while (table.firstChild) {
         table.removeChild(table.firstChild);
@@ -393,7 +416,7 @@ function createTablefromJSON(rawData){
             if (key == "picture"){
                 picture = true;
                 var content = document.createElement("img");
-                content.setAttribute("src","/img/"+value);
+                content.setAttribute("src","/img/menu/" + value);
                 content.setAttribute("id", key);
                 content.style.width = "30px";
 
@@ -420,12 +443,14 @@ function createTablefromJSON(rawData){
     // if pictures in table append selection
 
     if(picture){
+        /*
         var headCol = document.createElement("div");
 
         headCol.setAttribute("name","pictureSelection");
         headCol.setAttribute("class","td");
         headCol.innerHTML = "Picture selection";
         tblHead.appendChild(headCol);
+        */
 
         for(var i = 1; i < table.children.length; i++){
             var elRow = document.createElement("div");
@@ -441,7 +466,7 @@ function createTablefromJSON(rawData){
             input.setAttribute("id","pictureSelection");
             input.setAttribute('oninput', 'pictureSelection(this)');
 
-            var value = img.firstChild.src.split("/");
+            var value = img.parentElement.getElementsByClassName("td")[8].firstChild.src.split("/");
             // img file name
             input.value = value[value.length -1];
 
@@ -451,11 +476,14 @@ function createTablefromJSON(rawData){
 
     }
     //append empty row
-    var emptyRow = document.getElementById("table").lastChild.cloneNode(true);
+    var emptyRow = document.getElementsByClassName("table")[0].lastChild.cloneNode(true);
 
     for(var i = 0; i < emptyRow.children.length; i++){
         var col = emptyRow.childNodes[i];
         col.firstChild.innerHTML = "";
+        if (col.firstChild.nodeName == "INPUT") {
+            col.removeChild(col.firstChild);
+        }
     }
     table.appendChild(emptyRow);
 
@@ -469,7 +497,7 @@ function savePopup(btn){
     var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
     for (var i = 0; i < list.length; i++){
         if (list[i].firstChild.checked){
-            extras.push(list[i].firstChild.id);
+            extras.push(parseInt(list[i].firstChild.id));
         }
     }
     var row = document.getElementsByClassName("tr menuElement")[index].children;
@@ -482,7 +510,7 @@ function savePopup(btn){
            var object = JSON.parse(paramString);
            object.extras = extras;
            var param = JSON.stringify(object);
-           var fnstr = onclickString[0] + "loadExtras("+param+","+index+")";
+           var fnstr = onclickString[0] + "loadExtras(" + param + "," + index + ")";
            input.setAttribute('onclick',fnstr);
            input.innerHTML = splitArray(object.extras).replace(/\s/g,'');
 
@@ -513,11 +541,12 @@ function itemSearch(input){
                     }catch (err){
                     }
             }else{
-                    content += elements[n].innerHTML.toLowerCase()+ ",";
+                    content += elements[n].firstChild.innerHTML.toLowerCase()+ ",";
                 }
             }
         }
-        if(!content.includes(searchPattern)){
+        //.replace(/[^a-zA-Z0-9 ]/g, " ")
+        if(!content.toLocaleLowerCase().includes(searchPattern.toLocaleLowerCase())){
             element.style.display = "none";
         }else{
             element.style.display = "table-row";
@@ -525,5 +554,3 @@ function itemSearch(input){
         content ="";
     }
 }
-
-

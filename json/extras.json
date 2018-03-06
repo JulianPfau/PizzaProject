@@ -1,18 +1,18 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "name": "Extra K&auml;se",
-    "preis": "1.0"
+    "preis": 1.0
   },
   {
-    "id": "2",
+    "id": 2,
     "name": "Extra Bacon",
-    "preis": "1.5"
+    "preis": 1.5
   },
   {
-    "id": "3",
+    "id": 3,
     "name": "schneiden",
-    "preis": "0"
+    "preis": 0
   }
 ]
 

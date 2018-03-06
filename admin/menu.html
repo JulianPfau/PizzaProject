@@ -22,8 +22,9 @@
         <a href="fileupload.html"> File Upload </a>
         <a href="javascript:void(0);" class="icon" onclick="unfold()">&#9776;</a>
         <div class="search-container">
-            <input type="text" placeholder="Suchen.." id="input" oninput="itemSearch(this);">
-            <button type="submit" onclick="saveInput('menu')"><i class="fa fa-search"></i></button>
+            <input type="text" oninput="itemSearch(this)" placeholder="Suchen.." id="input">
+            <button type="submit" onclick="logOut()"><i class="fa fa-sign-out"></i></button>
+            <button type="submit" onclick="saveInput('customers')"><i class="fa fa-search"></i></button>
         </div>
     </div>
 
@@ -43,7 +44,7 @@
         </div>
         <div class="tr menuElement" id="footer">
             <div class="td"></div>
-            <div class="td"><span class="Input footer" id="Name" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Name" contenteditable="true" onblur="loadNewFooter(this)"></span></div>
             <div class="td"><span class="Input footer" id="Description" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Prices" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
@@ -53,6 +54,8 @@
             <div class="td" id="img"><img src="../img/menu/default.png" id="img" width="25px"></div>
         </div>
     </div>
+    <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('menu');">Speichern</a>
+    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
 
 
@@ -73,14 +76,15 @@
                 </fieldset>
             </div>
             <div class="modal-footer">
-                <button type="button" id="closeModal"class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="savePopup(this)">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>getJsonByRequest(loadJSONToTable, "menu");</script>
+<script>getJsonByRequest(loadJSONToTable, "menu")</script>
+<!--<script>getJsonByRequest(createTablefromJSON, "menu");</script>-->
 
 </body>
 </html>
