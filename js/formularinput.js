@@ -30,16 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 var phone = document.getElementById('phone').value;
 
                 if(document.getElementById('bar').checked === true){
-                    var zahlung = "bar";
+                    var zahlung = "Bar";
                 }
                 else if(document.getElementById('mc').checked === true){
-                     zahlung = "mc";
+                     zahlung = "Master Card";
                 }
                 else if(document.getElementById('vi').checked === true){
-                     zahlung = "vi";
+                     zahlung = "Visa";
                 }
                 else{
-                     zahlung = "ae";
+                     zahlung = "American Express";
                 }
 
 
@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			fertigesdict = JSON.stringify(fertigesdict);
 			sessionStorage.setItem('bestellung', dict);
 			ordercheck(fertigesdict);
+                location.href="https://localhost:8080/conf.html";
 
 
 
