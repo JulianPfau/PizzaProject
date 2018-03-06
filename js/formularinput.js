@@ -58,23 +58,26 @@ document.addEventListener('DOMContentLoaded', function () {
 			var pizzen = bestellung["items"];
 			var total = bestellung["total"];
 			
+			var fertigesdict = {};
 			var dict = {};
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
-			dict = JSON.stringify(dict);
-			console.log(dict);
-			sessionStorage.setItem('bestellung', dict);
-			ordercheck(dict);
+			fertigesdict["request"] = "newOrder";
+			fertigesdict["jsonData"] = dict;
+			dict = JSON.stringify(fertigesdict);
+			console.log(fertigesdict);
+			sessionStorage.setItem('bestellung', fertigesdict);
+			ordercheck(fertigesdict);
 
 
             }
 
 // Bestellübersicht an Server und Antwort in SessionStorage
-    function ordercheck(dict) {
+    function ordercheck(fertigesdict) {
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "https://localhost:8080", false);
-        xhttp.send(dict);
+        xhttp.send(fertigesdict);
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
 
