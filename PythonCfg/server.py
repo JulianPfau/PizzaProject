@@ -242,7 +242,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'newOrder':
                 response = requestsJSON.appendOrder(json_dir, data)
                 self.wfile.write(bytes(response, "UTF8"))
-            if data['request'] == 'getOrder':
+            if data['request'] == 'getOrderbyId':
                 response = requestsJSON.getOrderbyId(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'login':
@@ -250,6 +250,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'register':
                 response = register(data)
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'getOrderbyCustomerId':
+                response = requestsJSON.getOrderbyCustomerId(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
         except IOError:
             self.send_error(404, "Something went wrong")
