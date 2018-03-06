@@ -106,3 +106,15 @@ input:focus{
 .text-white{
     color: #ffffff;
 }
+
+/* Bestellung */
+#bestellliste{
+    font-size: 1.2rem;
+
+}
+
+#gesamtpreis li{
+    display: grid;
+    font-size: 1.3rem;
+}
+
