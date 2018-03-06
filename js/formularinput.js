@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
             elem.addEventListener('click', schreibe);
 
 
+
+
     // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
             function schreibe() {
                 var firstname = document.getElementById('firstname').value;
@@ -61,10 +63,34 @@ document.addEventListener('DOMContentLoaded', function () {
 			dict["contact"]=objcontact;
 			dict["total"]=total;
 			dict = JSON.stringify(dict);
+			console.log(dict);
 			sessionStorage.setItem('bestellung', dict);
+			ordercheck(dict);
 
 
             }
+
+// Bestellübersicht an Server und Antwort in SessionStorage
+    function ordercheck(dict) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "https://localhost:8080", false);
+        xhttp.send(dict);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+                var orderready = this.responseText;
+                writestorage(orderready);
+            }
+        };
+
+    }
+
+    function writestorage(orderready) {
+        sessionStorage.setItem('bestellung', orderready);
+    }
+
+
+
 });
 
 

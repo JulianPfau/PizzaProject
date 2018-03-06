@@ -9,7 +9,7 @@ function getPLZ() {
 
 function calcDistance(plz_user) {
   var plz_pizza = "88045+Fallenbrunn";
-  var xml = ajaxPLZ(plz_pizza, plz_user);
+  ajaxPLZ(plz_pizza, plz_user);
 }
 
 function ajaxPLZ(pizza, user) {
