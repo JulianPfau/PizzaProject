@@ -58,11 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			var pizzen = bestellung["items"];
 			var total = bestellung["total"];
 			
-			var fertigesdict = {};
 			var dict = {};
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
+			var fertigesdict = {};
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
 			fertigesdict = JSON.stringify(fertigesdict);
