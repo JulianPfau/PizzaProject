@@ -65,8 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			dict["total"]=total;
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
-			dict = JSON.stringify(fertigesdict);
-			console.log(fertigesdict);
+			fertigesdict = JSON.stringify(fertigesdict);
 			sessionStorage.setItem('bestellung', fertigesdict);
 			ordercheck(fertigesdict);
 
