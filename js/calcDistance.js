@@ -24,7 +24,7 @@ function ajaxPLZ(pizza, user) {
             if (distance <= 20000) {
                 document.getElementById("postcode").style.backgroundColor = 'green';
             }
-            if (distance > 20000) {
+            else {
                 document.getElementById("postcode").style.backgroundColor = 'red';
                 var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry!";
                 document.getElementById("ans").innerHTML = noChance;
