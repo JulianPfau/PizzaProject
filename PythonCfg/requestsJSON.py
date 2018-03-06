@@ -1,11 +1,20 @@
 import json
 
 '''
+finds a specific pizza in the menu
+'''
+def findPizzainMenu(menu, pizza):
+	for item in menu:
+		if item["name"] == pizza:
+			return item
+	return 0
+
+'''
 JSON-String to add Order to orders.json:
 	{
 		"request" : "newOrder",
 		"file" : "orders",
-		"jsonData" : [
+		"jsonData" : 
 			{
 				"id": "",
 				"items": [
@@ -29,17 +38,31 @@ JSON-String to add Order to orders.json:
 				},
 				"done": "0"
 			}
-		]
 	}
 Caution don't use vowel mutation!
 can't be handelt by the webserver
 '''
 def appendOrder(json_dir, request):
 	try:
+		with open(json_dir + "menu.json", "r") as f:
+			menu = json.load(f)
+		
+		for item in request['jsonData']['items']:
+			menu_item = findPizzainMenu(menu, item["name"])
+			print(menu_item)
+			print(item["price"])
+			print(menu_item["prices"])
+		
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	exit()
+	try:
 		with open(json_dir + request["file"] + ".json", "r") as f:
 			data = json.load(f)
 		
-		data.append(request["jsonData"][0])
+		data.append(request["jsonData"])
 		
 		with open(json_dir + request["file"] + ".json", "w") as f:
 			json.dump(data, f)
@@ -84,22 +107,35 @@ def getOrderbyId(json_dir,  request):
 	response = json.dumps(response)
 	return response
 
+def getCustomerIdbyMail(json_dir, mail):
+	try:
+		with open(json_dir + "customers.json", "r") as f:
+			data = json.load(f)
+		
+		for item in data:
+			if mail == item['email']:
+				return item['id']
+		return 0
+	except IOError:
+		return 0
+
 '''
 JSON-String to get a Order by it's Customer-ID
 	{
-		"request" : "getOrderbyCustomerId",
+		"request" : "getOrderbyMail",
 		"file" : "orders",
-		"customerid" : 
+		"email" : ""
 	}
 '''
-def getOrderbyCustomerId(json_dir,  request):
+def getOrderbyMail(json_dir,  request):
+	customerid = getCustomerIdbyMail(json_dir, request["email"])
 	try:
 		with open(json_dir + request["file"] + ".json", "r") as f:
 			data = json.load(f)
-			
+
 		old_orders = []
 		for customer in data:
-			if customer["customerid"] == request["customerid"]:
+			if customer["customerid"] == customerid:
 				old_orders.append(customer["items"])
 
 		response = {
@@ -112,3 +148,5 @@ def getOrderbyCustomerId(json_dir,  request):
 		}
 	response = json.dumps(response)
 	return response
+
+
