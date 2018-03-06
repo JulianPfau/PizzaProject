@@ -1,7 +1,7 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
 var extras;
-var object;
+//var object;
 
 /**  Requests a JSON file in the /json directory of the server and calls a
     specified function with the parsed JSON Element as parameter.
@@ -167,7 +167,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
-                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ')');
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + "this" + ')' );
 
                 //Sets everything to open Contact Popup
                 menuInhalt[5].removeAttribute('contenteditable');
@@ -388,7 +388,7 @@ function getExtras(json) {
  *
  * @param json with the Items to be loaded
  */
-function loadItems(json) {
+function loadItems(json, element) {
     //get the table in wich should be loaded
     var table = document.getElementById("modal-table");
     var length = 6;
@@ -460,6 +460,13 @@ function loadItems(json) {
         }
 
     }
+
+
+    console.log(element);
+    alert(element.innerHTML);
+
+
+
 }
 
 /**
@@ -574,4 +581,12 @@ function loadNewFooter(span) {
             }
         }
     }
+}
+
+
+
+function storeItemsInOrders(element) {
+    var tableOfItemsModal = document.getElementById("modal-table");
+
+
 }
