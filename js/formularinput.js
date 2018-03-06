@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			console.log(dict);
 			sessionStorage.setItem('bestellung', dict);
 			ordercheck(dict);
+                location.href="https://localhost:8080/conf.html";
 
 
             }
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function writestorage(orderready) {
         sessionStorage.setItem('bestellung', orderready);
-        location.href="https://localhost:8080/";
+        location.href="https://localhost:8080/conf.html";
     }
 
 
