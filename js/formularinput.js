@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(document.getElementById('bar').checked === true){
                     var zahlung = "bar";
                 }
-                if(document.getElementById('mc').checked === true){
+                else if(document.getElementById('mc').checked === true){
                      zahlung = "mc";
                 }
-                if(document.getElementById('vi').checked === true){
+                else if(document.getElementById('vi').checked === true){
                      zahlung = "vi";
                 }
-                if(document.getElementById('ae').checked ===true){
+                else{
                      zahlung = "ae";
                 }
 
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function writestorage(orderready) {
         sessionStorage.setItem('bestellung', orderready);
+        location.href="https://localhost:8080/";
     }
 
 
