@@ -4,11 +4,13 @@
     "description": "A classic meat Pizza",
     "prices": [
       4.99,
-      7.99
+      6.99,
+      8.99
     ],
     "sizes": [
-      "X",
-      "L"
+      "klein",
+      "mittel",
+      "gross"
     ],
     "types": "Pizza",
     "tags": [

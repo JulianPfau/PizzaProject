@@ -14,30 +14,33 @@ JSON-String to add Order to orders.json:
 	{
 		"request" : "newOrder",
 		"file" : "orders",
-		"jsonData" : 
-			{
-				"id": "",
-				"items": [
-					{
-						"name": "",
-						"size": "",
-						"price": "",
-						"extras": [],
-						"count": ""
-					}
-				],
-				"total": "",
-				"customerid": "",
-				"contact": {
-					"name": "",
-					"postcode": "",
-					"city": "",
-					"street": "",
-					"nr": "",
-					"phone": ""
-				},
-				"done": "0"
-			}
+		"jsonData" :
+			{"items":
+				[{"name":"",
+				  "extras":[2,3],
+				  "size":"mittel",
+				  "price":12,
+				  "count":"3"},
+				 {"name":"Salami",
+				  "extras":[2,3],
+				  "size":"mittel",
+				  "price":12,
+				  "count":"3"},
+				 {"name":"Salami",
+				  "extras":[2,3],
+				  "size":"mittel",
+				  "price":12,
+				  "count":"3"}],
+		"contact":
+			{"name":"Max Mustermann",
+			 "postcode":"82299",
+			 "street":"Daheim",
+			 "city":"Musterstadt",
+			 "nr":"1",
+			 "phone":"01245556783",
+			 "zahlung":"bar"},
+		"total":108
+		}
 	}
 Caution don't use vowel mutation!
 can't be handelt by the webserver
@@ -47,17 +50,19 @@ def appendOrder(json_dir, request):
 		with open(json_dir + "menu.json", "r") as f:
 			menu = json.load(f)
 		
+		price_total = 0
 		for item in request['jsonData']['items']:
 			menu_item = findPizzainMenu(menu, item["name"])
-			print(menu_item)
-			print(item["price"])
-			print(menu_item["prices"])
-		
+			item["price"] = menu_item["prices"][menu_item["sizes"].index(item["size"])]
+			price_total += item["price"]
+		request['jsonData']['total'] = price_total
 	except IOError:
 		response = {
 			'STATUS': 'ERROR'
 		}
-	exit()
+		response = json.dumps(response)
+		return response
+
 	try:
 		with open(json_dir + request["file"] + ".json", "r") as f:
 			data = json.load(f)
@@ -68,7 +73,8 @@ def appendOrder(json_dir, request):
 			json.dump(data, f)
 		
 		response = {
-			'STATUS': 'OK'
+			'STATUS': 'OK',
+			"response_data" : data[len(data)-1]
 		}
 	except IOError:
 		response = {
@@ -148,5 +154,4 @@ def getOrderbyMail(json_dir,  request):
 		}
 	response = json.dumps(response)
 	return response
-
 
