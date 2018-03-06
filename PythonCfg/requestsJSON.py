@@ -55,9 +55,9 @@ def appendOrder(json_dir, request):
 	return response
 
 '''
-JSON-String to get a Order by it's ID
+JSON-String to get a Order by it's Order-ID
 	{
-		"request" : "getOrder",
+		"request" : "getOrderbyId",
 		"file" : "orders",
 		"order_id" : ""
 	}
@@ -68,14 +68,43 @@ def getOrderbyId(json_dir,  request):
 			data = json.load(f)
 			
 		pos = 0
-		for i in range(len(data)-1):
-			if data[i]["id"] == request["order_id"]:
+		for i in range(len(data)):
+			if str(data[i]["id"]) == request["order_id"]:
 				pos = i
 				break
 				
 		response = {
 			'STATUS' : 'OK',
 			'response_data' : data[pos]
+		}
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	response = json.dumps(response)
+	return response
+
+'''
+JSON-String to get a Order by it's Customer-ID
+	{
+		"request" : "getOrderbyCustomerId",
+		"file" : "orders",
+		"customerid" : 
+	}
+'''
+def getOrderbyCustomerId(json_dir,  request):
+	try:
+		with open(json_dir + request["file"] + ".json", "r") as f:
+			data = json.load(f)
+			
+		old_orders = []
+		for customer in data:
+			if customer["customerid"] == request["customerid"]:
+				old_orders.append(customer["items"])
+
+		response = {
+			'STATUS' : 'OK',
+			'response_data' : old_orders[0]
 		}
 	except IOError:
 		response = {
