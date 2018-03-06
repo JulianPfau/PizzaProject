@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+
+<html lang="de">
+
+<head>
+    <title>PizzaProjekt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=2.0" charset="UTF-8"/>
+    <link rel="icon" href="./img/favicon.ico">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/pizza.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/formularinput.js"></script>
+	<script src="js/uebersichterstellen.js"></script>
+    <script src="js/calcDistance.js"></script>
+    <script src="js/kontodaten.js"></script>
+
+
+</head>
+
+<body class="light-grey">
+<div class="container">
+    <!-- navigationbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Pizza</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Öffnungszeiten</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bestellungsradius</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-orange-o75" href="#">Anmelden / Regesrieren</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn orange btn-lg">1 Pizza</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END of navigation -->
+
+    <div class="box login white">
+        <div class="row">
+            <div class="col-sm-6 white">
+                <h4>Bestell&#252bersicht</h4>
+                <form>
+                    <div class="form-group">
+                        <label>Anmelden:</label>
+                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="E-Mail">
+                        <input type="password" class="form-control" id="passwort" aria-describedby="emailHelp" placeholder="Passwort">
+                        <button id="anmeldebutton" type="button" onclick="anmelden()" class="btn orange-o75">Anmelden</button>
+                    </div>
+                    <hr>
+
+
+                    <div class="form-group">
+                        <label for="firstname">Vorname</label>
+                        <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Vorname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Nachname</label>
+                        <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Nachname">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Strasse</label>
+                        <input type="text" class="form-control" id="street" aria-describedby="emailHelp" placeholder="Strasse">
+                    </div>
+                    <div class="form-group">
+                        <label for="nr">Hausnummer</label>
+                        <input type="text" class="form-control" id="nr" aria-describedby="emailHelp" placeholder="Hausnummer">
+                    </div>
+                    <div class="form-group">
+                        <label for="postcode">PLZ</label>
+                        <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="PLZ" onkeyup="getPLZ()">
+                        <div id="ans"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="town">Ort</label>
+                        <input type="text" class="form-control" id="town" aria-describedby="emailHelp" placeholder="Ort">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefonnummer</label>
+                        <input type="text" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Telefonnummer">
+                    </div>
+
+                    <p>Geben Sie Ihre Zahlungsweise an:</p>
+                    <fieldset>
+                        <input type="radio" id="bar" name="Zahlmethode" value="Bar" checked>
+                        <label for="bar"> Bar</label>
+                        <input type="radio" id="mc" name="Zahlmethode" value="Mastercard">
+                        <label for="mc"> Mastercard</label>
+                        <input type="radio" id="vi" name="Zahlmethode" value="Visa">
+                        <label for="vi"> Visa</label>
+                        <input type="radio" id="ae" name="Zahlmethode" value="AmericanExpress">
+                        <label for="ae"> American Express</label>
+                    </fieldset>
+
+
+
+                    <button id="bestelluebersicht" type="button" class="btn orange-o75">kostenpflichtig bestellen</button>
+                    <output></output>
+                </form>
+            </div>
+            <div class="col-sm-6 card orange">
+                <div class="align-middle align-self-center text-center">
+                    <img src="img/pizza.png" style="width: 96px">
+                    <hr>
+                    <h1>Pizzen&#252bersicht</h1>
+                    <p>
+                    <ul id="bestellliste"></ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

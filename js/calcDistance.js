@@ -3,7 +3,7 @@
 function getPLZ() {
 													//input feld muss diese Funtion bei onkeyup aufrufen
 													//Bsp.: <input type="text" id="fname" onkeyup="getPLZ()">
-  var plz = document.getElementById("plz").value;	//hier muss "plz" geändert werden!
+  var plz = document.getElementById("postcode").value;	//hier muss "plz" geändert werden!
   calcDistance(plz);
 }
 
@@ -13,23 +13,34 @@ function calcDistance(plz_user) {
 }
 
 function ajaxPLZ(pizza, user) {
-  var xhttp = new XMLHttpRequest();
-  
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rücmeldung
-																	//vom server kam -> hier ifabfrage und einfärbung
-																	//und blocken des weiter machen.
-    }
-  };
+    var xhttp = new XMLHttpRequest();
 
-  var data = {
-    "request"   : "ajaxGoogleAPI",
-    "plz_pizza" : pizza,
-    "plz_user"  : user
-  }
-  parse = JSON.stringify(data);
-  xhttp.open("POST", "https://localhost:8080", true);
-  xhttp.send(parse);
-  
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rückmeldung
+            //vom server kam -> hier ifabfrage und einfärbung
+            //und blocken des weiter machen.
+            var distance = this.responseText;
+            if (distance <= 20000) {
+                document.getElementById("postcode").style.backgroundColor = 'green';
+            }
+            if (distance > 20000) {
+                document.getElementById("postcode").style.backgroundColor = 'red';
+                var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry!";
+                document.getElementById("ans").innerHTML = noChance;
+            }
+        }
+
+    };
+    var data = {
+        "request": "ajaxGoogleAPI",
+        "plz_pizza": pizza,
+        "plz_user": user
+    };
+    parse = JSON.stringify(data);
+    xhttp.open("POST", "https://localhost:8080", true);
+    xhttp.send(parse);
+
 }
+
+
