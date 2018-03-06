@@ -1,7 +1,7 @@
 import json
 
 '''
-finds a specific pizza in the menu
+finds a specific pizza in the menu.json
 '''
 def findPizzainMenu(menu, pizza):
 	for item in menu:
@@ -13,7 +13,6 @@ def findPizzainMenu(menu, pizza):
 JSON-String to add Order to orders.json:
 	{
 		"request" : "newOrder",
-		"file" : "orders",
 		"jsonData" :
 			{"items":
 				[{"name":"",
@@ -31,19 +30,20 @@ JSON-String to add Order to orders.json:
 				  "size":"mittel",
 				  "price":12,
 				  "count":"3"}],
-		"contact":
-			{"name":"Max Mustermann",
-			 "postcode":"82299",
-			 "street":"Daheim",
-			 "city":"Musterstadt",
-			 "nr":"1",
-			 "phone":"01245556783",
-			 "zahlung":"bar"},
-		"total":108
+			"contact":
+				{"name":"Max Mustermann",
+				 "postcode":"82299",
+				 "street":"Daheim",
+				 "city":"Musterstadt",
+				 "nr":"1",
+				 "phone":"01245556783",
+				 "zahlung":"bar"},
+			"total":108
 		}
 	}
 Caution don't use vowel mutation!
 can't be handelt by the webserver
+Function returns the data with checked prices to client 
 '''
 def appendOrder(json_dir, request):
 	try:
@@ -64,12 +64,12 @@ def appendOrder(json_dir, request):
 		return response
 
 	try:
-		with open(json_dir + request["file"] + ".json", "r") as f:
+		with open(json_dir + "orders.json", "r") as f:
 			data = json.load(f)
 		
 		data.append(request["jsonData"])
 		
-		with open(json_dir + request["file"] + ".json", "w") as f:
+		with open(json_dir + "orders.json", "w") as f:
 			json.dump(data, f)
 		
 		response = {
@@ -87,13 +87,12 @@ def appendOrder(json_dir, request):
 JSON-String to get a Order by it's Order-ID
 	{
 		"request" : "getOrderbyId",
-		"file" : "orders",
 		"order_id" : ""
 	}
 '''
 def getOrderbyId(json_dir,  request):
 	try:
-		with open(json_dir + request["file"] + ".json", "r") as f:
+		with open(json_dir + "orders.json", "r") as f:
 			data = json.load(f)
 			
 		pos = 0
