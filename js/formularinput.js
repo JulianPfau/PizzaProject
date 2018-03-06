@@ -62,20 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
-<<<<<<< HEAD
-			dict = JSON.stringify(dict);
-			console.log(dict);
-			sessionStorage.setItem('bestellung', dict);
-			ordercheck(dict);
-                location.href="https://localhost:8080/conf.html";
-=======
 			var fertigesdict = {};
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
+			dict = JSON.stringify(dict);
 			fertigesdict = JSON.stringify(fertigesdict);
 			sessionStorage.setItem('bestellung', dict);
 			ordercheck(fertigesdict);
->>>>>>> 16c770ee612b12ef64948fcc1cff1b6886822257
+
 
 
             }
