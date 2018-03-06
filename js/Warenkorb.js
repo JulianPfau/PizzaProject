@@ -7,12 +7,12 @@ function speicherntemp () {
     //Angekreuzte Größe in Variable eintragen
     var size;
     if(document.getElementById('sizeS').checked==true){
-        size = document.getElementById('sizeS').name;
+        size = "klein";
     } else {
         if (document.getElementById('sizeM').checked==true) { 
-            size = document.getElementById('sizeM').name;
+            size = "mittel";
         } else { 
-            size = document.getElementById('sizeL').name;
+            size = "groß";
         }
     }
     //Auslesen, welche Extras ausgewählt sind.
@@ -25,6 +25,13 @@ function speicherntemp () {
     
     var price = 12; // Platzhalter
 	var pizzaObj = {name:pizzaValue, extras:extraArray, size:size, price:price, count:countValue}; //Objekt mit allen Werten für eine Pizza erstellen
+    
+    var warenkorbsatz = countValue + " mal" + " Pizza " + pizzaValue + " mit " + extraArray +"       Größe: " + size + ", Preis:" + price;
+    var listItem = document.createElement("li");
+    listItem.innerText = warenkorbsatz;
+    var list = document.getElementById("warenkorbliste");
+    list.appendChild(listItem);
+    
     
     //Kosten der momentanten Bestellung
     var old;
