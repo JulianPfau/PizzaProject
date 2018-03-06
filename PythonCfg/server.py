@@ -265,8 +265,8 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             if data['request'] == 'register':
                 response = register(data)
                 self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'getOrderbyCustomerId':
-                response = requestsJSON.getOrderbyCustomerId(json_dir, data)
+            if data['request'] == 'getOrderbyMail':
+                response = requestsJSON.getOrderbyMail(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
         except IOError:
             self.send_error(404, "Something went wrong")
