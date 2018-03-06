@@ -7,8 +7,9 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-import ajaxGoogleAPI
-import requestsJSON
+from ajaxGoogleAPI import *
+from requestsJSON import *
+from sessionid import *
 
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
@@ -233,7 +234,6 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(request)
-
         try:
             if data['request'] == 'fileUpload':
                 response = fileupload(data)
@@ -264,6 +264,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'register':
                 response = register(data)
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'checkSID':
+                response = checkSessionID(data['value']['id'])
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'getOrderbyMail':
                 response = requestsJSON.getOrderbyMail(json_dir, data)
