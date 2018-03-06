@@ -245,7 +245,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = jsondata(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'ajaxGoogleAPI':
-                response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
+                response = calcDistance(data['plz_pizza'], data['plz_user'])
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'saveJSON':
                 response = saveJSON(data)
@@ -254,10 +254,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = MyServer.delete_header(self)
                 self.wfile.write(bytes(response, "UTF8"))
             if data['request'] == 'newOrder':
-                response = requestsJSON.appendOrder(json_dir, data)
+                response = appendOrder(json_dir, data)
                 self.wfile.write(bytes(response, "UTF8"))
             if data['request'] == 'getOrderbyId':
-                response = requestsJSON.getOrderbyId(json_dir, data)
+                response = getOrderbyId(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'login':
                 response = login(data)
@@ -269,7 +269,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = checkSessionID(data['value']['id'])
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'getOrderbyMail':
-                response = requestsJSON.getOrderbyMail(json_dir, data)
+                response = getOrderbyMail(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
         except IOError:
             self.send_error(404, "Something went wrong")

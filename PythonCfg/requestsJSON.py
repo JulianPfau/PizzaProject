@@ -54,7 +54,7 @@ def appendOrder(json_dir, request):
 		for item in request['jsonData']['items']:
 			menu_item = findPizzainMenu(menu, item["name"])
 			item["price"] = menu_item["prices"][menu_item["sizes"].index(item["size"])]
-			price_total += item["price"]
+			price_total += item["price"]*int(item["count"])
 		request['jsonData']['total'] = price_total
 	except IOError:
 		response = {
