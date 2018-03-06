@@ -10,9 +10,9 @@ function checkLogin() {
         popup("Bitte alle Felder ausf&auml;llen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
-        var json = '{"request":"login","username":"' + username + '", "password":"' + password + '"}';
+        var json = '{"username":"' + username + '", "password":"' + password + '"}';
         //sends the JSON to the server over AJAX and saves the return value as Session ID
-        var response = ajax(json);
+        var response = ajax("login", json);
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
         if(!response && response != undefined && response != ""){
@@ -35,22 +35,27 @@ function createSession(response){
 }
 
 //Generic AJAX function which takes in the url to send the request to and the conten of the POST-request
-function ajax(content) {
+function ajax(index, content) {
     var xhttp = new XMLHttpRequest();
+    var ret;
     //Defines what happens when you receive an answer with status code 200
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText != "false") {
-                return this.responseText;
+                ret =  this.responseText;
             }
         }
     };
 
     //Opens the Request in POST-Mode with the given URL
-    xhttp.open("POST", '', true);
+    xhttp.open("POST", 'https://localhost:8080', false);
 
     //Sends the request with the JSON in the POST
-    xhttp.send(content);
+    var data = Object();
+    data.request = index;
+    data.value = content;
+    xhttp.send(JSON.stringify(data));
+    return ret;
 }
 
 //Checks if a given String is an E-Mail-Adress
@@ -104,8 +109,8 @@ function register() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"request":"register",email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
-    var result = ajax(json);
+    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var result = ajax("register", json);
     if (result == 'true'){
         window.location = 'dashboard.html';
     } else {
@@ -118,11 +123,9 @@ function checkSID() {
     var id = sessionStorage.getItem("SID");
 
     if (id != null || id != "") {
-        if (ajax('{"request":"checkSID", "id":'+id+'}') == 'true') {
-            return true;
-        }
+        var ret = JSON.parse(ajax("checkSID", {"id":id}));
     }
-    return false
+    return (ret["STATUS"] == "OK");
 }
 
 //Logs the user out by deleting the Session ID from the Session Storage
@@ -131,7 +134,7 @@ function logout(){
 }
 
 function loadOldData(email){
-    var json = ajax('{"request":"getUserData", "email":"'+ email +'"}')
+    var json = ajax("getUserData", '{"email":"'+ email +'"}')
     var decoded = JSON.parseJSON(json);
     
     var name = decoded.firstname + ' ' + decoded.lastname;
@@ -163,8 +166,8 @@ function sendNewData(){
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"request":"updateData","email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
-    var result = ajax(json);
+    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var result = ajax("updateData", json);
     if (result == 'true'){
         popup("Änderung der Daten erfolgreich");
     } else {
@@ -186,11 +189,11 @@ function generateMenu(){
 }
 
 function deleteUser(email){
-    ajax('{"request":"deleteUser","email":"'+email+'"}');
+    ajax("deleteUser", '{"email":"'+email+'"}');
 }
 
 function getHistory(){
-    var history = ajax('{"request":"getOrderByCustomerID", "file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
+    var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
     return histoy;
 }
 

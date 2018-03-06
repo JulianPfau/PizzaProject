@@ -1,12 +1,17 @@
 # used for the random generated sessionID
+# only used to check the system
+import json
+import os
 import random
 # used to get the timestamp
 import time
-# only used to check the system
-import json
 
 # 24h maximum lifetime of the sessionID
 SESSIONIDLIFETIME = 86400
+
+server_dir = os.path.dirname(os.path.abspath(__file__))
+server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
+json_dir = server_root + "/json/"
 
 # when the user sucessully logged in to the system,
 # a session ID should be created. Its a random number
@@ -17,16 +22,16 @@ SESSIONIDLIFETIME = 86400
 # the Session ID's should be compared. If its equal the user
 # is still logged in.
 
-#contains every stored sessionID in an array
-file = open("sessionIDS.json")
+# contains every stored sessionID in an array
+file = open(json_dir + "sessionIDS.json")
 # JSON SessionID database array
 oldsessionIDs = json.load(file)
-
 
 
 # creates a random number between 100 000 and 2 147 483 648
 def createSessionID():
     return random.randrange(100000, 2147483648)
+
 
 # returns the current timestamp
 # to read the timestamp in a YYYY-MM-DD HH:MM:SS format
@@ -41,20 +46,25 @@ def getTimeStamp():
 def checkSessionID(sessionID):
     # if the sessionID is stored
     i = 0
-    while(i < len(oldsessionIDs)):
-        if(sessionID == oldsessionIDs[i]["sessionID"]):
+    while (i < len(oldsessionIDs)):
+        if (sessionID == oldsessionIDs[i]["sessionID"]):
             sessiontimestamp = oldsessionIDs[i]["timestamp"]
             currenttimestamp = getTimeStamp()
 
             # check if the session is still the lifetime range
-            if(sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp):
+            if (sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp):
                 # sessionID and timestamp is valid (User is logged in)
-                return True
+                response = {
+                    'STATUS': 'OK'
+                }
+                return json.dumps(response)
 
         i += 1
     # sessionID and timestamp is invalid (User is no longer logged in)
-    return False
-
+    response = {
+        'STATUS': 'ERROR'
+    }
+    return json.dumps(response)
 
 
 # creates the sessionID
@@ -63,11 +73,10 @@ sessionID = createSessionID()
 # check if the SessionID is already stored in the database
 # the reason for that is ever use has his own and unique sessionID
 # so during the sessionID check the Client don't have to send data of the user.
-while(sessionID in oldsessionIDs):
+while (sessionID in oldsessionIDs):
     sessionID = createSessionID()
 
 timestamp = getTimeStamp()
-
 
 # the variables: timestamp and sessionID can now be used to store in the database
 print(sessionID)
