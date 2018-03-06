@@ -7,12 +7,12 @@ function checkLogin() {
     //checks if the password field is empty and if the E-Mail Adress is valid
     if (password == "" || !isEmail(username)) {
         //Gives out an popup when Password/Email is wrong
-        popup("Bitte alle Felder ausfüllen!!!!!!!!!!!!");
+        popup("Bitte alle Felder ausf&auml;llen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
-        var json = '{"username":"' + username + '", "password":"' + password + '"}';
+        var json = '{"request":"login","username":"' + username + '", "password":"' + password + '"}';
         //sends the JSON to the server over AJAX and saves the return value as Session ID
-        var response = ajax('login', json);
+        var response = ajax(json);
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
         if(!response && response != undefined && response != ""){
@@ -35,7 +35,7 @@ function createSession(response){
 }
 
 //Generic AJAX function which takes in the url to send the request to and the conten of the POST-request
-function ajax(url, content) {
+function ajax(content) {
     var xhttp = new XMLHttpRequest();
     //Defines what happens when you receive an answer with status code 200
     xhttp.onreadystatechange = function () {
@@ -47,7 +47,7 @@ function ajax(url, content) {
     };
 
     //Opens the Request in POST-Mode with the given URL
-    xhttp.open("POST", url, true);
+    xhttp.open("POST", '', true);
 
     //Sends the request with the JSON in the POST
     xhttp.send(content);
@@ -104,12 +104,12 @@ function register() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
-    var result = ajax('register', json);
+    var json = '{"request":"register",email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var result = ajax(json);
     if (result == 'true'){
         window.location = 'dashboard.html';
     } else {
-        popup('Unbekannter Fehler: ' + ajax('register', json))
+        popup('Unbekannter Fehler: ');
     }
 }
 
@@ -118,7 +118,7 @@ function checkSID() {
     var id = sessionStorage.getItem("SID");
 
     if (id != null || id != "") {
-        if (ajax('checkSID', id) == 'true') {
+        if (ajax('{"request":"checkSID", "id":'+id+'}') == 'true') {
             return true;
         }
     }
@@ -131,7 +131,7 @@ function logout(){
 }
 
 function loadOldData(email){
-    var json = ajax('getUserData', '{"email":"'+ email +'"}')
+    var json = ajax('{"request":"getUserData", "email":"'+ email +'"}')
     var decoded = JSON.parseJSON(json);
     
     var name = decoded.firstname + ' ' + decoded.lastname;
@@ -163,8 +163,8 @@ function sendNewData(){
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
-    var result = ajax('updateData', json);
+    var json = '{"request":"updateData","email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var result = ajax(json);
     if (result == 'true'){
         popup("Änderung der Daten erfolgreich");
     } else {
@@ -186,11 +186,11 @@ function generateMenu(){
 }
 
 function deleteUser(email){
-    ajax('deleteUser', '{"email":"'+email+'"}');
+    ajax('{"request":"deleteUser","email":"'+email+'"}');
 }
 
 function getHistory(){
-    var history = ajax('','{"request":"getOrderByCustomerID", "file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
+    var history = ajax('{"request":"getOrderByCustomerID", "file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
     return histoy;
 }
 
