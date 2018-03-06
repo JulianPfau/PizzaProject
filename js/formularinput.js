@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
             elem.addEventListener('click', schreibe);
 
 
+
+
     // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
             function schreibe() {
                 var firstname = document.getElementById('firstname').value;
@@ -28,16 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 var phone = document.getElementById('phone').value;
 
                 if(document.getElementById('bar').checked === true){
-                    var zahlung = "bar";
+                    var zahlung = "Bar";
                 }
-                if(document.getElementById('mc').checked === true){
-                     zahlung = "mc";
+                else if(document.getElementById('mc').checked === true){
+                     zahlung = "Master Card";
                 }
-                if(document.getElementById('vi').checked === true){
-                     zahlung = "vi";
+                else if(document.getElementById('vi').checked === true){
+                     zahlung = "Visa";
                 }
-                if(document.getElementById('ae').checked ===true){
-                     zahlung = "ae";
+                else{
+                     zahlung = "American Express";
                 }
 
 
@@ -60,11 +62,41 @@ document.addEventListener('DOMContentLoaded', function () {
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
+			var fertigesdict = {};
+			fertigesdict["request"] = "newOrder";
+			fertigesdict["jsonData"] = dict;
 			dict = JSON.stringify(dict);
+			fertigesdict = JSON.stringify(fertigesdict);
 			sessionStorage.setItem('bestellung', dict);
+			ordercheck(fertigesdict);
+                location.href="https://localhost:8080/conf.html";
+
 
 
             }
+
+// Bestellübersicht an Server und Antwort in SessionStorage
+    function ordercheck(fertigesdict) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "https://localhost:8080", false);
+        xhttp.send(fertigesdict);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+                var orderready = this.responseText;
+                writestorage(orderready);
+            }
+        };
+
+    }
+
+    function writestorage(orderready) {
+        sessionStorage.setItem('bestellung', orderready);
+        location.href="https://localhost:8080/conf.html";
+    }
+
+
+
 });
 
 

@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/conf.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/conf1.js"></script>
+	<title>Bestellbest&auml;tigung</title>
+</head>
+
+<body class="light-grey" onload="getdata()">
+    <div class="container">
+        <!-- navigationbar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#">Pizza</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Öffnungszeiten</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bestellungsradius</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-orange-o75" href="#">Anmelden / Regesrieren</a>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn orange btn-lg">1 Pizza</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- END of navigation -->
+
+        <div class="box login white">
+            <div class="row">
+                <div class="col-sm-6 white">
+                    <h4>Bestell&uuml;bersicht</h4>
+					<hr>
+					<h6>Folgende Daten wurden an unseren Pizzadienst gesendet:</h6>
+                    <form>
+					    <hr>
+                        <div class="form-group col-sm-6 white">
+                            <label for="firstname">Name</label>
+                            <input type="text" class="form-control" id="name" readonly>
+						</div>
+                        <hr>
+                        <div class="form-group col-sm-11 white">
+                            <label for="adress">Adresse</label>
+                            <input type="adress" class="form-control" id="adress" readonly>
+                        </div>
+						<hr>
+                        <div class="form-group col-sm-11 white">
+                            <label for="pizzaname">Stra&szlig;e</label>
+                            <input type="text" class="form-control" id="street" readonly>
+                        </div>
+						<hr>
+                        <div class="form-group col-sm-11 white">
+                            <label for="phone">Telefonnummer</label>
+                            <input type="text" class="form-control" id="phone" readonly>
+                        </div>
+						<hr>
+                        <div class="form-group col-sm-11 white">
+                            <label for="pizzaname">Pizza</label>
+                            <textarea type="text" class="form-control" id="pizzaname" readonly></textarea>
+                        </div>
+						<hr>
+                        <div class="form-group col-sm-3 white">
+                            <label for="total">Gesamtpreis</label>
+                            <input type="text" class="form-control" id="total" readonly>
+                        </div>
+						<hr>
+						<div class="form-group col-sm-11 white">
+							<label for="pay">Bezahlungsart</label>
+							<input type="money" class="form-control" id="payment" readonly>
+						</div>
+						<hr> 			
+                    </form>	
+                </div>
+                <div class="col-sm-6 card orange">
+                    <div class="align-middle align-self-center text-center">
+                        <img src="img/pizza.png" style="width: 96px">
+                        <hr>
+                        <h1>Vielen Dank f&uuml;r Ihre Bestellung!</h1>
+                        <p>Wir w&uuml;nschen Ihnen einen guten Apetit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

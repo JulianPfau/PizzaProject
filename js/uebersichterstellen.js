@@ -1,6 +1,5 @@
-window.onload = function () {
-	
-	/*var alleextras;
+//globale Variable setzen
+var alleextras;
 
 function getExtras(element, file){
 	 alleextras = element;
@@ -23,56 +22,66 @@ function getJsonByRequest(cFunction, file) {
         }
     }
     //Initializes the request
-    xhr.open('GET', url, true);
+    xhr.open('GET', url, false);
     //Sends the request
     xhr.send(null);
 }
-	
-	
-getJsonByRequest(getExtras, "extras");
-*/	
-	
-	//pizzen aus sessionstorage auslesen und parsen
-	var bestellung = sessionStorage["bestellung"];
-	bestellung = JSON.parse(bestellung);
-	var pizzen = bestellung["items"];
-	var total = bestellung["total"];
-	
-	
-	// für jede pizza jeweils die einzelnen werte auslesen
-	for (i in pizzen){
+
+function pizzenInListe(){
+		for (i in pizzen){
 		var name = pizzen[i]["name"];
 		var size = pizzen[i]["size"];
 		var price = pizzen[i]["price"];
 		var count = pizzen[i]["count"];
 		var extras = pizzen[i]["extras"];
-		var extratext = " mit ";
-		//for (var x in extras){
-		//	x = extras[x];
-			//x -= 1;
-			//var extra = alleextras[x]["name"];
-			//extratext += extra + ";";
-			
-		//}
+		var extratext = "";
+		for (var x in extras){
+			x = extras[x];
+			x -= 1;
+			var extra = alleextras[x]["name"];
+			if (x==0){
+				extratext += " mit " + extra ;
+			}
+			else{
+				extratext += " und " + extra ;
+			}	
+		}
 		
 		
-		//bestelltext für einzelne pizza erstellen
-		var bestellungstext = count + " x" + " Pizza " + name + extratext + extras +"      Gr\u00F6\u00DFe: " + size + ", Preis: " + price + " \u20AC";
+		//bestelltext f�r einzelne pizza erstellen
+		var bestellungstext = count + " x" + " Pizza " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
 	
-		//text zur liste auf der html seite hinzufügen
+		//text zur liste auf der html seite hinzuf�gen
 		var listItem = document.createElement("li");
 		listItem.innerText = bestellungstext;
 		var list = document.getElementById("bestellliste");
 		list.appendChild(listItem);
+		}
 	}
-		
-		//gesamtpreis in liste auf html seite hinzufügen
+	
+function totalinListe(){
+		//gesamtpreis in liste auf html seite hinzuf�gen
 		total = "Zusammen: " + total + " \u20AC";
 		var listItem = document.createElement("li");
 		listItem.innerText = total;
-		var list = document.getElementById("bestellliste");
+		var list = document.getElementById("gesamtpreis");
 		list.appendChild(listItem);
-	
-      
-    }
+}
 
+
+
+
+
+//pizzen aus sessionstorage auslesen und parsen
+var bestellung = sessionStorage["bestellung"];
+bestellung = JSON.parse(bestellung);
+var pizzen = bestellung["items"];
+var total = bestellung["total"];
+
+
+
+getJsonByRequest(getExtras, "extras");
+window.onload = function () {
+	pizzenInListe();
+	totalinListe();
+}
