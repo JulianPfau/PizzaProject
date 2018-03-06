@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(document.getElementById('bar').checked === true){
                     var zahlung = "bar";
                 }
-                if(document.getElementById('mc').checked === true){
+                else if(document.getElementById('mc').checked === true){
                      zahlung = "mc";
                 }
-                if(document.getElementById('vi').checked === true){
+                else if(document.getElementById('vi').checked === true){
                      zahlung = "vi";
                 }
-                if(document.getElementById('ae').checked ===true){
+                else{
                      zahlung = "ae";
                 }
 
@@ -62,19 +62,29 @@ document.addEventListener('DOMContentLoaded', function () {
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
+<<<<<<< HEAD
 			dict = JSON.stringify(dict);
 			console.log(dict);
 			sessionStorage.setItem('bestellung', dict);
 			ordercheck(dict);
+                location.href="https://localhost:8080/conf.html";
+=======
+			var fertigesdict = {};
+			fertigesdict["request"] = "newOrder";
+			fertigesdict["jsonData"] = dict;
+			fertigesdict = JSON.stringify(fertigesdict);
+			sessionStorage.setItem('bestellung', dict);
+			ordercheck(fertigesdict);
+>>>>>>> 16c770ee612b12ef64948fcc1cff1b6886822257
 
 
             }
 
 // Bestellübersicht an Server und Antwort in SessionStorage
-    function ordercheck(dict) {
+    function ordercheck(fertigesdict) {
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "https://localhost:8080", false);
-        xhttp.send(dict);
+        xhttp.send(fertigesdict);
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
 
@@ -87,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function writestorage(orderready) {
         sessionStorage.setItem('bestellung', orderready);
+        location.href="https://localhost:8080/conf.html";
     }
 
 

@@ -48,10 +48,10 @@ function pizzenInListe(){
 		}
 		
 		
-		//bestelltext für einzelne pizza erstellen
-		var bestellungstext = count + " x" + " Pizza " + name + extratext +"             Gr\u00F6\u00DFe: " + size + ", Preis: " + price + " \u20AC";
+		//bestelltext fï¿½r einzelne pizza erstellen
+		var bestellungstext = count + " x" + " Pizza " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
 	
-		//text zur liste auf der html seite hinzufügen
+		//text zur liste auf der html seite hinzufï¿½gen
 		var listItem = document.createElement("li");
 		listItem.innerText = bestellungstext;
 		var list = document.getElementById("bestellliste");
@@ -60,11 +60,11 @@ function pizzenInListe(){
 	}
 	
 function totalinListe(){
-		//gesamtpreis in liste auf html seite hinzufügen
+		//gesamtpreis in liste auf html seite hinzufï¿½gen
 		total = "Zusammen: " + total + " \u20AC";
 		var listItem = document.createElement("li");
 		listItem.innerText = total;
-		var list = document.getElementById("bestellliste");
+		var list = document.getElementById("gesamtpreis");
 		list.appendChild(listItem);
 }
 

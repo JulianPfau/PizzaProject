@@ -23,8 +23,11 @@
 /* OVERRIDES */
 
 .btn{
-    border-radius: 0px !important;
+    border-radius: 4px !important;
     transition: 0.4s;
+	box-shadow: none;
+	border-color:none;
+	margin-left: 100px;
 }
 
 .btn:active{
@@ -46,11 +49,19 @@
 input{
     border: 2px solid rgba(66, 66, 66, 0.15) !important;
     transition: 0.4s;
+	/*background-color:rgba(255,100,20,0.2)!important;*/
 }
 
-input:focus{
-    border: 2px solid rgba(66, 66, 66, 0.45) !important;
-    transition: 0.4s;
+.form-control:focus{
+	border: 2px solid rgba(66, 66, 66, 0.15) !important;
+}
+.form-control{
+	border: 2px solid rgba(66, 66, 66, 0.15) !important;
+}
+
+.btn-secondary {
+    border: 2px solid rgba(66, 66, 66, 0.15) !important;
+    transition: 8.4s;
 }
 
 .form-control:focus {
@@ -86,12 +97,12 @@ input:focus{
 }
 
 .grey-o5{
-    background-color: rgba(66, 66, 6, 0.5);
+    background-color: rgba(66, 66, 6,, 0.5);
     color: white;
 }
 
 .text-grey-o5{
-    color: rgba(66, 66, 6, 0.5);
+    color: rgba(66, 66, 6,, 0.5);
 }
 
 .light-grey{
@@ -106,15 +117,3 @@ input:focus{
 .text-white{
     color: #ffffff;
 }
-
-/* Bestellung */
-#bestellliste{
-    font-size: 1.2rem;
-
-}
-
-#gesamtpreis li{
-    display: grid;
-    font-size: 1.3rem;
-}
-
