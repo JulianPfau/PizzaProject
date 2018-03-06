@@ -167,7 +167,9 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
-                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + "this" + ')' );
+                //Sets the onclick event for the items span. Will also send the index i for further use
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + i + ')' );
+                menuInhalt[2].setAttribute('identification', 'spanElement' + i);
 
                 //Sets everything to open Contact Popup
                 menuInhalt[5].removeAttribute('contenteditable');
@@ -388,7 +390,7 @@ function getExtras(json) {
  *
  * @param json with the Items to be loaded
  */
-function loadItems(json, element) {
+function loadItems(json, indexOfSpan) {
     //get the table in wich should be loaded
     var table = document.getElementById("modal-table");
     var length = 6;
@@ -398,7 +400,7 @@ function loadItems(json, element) {
 
     //Removes all Items
     for (var y = table.children.length - 1; y > 0; y--) {
-        if (table.children[y].classList.contains("menuElement")) {
+        if (table.children[y].classList.contains("tr")) {
             table.removeChild(table.children[y]);
         }
     }
@@ -462,8 +464,16 @@ function loadItems(json, element) {
     }
 
 
-    console.log(element);
-    alert(element.innerHTML);
+    //My Part for testing
+
+
+
+    buttonModalItemsSave = document.getElementById("button-modal-items-save");
+    buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
+
+
+    //
+    //storeItemsInOrders(element);
 
 
 
@@ -585,8 +595,92 @@ function loadNewFooter(span) {
 
 
 
-function storeItemsInOrders(element) {
+function storeItemsInOrders(indexOfSpan) {
+
+    //alert(indexOfSpan);
+
+    //Format: loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}], 0)
+
     var tableOfItemsModal = document.getElementById("modal-table");
+    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
+
+    var jsonFormatting = ["name", "size", "price", "extras", "count"];
+
+
+
+    var itemsStoredToJson = 'loadItems([';
+
+    for (var i2 = 0, lengthOfEntries = entriesOfTable.length; i2 < lengthOfEntries; ++i2) {
+        itemsStoredToJson += '{';
+
+
+        for (var i3 = 1, lengthOfElements = 6; i3 < lengthOfElements; ++i3) {
+
+            switch(i3) {
+                //For the "name"
+                case 1:
+                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
+                    break;
+
+                //For the "size"
+                case 2:
+                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
+                    break;
+
+                //For the Price
+                case 3:
+                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + entriesOfTable[i2].children[i3].children[0].innerHTML;
+                    break;
+
+                //For the extras
+                case 4:
+                    var extrasTemp = entriesOfTable[i2].children[i3].children[0].innerHTML;
+                    if (extrasTemp == "None") {
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[]';
+                    } else {
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[' + entriesOfTable[i2].children[i3].children[0].innerHTML + ']';
+                    }
+                    break;
+                //For the "count"
+                case 5:
+                    itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + entriesOfTable[i2].children[i3].children[0].innerHTML;
+                    break;
+
+                default:
+                    //Nothing happens
+
+            }
+
+            //itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + entriesOfTable[i2].children[i3].children[0].innerHTML + '"';
+            //entriesOfTable[i2].children[i3].children[0]
+
+            if (i3 < lengthOfElements - 1) {
+                itemsStoredToJson += ',';
+            }
+        }
+
+        itemsStoredToJson += '}';
+        if (i2 < lengthOfEntries - 1) {
+            itemsStoredToJson += ',';
+        }
+    }
+
+    itemsStoredToJson += '], ' + indexOfSpan + ')';
+    console.log(itemsStoredToJson);
+
+
+
+
+
+
+    var spansElements = document.querySelectorAll('[identification]');
+
+    for (var i4 = 0, lengthOfSpanElements = spansElements.length; i4 < lengthOfSpanElements; ++i4) {
+        if (spansElements[i4].getAttribute("identification") == ("spanElement" + indexOfSpan)) {
+            spansElements[i4].setAttribute('onclick', itemsStoredToJson);
+        }
+    }
+
 
 
 }
