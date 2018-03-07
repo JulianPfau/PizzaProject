@@ -184,6 +184,11 @@ input[type=file] {
     z-index: -1;
 }
 
+
+.modified {
+    background-color: #c69500;
+}
+
 /* -------------------------------- Responsive Buttons admin.html -------------------------------*/
 
 ul {
