@@ -1,0 +1,28 @@
+Todo-Liste, grob sortiert nach Priorität:
+
+- Validierung der Eingaben (Zahlen bei Totals und CusomerID's, nur Größen bei Size etc). Im Moment kann man überall fast alles reinschreiben. Size könnte ein Dropdownmen sein.
+
+- Speichern und Löschen funktioniert auf orders.html bei mir nicht
+
+- Unter customer.html funktioniert es noch nicht einen customer einzuspeichern.
+
+- Beispieldaten generieren, die zahlreicher sind und seriöser aussehen (Wo die Totalwerte zu den Preisen und Counts passen).
+
+
+
+- Bei der ersten Füllung der orders.html Tabelle die Namen so generieren, dass die Counts mitinbegriffen sind (etwa so, wie die Nach dem speichern von mir dargestellt werden?) und nach dem Komma ein Leerzeichen einfügen.
+
+
+- Bei orders.html ist es noch nicht möglich die Änderungen am "Contact" zu ändern. Da das nochmal eineige Zeit brauchen würde, würde ich vorschlagen einfach die contenteditable auf false zu setzten und das Fenster zu einem Infofenster werden zu lassen (dann wirkt es gewollt :D)
+
+
+
+- Auswahl von Bildern in menu.html laggfrei machen
+
+- Für "Done" einen Button einfügen, der es auf 1 setzt, oder eine checkbox
+
+- die Einfärbung bei Änderung (db-danger) auf das ganze Div zu machen, weil das besser aussehen würde glaube ich.
+
+- Bei orders.html: Auswahl von anderem Nutzer möglich machen? Im Moment ist nur Bearbeitung des Nutzers möglich.
+
+- Es würde eigentlich Sinn machen, die möglichen Items (bei orders.html) aus einem Dropdown-Menü der Speisekartenelemente auszuwählen, da die Kunden ja auch nur die bestellen können. Dafür ist es jetzt aber vermutlich zu spät, deswegen lassen wir das denke ich so.
