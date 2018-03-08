@@ -106,8 +106,11 @@ body {
 }
 
 /* ------------------------------------- Drag and Drop Feld -------------------------------------*/
+
 #dropZone {
-    position:relative;
+    margin: 0 auto;
+    width:100%;
+    height: 500px;
     border-style: dashed;
     background-color: #e9e9e9;
     text-align: center;
