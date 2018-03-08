@@ -133,11 +133,11 @@ function saveTableToServer(table) {
                     key = row[n].firstChild.id.toLowerCase();
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadContactOrder(")[1];
-                        value = JSON.parse(data.replace("\)", "").replace("\}", ""));
+                        var data = tmp.onclick.toString().split("loadContactOrder(")[1].substr(0, tmp.onclick.toString().split("loadContactOrder(")[1].length - 6);
+                        value = JSON.parse(data);
                     } else if (key == "items") {
                         var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadItems(")[1];
+                        var data = tmp.onclick.toString().split("loadItems(")[1].substr(0, tmp.onclick.toString().split("loadItems(")[1].length - 6);
                         value = JSON.parse(data.split("\)")[0]);
                     } else {
                         value = row[n].firstChild.innerHTML;

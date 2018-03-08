@@ -217,7 +217,7 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (json[i].name == "") ? "None" : json[i].name;
-                menuInhalt[3].innerHTML = json[i].preis;
+                menuInhalt[3].innerHTML = json[i].price;
                 break;
         }
 
@@ -257,6 +257,8 @@ function splitArray(array) {
  * @param json The JSON woch should be displayed
  */
 function loadContact(json, index) {
+    console.log(json);
+    console.log(index);
     //Popup title is name of Contact
     document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup("' + index + '")');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
@@ -863,8 +865,8 @@ function saveContactPopup(index) {
         }
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
-
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    console.log(document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement'));
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact")
             row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
