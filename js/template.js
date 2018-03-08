@@ -110,7 +110,6 @@ function t_popup() {
     $(popupID).load(TemplatePath + PopupFile);
 }
 
-
 /* [T] Navigation Template */
 function t_navigation() {
     // Filename of the Naviagtion Template
@@ -121,19 +120,25 @@ function t_navigation() {
         var hours = document.getElementById("hours");
         var state = document.getElementById("state");
         var cart = document.getElementById("cart");
+        var logout = document.getElementById("logout");
+		var menu = document.getElementById("menu");
         
         // inserts the page links into the navigation
         orderradius.href = ORDER_URL;
         hours.href = HOURS_URL;
         state.href = LOGIN_URL;
         cart.href = CART_URL;
+        menu.href = MENU_URL;
         
         // CHANGE LATER (insert the correct local and session Storage)
         // if the user is logged in show the Profile name
         if (true) {
-            state.innerText = "Dummy Data"; //sessionStorage.getItem('name');
+            state.innerText = "Profil"; //sessionStorage.getItem('name');
             state.href = PROFILE_URL;
-        }
+            logout.style.display = "block";
+        }else{
+			logout.style.display = "none";
+		}
         
         // CHANGE LATER (insert the correct local and session Storage)
         // if the localstorage of the cart exists, show the item amount
