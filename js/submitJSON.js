@@ -890,14 +890,12 @@ function saveContactOrdersPopup(index) {
         }
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
-    console.log(json);
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact") {
             row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
         }
     }
-    console.log(row);
 
     document.getElementById("closeModalContacts").click();
 }
