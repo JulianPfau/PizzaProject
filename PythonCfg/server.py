@@ -7,8 +7,9 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-import ajaxGoogleAPI
-import requestsJSON
+from ajaxGoogleAPI import *
+from requestsJSON import *
+from sessionid import *
 
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
@@ -233,7 +234,6 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(request)
-
         try:
             if data['request'] == 'fileUpload':
                 response = fileupload(data)
@@ -245,7 +245,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = jsondata(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'ajaxGoogleAPI':
-                response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
+                response = calcDistance(data['plz_pizza'], data['plz_user'])
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'saveJSON':
                 response = saveJSON(data)
@@ -254,16 +254,22 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = MyServer.delete_header(self)
                 self.wfile.write(bytes(response, "UTF8"))
             if data['request'] == 'newOrder':
-                response = requestsJSON.appendOrder(json_dir, data)
+                response = appendOrder(json_dir, data)
                 self.wfile.write(bytes(response, "UTF8"))
-            if data['request'] == 'getOrder':
-                response = requestsJSON.getOrderbyId(json_dir, data)
+            if data['request'] == 'getOrderbyId':
+                response = getOrderbyId(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'login':
                 response = login(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'register':
                 response = register(data)
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'checkSID':
+                response = checkSessionID(data['value']['id'])
+                self.wfile.write(bytes(response, 'UTF8'))
+            if data['request'] == 'getOrderbyMail':
+                response = getOrderbyMail(json_dir, data)
                 self.wfile.write(bytes(response, 'UTF8'))
         except IOError:
             self.send_error(404, "Something went wrong")

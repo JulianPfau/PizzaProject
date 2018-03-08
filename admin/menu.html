@@ -12,7 +12,7 @@
     <script src="../js/submitJSON.js"></script>
     <script src="../js/uploadImage.js"></script>
 </head>
-<body class="light-grey">
+<body>
 <div class="container">
     <div class="topnav" id="navbar">
         <a href="orders.html"> Bestellungen </a>
@@ -50,7 +50,7 @@
             <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Types" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
-            <div class="td" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()"><span class="Input footer" id="Extras"></span></div>
+            <div class="td"><span class="Input footer" id="Extras" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()">None</span></div>
             <div class="td" id="img"><img src="../img/menu/default.png" id="img" width="25px"></div>
         </div>
     </div>

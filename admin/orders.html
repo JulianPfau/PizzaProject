@@ -14,7 +14,7 @@
     <script src="../js/submitJSON.js"></script>
     <script src="../js/uploadImage.js"></script>
 </head>
-<body class="light-grey">
+<body>
 <div class="container">
     <div class="topnav" id="navbar">
         <a class="active" href=""> Bestellungen </a>
@@ -81,8 +81,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onClick="saveItems(this)">Save changes</button>
+                    <!-- Buttons at the bottom -->
+                    <button type="button" class="btn btn-secondary" id="closeModalItems" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button-modal-items-save">Save changes</button>
                 </div>
             </div>
         </div>
@@ -105,8 +106,8 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" id="closeModal" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveExtrasPopup(this)">Save changes</button>
                 </div>
             </div>
         </div>
@@ -144,7 +145,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onClick="saveContacts(this)">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="closeModalContacts">Save changes</button>
                 </div>
             </div>
         </div>

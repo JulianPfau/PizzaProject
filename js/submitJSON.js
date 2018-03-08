@@ -1,17 +1,18 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
 var extras;
+
 //var object;
 
 /**  Requests a JSON file in the /json directory of the server and calls a
-    specified function with the parsed JSON Element as parameter.
+ specified function with the parsed JSON Element as parameter.
 
-    Parameters:
-    - cFunction     the Function to call then successful
-    - file          the file name without the .json ending
+ Parameters:
+ - cFunction     the Function to call then successful
+ - file          the file name without the .json ending
 
-    Nothing happens on Error.
-**/
+ Nothing happens on Error.
+ **/
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
     var xhr = new XMLHttpRequest();
@@ -86,13 +87,13 @@ function loadJSONToTable(json, index) {
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
             //Also add the event for highlighting changes
-            menuInhalt[n].onkeydown = function(event) {
+            menuInhalt[n].onkeydown = function (event) {
                 //Key-Codes which will be ignored
-                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-                if (!keys.includes(event.keyCode)) {
+                if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     //Activates the del changes button
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                    this.setAttribute('class', 'bg-warning');}
+                    this.parentElement.setAttribute('class', 'td bg-warning');
+                }
             };
         }
         // Creates the delet Button and add function to change
@@ -108,7 +109,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ','+ i +')');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ')');
 
                 //Adds picture to Table
                 menuInhalt[8] = document.createElement('img');
@@ -128,7 +129,7 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayes
                 menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
                 menuInhalt[2].innerHTML = (json[i].description == "") ? "None" : json[i].description;
-                menuInhalt[3].innerHTML = (json[i].prices == "") ? "None" :splitArray(json[i].prices) ;
+                menuInhalt[3].innerHTML = (json[i].prices == "") ? "None" : splitArray(json[i].prices);
                 menuInhalt[4].innerHTML = (json[i].sizes == "") ? "None" : splitArray(json[i].sizes);
                 menuInhalt[5].innerHTML = (json[i].types == "") ? "None" : json[i].types;
                 menuInhalt[6].innerHTML = (json[i].tags == "") ? "None" : splitArray(json[i].tags);
@@ -141,7 +142,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[6] = document.createElement('span');
                 menuInhalt[6].setAttribute('data-toggle', 'modal');
                 menuInhalt[6].setAttribute('data-target', '#modal');
-                menuInhalt[6].setAttribute('onClick', 'loadContact(' + JSON.stringify(json[i].contact) + ')');
+                menuInhalt[6].setAttribute('onClick', 'loadContact(' + JSON.stringify(json[i].contact) + ', ' + i + ')');
 
                 //IDs for each cell & remove option to change ID
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -167,13 +168,18 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].removeAttribute('contenteditable');
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
-                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + "this" + ')' );
+                //Sets the onclick event for the items span. Will also send the index i for further use
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + i + ')');
+                menuInhalt[2].setAttribute('identification', 'spanElement' + i);
+
+                //Setting an identifier for the total, so the sum can be calculated lateron.
+                menuInhalt[3].setAttribute('identification-of-total', 'total' + i);
 
                 //Sets everything to open Contact Popup
                 menuInhalt[5].removeAttribute('contenteditable');
                 menuInhalt[5].setAttribute('data-toggle', 'modal');
                 menuInhalt[5].setAttribute('data-target', '#modal');
-                menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ')');
+                menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ', ' + i + ')');
 
                 //IDs for each cell & remove option to change ID
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -187,9 +193,11 @@ function loadJSONToTable(json, index) {
                 //Save items name in Array to be displayed later
                 var items = new Array();
                 for (var k = 0; k < json[i].items.length; k++) {
-                    items[k] = json[i].items[k].name;
+                    items[k] = "";
+                    if (json[i].items[k].count > 1)
+                        items[k] = json[i].items[k].count + "x "
+                    items[k] += json[i].items[k].name;
                 }
-
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
@@ -235,7 +243,7 @@ function loadJSONToTable(json, index) {
 function splitArray(array) {
     var str = "";
     //Seperates the array content witch ";"
-    for (var i = 0;i < array.length;i++) {
+    for (var i = 0; i < array.length; i++) {
         str += array[i] + ";";
     }
     //Removes the last ";"
@@ -248,8 +256,9 @@ function splitArray(array) {
  *
  * @param json The JSON woch should be displayed
  */
-function loadContact(json) {
+function loadContact(json, index) {
     //Popup title is name of Contact
+    document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup(' + index + ')');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("IDContact").innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
@@ -264,57 +273,58 @@ function loadContact(json) {
  *
  * @param json wich should be displayed in Popup
  */
-function loadContactOrder(json) {
+function loadContactOrder(json, index) {
+    document.getElementsByClassName('btn btn-primary')[2].setAttribute('onclick', "saveContactOrdersPopup(" + index + ")");
     //Content for Cell
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
     //Change Event
-    document.getElementById("modalContactsTitle").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("modalContactsTitle").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
-    document.getElementById("Name").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("Name").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
-    document.getElementById("Postcode").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("Postcode").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
-    document.getElementById("Street").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("Street").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
-    document.getElementById("City").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("City").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
-    document.getElementById("Nr").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("Nr").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
-    document.getElementById("Phone").onkeydown = function() {
-        var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-        if (!keys.includes(event.keyCode)) {
+    document.getElementById("Phone").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
 }
 
@@ -324,13 +334,12 @@ function loadContactOrder(json) {
  * @param product the JSON of the Item
  * @param index to get the parent on save needed
  */
-function loadExtras(product,index) {
-
+function loadExtras(product, index) {
     //Sets title of Extras Popup
     document.getElementById("modalExtrasItems").innerHTML = (product == undefined) ? "Extras" : product.name + " Extras";
     //Sets index for write
     var extrasBox = document.getElementById("extrasBox");
-    extrasBox.setAttribute('name',index);
+    extrasBox.setAttribute('name', index);
 
     //Removes all Extras from Popup
     while (extrasBox.firstChild) {
@@ -347,15 +356,15 @@ function loadExtras(product,index) {
 
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
-        input.setAttribute('id',extras[i].id);
+        input.setAttribute('id', extras[i].id);
 
         //Content & Change Event for extra
         span.innerHTML = " " + extras[i].name;
-        span.onkeydown = function() {
-            var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-            if (!keys.includes(event.keyCode)) {
+        span.onkeydown = function () {
+            if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                 document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                this.setAttribute('class', 'bg-warning');}
+                this.parentElement.setAttribute('class', 'td bg-warning');
+            }
         };
 
         //Checks weather the extras is already in selected or not and it'll be marked if so
@@ -388,7 +397,7 @@ function getExtras(json) {
  *
  * @param json with the Items to be loaded
  */
-function loadItems(json, element) {
+function loadItems(json, indexOfSpan) {
     //get the table in wich should be loaded
     var table = document.getElementById("modal-table");
     var length = 6;
@@ -398,7 +407,7 @@ function loadItems(json, element) {
 
     //Removes all Items
     for (var y = table.children.length - 1; y > 0; y--) {
-        if (table.children[y].classList.contains("menuElement")) {
+        if (table.children[y].classList.contains("tr")) {
             table.removeChild(table.children[y]);
         }
     }
@@ -426,11 +435,11 @@ function loadItems(json, element) {
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
             //Onchange event
-            menuInhalt[n].onkeydown = function() {
-                var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
-                if (!keys.includes(event.keyCode)) {
+            menuInhalt[n].onkeydown = function () {
+                if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                    this.setAttribute('class', 'bg-warning');}
+                    this.parentElement.setAttribute('class', 'td bg-warning');
+                }
             };
         }
         //Creats the delete button + function
@@ -439,7 +448,20 @@ function loadItems(json, element) {
         menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
 
         //Content of all cells
-        menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
+        var div = document.createElement('div');
+        div.setAttribute('class', 'dropdown');
+        div.setAttribute('data-toggle', 'dropdown');
+        div.setAttribute('onclick', 'getJsonByRequest(dropdownItems, "menu")');
+        var span = document.createElement('span');
+        span.setAttribute('class', 'dropdown-toggle');
+        span.innerHTML = (json[i].name == "") ? "None" : json[i].name;
+        var ul = document.createElement('ul');
+        ul.setAttribute('class', 'dropdown-menu');
+        ul.setAttribute('id', 'dropDownList');
+        div.appendChild(ul);
+        div.appendChild(span);
+        menuInhalt[1].appendChild(div);
+
         menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
         menuInhalt[3].innerHTML = (json[i].price == "") ? "None" : json[i].price;
         menuInhalt[4].innerHTML = (json[i].extras.length == 0) ? "None" : json[i].extras;
@@ -449,7 +471,7 @@ function loadItems(json, element) {
         menuInhalt[4].removeAttribute('contenteditable');
         menuInhalt[4].setAttribute('data-toggle', 'modal');
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
-        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ')');
+        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ')');
 
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
@@ -462,9 +484,15 @@ function loadItems(json, element) {
     }
 
 
-    console.log(element);
-    alert(element.innerHTML);
+    //My Part for testing
 
+
+    var buttonModalItemsSave = document.getElementById("button-modal-items-save");
+    buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
+
+
+    //
+    //storeItemsInOrders(element);
 
 
 }
@@ -476,9 +504,9 @@ function loadItems(json, element) {
  */
 function markDelete(box) {
     if (box.checked) {
-        box.parentElement.parentElement.setAttribute('class','tr bg-danger');
+        box.parentElement.parentElement.setAttribute('class', 'tr bg-danger');
     } else {
-        box.parentElement.parentElement.setAttribute('class','tr menuElement');
+        box.parentElement.parentElement.setAttribute('class', 'tr menuElement');
     }
 }
 
@@ -534,7 +562,8 @@ function fillItems(btn, json) {
     var span = btn.parentElement.parentElement;
     span.getElementsByTagName("span")[0].innerHTML = json.name;
 
-    var row = span.parentElement.parentElement.children;
+    var row = span.parentElement.parentElement.parentElement.children;
+    console.log(row);
     row[2].firstChild.innerHTML = json.sizes[json.sizes.length - 1];
     row[3].firstChild.innerHTML = json.prices[json.prices.length - 1];
 }
@@ -583,10 +612,286 @@ function loadNewFooter(span) {
     }
 }
 
+/*
+ *  Function to store the changes made in the modal items window.
+ *
+ *  Parameters:
+ *      -   indexOfSpan:    int value to specify which element in which row was being clicked on
+ *                          This will help tu find in later on.
+ *
+ *  This is being called, when the save button of the modal items window (the one that is opened, when someone
+ *  on orders.html clicks on one of the "items" elements) is being pressed.
+ *
+ *  The items elements in the table of orders.html have following onclick-event:
+ *  EXAMPLE:     loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1}], 0)
+ *
+ *  This calls the loadItems() Function with the parameters:
+ *      -   jsonElement for the content:                    [{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1}]
+ *      -   int index of which element was clicked on:      0
+ *
+ *  The loadItems() Function builds the modal items window with the content that is given in the json object.
+ *
+ *  This(!) function (storeItemsInOrders) basically takes all the content of the modal-table and generates the onclick
+ *  attribute that looks like the example above. When this is generated, it is overwritten to the element that is found by
+ *  using the parameter indexOfSpan.
+ *
+ *
+ *  Last Change:    6.3.2018            Author:     Nickels Witte
+ */
+function storeItemsInOrders(indexOfSpan) {
 
-
-function storeItemsInOrders(element) {
+    //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
+    //Getting all the entries with the class "menuElement", which basically are the tableRows (that are not marked to be deleted)
+    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
+
+    //This part will find the element that was clicked on by using the identifier
+    var thisElementThatWasClickedOn;
+    var itemsSpanElements = document.querySelectorAll('[identification]');
+    for (var i4 = 0, lengthOfSpanElements = itemsSpanElements.length; i4 < lengthOfSpanElements; ++i4) {
+        if (itemsSpanElements[i4].getAttribute("identification") == ("spanElement" + indexOfSpan)) {
+            thisElementThatWasClickedOn = itemsSpanElements[i4];
+        }
+    }
+
+    //This part will get the total element that is next to the items element, that was clicked on (The total cost element).
+    var totalElement;
+    var totalsSpanElements = document.querySelectorAll('[identification-of-total]');
+
+    for (var i5 = 0, lengthofTotalsSpanElements = totalsSpanElements.length; i5 < lengthofTotalsSpanElements; ++i5) {
+        if (totalsSpanElements[i5].getAttribute("identification-of-total") == ("total" + indexOfSpan)) {
+            totalElement = totalsSpanElements[i5];
+        }
+    }
+
+    //Storing the amount of menuElement-elements we have for further use.
+    var lengthOfEntriesOfTable = entriesOfTable.length;
+
+    //Array with the json keywords
+    var jsonFormatting = ["name", "size", "price", "extras", "count"];
+
+    //When there are any elements that are not marked to be deleted (or in other words, if there are more than 0 elements
+    //with the class menuElement), then do the following
+    if (lengthOfEntriesOfTable > 0) {
+
+        //String where the onclickattribute will be stored in. It will have the following format:
+        //Format: loadItems([{"name":"Salami Pizza","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}], 0)
+        var itemsStoredToJson = 'loadItems([';
+        //The names of all items for the table of orders.html
+        var namesOfItems = "";
+        //The sum of all the costs
+        var costSumOfAllItems = 0;
+
+        //First for loop to cycle through the rows
+        for (var i2 = 0; i2 < lengthOfEntriesOfTable; ++i2) {
+            //The beginning of one json element
+            itemsStoredToJson += '{';
+
+            //Storing the count of this row for further use
+            var countOfThisRow = parseInt(entriesOfTable[i2].children[5].children[0].innerHTML);
+
+            //Second for loop to iterate through the actual table cells
+            for (var i3 = 1, lengthOfElements = 6; i3 < lengthOfElements; ++i3) {
+                //Getting the current element of the table
+                //This needs two children-calls, as the spans are nested in divs.
+                var currentElement = entriesOfTable[i2].children[i3].children[0];
+
+                //Switch to differenciate between the different kinds of cells
+                switch (i3) {
+                    //For the "name"
+                    case 1:
+                        //attaching "name":"VALUE" to the string
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        //Getting the count to properly display the names
+
+                        if (countOfThisRow == 1) {
+                            namesOfItems += currentElement.innerHTML;
+                        } else if (countOfThisRow > 1) {
+                            namesOfItems += countOfThisRow + " x " + currentElement.innerHTML;
+                        } else {
+                            //Nothing
+                        }
+
+                        //attaching the name to the string that will hold the names for further use
+
+                        break;
+
+                    //For the "size"
+                    case 2:
+                        //like above
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        break;
+
+                    //For the Price
+                    case 3:
+                        //Here we dont use the "" to make it int.
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+
+                        //Getting the count of this row to use it to calculate the actual cost
+                        costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
+                        break;
+
+                    //For the extras
+                    case 4:
+                        //Extras are a little bit special: They are in an array itself and this needs to be considered.
+                        if (currentElement.innerHTML == "None") {
+                            itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[]';
+                        } else {
+                            itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[' + currentElement.innerHTML + ']';
+                        }
+                        break;
+                    //For the "count"
+                    case 5:
+                        //Same as in case 3
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+                        break;
+
+                    default:
+                    //Nothing happens
+
+                }
+
+                //This happens every time after an table cell element, but not the last time
+                if (i3 < lengthOfElements - 1) {
+                    //attaching an comma to the string, so the json elements are properly seperated
+                    itemsStoredToJson += ',';
+                }
+            }
+
+            //Attaching this to end the jsonElement
+            itemsStoredToJson += '}';
+
+            //Things to do every end of a row, except the last time
+            if (i2 < lengthOfEntriesOfTable - 1) {
+                //separating the elements
+                itemsStoredToJson += ',';
+                //separating the names
+                namesOfItems += ', ';
+            }
+        }
+
+        //Ending the string with the end of the array and the index.
+        itemsStoredToJson += '], ' + indexOfSpan + ')';
+
+        //When there is a change in the data
+        if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
+            //then mark the element as being edited
+            thisElementThatWasClickedOn.className = "bg-warning";
+        }
+
+        //This is then written to the onclick attribute of the original element (that was clicked on)
+        //So then, the next time the changed content is being loaded.
+        thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+        //The element's innerHTML gets the nameString, as the Items may have changed
+        thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+        //The Total also might have changed and this is updated too.
+        totalElement.innerHTML = costSumOfAllItems;
 
 
+        //In case of no Item that can be stored
+    } else {
+        //Setting the onclick attribute, but making the content empty
+        thisElementThatWasClickedOn.setAttribute('onclick', 'loadItems([], ' + indexOfSpan + ')');
+        //Setting the innerHTML
+        thisElementThatWasClickedOn.innerHTML = "Error: No Items";
+
+        //Because the total of no elements is 0
+        totalElement.innerHTML = 0;
+
+        //Finding the right checkboxElement
+        //This is that way, because the HTMLStructure is designed that way.
+        var checkboxElement = thisElementThatWasClickedOn.parentElement.parentElement.firstChild.firstChild;
+
+        //As there are no items, the whole order probably makes no sense anymore and I mark it to be deleted.
+        checkboxElement.checked = true;
+        markDelete(checkboxElement);
+    }
+    document.getElementById("closeModalItems").click();
+}
+
+function saveExtrasPopup(btn) {
+    var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
+    var list = modal.getElementsByTagName("label");
+    var extras = [];
+    var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].firstChild.checked) {
+            extras.push(parseInt(list[i].firstChild.id));
+        }
+    }
+    var row = document.getElementsByClassName("tr menuElement")[index].children;
+    for (var n = 0; n < row.length; n++) {
+        if (row[n].firstChild.id.toLowerCase() == "items") {
+            var input = row[n].firstChild;
+            var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
+            var paramString = onclickString[0].split("([")[1].split("}],")[0] + "}";
+            var object = JSON.parse(paramString);
+            object.extras = extras;
+            var param = JSON.stringify(object);
+            var fnstr = "loadExtras(" + param + ", " + index + ")";
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('onclick', "getJsonByRequest(getExtras,'extras'); " + fnstr);
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.innerHTML = splitArray(object.extras).replace(/\s/g, '');
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('class', 'Input bg-warning');
+        }
+
+    }
+    document.getElementById("closeModal").click();
+
+
+}
+
+function saveContactPopup(index) {
+    var modal = document.getElementsByClassName("modal-body")[0].firstElementChild.getElementsByClassName('tr')[1];
+    var json = "{";
+
+    for (var i = 0; i < modal.children.length; i++) {
+        var key = modal.children[i].firstElementChild.id.toLowerCase();
+        var value = modal.children[i].firstElementChild.innerHTML;
+
+        if (key != "postcode") {
+            json += '"' + key + '":"' + value + '",';
+        } else {
+            if (value == "")
+                value = -1;
+            json += '"' + key + '":' + value + ',';
+        }
+    }
+    json = JSON.parse(json.substr(0, json.length - 1) + "}");
+
+    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    for (var j = 1; j < row.children.length; j++) {
+        if (row.children[j].firstElementChild.id == "Contact")
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+    }
+
+    document.getElementById("closeModalItems").click();
+}
+
+function saveContactOrdersPopup(index) {
+    var modal = document.getElementsByClassName("modal-body")[2].firstElementChild.getElementsByClassName('tr')[1];
+    var json = "{";
+
+    for (var i = 0; i < modal.children.length; i++) {
+        var key = modal.children[i].firstElementChild.id.toLowerCase();
+        var value = modal.children[i].firstElementChild.innerHTML;
+
+        if (key != "postcode") {
+            json += '"' + key + '":"' + value + '",';
+        } else {
+            if (value == "")
+                value = -1;
+            json += '"' + key + '":' + value + ',';
+        }
+    }
+    json = JSON.parse(json.substr(0, json.length - 1) + "}");
+    console.log(json);
+    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    for (var j = 1; j < row.children.length; j++) {
+        if (row.children[j].firstElementChild.id == "Contact") {
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+        }
+    }
+
+    document.getElementById("closeModalContacts").click();
 }

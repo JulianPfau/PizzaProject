@@ -1,0 +1,28 @@
+Todo-Liste, grob sortiert nach Priorit�t:
+
+- Validierung der Eingaben (Zahlen bei Totals und CusomerID's, nur Gr��en bei Size etc). Im Moment kann man �berall fast alles reinschreiben. Size k�nnte ein Dropdownmen sein.
+
+✔ Speichern und L�schen funktioniert auf orders.html bei mir nicht
+
+✔ Unter customer.html funktioniert es noch nicht einen customer einzuspeichern.
+
+- Beispieldaten generieren, die zahlreicher sind und seri�ser aussehen (Wo die Totalwerte zu den Preisen und Counts passen).
+
+
+
+✔ Bei der ersten F�llung der orders.html Tabelle die Namen so generieren, dass die Counts mitinbegriffen sind (etwa so, wie die Nach dem speichern von mir dargestellt werden?) und nach dem Komma ein Leerzeichen einf�gen.
+
+
+✔ Bei orders.html ist es noch nicht m�glich die �nderungen am "Contact" zu �ndern. Da das nochmal eineige Zeit brauchen w�rde, w�rde ich vorschlagen einfach die contenteditable auf false zu setzten und das Fenster zu einem Infofenster werden zu lassen (dann wirkt es gewollt :D)
+
+
+
+- Auswahl von Bildern in menu.html laggfrei machen
+
+- F�r "Done" einen Button einf�gen, der es auf 1 setzt, oder eine checkbox
+
+✔ die Einf�rbung bei �nderung (db-danger) auf das ganze Div zu machen, weil das besser aussehen w�rde glaube ich.
+
+- Bei orders.html: Auswahl von anderem Nutzer m�glich machen? Im Moment ist nur Bearbeitung des Nutzers m�glich.
+
+✔ Es w�rde eigentlich Sinn machen, die m�glichen Items (bei orders.html) aus einem Dropdown-Men� der Speisekartenelemente auszuw�hlen, da die Kunden ja auch nur die bestellen k�nnen. Daf�r ist es jetzt aber vermutlich zu sp�t, deswegen lassen wir das denke ich so.

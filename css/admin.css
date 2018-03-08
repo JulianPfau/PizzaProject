@@ -13,16 +13,13 @@ body {
     z-index: 100;
 }
 
-.row {
-    flex: 1;
+.index{
+    background-color: #ecf0f1;
+    text-align: center;
 }
 
-.index{
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background-color: lightgrey;
+.row {
+    flex: 1;
 }
 
 /* ------------------------------------- Navigationsleiste -------------------------------------*/
@@ -111,12 +108,6 @@ body {
 /* ------------------------------------- Drag and Drop Feld -------------------------------------*/
 #dropZone {
     position:relative;
-    top: 50%;
-    left: 50%;
-    width: 600px;
-    height:500px;
-    margin-top: 10px;
-    margin-left: -15em;
     border-style: dashed;
     background-color: #e9e9e9;
     text-align: center;
@@ -193,10 +184,17 @@ input[type=file] {
     z-index: -1;
 }
 
+
+.modified {
+    background-color: #c69500;
+}
+
 /* -------------------------------- Responsive Buttons admin.html -------------------------------*/
 
 ul {
-    position: relative;
+    width: 99%;
+    margin: 0 auto;
+    margin-top: 150px;
 }
 
 li {
@@ -225,23 +223,16 @@ li:nth-child(5) button {
     background-size: 100% 100%;
 }
 
-@media screen and (max-width: 1000px){
-    .indexbutton {
-        width: 110px;
-        height: 110px;
-    }
-}
 
 .indexbutton {
     background-size: 25% 25%;
-    width: 220px;
-    height: 220px;
+    position: relative;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    border: 5px solid white;
-    color: white;
+    border: 0px;
     cursor: pointer;
-    padding: 0;
-    filter: grayscale(100%);
+    /*filter: grayscale(100%);*/
 }
 button:hover{
     filter: grayscale(0%);
@@ -255,6 +246,8 @@ button:hover{
 
 .hover-square {
     height: 100vh;
+    position: fixed;
+    z-index: 15;
     overflow: hidden;
     flex-wrap: wrap;
     justify-content: center;
@@ -264,7 +257,7 @@ button:hover{
 .hover-square a {
     color: black;
     padding: 0.7em calc(0.7em * 1.2);
-    display: inline-block;
+    display: block;
     border: 3px solid transparent;
     position: relative;
     font-size: 1.5em;
@@ -284,13 +277,13 @@ button:hover{
     left: calc(0.7em * 1.2);
     right: calc(0.7em * 1.2);
     height: 3px;
-    background: #f26522;
+    background: #e16f55;
     transition: transform 0.8s cubic-bezier(1, 0, 0.37, 1) 0.2s, right 0.2s cubic-bezier(0.04, 0.48, 0, 1) 0.6s, left 0.4s cubic-bezier(0.04, 0.48, 0, 1) 0.6s;
     transform-origin: left;
 }
 .hover-square .line {
     position: absolute;
-    background: #f26522;
+    background: #e16f55;
 }
 .hover-square .line.-right, .hover-square .line.-left {
     width: 3px;
