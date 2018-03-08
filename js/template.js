@@ -52,6 +52,12 @@ var MainID = "#main";
 function template(page) {
     window.onload = function () {
         
+        // main functions that goning to be exectuted if the template system is called.
+        // adds the navigation
+        t_navigation();
+        // adds the popup template
+        t_popup();
+        
         // Page names that gonna execute certain template functions
         switch(page){
             case "login":
@@ -76,11 +82,6 @@ function template(page) {
                 break;
         }
         
-        // main functions that goning to be exectuted if the template system is called.
-        // adds the navigation
-        t_navigation();
-        // adds the popup template
-        t_popup();
         // hides the preloader
         hidepreloader();
         
@@ -181,35 +182,36 @@ function t_users(){
 	var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
 	
 	//Adds the template to the document
-	$(MainID).load(TemplatePath + UserFile);
+	$(MainID).load(TemplatePath + UserFile, function (){
 
-	//loads the orderHistoryContentTemplate syncronously
-	$.ajax({
-		url: TemplatePath + "orderHistoryContentTemplate.html",
-		async: false
-		
-		//fills the template with the required data
-    }).done(function(data){
-		
-		for(var j = 0; j < orderHistory.length; j++){
+        //loads the orderHistoryContentTemplate syncronously
+        $.ajax({
+            url: TemplatePath + "orderHistoryContentTemplate.html",
+            async: false
 
-			var order = orderHistory[j];
-			
-			for(var i = 0; i < order.items.length; i++){
-				
-				$("#orderHistory").append(data);
-				var item = order.items[i];
-								
-				document.getElementById("quantity").innerText = item.count + "x";
-				document.getElementById("type").innerText = item.name;
-				document.getElementById("size").innerText = item.size;
-				document.getElementById("quantity").id = "quantity" + j + "" + i;
-				document.getElementById("type").id = "type" + j + "" + i;
-				document.getElementById("size").id = "size" + j + "" + i;
-			}
-			
-			var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
-			$("#orderHistory").append(buttonthingy);
-		}
-	});
+            //fills the template with the required data
+        }).done(function(data){
+
+            for(var j = 0; j < orderHistory.length; j++){
+
+                var order = orderHistory[j];
+
+                for(var i = 0; i < order.items.length; i++){
+
+                    $("#orderHistory").append(data);
+                    var item = order.items[i];
+
+                    document.getElementById("quantity").innerText = item.count + "x";
+                    document.getElementById("type").innerText = item.name;
+                    document.getElementById("size").innerText = item.size;
+                    document.getElementById("quantity").id = "quantity" + j + "" + i;
+                    document.getElementById("type").id = "type" + j + "" + i;
+                    document.getElementById("size").id = "size" + j + "" + i;
+                }
+
+                var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
+                $("#orderHistory").append(buttonthingy);
+            }
+        });
+    });
 }
