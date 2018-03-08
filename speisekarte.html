@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <title>PizzaProjekt - Admin</title>
+    <link rel="icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/admin.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.0/TweenMax.min.js'></script>
+    <script src="js/submitJSON.js"></script>
+    <script src="js/uploadImage.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/pizza.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+</head>
+<body>
+
+<table class="table">
+</table>
+
+<script>
+    window.onload = function (ev) {
+        loadJSONfromServer("menu", createTablefromJSON);
+    };
+
+    function loadMenu(jsonData){
+        var json = jsonData["jsonData"];
+        console.log(json);
+        for ( var i = 0 ; i < json.length; i++){
+            var row = document.createElement("div");
+            row.setAttribute("class","row justify-content-md-center");
+            console.log(json[i]);
+
+        }
+
+    }
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExtrasItems">Extras:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <ul id="extrasBox">
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="confirmExtras(this)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
