@@ -95,7 +95,7 @@ function createTablefromJSON(rawData){
                             var input = document.createElement("input");
                             input.setAttribute("type", "hidden");
                             input.setAttribute("name", e);
-                            input.value = arrExtras[value[e] -1].preis;
+                            input.value = arrExtras[value[e] -1].price;
                             input.innerHTML = arrExtras[value[e] -1].name;
                             d.appendChild(input);
                         } catch (err){

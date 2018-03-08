@@ -223,7 +223,7 @@ function saveTableToServer(table) {
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
                     value = node.firstChild.innerHTML;
-                    if (key == "id" || key == "preis")
+                    if (key == "id" || key == "price")
                         value = parseFloat(value);
                     objElement[key] = value;
                 }
