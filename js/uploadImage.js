@@ -59,7 +59,7 @@ function dropHandler(evt) {
     evt.stopPropagation();
     var files = evt.dataTransfer.files;
 
-    for(var i = 0; i < ev.dataTransfer.files.length ; i++){ // for each dropped file call function uploadFile() with the file as parameter
+    for(var i = 0; i < evt.dataTransfer.files.length ; i++){ // for each dropped file call function uploadFile() with the file as parameter
         uploadFile(files[i]);
 
     }
