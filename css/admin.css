@@ -191,9 +191,8 @@ input[type=file] {
 
 /* -------------------------------- Responsive Buttons admin.html -------------------------------*/
 
-ul {
+.uladmin {
     width: 99%;
-    margin: 0 auto;
     margin-top: 150px;
 }
 
