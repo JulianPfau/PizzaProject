@@ -10,7 +10,7 @@
 	<title>Bestellbest&auml;tigung</title>
 </head>
 
-<body class="light-grey" onload="getdata()">
+<body class="light-grey">
     <div class="container">
         <!-- navigationbar -->
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Öffnungszeiten</a>
+                        <a class="nav-link" href="#">&Ouml;ffnungszeiten</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Bestellungsradius</a>
@@ -36,7 +36,8 @@
             </div>
         </nav>
         <!-- END of navigation -->
-
+		
+		<!--output of confirmation-->
         <div class="box login white">
             <div class="row">
                 <div class="col-sm-6 white">
@@ -75,13 +76,14 @@
                             <input type="text" class="form-control" id="total" readonly>
                         </div>
 						<hr>
-						<div class="form-group col-sm-11 white">
+						<div class="form-group col-sm-5 white">
 							<label for="pay">Bezahlungsart</label>
 							<input type="money" class="form-control" id="payment" readonly>
 						</div>
 						<hr> 			
                     </form>	
                 </div>
+				<!--info box-->
                 <div class="col-sm-6 card orange">
                     <div class="align-middle align-self-center text-center">
                         <img src="img/pizza.png" style="width: 96px">
