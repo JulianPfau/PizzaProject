@@ -65,34 +65,30 @@ document.addEventListener('DOMContentLoaded', function () {
 			var fertigesdict = {};
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
-			dict = JSON.stringify(dict);
 			fertigesdict = JSON.stringify(fertigesdict);
-			sessionStorage.setItem('bestellung', dict);
 			ordercheck(fertigesdict);
-                location.href="https://localhost:8080/conf.html";
-
-
-
             }
 
 // Bestellübersicht an Server und Antwort in SessionStorage
     function ordercheck(fertigesdict) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "https://localhost:8080", false);
-        xhttp.send(fertigesdict);
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-
                 var orderready = this.responseText;
                 writestorage(orderready);
             }
         };
+		xhttp.open("POST", "https://localhost:8080", false);
+        xhttp.send(fertigesdict);
 
     }
 
     function writestorage(orderready) {
-        sessionStorage.setItem('bestellung', orderready);
-        location.href="https://localhost:8080/conf.html";
+		orderready = JSON.parse(orderready);
+		var fertigebestellung = orderready["response_data"];
+		fertigebestellung = JSON.stringify(fertigebestellung);
+        sessionStorage.setItem('bestellung', fertigebestellung);
+        //location.href="https://localhost:8080/conf.html";
     }
 
 
