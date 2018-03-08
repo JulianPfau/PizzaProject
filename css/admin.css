@@ -106,8 +106,11 @@ body {
 }
 
 /* ------------------------------------- Drag and Drop Feld -------------------------------------*/
+
 #dropZone {
-    position:relative;
+    margin: 0 auto;
+    width:100%;
+    height: 500px;
     border-style: dashed;
     background-color: #e9e9e9;
     text-align: center;
@@ -191,9 +194,8 @@ input[type=file] {
 
 /* -------------------------------- Responsive Buttons admin.html -------------------------------*/
 
-ul {
+.uladmin {
     width: 99%;
-    margin: 0 auto;
     margin-top: 150px;
 }
 
