@@ -1,54 +1,76 @@
-/* boxes */
-@keyframes fadeIn {
-    0% {opacity: 0; margin-top: 50px}
-    100% {opacity: 1; margin-top: 25px}
+/* Preloader */
+#t_preloader{
+    z-index: 99999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: url("../img/pizza.png");
+    background-position: center;
+    background-size: 64px;
+    background-repeat: no-repeat;
 }
 
-.box{
+/* boxes */
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        margin-top: 50px
+    }
+    100% {
+        opacity: 1;
+        margin-top: 25px
+    }
+}
+
+.box {
     box-shadow: 10px 10px 0px rgba(255, 255, 255, 0.5);
     margin-top: 25px;
     animation: fadeIn ease;
     animation-duration: 1s;
 }
 
-.box .row{
+.box .row {
     padding: 20px;
 }
 
-.box.login{
+.box.login {
     padding-top: 12.5%;
     padding-bottom: 12.5%;
 }
 
 /* OVERRIDES */
 
-.btn{
+.btn {
     border-radius: 0px !important;
     transition: 0.4s;
 }
 
-.btn:active{
+.btn.orange:active {
     margin-top: 4px;
     margin-bottom: -4px;
     transition: 0.4s;
 }
 
 .btn.orange {
-	box-shadow: 5px 5px 0px rgba(225, 111, 85, 0.5) !important;
+    box-shadow: 5px 5px 0px rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
 .btn.orange:active {
-	box-shadow: 1px 1px 0px rgba(225, 111, 85, 0.5) !important;
+    box-shadow: 1px 1px 0px rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
-input{
+input {
     border: 2px solid rgba(66, 66, 66, 0.15) !important;
     transition: 0.4s;
 }
 
-input:focus{
+input:focus {
     border: 2px solid rgba(66, 66, 66, 0.45) !important;
     transition: 0.4s;
 }
@@ -57,64 +79,64 @@ input:focus{
     box-shadow: none !important;
 }
 
+.input-group-text {
+    border: none !important;
+    background-color: rgba(66, 66, 66, 0.15) !important;
+    transition: 0.4s;
+}
+
+.input-group-text input {
+    border-left-width: 0px !important;
+}
+
+
 /* COLORS */
-.orange{
-    background-color: #e16f55;
+
+.orange {
+    background-color: #e16f55 !important;
     color: white;
 }
 
-.text-orange{
-    color: #e16f55;
+.text-orange {
+    color: #e16f55 !important;
 }
 
-.orange-o75{
-    background-color: rgba(225, 111, 85, 0.75);
+.orange-o75 {
+    background-color: rgba(225, 111, 85, 0.75) !important;
     color: white;
 }
 
-.text-orange-o75{
-    color: rgba(225, 111, 85, 0.75);
+.text-orange-o75 {
+    color: rgba(225, 111, 85, 0.75) !important;
 }
 
-.grey{
-    background-color: #424242;
+.grey {
+    background-color: #424242 !important;
     color: white;
 }
 
-.text-grey{
+.text-grey {
+    color: #424242 !important;
+}
+
+.grey-o5 {
+    background-color: rgba(66, 66, 6, , 0.5) !important;
+    color: white;
+}
+
+.text-grey-o5 {
+    color: rgba(66, 66, 6, , 0.5) !important;
+}
+
+.light-grey {
+    background-color: #ecf0f1 !important;
+}
+
+.white {
+    background-color: #ffffff !important;
     color: #424242;
 }
 
-.grey-o5{
-    background-color: rgba(66, 66, 6, 0.5);
-    color: white;
+.text-white {
+    color: #ffffff !important;
 }
-
-.text-grey-o5{
-    color: rgba(66, 66, 6, 0.5);
-}
-
-.light-grey{
-    background-color: #ecf0f1;
-}
-
-.white{
-    background-color: #ffffff;
-    color: #424242;
-}
-
-.text-white{
-    color: #ffffff;
-}
-
-/* Bestellung */
-#bestellliste{
-    font-size: 1.2rem;
-
-}
-
-#gesamtpreis li{
-    display: grid;
-    font-size: 1.3rem;
-}
-

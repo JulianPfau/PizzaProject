@@ -10,12 +10,21 @@ def findPizzainMenu(menu, pizza):
 	return 0
 
 '''
+finds a specific extra in the extras.json
+'''
+def findExtrainExtras(extras, intId):
+	for item in extras:
+		if intId == item["id"]:
+			return item
+	return 0
+
+'''
 JSON-String to add Order to orders.json:
 	{
 		"request" : "newOrder",
 		"jsonData" :
 			{"items":
-				[{"name":"",
+				[{"name":"Salami",
 				  "extras":[2,3],
 				  "size":"mittel",
 				  "price":12,
@@ -50,11 +59,21 @@ def appendOrder(json_dir, request):
 		with open(json_dir + "menu.json", "r") as f:
 			menu = json.load(f)
 		
+		with open(json_dir + "extras.json", "r") as f:
+			extras = json.load(f)
+		
 		price_total = 0
 		for item in request['jsonData']['items']:
+			#gets the price of the pizza from json
 			menu_item = findPizzainMenu(menu, item["name"])
 			item["price"] = menu_item["prices"][menu_item["sizes"].index(item["size"])]
 			price_total += item["price"]*int(item["count"])
+			
+			#gets the price of the selected extras
+			for extra in item["extras"]:
+				extras_item = findExtrainExtras(extras, extra)
+				price_total += extras_item["price"] * int(item["count"])
+		
 		request['jsonData']['total'] = price_total
 	except IOError:
 		response = {
@@ -153,4 +172,3 @@ def getOrderbyMail(json_dir,  request):
 		}
 	response = json.dumps(response)
 	return response
-
