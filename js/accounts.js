@@ -1,3 +1,22 @@
+/* URL Links 
+   These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
+   refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
+// Cart site filepath
+var CART_URL    = "cart.html";
+// Profile site filepath
+var PROFILE_URL = "user.html";
+// Opening Hours site filepath
+var HOURS_URL   = "hours.html";
+// Menu site filepath
+var MENU_URL    = "menu.html";
+// Ordering site filepath
+var ORDER_URL   = "order.html";
+// Login site filepath
+var LOGIN_URL   = "index.html";
+// Register site filepath
+var REGISTER_URL= "reg.html";
+
+
 //Checks the login data and creates a Session if the Server confirms it
 function checkLogin() {
     //Gets the values from the input fields on the Website
@@ -18,7 +37,7 @@ function checkLogin() {
         if(!response && response != undefined && response != ""){
             createSession(response);            
             sessionStorage.setItem('email', username);
-            window.location = "./speisekarte.html"; 
+            window.location = MENU_URL; 
             
         }else{
             popup("Passwort ist falsch"); //Debug
@@ -112,7 +131,7 @@ function register() {
     var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
     var result = ajax("register", json);
     if (result == 'true'){
-        window.location = 'dashboard.html';
+        window.location = PROFILE_URL;
     } else {
         popup('Unbekannter Fehler: ');
     }
@@ -184,7 +203,7 @@ function generateMenu(){
     if(checkSID()){
         //Shows proper Menu 
     } else {
-        window.location='login.html';
+        window.location=LOGIN_URL;
     }
 }
 
