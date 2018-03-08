@@ -188,8 +188,10 @@ input[type=file] {
 }
 
 
-.modified {
-    background-color: #c69500;
+.modalError {
+    margin-top: 15px;
+    color: red;
+
 }
 
 /* -------------------------------- Responsive Buttons admin.html -------------------------------*/

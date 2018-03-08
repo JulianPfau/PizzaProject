@@ -654,6 +654,11 @@ function storeItemsInOrders(indexOfSpan) {
     //Getting all the entries with the class "menuElement", which basically are the tableRows (that are not marked to be deleted)
     var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
 
+    //Storing the amount of menuElement-elements we have for further use.
+    var lengthOfEntriesOfTable = entriesOfTable.length;
+
+
+
     //This part will find the element that was clicked on by using the identifier
     var thisElementThatWasClickedOn;
     var itemsSpanElements = document.querySelectorAll('[identification]');
@@ -673,8 +678,17 @@ function storeItemsInOrders(indexOfSpan) {
         }
     }
 
-    //Storing the amount of menuElement-elements we have for further use.
-    var lengthOfEntriesOfTable = entriesOfTable.length;
+    //Getting the <p> Element to push error messages to
+    var errorMessageHTMLElement = document.getElementById("error-message");
+    //Empty String for storing errors
+    //For every error there will be a letter added, so the length is the number of errors
+    //and the kind of letters tell which errors there are
+    //Key:
+    //  - n: NaN (Not a Number)
+    //  - e: empty (someone didnt enter anything)
+    var errors = "";
+
+
 
     //Array with the json keywords
     var jsonFormatting = ["name", "size", "price", "extras", "count"];
@@ -704,7 +718,6 @@ function storeItemsInOrders(indexOfSpan) {
                 //Getting the current element of the table
                 //This needs two children-calls, as the spans are nested in divs.
                 var currentElement = entriesOfTable[i2].children[i3].children[0];
-                console.log(currentElement);
                 //Switch to differenciate between the different kinds of cells
                 switch (i3) {
                     //For the "name"
@@ -727,14 +740,32 @@ function storeItemsInOrders(indexOfSpan) {
 
                     //For the "size"
                     case 2:
+                        //Check for Emptyness
+                        if (currentElement.innerHTML.trim().length == 0) {
+                            errors += "e";
+                        }
+
+                        //This trims all spaces away. All the spaces are stored as "&nbsp;" and this takes care of that.
+                        var sizeToSave = currentElement.innerHTML.replace(/&nbsp;/g, "").trim();
+
                         //like above
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + sizeToSave + '"';
                         break;
 
                     //For the Price
                     case 3:
-                        //Here we dont use the "" to make it int.
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+                        //Check for errors
+                        if (currentElement.innerHTML.trim().length == 0) {
+                            errors += "e";
+                        } else if (isNaN(parseFloat(currentElement.innerHTML.trim()))) {
+                            errors += "n";
+                        }
+
+                        //The price is still a string in the beginning. It is then trimmed, parsed to Float and rounded.
+                        var priceToSave = precisionRound(parseFloat(currentElement.innerHTML.trim()), 2);
+
+                        //Here we dont use the "" to make it int in the json formatting.
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + priceToSave;
 
                         //Getting the count of this row to use it to calculate the actual cost
                         costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
@@ -751,8 +782,16 @@ function storeItemsInOrders(indexOfSpan) {
                         break;
                     //For the "count"
                     case 5:
+                        //checkin for errors
+                        if (currentElement.innerHTML.trim().length == 0) {
+                            errors += "e";
+                        } else if (isNaN(parseInt(currentElement.innerHTML.trim()))) {
+                            errors += "n";
+                        }
+
+
                         //Same as in case 3
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + currentElement.innerHTML;
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + parseInt(currentElement.innerHTML.trim());
                         break;
 
                     default:
@@ -782,23 +821,82 @@ function storeItemsInOrders(indexOfSpan) {
         //Ending the string with the end of the array and the index.
         itemsStoredToJson += '], ' + indexOfSpan + ')';
 
-        //When there is a change in the data
-        if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
-            //then mark the element as being edited
-            thisElementThatWasClickedOn.className = "bg-warning";
+
+        //Now the table has been scanned.
+        //Based on the amount of errors, it will be decided what will happen.
+        //When there are no errors, proceed normally
+        if(errors.length == 0) {
+
+            //When there is a change in the data, we color the div of the outer table
+            if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
+                //then mark the element as being edited
+                thisElementThatWasClickedOn.parentElement.className = "td bg-warning";
+            }
+
+            //This is then written to the onclick attribute of the original element (that was clicked on)
+            //So then, the next time the changed content is being loaded.
+            thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+            //The element's innerHTML gets the nameString, as the Items may have changed
+            thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+            //The Total also might have changed and this is updated too.
+            //This is rounded to 2 decimals
+
+            totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
+
+            errorMessageHTMLElement.innerHTML = "";
+
+            //And close the modal window
+            document.getElementById("closeModalItems").click();
+
+        //When there are errors
+        } else if (errors.length > 0) {
+
+            //Open a strin for the error message
+            var stringPlaceholder = errors.length + " Fehler: ";
+
+            //Save the kind of errors in booleans to make things easier
+            var notANumber = errors.includes("n");
+            var isEmpty = errors.includes("e");
+
+            //When there are only NaN errors
+            if (notANumber && !isEmpty) {
+                if (errors.length == 1) {
+                    stringPlaceholder += "Unerlaubte Symbole in einem Zahlenfeld";
+                } else if (errors.length > 1) {
+                    stringPlaceholder += "Unerlaubte Symbole in Zahlenfeldern";
+                }
+            //When there are only empty fields
+            } else if (isEmpty && !notANumber) {
+                if (errors.length == 1) {
+                    stringPlaceholder += "Leeres Feld";
+                } else if (errors.length > 1) {
+                    stringPlaceholder += "Leere Felder";
+                }
+            //When there is both
+            } else if (notANumber && isEmpty) {
+                stringPlaceholder += "Leere Felder und unerlaubte Symbole in Zahlenfeldern";
+            //When there is nothing (which shouldnt happen)
+            } else {
+                stringPlaceholder += "Eigentlich gibt es keine Fehler!?";
+            }
+
+            //Set the string to the p element to display the message
+            errorMessageHTMLElement.innerHTML = stringPlaceholder;
+
+
+            //dont do anything further so the person corrects the mistakes
+
+
+
+        //For the case of anything else
+        } else {
+            alert("There is an unknown error with the items menu.")
+            document.getElementById("closeModalItems").click();
         }
 
-        //This is then written to the onclick attribute of the original element (that was clicked on)
-        //So then, the next time the changed content is being loaded.
-        thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
-        //The element's innerHTML gets the nameString, as the Items may have changed
-        thisElementThatWasClickedOn.innerHTML = namesOfItems;
 
-        //The Total also might have changed and this is updated too.
-        totalElement.innerHTML = costSumOfAllItems;
-
-
-        //In case of no Item that can be stored
+    //In case of no Item that can be stored (everything is deleted)
     } else {
         //Setting the onclick attribute, but making the content empty
         thisElementThatWasClickedOn.setAttribute('onclick', 'loadItems([], ' + indexOfSpan + ')');
@@ -815,8 +913,12 @@ function storeItemsInOrders(indexOfSpan) {
         //As there are no items, the whole order probably makes no sense anymore and I mark it to be deleted.
         checkboxElement.checked = true;
         markDelete(checkboxElement);
+
+        //And close the modal window
+        document.getElementById("closeModalItems").click();
     }
-    document.getElementById("closeModalItems").click();
+
+
 }
 
 function saveExtrasPopup(btn) {
@@ -900,4 +1002,11 @@ function saveContactOrdersPopup(index) {
     }
 
     document.getElementById("closeModalContacts").click();
+}
+
+
+
+function precisionRound(input, decimal) {
+    var factor = Math.pow(10, decimal);
+    return Math.round(input * factor) / factor;
 }
