@@ -1,17 +1,18 @@
 //Checks Type alert(({}).toString.call(var).match(/\s([a-zA-Z]+)/)[1].toLowerCase());
 
 var extras;
+
 //var object;
 
 /**  Requests a JSON file in the /json directory of the server and calls a
-    specified function with the parsed JSON Element as parameter.
+ specified function with the parsed JSON Element as parameter.
 
-    Parameters:
-    - cFunction     the Function to call then successful
-    - file          the file name without the .json ending
+ Parameters:
+ - cFunction     the Function to call then successful
+ - file          the file name without the .json ending
 
-    Nothing happens on Error.
-**/
+ Nothing happens on Error.
+ **/
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
     var xhr = new XMLHttpRequest();
@@ -86,12 +87,13 @@ function loadJSONToTable(json, index) {
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
             //Also add the event for highlighting changes
-            menuInhalt[n].onkeydown = function(event) {
+            menuInhalt[n].onkeydown = function (event) {
                 //Key-Codes which will be ignored
-                if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+                if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     //Activates the del changes button
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                    this.setAttribute('class', 'bg-warning');}
+                    this.parentElement.setAttribute('class', 'td bg-warning');
+                }
             };
         }
         // Creates the delet Button and add function to change
@@ -107,7 +109,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ','+ i +')');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ')');
 
                 //Adds picture to Table
                 menuInhalt[8] = document.createElement('img');
@@ -127,7 +129,7 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayes
                 menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
                 menuInhalt[2].innerHTML = (json[i].description == "") ? "None" : json[i].description;
-                menuInhalt[3].innerHTML = (json[i].prices == "") ? "None" :splitArray(json[i].prices) ;
+                menuInhalt[3].innerHTML = (json[i].prices == "") ? "None" : splitArray(json[i].prices);
                 menuInhalt[4].innerHTML = (json[i].sizes == "") ? "None" : splitArray(json[i].sizes);
                 menuInhalt[5].innerHTML = (json[i].types == "") ? "None" : json[i].types;
                 menuInhalt[6].innerHTML = (json[i].tags == "") ? "None" : splitArray(json[i].tags);
@@ -140,7 +142,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[6] = document.createElement('span');
                 menuInhalt[6].setAttribute('data-toggle', 'modal');
                 menuInhalt[6].setAttribute('data-target', '#modal');
-                menuInhalt[6].setAttribute('onClick', 'loadContact(' + JSON.stringify(json[i].contact) + ')');
+                menuInhalt[6].setAttribute('onClick', 'loadContact(' + JSON.stringify(json[i].contact) + ', ' + i + ')');
 
                 //IDs for each cell & remove option to change ID
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -167,7 +169,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[2].setAttribute('data-toggle', 'modal');
                 menuInhalt[2].setAttribute('data-target', '#modalItems');
                 //Sets the onclick event for the items span. Will also send the index i for further use
-                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + i + ')' );
+                menuInhalt[2].setAttribute('onClick', 'loadItems(' + JSON.stringify(json[i].items) + ', ' + i + ')');
                 menuInhalt[2].setAttribute('identification', 'spanElement' + i);
 
                 //Setting an identifier for the total, so the sum can be calculated lateron.
@@ -177,7 +179,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].removeAttribute('contenteditable');
                 menuInhalt[5].setAttribute('data-toggle', 'modal');
                 menuInhalt[5].setAttribute('data-target', '#modal');
-                menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ')');
+                menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ', ' + i + ')');
 
                 //IDs for each cell & remove option to change ID
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -191,9 +193,11 @@ function loadJSONToTable(json, index) {
                 //Save items name in Array to be displayed later
                 var items = new Array();
                 for (var k = 0; k < json[i].items.length; k++) {
-                    items[k] = json[i].items[k].name;
+                    items[k] = "";
+                    if (json[i].items[k].count > 1)
+                        items[k] = json[i].items[k].count + "x "
+                    items[k] += json[i].items[k].name;
                 }
-
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
@@ -239,7 +243,7 @@ function loadJSONToTable(json, index) {
 function splitArray(array) {
     var str = "";
     //Seperates the array content witch ";"
-    for (var i = 0;i < array.length;i++) {
+    for (var i = 0; i < array.length; i++) {
         str += array[i] + ";";
     }
     //Removes the last ";"
@@ -252,8 +256,9 @@ function splitArray(array) {
  *
  * @param json The JSON woch should be displayed
  */
-function loadContact(json) {
+function loadContact(json, index) {
     //Popup title is name of Contact
+    document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup(' + index + ')');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("IDContact").innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
@@ -268,50 +273,58 @@ function loadContact(json) {
  *
  * @param json wich should be displayed in Popup
  */
-function loadContactOrder(json) {
+function loadContactOrder(json, index) {
+    document.getElementsByClassName('btn btn-primary')[2].setAttribute('onclick', "saveContactOrdersPopup(" + index + ")");
     //Content for Cell
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
     //Change Event
-    document.getElementById("modalContactsTitle").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("modalContactsTitle").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
-    document.getElementById("Name").onkeydown = function() {
-            if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("Name").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
-    document.getElementById("Postcode").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("Postcode").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
-    document.getElementById("Street").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("Street").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
-    document.getElementById("City").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("City").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
-    document.getElementById("Nr").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("Nr").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
-    document.getElementById("Phone").onkeydown = function() {
-        if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+    document.getElementById("Phone").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-            this.setAttribute('class', 'bg-warning');}
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
     };
 }
 
@@ -321,13 +334,12 @@ function loadContactOrder(json) {
  * @param product the JSON of the Item
  * @param index to get the parent on save needed
  */
-function loadExtras(product,index) {
-
+function loadExtras(product, index) {
     //Sets title of Extras Popup
     document.getElementById("modalExtrasItems").innerHTML = (product == undefined) ? "Extras" : product.name + " Extras";
     //Sets index for write
     var extrasBox = document.getElementById("extrasBox");
-    extrasBox.setAttribute('name',index);
+    extrasBox.setAttribute('name', index);
 
     //Removes all Extras from Popup
     while (extrasBox.firstChild) {
@@ -344,14 +356,15 @@ function loadExtras(product,index) {
 
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
-        input.setAttribute('id',extras[i].id);
+        input.setAttribute('id', extras[i].id);
 
         //Content & Change Event for extra
         span.innerHTML = " " + extras[i].name;
-        span.onkeydown = function() {
-            if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+        span.onkeydown = function () {
+            if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                 document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                this.setAttribute('class', 'bg-warning');}
+                this.parentElement.setAttribute('class', 'td bg-warning');
+            }
         };
 
         //Checks weather the extras is already in selected or not and it'll be marked if so
@@ -422,10 +435,11 @@ function loadItems(json, indexOfSpan) {
             menuInhalt[n].setAttribute('class', 'Input');
             menuInhalt[n].setAttribute('contenteditable', 'true');
             //Onchange event
-            menuInhalt[n].onkeydown = function() {
-                if ((event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            menuInhalt[n].onkeydown = function () {
+                if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     document.getElementById("reload").setAttribute("class", "btn btn-lg active")
-                    this.setAttribute('class', 'bg-warning');}
+                    this.parentElement.setAttribute('class', 'td bg-warning');
+                }
             };
         }
         //Creats the delete button + function
@@ -434,7 +448,20 @@ function loadItems(json, indexOfSpan) {
         menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
 
         //Content of all cells
-        menuInhalt[1].innerHTML = (json[i].name == "") ? "None" : json[i].name;
+        var div = document.createElement('div');
+        div.setAttribute('class', 'dropdown');
+        div.setAttribute('data-toggle', 'dropdown');
+        div.setAttribute('onclick', 'getJsonByRequest(dropdownItems, "menu")');
+        var span = document.createElement('span');
+        span.setAttribute('class', 'dropdown-toggle');
+        span.innerHTML = (json[i].name == "") ? "None" : json[i].name;
+        var ul = document.createElement('ul');
+        ul.setAttribute('class', 'dropdown-menu');
+        ul.setAttribute('id', 'dropDownList');
+        div.appendChild(ul);
+        div.appendChild(span);
+        menuInhalt[1].appendChild(div);
+
         menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
         menuInhalt[3].innerHTML = (json[i].price == "") ? "None" : json[i].price;
         menuInhalt[4].innerHTML = (json[i].extras.length == 0) ? "None" : json[i].extras;
@@ -444,7 +471,7 @@ function loadItems(json, indexOfSpan) {
         menuInhalt[4].removeAttribute('contenteditable');
         menuInhalt[4].setAttribute('data-toggle', 'modal');
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
-        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ')');
+        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ')');
 
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
@@ -460,14 +487,12 @@ function loadItems(json, indexOfSpan) {
     //My Part for testing
 
 
-
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
 
 
     //
     //storeItemsInOrders(element);
-
 
 
 }
@@ -479,9 +504,9 @@ function loadItems(json, indexOfSpan) {
  */
 function markDelete(box) {
     if (box.checked) {
-        box.parentElement.parentElement.setAttribute('class','tr bg-danger');
+        box.parentElement.parentElement.setAttribute('class', 'tr bg-danger');
     } else {
-        box.parentElement.parentElement.setAttribute('class','tr menuElement');
+        box.parentElement.parentElement.setAttribute('class', 'tr menuElement');
     }
 }
 
@@ -537,7 +562,8 @@ function fillItems(btn, json) {
     var span = btn.parentElement.parentElement;
     span.getElementsByTagName("span")[0].innerHTML = json.name;
 
-    var row = span.parentElement.parentElement.children;
+    var row = span.parentElement.parentElement.parentElement.children;
+    console.log(row);
     row[2].firstChild.innerHTML = json.sizes[json.sizes.length - 1];
     row[3].firstChild.innerHTML = json.prices[json.prices.length - 1];
 }
@@ -671,7 +697,7 @@ function storeItemsInOrders(indexOfSpan) {
                 var currentElement = entriesOfTable[i2].children[i3].children[0];
 
                 //Switch to differenciate between the different kinds of cells
-                switch(i3) {
+                switch (i3) {
                     //For the "name"
                     case 1:
                         //attaching "name":"VALUE" to the string
@@ -763,8 +789,6 @@ function storeItemsInOrders(indexOfSpan) {
         totalElement.innerHTML = costSumOfAllItems;
 
 
-
-
         //In case of no Item that can be stored
     } else {
         //Setting the onclick attribute, but making the content empty
@@ -783,5 +807,91 @@ function storeItemsInOrders(indexOfSpan) {
         checkboxElement.checked = true;
         markDelete(checkboxElement);
     }
+    document.getElementById("closeModalItems").click();
+}
 
+function saveExtrasPopup(btn) {
+    var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
+    var list = modal.getElementsByTagName("label");
+    var extras = [];
+    var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].firstChild.checked) {
+            extras.push(parseInt(list[i].firstChild.id));
+        }
+    }
+    var row = document.getElementsByClassName("tr menuElement")[index].children;
+    for (var n = 0; n < row.length; n++) {
+        if (row[n].firstChild.id.toLowerCase() == "items") {
+            var input = row[n].firstChild;
+            var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
+            var paramString = onclickString[0].split("([")[1].split("}],")[0] + "}";
+            var object = JSON.parse(paramString);
+            object.extras = extras;
+            var param = JSON.stringify(object);
+            var fnstr = "loadExtras(" + param + ", " + index + ")";
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('onclick', "getJsonByRequest(getExtras,'extras'); " + fnstr);
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.innerHTML = splitArray(object.extras).replace(/\s/g, '');
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('class', 'Input bg-warning');
+        }
+
+    }
+    document.getElementById("closeModal").click();
+
+
+}
+
+function saveContactPopup(index) {
+    var modal = document.getElementsByClassName("modal-body")[0].firstElementChild.getElementsByClassName('tr')[1];
+    var json = "{";
+
+    for (var i = 0; i < modal.children.length; i++) {
+        var key = modal.children[i].firstElementChild.id.toLowerCase();
+        var value = modal.children[i].firstElementChild.innerHTML;
+
+        if (key != "postcode") {
+            json += '"' + key + '":"' + value + '",';
+        } else {
+            if (value == "")
+                value = -1;
+            json += '"' + key + '":' + value + ',';
+        }
+    }
+    json = JSON.parse(json.substr(0, json.length - 1) + "}");
+
+    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    for (var j = 1; j < row.children.length; j++) {
+        if (row.children[j].firstElementChild.id == "Contact")
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+    }
+
+    document.getElementById("closeModalItems").click();
+}
+
+function saveContactOrdersPopup(index) {
+    var modal = document.getElementsByClassName("modal-body")[2].firstElementChild.getElementsByClassName('tr')[1];
+    var json = "{";
+
+    for (var i = 0; i < modal.children.length; i++) {
+        var key = modal.children[i].firstElementChild.id.toLowerCase();
+        var value = modal.children[i].firstElementChild.innerHTML;
+
+        if (key != "postcode") {
+            json += '"' + key + '":"' + value + '",';
+        } else {
+            if (value == "")
+                value = -1;
+            json += '"' + key + '":' + value + ',';
+        }
+    }
+    json = JSON.parse(json.substr(0, json.length - 1) + "}");
+    console.log(json);
+    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    for (var j = 1; j < row.children.length; j++) {
+        if (row.children[j].firstElementChild.id == "Contact") {
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+        }
+    }
+
+    document.getElementById("closeModalContacts").click();
 }

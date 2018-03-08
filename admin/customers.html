@@ -74,7 +74,7 @@
                             <div class="td">Phone</div>
                         </div>
                         <div class="tr" id="footer">
-                            <div class="td"><span class="Input" id="IDContact" contenteditable="true" onblur="loadNewFooter(this)"></span></div>
+                            <div class="td"><span class="Input" id="IDContact" contenteditable="true"></span></div>
                             <div class="td"><span class="Input" id="Postcode" contenteditable="true"></span></div>
                             <div class="td"><span class="Input" id="Street" contenteditable="true"></span></div>
                             <div class="td"><span class="Input" id="City" contenteditable="true"></span></div>
@@ -84,8 +84,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onClick="saveContacts(this)">Save changes</button>
+                    <button type="button" class="btn btn-secondary" id="closeModalItems" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
