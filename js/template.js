@@ -170,27 +170,41 @@ function t_register(){
 
 /* [T] User site Template */
 function t_users(){
-    // Filename of the User site Template
-    var Registerile = "users.html";
+    // User Template File
+    var UserFile = "users.html";
+	//var orderHistory = JSON.parse(getHistory());
+	var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
+	
+	//Adds the template to the document
+	$(MainID).load(TemplatePath + UserFile);
 
-    $(MainID).load(TemplatePath + Registerile, function (){
-		for(var j = 0; j < 2; j++){
+	//loads the orderHistoryContentTemplate syncronously
+	$.ajax({
+		url: TemplatePath + "orderHistoryContentTemplate.html",
+		async: false
+		
+		//fills the template with the required data
+    }).done(function(data){
+		
+		for(var j = 0; j < orderHistory.length; j++){
+
+			var order = orderHistory[j];
+			
+			for(var i = 0; i < order.items.length; i++){
 				
-			for(var i = 0; i < 3; i++){
-				var y = $("<div>").load(TemplatePath + "bestellhistorieTemplate.html", function (){
-					document.getElementById("anzahl").innerText = "3" + "x";
-					document.getElementById("art").innerText = "dummyPizza";
-					document.getElementById("anzahl").id = "anzahl" + j + "" + i;
-					document.getElementById("art").id = "art" + j + "" + i;
-					document.getElementById("groesse").id = "groesse" + j + "" + i;
-					document.getElementById("extra").id = "extra" + j + "" + i;
-				});
-				$("#bestellverlauf").append(y);
+				$("#orderHistory").append(data);
+				var item = order.items[i];
+								
+				document.getElementById("quantity").innerText = item.count + "x";
+				document.getElementById("type").innerText = item.name;
+				document.getElementById("size").innerText = item.size;
+				document.getElementById("quantity").id = "quantity" + j + "" + i;
+				document.getElementById("type").id = "type" + j + "" + i;
+				document.getElementById("size").id = "size" + j + "" + i;
 			}
 			
-			var y = $("<div>").load(TemplatePath + "nochmalBestellenTemplate.html");
-			$("#bestellverlauf").append(y);
+			var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
+			$("#orderHistory").append(buttonthingy);
 		}
-       // document.getElementById("t_link_login").href = LOGIN_URL;
-    });
+	});
 }
