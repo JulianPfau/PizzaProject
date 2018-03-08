@@ -1,16 +1,31 @@
-Pizza Service
+Pizza Service - Eine webbasierte Software für ein Pizzalieferunternehmen.
+
+---Beschreibung---
+Es wurden folgende Kernaspekte berücksichtigt:
+
+    - Erstellung und Verwaltung von Kundenkonten
+    - Umgang mit Bestellungen
+    - Administration der Website und der Daten
+    
+---Technologie---
+
   -	Web Server in Python 3
-    o	https
-  -	Serverseitige Datenspeicherung
-    o	Speisekarte
-    o	Kundendaten
-    o	Bestellungen
+    •	https
+    
+  -	Serverseitige Datenspeicherung in JSON Datenbank
+    •	Speisekarte
+    •	Kundendaten
+    •	Bestellungen
 
-Technologievorgabe:
-JSON als Textdatei
+  - Clientseitig
+    •   HTML 5 / CSS 3 und JavaScript
 
-Anwender:
-HTML 5 / CSS 3 und JavaScript
+
+---How to operate---
+
+1. Start Server.py
+2. tbd
+
 
 Umgebung feststellen:
 Schritt 1: Warenkorb erstellen (Warenkorb Serverseitig) Session ID in Cookie, anhand Session ID wird Warenkorb aufgelistet

@@ -79,6 +79,6 @@ while (sessionID in oldsessionIDs):
 timestamp = getTimeStamp()
 
 # the variables: timestamp and sessionID can now be used to store in the database
-print(sessionID)
-print(timestamp)
-print(checkSessionID(301480207))
+#(sessionID)
+#print(timestamp)
+#print(checkSessionID(301480207))

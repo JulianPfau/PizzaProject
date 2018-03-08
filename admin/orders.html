@@ -82,7 +82,7 @@
                 </div>
                 <div class="modal-footer">
                     <!-- Buttons at the bottom -->
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="closeModalItems" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="button-modal-items-save">Save changes</button>
                 </div>
             </div>
@@ -106,8 +106,8 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" id="closeModal" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveExtrasPopup(this)">Save changes</button>
                 </div>
             </div>
         </div>
@@ -144,8 +144,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onClick="saveContacts(this)">Save changes</button>
+                    <button type="button" class="btn btn-secondary" id="closeModalContacts" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

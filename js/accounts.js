@@ -1,3 +1,32 @@
+/* accounts.js 
+   Tobias, Pascal
+   
+   Implements most methods needed for the managing the user accounts. 
+   Contains methods for login, creating the Session, registering a user, checking if the SessionID is still valid,
+   loading and saving user data and generating the Order History
+   
+   All methods use AJAX with JSON to communicate with the server
+   */
+
+/* URL Links 
+   These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
+   refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
+// Cart site filepath
+var CART_URL    = "cart.html";
+// Profile site filepath
+var PROFILE_URL = "user.html";
+// Opening Hours site filepath
+var HOURS_URL   = "hours.html";
+// Menu site filepath
+var MENU_URL    = "menu.html";
+// Ordering site filepath
+var ORDER_URL   = "order.html";
+// Login site filepath
+var LOGIN_URL   = "index.html";
+// Register site filepath
+var REGISTER_URL= "reg.html";
+
+
 //Checks the login data and creates a Session if the Server confirms it
 function checkLogin() {
     //Gets the values from the input fields on the Website
@@ -18,7 +47,7 @@ function checkLogin() {
         if(!response && response != undefined && response != ""){
             createSession(response);            
             sessionStorage.setItem('email', username);
-            window.location = "./speisekarte.html"; 
+            window.location = MENU_URL; 
             
         }else{
             popup("Passwort ist falsch"); //Debug
@@ -112,7 +141,7 @@ function register() {
     var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
     var result = ajax("register", json);
     if (result == 'true'){
-        window.location = 'dashboard.html';
+        window.location = PROFILE_URL;
     } else {
         popup('Unbekannter Fehler: ');
     }
@@ -133,6 +162,7 @@ function logout(){
     sessionStorage.removeItem('SID');
 }
 
+//Loads the user data from the Server, takes in the email of the User from which you want to load the data
 function loadOldData(email){
     var json = ajax("getUserData", '{"email":"'+ email +'"}')
     var decoded = JSON.parseJSON(json);
@@ -148,6 +178,7 @@ function loadOldData(email){
 	document.getElementById('userGreeting.').innerHTML = name;
 }
 
+//Sends new/modified User data back to the server to be saved in the JSON Database
 function sendNewData(){
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
@@ -175,28 +206,33 @@ function sendNewData(){
     }
 }
 
+//Creates a Popup for informing the User about various events, takes in the Text displayed in the Popup
 function popup(text){
     document.getElementById('popup').getElementsByClassName('modal-body')[0].innerText=text;
     $('#popup').modal('show');
 }
 
+//Generates the Menu bar; is different if an User is logged on or not
 function generateMenu(){
     if(checkSID()){
         //Shows proper Menu 
     } else {
-        window.location='login.html';
+        window.location=LOGIN_URL;
     }
 }
 
+//Deletes an User account, takes in the email-address of the account which should be deleted
 function deleteUser(email){
     ajax("deleteUser", '{"email":"'+email+'"}');
 }
 
+//gets the Order history from the server, gets the Email-Address from the SessionStorage
 function getHistory(){
     var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
     return histoy;
 }
 
+//Redirects the User to a new Page but checks the SessionID before doing so
 function RedirectWithCheck(url){
     if (checkSID()){
         windows.location(url);

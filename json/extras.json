@@ -2,17 +2,17 @@
   {
     "id": 1,
     "name": "Extra Käse",
-    "preis": 1.0
+    "price": 1.0
   },
   {
     "id": 2,
     "name": "Extra Bacon",
-    "preis": 1.5
+    "price": 1.5
   },
   {
     "id": 3,
     "name": "schneiden",
-    "preis": 0
+    "price": 0
   }
 ]
 
