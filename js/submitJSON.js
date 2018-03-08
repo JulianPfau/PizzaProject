@@ -258,7 +258,7 @@ function splitArray(array) {
  */
 function loadContact(json, index) {
     //Popup title is name of Contact
-    document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup(' + index + ')');
+    document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup("' + index + '")');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("IDContact").innerHTML = (json.name == undefined) ? "" : json.name;
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
@@ -533,22 +533,27 @@ function logOut() {
  */
 function dropdownItems(json) {
     //Removes all Items from dropdown
-    while (document.getElementById("dropDownList").firstChild) {
-        document.getElementById("dropDownList").removeChild(document.getElementById("dropDownList").firstChild);
+    var dropDowns = document.getElementsByClassName("dropdown-menu");
+    for (var d = 0; d < dropDowns.length; d++) {
+        while (dropDowns[d].firstChild) {
+            dropDowns[d].removeChild(dropDowns[d].firstChild);
+        }
     }
 
     //Loops each Item from JSON
     for (var i = 0; i < json.length; i++) {
         //Creates DOM-Element for Dropdown
-        var dropDown = document.getElementById("dropDownList");
-        var li = document.createElement("li");
-        li.setAttribute('class', 'align-baseline');
-        //Adds Function to add content for Dropdown
-        li.setAttribute("onClick", "fillItems(this, " + JSON.stringify(json[i]) + ")");
+        var dropDowns = document.getElementsByClassName("dropdown-menu");
+        for (var d = 0; d < dropDowns.length; d++) {
+            var li = document.createElement("li");
+            li.setAttribute('class', 'align-baseline');
+            //Adds Function to add content for Dropdown
+            li.setAttribute("onClick", "fillItems(this, " + JSON.stringify(json[i]) + ")");
 
-        //Append all displays to be displayed
-        li.innerHTML = json[i].name;
-        dropDown.appendChild(li);
+            //Append all displays to be displayed
+            li.innerHTML = json[i].name;
+            dropDowns[d].appendChild(li);
+        }
     }
 }
 
@@ -561,11 +566,13 @@ function dropdownItems(json) {
 function fillItems(btn, json) {
     var span = btn.parentElement.parentElement;
     span.getElementsByTagName("span")[0].innerHTML = json.name;
+    span.getElementsByTagName("span")[0].parentElement.parentElement.parentElement.setAttribute('class', 'td bg-warning');
 
     var row = span.parentElement.parentElement.parentElement.children;
-    console.log(row);
     row[2].firstChild.innerHTML = json.sizes[json.sizes.length - 1];
+    row[2].firstChild.parentElement.setAttribute('class', 'td bg-warning');
     row[3].firstChild.innerHTML = json.prices[json.prices.length - 1];
+    row[3].firstChild.parentElement.setAttribute('class', 'td bg-warning');
 }
 
 /**
@@ -695,19 +702,19 @@ function storeItemsInOrders(indexOfSpan) {
                 //Getting the current element of the table
                 //This needs two children-calls, as the spans are nested in divs.
                 var currentElement = entriesOfTable[i2].children[i3].children[0];
-
+                console.log(currentElement);
                 //Switch to differenciate between the different kinds of cells
                 switch (i3) {
                     //For the "name"
                     case 1:
                         //attaching "name":"VALUE" to the string
-                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.innerHTML + '"';
+                        itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":"' + currentElement.firstElementChild.lastElementChild.innerHTML + '"';
                         //Getting the count to properly display the names
 
                         if (countOfThisRow == 1) {
-                            namesOfItems += currentElement.innerHTML;
+                            namesOfItems += currentElement.firstElementChild.lastElementChild.innerHTML;
                         } else if (countOfThisRow > 1) {
-                            namesOfItems += countOfThisRow + " x " + currentElement.innerHTML;
+                            namesOfItems += countOfThisRow + " x " + currentElement.firstElementChild.lastElementChild.innerHTML;
                         } else {
                             //Nothing
                         }
@@ -825,7 +832,7 @@ function saveExtrasPopup(btn) {
         if (row[n].firstChild.id.toLowerCase() == "items") {
             var input = row[n].firstChild;
             var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
-            var paramString = onclickString[0].split("([")[1].split("}],")[0] + "}";
+            var paramString = "[" + onclickString[0].split("([")[1].split("}],")[0] + "}]";
             var object = JSON.parse(paramString);
             object.extras = extras;
             var param = JSON.stringify(object);
@@ -837,8 +844,6 @@ function saveExtrasPopup(btn) {
 
     }
     document.getElementById("closeModal").click();
-
-
 }
 
 function saveContactPopup(index) {
@@ -892,6 +897,7 @@ function saveContactOrdersPopup(index) {
             row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
         }
     }
+    console.log(row);
 
     document.getElementById("closeModalContacts").click();
 }
