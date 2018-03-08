@@ -1,5 +1,7 @@
 ﻿Todo-Liste, grob sortiert nach Prioritaet:
 
+- Kontakte lassen sich nicht speichern und auf Customers.html speichert die gesamte Seite nicht
+
 - Validierung der Eingaben (Zahlen bei Totals und CusomerID's, nur Groessen bei Size etc). Im Moment kann man �berall fast alles reinschreiben. Size k�nnte ein Dropdownmen sein.
 
 - Preis bei Orders.html wird nur über Items berechnet, nicht mit den Extras
