@@ -212,7 +212,7 @@ function loadJSONToTable(json, index) {
                 //IDs for each cell
                 menuInhalt[1].setAttribute('id', 'ID');
                 menuInhalt[2].setAttribute('id', 'Name');
-                menuInhalt[3].setAttribute('id', 'Preis');
+                menuInhalt[3].setAttribute('id', 'Price');
 
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;

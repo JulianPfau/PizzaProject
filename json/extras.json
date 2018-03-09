@@ -1,1 +1,27 @@
-[{"id": 1, "name": "Extra K\u00e4se", "preis": "undefined"}, {"id": 2, "name": "Extra Bacon", "preis": "undefined"}, {"id": 3, "name": "schneiden", "preis": "undefined"}, {"id": 4, "name": "Gesch\u00fcttelt", "preis": "0"}, {"id": 5, "name": "Ger\u00fchrt", "preis": "0"}]
+[
+  {
+    "id": 1,
+    "name": "Extra K\u00e4se",
+    "price": 1.5
+  },
+  {
+    "id": 2,
+    "name": "Extra Bacon",
+    "price": 1.5
+  },
+  {
+    "id": 3,
+    "name": "schneiden",
+    "price": 0
+  },
+  {
+    "id": 4,
+    "name": "Gesch\u00fcttelt",
+    "price": "0"
+  },
+  {
+    "id": 5,
+    "name": "Ger\u00fchrt",
+    "price": "0"
+  }
+]
