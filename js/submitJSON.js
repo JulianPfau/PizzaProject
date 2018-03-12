@@ -463,6 +463,7 @@ function loadItems(json, indexOfSpan) {
         div.appendChild(ul);
         div.appendChild(span);
         menuInhalt[1].appendChild(div);
+        menuInhalt[1].removeAttribute('contenteditable');
 
         menuInhalt[2].innerHTML = (json[i].size == "") ? "None" : json[i].size;
         menuInhalt[3].innerHTML = (json[i].price == "") ? "None" : json[i].price;
@@ -947,6 +948,7 @@ function saveExtrasPopup(btn) {
         }
 
     }
+
     document.getElementById("closeModal").click();
 }
 
