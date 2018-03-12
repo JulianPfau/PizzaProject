@@ -782,6 +782,11 @@ function storeItemsInOrders(indexOfSpan) {
                             errors += "n";
                         }
 
+                        var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
+                        console.log(calcExtrasPrice(extraElement));
+                        console.log(parseFloat(calcExtrasPrice(extraElement)));
+                        var extraCost = parseFloat(calcExtrasPrice(extraElement));
+
                         //The price is still a string in the beginning. It is then trimmed, parsed to Float and rounded.
                         var priceToSave = precisionRound(parseFloat(currentElement.innerHTML.trim()), 2);
 
@@ -789,7 +794,7 @@ function storeItemsInOrders(indexOfSpan) {
                         itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + priceToSave;
 
                         //Getting the count of this row to use it to calculate the actual cost
-                        costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
+                        costSumOfAllItems += countOfThisRow * (priceToSave + extraCost);
                         break;
 
                     //For the extras
