@@ -599,7 +599,7 @@ function fillItems(btn, json) {
  */
 function loadNewFooter(span) {
     //If span not empty
-    if (span.innerHTML != "") {
+    if (span.innerHTML != "" && span.innerText != "None") {
 
         //Creates new row while removing ID from old footer and clone it
         var row = span.parentElement.parentElement;
