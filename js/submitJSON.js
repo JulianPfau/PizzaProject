@@ -109,7 +109,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ')');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ');');
 
                 //Adds picture to Table
                 menuInhalt[8] = document.createElement('img');
@@ -135,7 +135,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[6].innerHTML = (json[i].tags == "") ? "None" : splitArray(json[i].tags);
                 menuInhalt[7].innerHTML = (json[i].extras == "") ? "None" : splitArray(json[i].extras);
 
-                document.getElementById('footer').getElementsByClassName('Input footer')[6].setAttribute("onClick", "getJsonByRequest(getExtras,'extras'); loadExtras({}, " + (i + 1) + ")");
+                document.getElementById('footer').getElementsByClassName('Input footer')[6].setAttribute("onClick", "getJsonByRequest(getExtras,'extras'); loadExtras({}, " + (i + 1) + ");");
 
                 break;
 
@@ -238,6 +238,9 @@ function loadJSONToTable(json, index) {
             menuRow[c].appendChild(menuInhalt[c]);
         }
     }
+
+    editFooter();
+
     //Add the option to change picture
     if (index == "menu") extendTable();
 }
@@ -490,7 +493,7 @@ function loadItems(json, indexOfSpan) {
         menuInhalt[4].removeAttribute('contenteditable');
         menuInhalt[4].setAttribute('data-toggle', 'modal');
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
-        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ')');
+        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ');');
 
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
@@ -504,7 +507,6 @@ function loadItems(json, indexOfSpan) {
 
 
     //My Part for testing
-
 
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
@@ -627,8 +629,14 @@ function loadNewFooter(span) {
             if (newRow.childNodes[i].firstElementChild != null) {
                 newRow.childNodes[i].firstElementChild.innerHTML = "";
                 newRow.childNodes[i].firstElementChild.removeAttribute("bg-warning");
+                removeContent(newRow.childNodes[i].firstElementChild);
+                checkEmptyField(newRow.childNodes[i].firstElementChild);
+
                 if (newRow.childNodes[i].id == "img")
                     newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
+                if(newRow.childNodes[i].firstChild.id == "Extras"){
+                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({},"+ (document.getElementsByClassName("tr menuElement").length - 1 +");"));
+                }
             }
         }
     }
@@ -958,7 +966,7 @@ function saveExtrasPopup(btn) {
             var object = JSON.parse(paramString);
             object.extras = extras;
             var param = JSON.stringify(object);
-            var fnstr = "loadExtras(" + param + ", " + index + ")";
+            var fnstr = "loadExtras(" + param + ", " + index + ");";
             document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('onclick', "getJsonByRequest(getExtras,'extras'); " + fnstr);
             document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.innerHTML = splitArray(object.extras).replace(/\s/g, '');
             document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('class', 'Input bg-warning');
@@ -1034,7 +1042,7 @@ function precisionRound(input, decimal) {
 
 /**
  *
- * @param currentElement is span of extras <span class="Input" data-toggle="modal" data-target="#modalExtras" onclick="getJsonByRequest(getExtras,"extras"); loadExtras({"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1}, 0)">1,2</span>
+ * @param currentElement is span of extras <span class="Input" data-toggle="modal" data-target="#modalExtras" onclick="getJsonByRequest(getExtras,"extras"); loadExtras({"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1}, 0);">1,2</span>
  * @returns price of extras
  */
 function calcExtrasPrice(currentElement) {

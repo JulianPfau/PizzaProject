@@ -452,3 +452,46 @@ function itemSearch(input) {
         content = "";
     }
 }
+
+function editFooter(){
+    var footer = document.getElementById("footer");
+    for (var i = 0 ; i < footer.childNodes.length; i++){
+        checkEmptyField(footer.childNodes[i].firstChild);
+    }
+
+}
+
+function removeContent(element){
+    if(element.innerHTML == "None" && element.id != "Extras"){
+        element.innerHTML = "";
+    }
+}
+
+function checkEmptyField(element){
+    if(element) {
+        if (element.innerHTML == "") {
+            element.innerHTML = "None";
+        } else if (element.innerText == "") {
+            element.innerText == "None";
+        }
+
+            if(element.getAttribute("onclick")) {
+                if (!element.getAttribute("onclick").toString().includes("removeContent")) {
+                    element.setAttribute("onclick", element.getAttribute("onclick") + "removeContent(this);");
+                }
+            }else {
+                element.setAttribute("onclick", "removeContent(this);");
+            }
+            if(element.getAttribute("onblur")){
+
+            }
+            if (element.getAttribute("onblur")) {
+                if (!element.getAttribute("onblur").toString().includes("checkEmptyField")) {
+                    element.setAttribute("onblur", element.getAttribute("onblur") + "checkEmptyField(this);");
+                }
+            }else{
+                element.setAttribute("onblur", "checkEmptyField(this);");
+            }
+
+    }
+}
