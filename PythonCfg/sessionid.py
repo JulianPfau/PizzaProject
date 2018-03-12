@@ -23,7 +23,7 @@ json_dir = server_root + "/json/"
 # is still logged in.
 
 # contains every stored sessionID in an array
-file = open(json_dir + "sessionIDS.json")
+file = open(json_dir + "sessionIDs.json")
 # JSON SessionID database array
 oldsessionIDs = json.load(file)
 

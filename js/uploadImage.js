@@ -1,11 +1,11 @@
-
 var extras;
+
 /**
-* Creates an object to send image files via "POST" request to the server as base64 encoded string.
-*
-* Parameters:
-* @param tmpFile Image file object to upload
-*
+ * Creates an object to send image files via "POST" request to the server as base64 encoded string.
+ *
+ * Parameters:
+ * @param tmpFile Image file object to upload
+ *
  **/
 function uploadFile(tmpFile) {
     var reader = new FileReader();
@@ -59,19 +59,19 @@ function dropHandler(evt) {
     evt.stopPropagation();
     var files = evt.dataTransfer.files;
 
-    for(var i = 0; i < evt.dataTransfer.files.length ; i++){ // for each dropped file call function uploadFile() with the file as parameter
+    for (var i = 0; i < evt.dataTransfer.files.length; i++) { // for each dropped file call function uploadFile() with the file as parameter
         uploadFile(files[i]);
 
     }
 }
 
 /**
-*   Handler to prevent the default behaviour of browsers if not the browser would open the files directly into the window.
-*   If the drag has ended get all Elements of the dataTransfer object and delete each of them.
-*
-*   Parameter
-*   *  @param evt "dragEnd"-Event des Browsers
-*
+ *   Handler to prevent the default behaviour of browsers if not the browser would open the files directly into the window.
+ *   If the drag has ended get all Elements of the dataTransfer object and delete each of them.
+ *
+ *   Parameter
+ *   *  @param evt "dragEnd"-Event des Browsers
+ *
  **/
 
 function dragEndHandler(evt) {
@@ -96,12 +96,12 @@ function listImages() {
     var res;
 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200){
+        if (this.readyState == 4 && this.status == 200) {
             res = this.response;
         }
     };
 
-    xhttp.open("POST","https://localhost:8080", false);
+    xhttp.open("POST", "https://localhost:8080", false);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.request = "images";
     var data = JSON.stringify(req);
@@ -122,9 +122,9 @@ function listImages() {
 function saveTableToServer(table) {
     var rows = document.getElementsByClassName("tr menuElement");
     var json = [];
-    var key,value,row;
+    var key, value, row;
 
-    switch(table) {
+    switch (table) {
         case "orders":
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
@@ -139,10 +139,12 @@ function saveTableToServer(table) {
                         var tmp = row[n].firstChild;
                         var data = tmp.onclick.toString().split("loadItems(")[1].substr(0, tmp.onclick.toString().split("loadItems(")[1].length - 6);
                         value = JSON.parse(data.split("\)")[0]);
+                    } else if (key == "done") {
+                        value = 0;
+                        if (row[n].firstChild.checked) value = 1;
                     } else {
                         value = row[n].firstChild.innerHTML;
-                        console.log(key);
-                        if (key == "id" || key == "done" || key == "customerid") {
+                        if (key == "id" || key == "customerid") {
                             value = parseInt(value);
                         } else if (key == "total") {
                             value = parseFloat(value);
@@ -187,7 +189,7 @@ function saveTableToServer(table) {
                     }
                     objElement[key] = value;
                 }
-                if(objElement.name && objElement.description) {
+                if (objElement.name && objElement.description) {
                     json.push(objElement);
                 }
             }
@@ -197,12 +199,12 @@ function saveTableToServer(table) {
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
-                for (var n = 1; n < row.length; n++){
+                for (var n = 1; n < row.length; n++) {
                     key = row[n].firstChild.id.toLowerCase();
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
                         var data = tmp.onclick.toString().split("loadContact(")[1];
-                        value = JSON.parse(data.replace("\)","").replace("\}",""));
+                        value = JSON.parse(data.replace("\)", "").replace("\}", ""));
                     } else {
                         value = row[n].firstChild.innerHTML;
                         if (key == "id") {
@@ -216,10 +218,10 @@ function saveTableToServer(table) {
             break;
         case "extras":
             //Placeholder
-            for (var i = 0; i < rows.length; i++){
+            for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].children;
-                for (var n = 1; n < row.length; n++){
+                for (var n = 1; n < row.length; n++) {
                     node = row[n];
                     key = node.firstChild.id.toLowerCase();
                     value = node.firstChild.innerHTML;
@@ -227,7 +229,7 @@ function saveTableToServer(table) {
                         value = parseFloat(value);
                     objElement[key] = value;
                 }
-                if(objElement.id && objElement.name) {
+                if (objElement.id && objElement.name) {
                     json.push(objElement);
                 }
             }
@@ -239,21 +241,21 @@ function saveTableToServer(table) {
 
 
 /**
-*   Funktion um die übergebene JSON Daten an den Webserver zu übertragen per POST-Anfrage
-*
-*   Parameter
-*   @param jsonData - JSON Daten von Funktion saveTabletoServer();
-*   @param fileName - Name der Datei bzw. des Datensatzes
-*
+ *   Funktion um die übergebene JSON Daten an den Webserver zu übertragen per POST-Anfrage
+ *
+ *   Parameter
+ *   @param jsonData - JSON Daten von Funktion saveTabletoServer();
+ *   @param fileName - Name der Datei bzw. des Datensatzes
+ *
  **/
 
-function sendJSONtoServer(jsonData,fileName){
+function sendJSONtoServer(jsonData, fileName) {
     var xhttp = new XMLHttpRequest();
     var data = new Object();
     data.request = "saveJSON";
     data.fileName = fileName;
     data.jsonData = jsonData;
-    xhttp.open("POST","https://localhost:8080",false);
+    xhttp.open("POST", "https://localhost:8080", false);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(JSON.stringify(data));
 }
@@ -267,15 +269,14 @@ function sendJSONtoServer(jsonData,fileName){
 
 function pictureSelection(param) {
 
-    console.log(param);
     var a, b = this.value;
     var arrPictures = [];
     var input = param.value;
     var images = JSON.parse(listImages());
     closeAllLists();
 
-    for (var i = 0; i < images.length; i++){
-        if (images[i].startsWith(input)){
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].startsWith(input)) {
             arrPictures.push(images[i]);
         }
     }
@@ -286,7 +287,7 @@ function pictureSelection(param) {
 
     param.parentNode.appendChild(a);
 
-    for(var i = 0; i < arrPictures.length; i++){
+    for (var i = 0; i < arrPictures.length; i++) {
         b = document.createElement("DIV");
         //Marks in the list of picture the input bold
         b.innerHTML = "<strong>" + arrPictures[i].substr(0, input.length) + "</strong>";
@@ -294,20 +295,21 @@ function pictureSelection(param) {
         //Adds value to be read later
         b.innerHTML += "<input type='hidden' value='" + arrPictures[i] + "'>";
         //Change on Click the picture path
-        b.addEventListener("click", function(e) {
+        b.addEventListener("click", function (e) {
             this.parentElement.parentElement.getElementsByTagName("input")[0].style.backgroundColor = "#FFC107"
             //Change bg-color of input field to indicate change
             param.value = this.getElementsByTagName("input")[0].value;
             //Set value of input field in table to the image name
             var parent = param.parentElement.parentElement;
             var cols = parent.children;
-            var img = cols[cols.length -2 ].firstChild;
-            img.src = "../img/menu/"+param.value; //set the image src of the image in the table to the new path
+            var img = cols[cols.length - 2].firstChild;
+            img.src = "../img/menu/" + param.value; //set the image src of the image in the table to the new path
             closeAllLists(); // call function to "close" the list of images
         });
 
         a.appendChild(b); // append the image list to the outer div container
     }
+
     /*
     *   Funktion damit alle Elemente des Bilder Dropdowns gelöscht werden.
     *
@@ -367,11 +369,11 @@ function extendTable() {
 
 }
 
-function loadJSONfromServer(name, callback){
+function loadJSONfromServer(name, callback) {
     var xhttp = new XMLHttpRequest();
     var senddata = new Object();
     var res;
-    xhttp.open("POST", "https://localhost:8080",false);
+    xhttp.open("POST", "https://localhost:8080", false);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     senddata.request = "jsonRequest";
     senddata.file = name;
@@ -386,30 +388,29 @@ function loadJSONfromServer(name, callback){
 }
 
 
-function savePopup(btn){
+function savePopup(btn) {
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");
     //console.log(getJsonByRequest(null,"extras"));
     var extras = [];
     var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
-    for (var i = 0; i < list.length; i++){
-        if (list[i].firstChild.checked){
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].firstChild.checked) {
             extras.push(parseInt(list[i].firstChild.id));
         }
     }
     var row = document.getElementsByClassName("tr menuElement")[index].children;
-    for(var n = 0; n < row.length;n++){
-
-        if(row[n].firstChild.id.toLowerCase() == "extras"){
-           var input = row[n].firstChild;
-           var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
-           var paramString = onclickString[1].split("},")[0]+"}";
-           var object = JSON.parse(paramString);
-           object.extras = extras;
-           var param = JSON.stringify(object);
-           var fnstr = onclickString[0] + "loadExtras(" + param + "," + index + ")";
-           input.setAttribute('onclick',fnstr);
-           input.innerHTML = splitArray(object.extras).replace(/\s/g,'');
+    for (var n = 0; n < row.length; n++) {
+        if (row[n].firstChild != null && row[n].firstChild.id.toLowerCase() == "extras") {
+            var input = row[n].firstChild;
+            var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
+            var paramString = onclickString[1].split("},")[0] + "}";
+            var object = JSON.parse(paramString);
+            object.extras = extras;
+            var param = JSON.stringify(object);
+            var fnstr = onclickString[0] + "loadExtras(" + param + "," + index + ")";
+            input.setAttribute('onclick', fnstr);
+            input.innerHTML = splitArray(object.extras).replace(/\s/g, '');
 
         }
 
@@ -419,35 +420,35 @@ function savePopup(btn){
 
 }
 
-function itemSearch(input){
+function itemSearch(input) {
     var searchPattern = input.value.toLowerCase();
     var content = "";
     var rows = document.getElementsByClassName("tr menuElement");
 
-    for (var i = 0; i < rows.length;i++){
+    for (var i = 0; i < rows.length; i++) {
         var element = rows[i];
         var elements = rows[i].children;
 
-        for(var n = 0; n < elements.length; n++){
-            if(elements[n].id == "img"){
+        for (var n = 0; n < elements.length; n++) {
+            if (elements[n].id == "img") {
                 content += elements[n].firstChild.src.split("/")[elements[n].firstChild.src.split("/").length - 1] + ",";
-            }else if(elements[n].children[0]){
-                if(elements[n].children[0].hasAttribute("onclick")){
+            } else if (elements[n].children[0]) {
+                if (elements[n].children[0].hasAttribute("onclick")) {
                     try {
                         content += elements[n].firstChild.getAttribute('onclick').toString();
-                    }catch (err){
+                    } catch (err) {
                     }
-            }else{
-                    content += elements[n].firstChild.innerHTML.toLowerCase()+ ",";
+                } else {
+                    content += elements[n].firstChild.innerHTML.toLowerCase() + ",";
                 }
             }
         }
         //.replace(/[^a-zA-Z0-9 ]/g, " ")
-        if(!content.toLocaleLowerCase().includes(searchPattern.toLocaleLowerCase())){
+        if (!content.toLocaleLowerCase().includes(searchPattern.toLocaleLowerCase())) {
             element.style.display = "none";
-        }else{
+        } else {
             element.style.display = "table-row";
         }
-        content ="";
+        content = "";
     }
 }
