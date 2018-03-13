@@ -39,42 +39,37 @@ function checkLogin() {
         popup("Bitte alle Felder ausfüllen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
-<<<<<<< HEAD
-        var json = {"username": username , "password": password + };
-=======
         var json = {"username": username, "password": password};
->>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
+        var json = {"username": username, "password": password};
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
-        
+
         // DEBUG
         // console.log(response);
-        
+
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
-<<<<<<< HEAD
-        if(!response && response != undefined && response != "" && response.status == "OK"){
-            createSession(response);            
-            sessionStorage.setItem('email', username);
-            window.location = MENU_URL;     
-        }else{
-=======
-        if (!response && response != undefined && response != "") {
+        if (response != undefined && JSON.parse(response).STATUS == "OK") {
             createSession(response);
             sessionStorage.setItem('email', username);
             window.location = MENU_URL;
-
         } else {
->>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
-            popup("Passwort ist falsch"); //Debug
-            document.getElementById('password').value = '';
+            if (!response && response != undefined && response != "") {
+                createSession(response);
+                sessionStorage.setItem('email', username);
+                window.location = MENU_URL;
+
+            } else {
+                popup("Passwort ist falsch"); //Debug
+                document.getElementById('password').value = '';
+            }
         }
     }
 }
 
 //Writes the Session ID in the Session Storage
 function createSession(response) {
-    var data = response.parseJSON();
+    var data = JSON.parse(response);
     sessionStorage.setItem('SID', data.id);
     sessionStorage.setItem('name', data.firstname + ' ' + data.lastname);
 }
@@ -138,7 +133,7 @@ function register() {
         return (false);
     }
 
-    //Checks if the two password fields match 
+    //Checks if the two password fields match
     if (password != passwordConfirm) {
         popup("Passwörter stimmen nicht überein");
         document.getElementById('password').value = "";
@@ -154,16 +149,23 @@ function register() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = {"email": email ,"firstname": firstname,"lastname": lastname,"password": password,"postcode": postcode, "street": street,"streetNr": streetNr,"phone": phone};
+    var json = {
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "password": password,
+        "postcode": postcode,
+        "street": street,
+        "streetNr": streetNr,
+        "phone": phone
+    };
     var result = ajax("register", json);
-<<<<<<< HEAD
-    if (result.status == 'OK'){
-=======
-    if (result == 'true') {
->>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
-        window.location = PROFILE_URL;
-    } else {
-        popup('Unbekannter Fehler');
+    if (result.status == 'OK') {
+        if (result == 'true') {
+            window.location = PROFILE_URL;
+        } else {
+            popup('Unbekannter Fehler');
+        }
     }
 }
 
@@ -217,16 +219,22 @@ function sendNewData() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = {"email": email,"firstname": firstname,"lastname": lastname,"postcode": postcode,"street": street,"streetNr": streetNr,"phone": phone};
+    var json = {
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "postcode": postcode,
+        "street": street,
+        "streetNr": streetNr,
+        "phone": phone
+    };
     var result = ajax("updateData", json);
-<<<<<<< HEAD
-    if (result.status == 'OK'){
-=======
-    if (result == 'true') {
->>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
-        popup("Änderung der Daten erfolgreich");
-    } else {
-        popup('Unbekannter Fehler');
+    if (result.status == 'OK') {
+        if (result == 'true') {
+            popup("Änderung der Daten erfolgreich");
+        } else {
+            popup('Unbekannter Fehler');
+        }
     }
 }
 
@@ -239,23 +247,23 @@ function popup(text) {
 //Generates the Menu bar; is different if an User is logged on or not
 function generateMenu() {
     if (checkSID()) {
-        //Shows proper Menu 
+        //Shows proper Menu
     } else {
         window.location = LOGIN_URL;
     }
 }
 
 //Deletes an User account, takes in the email-address of the account which should be deleted
-<<<<<<< HEAD
-function deleteUser(email){
-    ajax("deleteUser", '{"email":"'+email+'"}');
+function deleteUser(email) {
+    ajax("deleteUser", '{"email":"' + email + '"}');
 }
 
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
-function getHistory(){
-    var history = ajax("getOrderbyMail", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
+function getHistory() {
+    var history = ajax("getOrderbyMail", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
     return history;
-=======
+}
+
 function deleteUser(email) {
     ajax("deleteUser", '{"email":"' + email + '"}');
     sessionStorage.removeItem('SID');
@@ -266,7 +274,6 @@ function deleteUser(email) {
 function getHistory() {
     var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
     return histoy;
->>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so
@@ -278,3 +285,4 @@ function RedirectWithCheck(url) {
         popup('Session abgelaufen!');
     }
 }
+
