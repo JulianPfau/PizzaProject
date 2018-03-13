@@ -560,12 +560,10 @@ function loadItems(json, indexOfSpan) {
     }
 
 
-    //My Part for testing
 
+    //Setting the function storeItemsInOrders to the savebutton's onclick event
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
-
-
 }
 
 /**
@@ -837,6 +835,7 @@ function storeItemsInOrders(indexOfSpan) {
                             errors += "n";
                         }
 
+                        //Getting the span element of the extras, for calculating their price
                         var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
                         var extraCost = parseFloat(calcExtrasPrice(extraElement));
 
@@ -914,18 +913,23 @@ function storeItemsInOrders(indexOfSpan) {
             if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
                 //then mark the element as being edited
                 thisElementThatWasClickedOn.parentElement.className = "td bg-warning";
+                thisElementThatWasClickedOn.parentElement.nextElementSibling.className = "td bg-warning";
+
+                //This is then written to the onclick attribute of the original element (that was clicked on)
+                //So then, the next time the changed content is being loaded.
+                thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+                //The element's innerHTML gets the nameString, as the Items may have changed
+                thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+                //The Total also might have changed and this is updated too.
+                //This is rounded to 2 decimals
+
+                totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
+            } else {
+                //Nothing has changed so we dont do anything specific
             }
 
-            //This is then written to the onclick attribute of the original element (that was clicked on)
-            //So then, the next time the changed content is being loaded.
-            thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
-            //The element's innerHTML gets the nameString, as the Items may have changed
-            thisElementThatWasClickedOn.innerHTML = namesOfItems;
 
-            //The Total also might have changed and this is updated too.
-            //This is rounded to 2 decimals
-
-            totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
 
             errorMessageHTMLElement.innerHTML = "";
 
@@ -1093,7 +1097,8 @@ function saveContactOrdersPopup(index) {
     document.getElementById("closeModalContacts").click();
 }
 
-
+//Small function used to round precisely the decimals of numbers
+//This is used for various calculations
 function precisionRound(input, decimal) {
     var factor = Math.pow(10, decimal);
     return Math.round(input * factor) / factor;
