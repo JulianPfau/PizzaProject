@@ -25,6 +25,8 @@ var ORDER_URL   = "order.html";
 var LOGIN_URL   = "index.html";
 // Register site filepath
 var REGISTER_URL= "reg.html";
+// 404 site filepath
+var E404_URL= "404.html";
 
 
 /* Template Directory Path
@@ -72,7 +74,19 @@ function template(page) {
                 // User site
 				t_users();
 				break;
-            
+            case "orderconf":
+                // orderconf site
+				t_orderconf();
+				break;
+            case "404":
+                // 404 site
+				t_404();
+				break;
+            case "401":
+                // 401 site
+				t_401();
+				break;
+                
             // every other page if nothing is called
             case undefined:
             case "":
@@ -117,7 +131,6 @@ function t_navigation() {
     var NavigationFile = "navigation.html";
     
     $(navigationID).load(TemplatePath + NavigationFile, function () {
-        var orderradius = document.getElementById("orderradius");
         var hours = document.getElementById("hours");
         var state = document.getElementById("state");
         var cart = document.getElementById("cart");
@@ -125,7 +138,6 @@ function t_navigation() {
 		var menu = document.getElementById("menu");
         
         // inserts the page links into the navigation
-        orderradius.href = ORDER_URL;
         hours.href = HOURS_URL;
         state.href = LOGIN_URL;
         cart.href = CART_URL;
@@ -218,5 +230,36 @@ function t_users(){
         }else{
             
         }
+    });
+}
+
+/* [T] 404 Template */
+function t_404(){
+    // Filename of the 404 Template
+    var errorfile = "404.html";
+
+    $(MainID).load(TemplatePath + errorfile);
+}
+
+/* [T] 401 Template */
+function t_401(){
+    // Filename of the 404 Template
+    var errorfile = "401.html";
+
+    $(MainID).load(TemplatePath + errorfile);
+}
+
+/* [T] orderconf Template */
+function t_orderconf(){
+    // Filename of the 404 Template
+    var orderconffile = "orderconf.html";
+    $.ajax({
+            url: TemplatePath + orderconffile,
+            async: false
+            }).done(function(data){
+        $(MainID).append(data);
+        
+        // run the site specific functions
+        getdata();
     });
 }
