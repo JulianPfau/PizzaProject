@@ -9,9 +9,9 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-from ajaxGoogleAPI import *
-from requestsJSON import *
-from sessionid import *
+from PythonCfg import ajaxGoogleAPI
+from PythonCfg import requestsJSON
+from PythonCfg import sessionid
 
 '''
 Sets all necessary paths to global variables.
@@ -74,7 +74,6 @@ def jsondata(request):
     Returns:
         dict:   if successful: set the response to the containment of the file
     '''
-    print(request)
     try:
         global json_dir
         # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
@@ -110,6 +109,7 @@ def fileupload(request):
 
     response = json.dumps(response)
     return response
+
 
 def pdfupload(request):
     try:
@@ -148,10 +148,11 @@ def login(request):
             'STATUS': 'ERROR'
         }
         for customer in customers:
-            if (request["value"]["email"] == customer["email"]
+            if (request["value"]["username"] == customer["email"]
                     and request["value"]["password"] == customer["password"]):
                 response = {
-                    'STATUS': 'OK'
+                    'STATUS': 'OK',
+                    'sid': sessionid.createSessionID()
                 }
         response = json.dumps(response)
         return response
@@ -231,7 +232,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         # rootdir = server_root
 
         if (self.path == "/"):
-            self.path = "/index.html"
+            self.path = "/speisekarte.html"
 
         if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
                 ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(
@@ -301,19 +302,19 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = jsondata(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'ajaxGoogleAPI':
-                    response = calcDistance(data)
+                    response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
                     self.wfile.write(bytes(response, 'UTF8'))
-                #if data['request'] == 'saveJSON':
-                #    response = saveJSON(data)
-                #    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'saveJSON':
+                    response = saveJSON(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'deleteHeader':
                     response = MyServer.delete_header(self)
                     self.wfile.write(bytes(response, "UTF8"))
                 if data['request'] == 'newOrder':
-                    response = appendOrder(json_dir, data)
+                    response = requestsJSON.appendOrder(json_dir, data)
                     self.wfile.write(bytes(response, "UTF8"))
                 if data['request'] == 'getOrderbyId':
-                    response = getOrderbyId(json_dir, data)
+                    response = requestsJSON.getOrderbyId(json_dir, data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'login':
                     response = login(data)
@@ -322,17 +323,15 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = register(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'checkSID':
-                    response = checkSessionID(data['value']['id'])
+                    response = sessionid.checkSessionID(data['value']['id'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'getOrderbyMail':
-                    response = getOrderbyMail(json_dir, data)
+                    response = requestsJSON.getOrderbyMail(json_dir, data)
                     self.wfile.write(bytes(response, 'UTF8'))
             except IOError:
                 self.send_error(404, "Something went wrong")
         except json.decoder.JSONDecodeError:
             pdfupload(request);
-
-
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
@@ -360,4 +359,4 @@ try:
         server.handle_request()
 
 except KeyboardInterrupt:
-    print("Shutting down server per users request.")
+print("Shutting down server per users request.")
