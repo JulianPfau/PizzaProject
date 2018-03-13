@@ -224,6 +224,8 @@ function generateMenu(){
 //Deletes an User account, takes in the email-address of the account which should be deleted
 function deleteUser(email){
     ajax("deleteUser", '{"email":"'+email+'"}');
+    sessionStorage.removeItem('SID');
+    popup("Please reload page");
 }
 
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
