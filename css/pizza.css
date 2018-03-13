@@ -97,6 +97,10 @@ input:focus {
     color: white;
 }
 
+.orange a{
+    color: white !important;
+}
+
 .text-orange {
     color: #e16f55 !important;
 }
