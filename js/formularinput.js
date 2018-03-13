@@ -68,24 +68,29 @@ document.addEventListener('DOMContentLoaded', function () {
 			var pizzen = bestellung["items"];
 			var total = bestellung["total"];
 			
-			if(total > 11.99) {
+			if(firstname == "" || lastname == "" || postcode == "" || street == "" || town == "" || nr == "" || phone == ""){
+				alert("Sie haben ein Formularfeld leer gelassen!");
+			}
+			else{
+				if(total < 12) {
+					
+					alert("Mindestbestellwert von 12 Euro wurde nicht erreicht");
 				
-			
-				var dict = {};
-				dict["id"] = orderId;
-				dict["items"]=pizzen;
-				dict["contact"]=objcontact;
-				dict["total"]=total;
-				var fertigesdict = {};
-				fertigesdict["request"] = "newOrder";
-				fertigesdict["jsonData"] = dict;
+				}
+				else {
+					var dict = {};
+					dict["id"] = orderId;
+					dict["items"]=pizzen;
+					dict["contact"]=objcontact;
+					dict["total"]=total;
+					var fertigesdict = {};
+					fertigesdict["request"] = "newOrder";
+					fertigesdict["jsonData"] = dict;
 
-				printPDF(fertigesdict.jsonData);
-				fertigesdict = JSON.stringify(fertigesdict);
-				ordercheck(fertigesdict);
-            }
-			else {
-				alert("Mindestbestellwert von 12 Euro wurde nicht erreicht");
+					printPDF(fertigesdict.jsonData);
+					fertigesdict = JSON.stringify(fertigesdict);
+					ordercheck(fertigesdict);
+				}
 			}
 			}
 			
