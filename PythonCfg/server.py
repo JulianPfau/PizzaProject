@@ -9,10 +9,12 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-from PythonCfg import ajaxGoogleAPI
-from PythonCfg import requestsJSON
-from PythonCfg import sessionid
-
+#from PythonCfg import ajaxGoogleAPI
+#from PythonCfg import requestsJSON
+#from PythonCfg import sessionid
+import ajaxGoogleAPI
+import requestsJSON
+import sessionid
 
 '''
 Sets all necessary paths to global variables.
@@ -303,7 +305,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = jsondata(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'ajaxGoogleAPI':
-                    response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
+                    response = ajaxGoogleAPI.calcDistance(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 #if data['request'] == 'saveJSON':
                 #    response = saveJSON(data)
