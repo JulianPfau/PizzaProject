@@ -69,9 +69,7 @@ function checkLogin() {
 
 //Writes the Session ID in the Session Storage
 function createSession(response) {
-    var data = JSON.parse(response);
-    sessionStorage.setItem('SID', data.id);
-    sessionStorage.setItem('name', data.firstname + ' ' + data.lastname);
+    sessionStorage.setItem('SID', response);
 }
 
 //Generic AJAX function which takes in the url to send the request to and the conten of the POST-request
@@ -273,7 +271,7 @@ function deleteUser(email) {
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
 function getHistory() {
     var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
-    return histoy;
+    return history;
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so
