@@ -245,7 +245,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 response = jsondata(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'ajaxGoogleAPI':
-                response = calcDistance(data['plz_pizza'], data['plz_user'])
+                response = calcDistance(data)
                 self.wfile.write(bytes(response, 'UTF8'))
             if data['request'] == 'saveJSON':
                 response = saveJSON(data)

@@ -1,60 +1,84 @@
 import json
 
-'''
-finds a specific pizza in the menu.json
-'''
 def findPizzainMenu(menu, pizza):
+	'''
+	Searches for pizza characteristics in the menu based on its name
+	
+	Args:
+		menu (dict):	content of the json in which all the pizza 
+						characteristics are written
+		pizza (string):	name of the pizza to look for
+	
+	Returns:
+		dict:	if successful: all collected characteristics from the pizza
+				Pizza does not exist: Error, Pizza not valid.
+	'''
+	
 	for item in menu:
 		if item["name"] == pizza:
 			return item
-	return 0
+	return { "Status" : "Error",  "Description" : "Pizza not valid." }
 
-'''
-finds a specific extra in the extras.json
-'''
 def findExtrainExtras(extras, intId):
+	'''
+	Searches for extra characteristics in the extras based on its id.
+	
+	Args:
+		extra (dict):	content of the json in which all the extra 
+						characteristics are written
+		intId (int):	id of the extra to look for
+	
+	Returns:
+		dict:	if successful: all collected characteristics from the extra
+				Pizza does not exist: Error, Extra not valid.
+	'''
 	for item in extras:
 		if intId == item["id"]:
 			return item
-	return 0
+	return { "Status" : "Error",  "Description" : "Extra not valid." }
 
-'''
-JSON-String to add Order to orders.json:
-	{
-		"request" : "newOrder",
-		"jsonData" :
-			{"items":
-				[{"name":"Salami",
-				  "extras":[2,3],
-				  "size":"mittel",
-				  "price":12,
-				  "count":"3"},
-				 {"name":"Salami",
-				  "extras":[2,3],
-				  "size":"mittel",
-				  "price":12,
-				  "count":"3"},
-				 {"name":"Salami",
-				  "extras":[2,3],
-				  "size":"mittel",
-				  "price":12,
-				  "count":"3"}],
-			"contact":
-				{"name":"Max Mustermann",
-				 "postcode":"82299",
-				 "street":"Daheim",
-				 "city":"Musterstadt",
-				 "nr":"1",
-				 "phone":"01245556783",
-				 "zahlung":"bar"},
-			"total":108
-		}
-	}
-Caution don't use vowel mutation!
-can't be handelt by the webserver
-Function returns the data with checked prices to client 
-'''
 def appendOrder(json_dir, request):
+	'''
+	Appends a submitted Order, checks the calculated price and returns the 
+	corrected informations to the customer.
+	
+	Args:
+		json_dir (str):	string to all stored json-files
+		request (dict):	transmitted informations in this structure:
+			{
+				"request" : "newOrder",
+				"jsonData" :
+					{"items":
+						[{"name":"",
+						  "extras":[],
+						  "size":"",
+						  "price": ,
+						  "count":""},
+						  ...
+						],
+					"contact":
+						{"name":"",
+						 "postcode":"",
+						 "street":"",
+						 "city":"",
+						 "nr":"",
+						 "phone":"",
+						 "zahlung":""},
+					"total": 
+				}
+			}
+	
+	Returns:
+		dict:	if successful: sets the response to the corrected request
+				if any error: sets the response to { 'STATUS' : 'ERROR' }
+	
+	Caution:
+		Don't use vowel mutations!
+	'''
+	
+	'''
+		Calculate the new correct price.
+	'''
 	try:
 		with open(json_dir + "menu.json", "r") as f:
 			menu = json.load(f)
@@ -81,7 +105,11 @@ def appendOrder(json_dir, request):
 		}
 		response = json.dumps(response)
 		return response
-
+	
+	'''
+	Appends the Order to the orders.json-file.
+	sets the response for the customer
+	'''
 	try:
 		with open(json_dir + "orders.json", "r") as f:
 			data = json.load(f)
@@ -110,6 +138,24 @@ JSON-String to get a Order by it's Order-ID
 	}
 '''
 def getOrderbyId(json_dir,  request):
+	'''
+	Searches in the orders.json for a specific order
+	based on its id.
+	
+	Args:
+		json_dir (str):	string to the dicetory where the json-files
+						are located
+		request (dict):	request contains all the transmitted informations
+						from the customer in this structure:
+							{
+								"request" : "getOrderbyId",
+								"order_id" : ""
+							}
+	
+	Returns:
+		dict:	if successful: sets the response to the collected order
+				Pizza does not exist: Error.
+	'''
 	try:
 		with open(json_dir + "orders.json", "r") as f:
 			data = json.load(f)
@@ -131,7 +177,21 @@ def getOrderbyId(json_dir,  request):
 	response = json.dumps(response)
 	return response
 
+
 def getCustomerIdbyMail(json_dir, mail):
+	'''
+	Looksup the customers id based on the stored mail-address in the customers.json
+	
+	Args:
+		json_dir (str):	string to the dicetory where the json-files
+						are located
+		request (dict):	request contains all the transmitted informations
+						from the customer.
+	
+	Returns:
+		dict:	if successful: all collected characteristics from the extra
+				Pizza does not exist: Error, Extra not valid.
+	'''
 	try:
 		with open(json_dir + "customers.json", "r") as f:
 			data = json.load(f)
@@ -143,15 +203,26 @@ def getCustomerIdbyMail(json_dir, mail):
 	except IOError:
 		return 0
 
-'''
-JSON-String to get a Order by it's Customer-ID
-	{
-		"request" : "getOrderbyMail",
-		"file" : "orders",
-		"email" : ""
-	}
-'''
 def getOrderbyMail(json_dir,  request):
+	'''
+	Returns all ever submitted orders based on the stored mail-address 
+	
+	Args:
+		json_dir (str):	string to the dicetory where the json-files
+						are located
+		request (dict):	request contains all the transmitted informations
+						from the customer in this structure:
+							{
+								"request" : "getOrderbyMail",
+								"file" : "orders",
+								"email" : ""
+							}
+	
+	Returns:
+		dict:	if successful: sets the response to all stored orders
+				mail-address does not exist: Error.
+	'''
+	
 	customerid = getCustomerIdbyMail(json_dir, request["email"])
 	try:
 		with open(json_dir + request["file"] + ".json", "r") as f:
