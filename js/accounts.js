@@ -50,12 +50,12 @@ function checkLogin() {
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
         if (response != undefined && JSON.parse(response).STATUS == "OK") {
-            createSession(response);
+            createSession(JSON.parse(response).sid);
             sessionStorage.setItem('email', username);
             window.location = MENU_URL;
         } else {
             if (!response && response != undefined && response != "") {
-                createSession(response);
+                createSession(JSON.parse(response).sid);
                 sessionStorage.setItem('email', username);
                 window.location = MENU_URL;
 
