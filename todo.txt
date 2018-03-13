@@ -4,7 +4,7 @@
 
 - Validierung der Eingaben (Zahlen bei Totals und CusomerID's, nur Groessen bei Size etc). Im Moment kann man �berall fast alles reinschreiben. Size k�nnte ein Dropdownmen sein.
 
-- Preis bei Orders.html wird nur über Items berechnet, nicht mit den Extras
+(✔) Preis bei Orders.html wird nur über Items berechnet, nicht mit den Extras
 
 ✔ Speichern und Loeschen funktioniert auf orders.html bei mir nicht
 
@@ -23,7 +23,7 @@
 
 - Auswahl von Bildern in menu.html laggfrei machen
 
-- Fuer "Done" einen Button einfuegen, der es auf 1 setzt, oder eine checkbox
+✔ Fuer "Done" einen Button einfuegen, der es auf 1 setzt, oder eine checkbox
 
 ✔ die Einfaerbung bei Aenderung (db-danger) auf das ganze Div zu machen, weil das besser aussehen wuerde glaube ich.
 
