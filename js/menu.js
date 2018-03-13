@@ -28,7 +28,7 @@ function createTablefromJSON(rawData){
         var selAmount = document.createElement("select");
         selAmount.setAttribute("class","selectpicker");
         var amId = 'amount' + i;
-        selAmount.setAttribute("id", amId); 
+        selAmount.setAttribute("id", amId);
         selAmount.setAttribute("onChange","changePrice('"+i+"')");
 
         for (var k = 1; k < 10; k++){
@@ -89,6 +89,7 @@ function createTablefromJSON(rawData){
                         input.value = value[p];
                         d.appendChild(input);
                     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
                 }else if(key == "extras"){
 
                     var arrExtras = JSON.parse(extras)["jsonData"];
@@ -131,7 +132,6 @@ function createTablefromJSON(rawData){
 
 function openExtras(element, index) {
     var extras = element.parentNode.getElementsByTagName("input");
-
     //Sets title of Extras Popup
     document.getElementById("modalExtrasItems").innerHTML = "Extras";
     //Sets index for write
@@ -155,7 +155,9 @@ function openExtras(element, index) {
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
 
-        input.setAttribute('id', extras[i].name);
+        var extraCheckboxId = index + ":" + i;
+
+        input.setAttribute('id', extraCheckboxId);
 
         //Content & Change Event for extra
         span.innerHTML = " " + extras[0].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
@@ -213,7 +215,6 @@ function changePrice(element) {
     var extraPrice = 0;
     var amount = 0;
     var pizzaPrice = table[element].childNodes[5].getElementsByTagName("input")[size].value;
-    console.log(pizzaPrice);
 
     for (var i = 0; i < extras.length;i++){
 
@@ -221,7 +222,6 @@ function changePrice(element) {
             extraPrice = parseFloat(extraPrice) + parseFloat(extras[i].value);
         }
     }
-    //console.log(table[element].getElementsByTagName("select")[0]);
     if(table[element].getElementsByTagName("select")[1].value != 0){
 
         amount = table[element].getElementsByTagName("select")[1].value;

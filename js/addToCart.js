@@ -1,5 +1,5 @@
     //get menu from server
-function loadMenuJSON(callback) {   
+function loadMenuJSON(callback) {
 
     var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
@@ -9,11 +9,11 @@ function loadMenuJSON(callback) {
             callback(xobj.responseText);
           }
     };
-    xobj.send(null);  
+    xobj.send(null);
  }
- 
+
  //get extras menu from server
- function loadExtrasJSON(callback) {   
+ function loadExtrasJSON(callback) {
 
     var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
@@ -23,9 +23,9 @@ function loadMenuJSON(callback) {
             callback(xobj.responseText);
           }
     };
-    xobj.send(null);  
+    xobj.send(null);
  }
-    
+
 //save menus in sessionStorage (using above functions)
 function saveMenu (json) {
     loadMenuJSON(function(response) {
@@ -40,11 +40,11 @@ function saveMenu (json) {
 
 //check, if menu is already saved to sessionStorage
 function controll () {
- 
+
     if ( sessionStorage.getItem('menu') == null ) {
         saveMenu();
     }
- 
+
 }
 
 //detect chosen pizza with size, amount etc and add to bestellung which is saved in sessionStorage
@@ -55,41 +55,31 @@ function pizzaWahl ( x ) {
     var name = chosenPizza['name'];
     var sizePickerName = 'size' + x; //variable for the name of the selectPicker belonging to chosen Pizza
     var chosenSize = document.getElementById(sizePickerName).value;
-    var sizeId = 0;
-    for (var i = 0; i < chosenPizza['sizes'].length; i++) {
-        if (chosenSize == chosenPizza['sizes'][i]) {
-            sizeId = i;
-        }
-    }
-    //var sizeId = document.getElementById(sizePickerName).value;
-    var size = chosenPizza['sizes'][sizeId];
+    var size = chosenPizza['sizes'][chosenSize];
     var amountPickerName = 'amount' + x;
     var amount = document.getElementById(amountPickerName).value;
     var pizzaPrices = chosenPizza['prices'];
-    var pizzaPrice = pizzaPrices[sizeId];
-    console.log(pizzaPrices);
-    console.log(sizeId);
+    var pizzaPrice = pizzaPrices[chosenSize];
     var extras = [];
     var possibleExtras = chosenPizza['extras'];
-    // loop through available extras
-    for ( var i = 0; i<possibleExtras.length; i++) {
-        if ( document.getElementById(i) != null ) {
-            if ( document.getElementById(i).checked == true ) {
-                extras.push(i);
-            }
+    for ( var i = 0; i < possibleExtras.length; i++) {
+        var checkboxId = x + ":" + i;
+      if (document.getElementById(checkboxId) != null) {
+        if (document.getElementById(checkboxId).checked == true) {
+          extras.push(i);
         }
+      }
     }
     var extrasPrice = 0;
-    for (var i = 0; i<allExtras.lenght; i++) {
+    for (var i = 0; i<allExtras.length; i++) {
         for (var j = 0; j<extras.length; j++) {
-            if ( allExtras[i] == extras[j]) {
-                extrasPrice += allExtras[i][price];
+            if ( allExtras[i]['id'] - 1 == extras[j]) {
+                extrasPrice += allExtras[i]['price'];
                 console.log(extrasPrice);
             }
         }
     }
     var price = pizzaPrice + extrasPrice;
-    console.log(price); 
     var newPizza = {name:name, extras:extras, size:size, count:amount, price:price};
     var pizzaArray = [];
     var oldTotal;
@@ -103,9 +93,10 @@ function pizzaWahl ( x ) {
         pizzaArray.push(newPizza);
         var oldTotal = oldBestellung['total'];
     }
-    var total = oldTotal + ((pizzaPrice + 0)*amount);
+    var total = oldTotal + (price*amount);
     var bestellung = JSON.stringify({items:pizzaArray, total:total});
     sessionStorage.setItem('bestellung', bestellung);
+    var boxen = document.getElementsByClassName('extrasBox');
 }
 
 function bestellen () {
