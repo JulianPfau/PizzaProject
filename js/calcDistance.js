@@ -1,18 +1,42 @@
 //'use strict';
 
 function getPLZ() {
-													//input feld muss diese Funtion bei onkeyup aufrufen
-													//Bsp.: <input type="text" id="fname" onkeyup="getPLZ()">
-  var plz = document.getElementById("postcode").value;	//hier muss "plz" geändert werden!
-  calcDistance(plz);
+	/**
+	 * Function takes the Location out of a Input box and
+	 * requests the distance between two locations from
+	 * the server.
+	 * 
+	 * HTML-Code for the input field <input type="text" id="fname" onkeyup="getPLZ()">
+	**/
+	
+	var plz = document.getElementById("postcode").value;
+	calcDistance(plz);
 }
 
 function calcDistance(plz_user) {
-  var plz_pizza = "88045+Fallenbrunn";
-  ajaxPLZ(plz_pizza, plz_user);
+	/**
+	 * Functions sets the location of the pizzeria and
+	 * and makes a request to the server.
+	 * 
+	 * Args: 
+	 * 		plz_user (string):	location of the customer.
+	**/
+	
+	var plz_pizza = "88045+Fallenbrunn";
+	ajaxPLZ(plz_pizza, plz_user);
 }
 
 function ajaxPLZ(pizza, user) {
+	/**
+	 * Function requests (POST) distance from the server
+	 * and colours the inpud field red or green depending 
+	 * on the response.
+	 * 
+	 * Args:
+	 * 		pizza (string):	location of the pizzeria.
+	 * 		user (string):	location of the customer.
+	**/
+	
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
@@ -32,6 +56,7 @@ function ajaxPLZ(pizza, user) {
         }
 
     };
+    
     var data = {
         "request": "ajaxGoogleAPI",
         "plz_pizza": pizza,
