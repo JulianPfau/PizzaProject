@@ -8,11 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
             var elem = document.getElementById('bestelluebersicht');
             elem.addEventListener('click', schreibe);
 
+            var del = document.getElementById('bestellungloeschen');
+            del.addEventListener('click', loeschen);
+
+
 
 
 
     // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
             function schreibe() {
+                var timestamp = new Date(Date.now());
+
+                var orderId = timestamp.getUTCFullYear().toString() + timestamp.getUTCMonth()+1 + timestamp.getDate() + timestamp.getHours() + timestamp.getMinutes() + timestamp.getSeconds();
                 var firstname = document.getElementById('firstname').value;
 
                 var lastname = document.getElementById('lastname').value;
@@ -53,18 +60,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         zahlung: zahlung
                 };
 
+
+
 			var bestellung = sessionStorage["bestellung"];
 			bestellung = JSON.parse(bestellung);
 			var pizzen = bestellung["items"];
 			var total = bestellung["total"];
 			
 			var dict = {};
+			dict["id"] = orderId;
 			dict["items"]=pizzen;
 			dict["contact"]=objcontact;
 			dict["total"]=total;
 			var fertigesdict = {};
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
+
+			printPDF(fertigesdict.jsonData);
 			fertigesdict = JSON.stringify(fertigesdict);
 			ordercheck(fertigesdict);
             }
@@ -90,7 +102,10 @@ document.addEventListener('DOMContentLoaded', function () {
         sessionStorage.setItem('bestellung', fertigebestellung);
         location.href="https://localhost:8080/conf.html";
     }
-
+    function loeschen() {
+        sessionStorage.removeItem("bestellung");
+        location.href="https://localhost:8080/speisekarte.html";
+    };
 
 
 });

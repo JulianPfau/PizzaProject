@@ -212,7 +212,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
                 menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
-                if (json[i].done == 1) menuInhalt[6].setAttribute('checked','');
+                if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
             //Extras
@@ -245,26 +245,7 @@ function loadJSONToTable(json, index) {
     if (index == "menu") extendTable();
 }
 
-/**
- * Function to convert the Array into an displayable String
- *
- * @param array which should be convertet to be a ';' seperated String
- * @returns {string} the String to be displayed
- */
-function splitArray(array) {
-    var str = "";
-    if (array == "None") {
-        str = "None";
-    } else {
-        //Seperates the array content witch ";"
-        for (var i = 0; i < array.length; i++) {
-            str += array[i] + ";";
-        }
-        //Removes the last ";"
-        str = str.substr(0, str.length - 1);
-    }
-    return str;
-}
+
 
 /**
  * Loads the Contact Content into the Popup
@@ -560,12 +541,10 @@ function loadItems(json, indexOfSpan) {
     }
 
 
-    //My Part for testing
 
+    //Setting the function storeItemsInOrders to the savebutton's onclick event
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
-
-
 }
 
 /**
@@ -591,7 +570,6 @@ function logOut() {
     xhr.open("GET", "./admin.html", true);
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
     xhr.onload = function () {
-        console.log(xhr.response);
         //Loads index site when loged out
         window.location = "../index.html"
     };
@@ -689,8 +667,8 @@ function loadNewFooter(span) {
 
                 if (newRow.childNodes[i].id == "img")
                     newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
-                if(newRow.childNodes[i].firstChild.id == "Extras"){
-                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({},"+ (document.getElementsByClassName("tr menuElement").length - 1 +");"));
+                if (newRow.childNodes[i].firstChild.id == "Extras") {
+                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({}," + (document.getElementsByClassName("tr menuElement").length - 1 + ");"));
                 }
             }
         }
@@ -837,6 +815,7 @@ function storeItemsInOrders(indexOfSpan) {
                             errors += "n";
                         }
 
+                        //Getting the span element of the extras, for calculating their price
                         var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
                         var extraCost = parseFloat(calcExtrasPrice(extraElement));
 
@@ -914,18 +893,23 @@ function storeItemsInOrders(indexOfSpan) {
             if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
                 //then mark the element as being edited
                 thisElementThatWasClickedOn.parentElement.className = "td bg-warning";
+                thisElementThatWasClickedOn.parentElement.nextElementSibling.className = "td bg-warning";
+
+                //This is then written to the onclick attribute of the original element (that was clicked on)
+                //So then, the next time the changed content is being loaded.
+                thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+                //The element's innerHTML gets the nameString, as the Items may have changed
+                thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+                //The Total also might have changed and this is updated too.
+                //This is rounded to 2 decimals
+
+                totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
+            } else {
+                //Nothing has changed so we dont do anything specific
             }
 
-            //This is then written to the onclick attribute of the original element (that was clicked on)
-            //So then, the next time the changed content is being loaded.
-            thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
-            //The element's innerHTML gets the nameString, as the Items may have changed
-            thisElementThatWasClickedOn.innerHTML = namesOfItems;
 
-            //The Total also might have changed and this is updated too.
-            //This is rounded to 2 decimals
-
-            totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
 
             errorMessageHTMLElement.innerHTML = "";
 
@@ -1053,9 +1037,12 @@ function saveContactPopup(index) {
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
     for (var j = 1; j < row.children.length; j++) {
-        if (row.children[j].firstElementChild.id == "Contact")
-            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+        if (row.children[j].firstElementChild.id == "Contact") {
+            row.children[j].setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            row.children[j].firstElementChild.innerHTML = json.name;
+        }
     }
+
 
     document.getElementById("closeModalItems").click();
 }
@@ -1086,14 +1073,10 @@ function saveContactOrdersPopup(index) {
         }
     }
 
+
     document.getElementById("closeModalContacts").click();
 }
 
-
-function precisionRound(input, decimal) {
-    var factor = Math.pow(10, decimal);
-    return Math.round(input * factor) / factor;
-}
 
 /**
  *

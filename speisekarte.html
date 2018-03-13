@@ -5,18 +5,48 @@
     <title>Title</title>
     <title>PizzaProjekt - Admin</title>
     <link rel="icon" href="/img/favicon.ico">
-    <link rel="stylesheet" href="/css/admin.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.0/TweenMax.min.js'></script>
-    <script src="js/submitJSON.js"></script>
-    <script src="js/uploadImage.js"></script>
+    <script src="js/old/submitJSON.js"></script>
+    <script src="js/old/uploadImage.js"></script>
     <script src="js/menu.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/pizza.css" rel="stylesheet" />
     <script src="js/jquery-3.3.1.slim.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/addToCart.js"></script>
 </head>
 <body>
+
+    <div class="container">
+    <div class="row">
+        <!-- navigationbar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#">Pizza</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">&Ouml;ffnungszeiten</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bestellungsradius</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-orange-o75" href="#">Anmelden / Registrieren</a>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn orange btn-lg">1 Pizza</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- END of navigation -->
+        <button type="button" class="btn-lg btn-primary btn-success text-sm" onclick="bestellen()"> bestellen </button>
+    </div>
+    </div>
 
 <table class="table">
 </table>
@@ -24,8 +54,9 @@
 <script>
     window.onload = function (ev) {
         loadJSONfromServer("menu", createTablefromJSON);
-    };
-
+        controll();
+    }
+    
     function loadMenu(jsonData){
         var json = jsonData["jsonData"];
         console.log(json);
@@ -37,7 +68,7 @@
         }
 
     }
-</script>
+</script>    
 
 <!-- Modal -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
