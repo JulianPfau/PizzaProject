@@ -589,7 +589,6 @@ function logOut() {
     xhr.open("GET", "./admin.html", true);
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
     xhr.onload = function () {
-        console.log(xhr.response);
         //Loads index site when loged out
         window.location = "../index.html"
     };

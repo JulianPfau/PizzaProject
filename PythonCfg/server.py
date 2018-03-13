@@ -42,7 +42,6 @@ def saveJSON(request):
 
 
 def jsondata(request):
-    print(request)
     try:
         global json_dir
         # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
