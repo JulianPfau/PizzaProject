@@ -81,8 +81,9 @@ def fileupload(request):
 
 def pdfupload(request):
     try:
+        pdf = request.decode("utf-8")
         global pdf_dir
-        f = open(pdf_dir + "order.pdf", 'wb')  # Datei wird erstellt
+        f = open(pdf_dir + pdf[pdf.find("name=") + 6: pdf.find(".pdf")] + ".pdf", 'wb')  # Datei wird erstellt
         f.write(request)
         f.close()  # und abgespeichert
         response = {
@@ -255,14 +256,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*  ')
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
-        if type(request) == bytes:
-            pdfupload(request)
-        else:
+        try:
             data = json.loads(request)
             try:
-                if data['request'] == 'pdfUpload':
-                    response = pdfupload(data)
-                    self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'fileUpload':
                     response = fileupload(data)
                     self.wfile.write(bytes(response, 'UTF8'))
@@ -301,6 +297,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     self.wfile.write(bytes(response, 'UTF8'))
             except IOError:
                 self.send_error(404, "Something went wrong")
+        except json.decoder.JSONDecodeError:
+            pdfupload(request);
+
+
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):

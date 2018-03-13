@@ -1,8 +1,10 @@
+var extras;
 /**
  *
- * @param order {"id": 10180206123143,"items": [{"name": "Salami","size": "L","price": 7.99,"extras": [1,2],"count": 1},{"name": "Cola","size": "0.5","price": 4.99,"extras": [],"count": 2}],"total": 17.97,"customerid": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 1}
+     * @param order {"id": 10180206123143,"items": [{"name": "Salami","size": "L","price": 7.99,"extras": [1,2],"count": 1},{"name": "Cola","size": "0.5","price": 4.99,"extras": [],"count": 2}],"total": 17.97,"customerid": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 1}
  */
 
+getJsonByRequest(getExtras, "extras");
 function printPDF(order) {
     // You'll need to make your image into a Data URL
     // Use http://dataurl.net/#dataurlmaker
@@ -47,7 +49,8 @@ function printPDF(order) {
         if (order.items[i].extras[0] != null) {
             for (var e = 0; e < order.items[i].extras.length; e++) {
                 off += 7;
-                doc.text(48, off, "  + " + order.items[i].extras[e]);
+                doc.text(48, off, " + " + toASCII(getExtrasNameFromID(order.items[i].extras[e])));
+                doc.text(186, off, " + " + toASCII(getExtrasPriceFromID(order.items[i].extras[e])));
             }
             off += 2;
         }
@@ -66,7 +69,7 @@ function printPDF(order) {
     doc.text(5, off + 20, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
 
     var data = new FormData();
-    data.append("order", doc.output(), "order" + order.id + ".pdf");
+    data.append("order" + order.id + ".pdf", doc.output());
 
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "https://localhost:8080", true);
@@ -75,9 +78,73 @@ function printPDF(order) {
 }
 
 function toASCII(string) {
+    string = string.toString();
     string = string.replace(/ä/g, 'ae');
     string = string.replace(/ö/g, 'oe');
     string = string.replace(/ü/g, 'ue');
+    string = string.replace(/Ä/g, 'Ae');
+    string = string.replace(/Ö/g, 'Oe');
+    string = string.replace(/Ü/g, 'Ue');
     string = string.replace(/ß/g, 'ss');
     return string;
+}
+
+function getExtrasNameFromID(id) {
+    getJsonByRequest(getExtras, "extras");
+    for (var i = 0; i < extras.length; i++) {
+        if (extras[i].id == id) {
+            return extras[i].name;
+        }
+    }
+    return NaN;
+}
+
+function getExtrasPriceFromID(id) {
+    getJsonByRequest(getExtras, "extras");
+    for (var i = 0; i < extras.length; i++) {
+        if (extras[i].id == id) {
+            return extras[i].price;
+        }
+    }
+    return NaN;
+}
+
+/**  Requests a JSON file in the /json directory of the server and calls a
+ specified function with the parsed JSON Element as parameter.
+
+ Parameters:
+ - cFunction     the Function to call then successful
+ - file          the file name without the .json ending
+
+ Nothing happens on Error.
+ **/
+function getJsonByRequest(cFunction, file) {
+    var url = "https://localhost:8080/json/" + file + ".json";
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        //readystate == 4       = Request is DONE
+        //status == 200         = was successful
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            //Creating element from the responsetext
+            var element = JSON.parse(this.responseText);
+            //Calling the function with the object as parameter);
+            cFunction(element, file);
+        } else {
+            //Nothing here, as this is called multiple times, even if it is successful.
+        }
+    };
+    //Initializes the request
+    xhr.open('GET', url, true);
+    //Sends the request
+    xhr.send(null);
+}
+
+/**
+ * Saves the json to global extras value
+ *
+ * @param json from the getJSONFromServer
+ */
+function getExtras(json) {
+    extras = json;
 }
