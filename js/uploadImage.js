@@ -236,7 +236,7 @@ function saveTableToServer(table) {
             break;
     }
     sendJSONtoServer(json,table);
-    //location.reload();
+    location.reload();
 }
 
 
