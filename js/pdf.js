@@ -8,7 +8,7 @@ getJsonByRequest(getExtras, "extras");
 function printPDF(order) {
     // You'll need to make your image into a Data URL
     // Use http://dataurl.net/#dataurlmaker
-
+console.log(order);
     var doc = new jsPDF();
 
     doc.setFontSize(13);
