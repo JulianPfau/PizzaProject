@@ -25,6 +25,8 @@ var ORDER_URL   = "order.html";
 var LOGIN_URL   = "index.html";
 // Register site filepath
 var REGISTER_URL= "reg.html";
+// 404 site filepath
+var E404_URL= "404.html";
 
 
 /* Template Directory Path
@@ -72,7 +74,19 @@ function template(page) {
                 // User site
 				t_users();
 				break;
-            
+            case "orderconf":
+                // orderconf site
+				t_orderconf();
+				break;
+            case "404":
+                // 404 site
+				t_404();
+				break;
+            case "401":
+                // 401 site
+				t_401();
+				break;
+                
             // every other page if nothing is called
             case undefined:
             case "":
@@ -117,7 +131,6 @@ function t_navigation() {
     var NavigationFile = "navigation.html";
     
     $(navigationID).load(TemplatePath + NavigationFile, function () {
-        var orderradius = document.getElementById("orderradius");
         var hours = document.getElementById("hours");
         var state = document.getElementById("state");
         var cart = document.getElementById("cart");
@@ -125,15 +138,13 @@ function t_navigation() {
 		var menu = document.getElementById("menu");
         
         // inserts the page links into the navigation
-        orderradius.href = ORDER_URL;
         hours.href = HOURS_URL;
         state.href = LOGIN_URL;
         cart.href = CART_URL;
         menu.href = MENU_URL;
         
-        // CHANGE LATER (insert the correct local and session Storage)
         // if the user is logged in show the Profile name
-        if (true) {
+        if (checkSID()) {
             state.innerText = "Profil"; //sessionStorage.getItem('name');
             state.href = PROFILE_URL;
             logout.style.display = "block";
@@ -141,10 +152,10 @@ function t_navigation() {
 			logout.style.display = "none";
 		}
         
-        // CHANGE LATER (insert the correct local and session Storage)
         // if the localstorage of the cart exists, show the item amount
-        if(true){
-            var amount = 0; // cart local Storage
+        var cartstorage = localStorage.getItem("bestellung");
+        if(cartstorage != null && cartstorage != undefined){
+            var amount = JSON.parse(cartstorage)["total"]; // cart local Storage
             cart.innerText = amount + " | Warenkorb";
         }
         
@@ -178,40 +189,77 @@ function t_register(){
 function t_users(){
     // User Template File
     var UserFile = "users.html";
-	//var orderHistory = JSON.parse(getHistory());
-	var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
+    var data = getHistory();
+	var orderHistory = data ? JSON.parse(data):null;
+
+	// var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
 	
 	//Adds the template to the document
 	$(MainID).load(TemplatePath + UserFile, function (){
 
         //loads the orderHistoryContentTemplate syncronously
-        $.ajax({
-            url: TemplatePath + "orderHistoryContentTemplate.html",
-            async: false
+        if(orderHistory != null && orderHistory != "" && orderHistory != undefined){
+            $.ajax({
+                url: TemplatePath + "orderHistoryContentTemplate.html",
+                async: false
 
-            //fills the template with the required data
-        }).done(function(data){
+                //fills the template with the required data
+            }).done(function(data){
 
-            for(var j = 0; j < orderHistory.length; j++){
+                for(var j = 0; j < orderHistory.length; j++){
 
-                var order = orderHistory[j];
+                    var order = orderHistory[j];
 
-                for(var i = 0; i < order.items.length; i++){
+                    for(var i = 0; i < order.items.length; i++){
 
-                    $("#orderHistory").append(data);
-                    var item = order.items[i];
+                        $("#orderHistory").append(data);
+                        var item = order.items[i];
 
-                    document.getElementById("quantity").innerText = item.count + "x";
-                    document.getElementById("type").innerText = item.name;
-                    document.getElementById("size").innerText = item.size;
-                    document.getElementById("quantity").id = "quantity" + j + "" + i;
-                    document.getElementById("type").id = "type" + j + "" + i;
-                    document.getElementById("size").id = "size" + j + "" + i;
+                        document.getElementById("quantity").innerText = item.count + "x";
+                        document.getElementById("type").innerText = item.name;
+                        document.getElementById("size").innerText = item.size;
+                        document.getElementById("quantity").id = "quantity" + j + "" + i;
+                        document.getElementById("type").id = "type" + j + "" + i;
+                        document.getElementById("size").id = "size" + j + "" + i;
+                    }
+
+                    var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
+                    $("#orderHistory").append(buttonthingy);
                 }
+            });
+        }else{
+            
+        }
+    });
+}
 
-                var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
-                $("#orderHistory").append(buttonthingy);
-            }
-        });
+/* [T] 404 Template */
+function t_404(){
+    // Filename of the 404 Template
+    var errorfile = "404.html";
+
+    $(MainID).load(TemplatePath + errorfile);
+}
+
+/* [T] 401 Template */
+function t_401(){
+    // Filename of the 404 Template
+    var errorfile = "401.html";
+
+    $(MainID).load(TemplatePath + errorfile);
+}
+
+/* [T] orderconf Template */
+function t_orderconf(){
+    // Filename of the 404 Template
+    var orderconffile = "orderconf.html";
+    $.ajax({
+            url: TemplatePath + orderconffile,
+            async: false
+            }).done(function(data){
+        $(MainID).append(data);
+        
+        // run the site specific functions
+        getdata();
     });
 }

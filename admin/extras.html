@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="icon" href="../img/favicon.ico">
-    <title> Verwaltung Extras </title>
-    <link href="../css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="../css/admin.css" rel="stylesheet" />
-    <script src="../js/admin.js"></script>
-    <script src="../js/jquery-3.3.1.slim.min.js"></script>
-    <script src="../js/bootstrap.js"></script>
-    <script src="../js/submitJSON.js"></script>
-    <script src="../js/uploadImage.js"></script>
-</head>
+    <head>
+
+
+
+        <title> Verwaltung Extras </title>
+
+        <!-- Style -->
+        <link rel="icon" href="../img/favicon.ico">
+        <link href="../css/bootstrap.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="../css/admin.css" rel="stylesheet" />
+
+        <!-- Libraries -->
+        <script src="../js/jquery-3.3.1.slim.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+
+        <!-- Javascript -->
+        <script src="../js/admin-shared.js"></script>
+    </head>
 <body>
 <div class="container">
     <div class="topnav" id="navbar">
@@ -24,6 +31,7 @@
         <div class="search-container">
             <input type="text" oninput="itemSearch(this)" placeholder="Suchen.." id="input">
             <button type="submit" onclick="logOut()"><i class="fa fa-sign-out"></i></button>
+            <button type="submit" onclick="location.href='../index.html'"><i class="fa fa-home"></i></button>
             <button type="submit" onclick="saveInput('customers')"><i class="fa fa-search"></i></button>
         </div>
     </div>

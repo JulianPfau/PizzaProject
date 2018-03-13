@@ -212,7 +212,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
                 menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
-                if (json[i].done == 1) menuInhalt[6].setAttribute('checked','');
+                if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
             //Extras
@@ -245,26 +245,7 @@ function loadJSONToTable(json, index) {
     if (index == "menu") extendTable();
 }
 
-/**
- * Function to convert the Array into an displayable String
- *
- * @param array which should be convertet to be a ';' seperated String
- * @returns {string} the String to be displayed
- */
-function splitArray(array) {
-    var str = "";
-    if (array == "None") {
-        str = "None";
-    } else {
-        //Seperates the array content witch ";"
-        for (var i = 0; i < array.length; i++) {
-            str += array[i] + ";";
-        }
-        //Removes the last ";"
-        str = str.substr(0, str.length - 1);
-    }
-    return str;
-}
+
 
 /**
  * Loads the Contact Content into the Popup
@@ -275,12 +256,60 @@ function loadContact(json, index) {
     //Popup title is name of Contact
     document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup("' + index + '")');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
+    document.getElementsByClassName("modal-title")[0].onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Name").innerHTML = (json.name == undefined) ? "" : json.name;
+    document.getElementById("Name").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
+    document.getElementById("Postcode").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Street").innerHTML = (json.street == undefined) ? "" : json.street;
+    document.getElementById("Street").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("City").innerHTML = (json.city == undefined) ? "" : json.city;
+    document.getElementById("City").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Nr").innerHTML = (json.nr == undefined) ? "" : json.nr;
+    document.getElementById("Nr").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
+    document.getElementById("Phone").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
 }
 
 /**
@@ -438,7 +467,7 @@ function loadItems(json, indexOfSpan) {
 
         //Creats DOM-Element for row
         var row = document.createElement('div');
-        row.setAttribute('class', 'tr menuElement');
+        row.setAttribute('class', 'tr menuElementModal');
 
         //Arrays to save the content of each row
         var menuRow = new Array();
@@ -495,6 +524,12 @@ function loadItems(json, indexOfSpan) {
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
         menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ');');
 
+        menuInhalt[1].setAttribute('id', 'name');
+        menuInhalt[2].setAttribute('id', 'size');
+        menuInhalt[3].setAttribute('id', 'price');
+        menuInhalt[4].setAttribute('id', 'extras');
+        menuInhalt[5].setAttribute('id', 'count');
+
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
 
@@ -506,12 +541,10 @@ function loadItems(json, indexOfSpan) {
     }
 
 
-    //My Part for testing
 
+    //Setting the function storeItemsInOrders to the savebutton's onclick event
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
-
-
 }
 
 /**
@@ -524,6 +557,7 @@ function markDelete(box) {
         box.parentElement.parentElement.setAttribute('class', 'tr bg-danger');
     } else {
         box.parentElement.parentElement.setAttribute('class', 'tr menuElement');
+        if (box.parentElement.parentElement.parentElement.id == "modal-table") box.parentElement.parentElement.setAttribute('class', 'tr menuElementModal');
     }
 }
 
@@ -536,7 +570,6 @@ function logOut() {
     xhr.open("GET", "./admin.html", true);
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
     xhr.onload = function () {
-        console.log(xhr.response);
         //Loads index site when loged out
         window.location = "../index.html"
     };
@@ -634,8 +667,8 @@ function loadNewFooter(span) {
 
                 if (newRow.childNodes[i].id == "img")
                     newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
-                if(newRow.childNodes[i].firstChild.id == "Extras"){
-                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({},"+ (document.getElementsByClassName("tr menuElement").length - 1 +");"));
+                if (newRow.childNodes[i].firstChild.id == "Extras") {
+                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({}," + (document.getElementsByClassName("tr menuElement").length - 1 + ");"));
                 }
             }
         }
@@ -674,7 +707,7 @@ function storeItemsInOrders(indexOfSpan) {
     //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
     //Getting all the entries with the class "menuElement", which basically are the tableRows (that are not marked to be deleted)
-    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
+    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElementModal");
 
     //Storing the amount of menuElement-elements we have for further use.
     var lengthOfEntriesOfTable = entriesOfTable.length;
@@ -782,6 +815,10 @@ function storeItemsInOrders(indexOfSpan) {
                             errors += "n";
                         }
 
+                        //Getting the span element of the extras, for calculating their price
+                        var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
+                        var extraCost = parseFloat(calcExtrasPrice(extraElement));
+
                         //The price is still a string in the beginning. It is then trimmed, parsed to Float and rounded.
                         var priceToSave = precisionRound(parseFloat(currentElement.innerHTML.trim()), 2);
 
@@ -789,7 +826,7 @@ function storeItemsInOrders(indexOfSpan) {
                         itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + priceToSave;
 
                         //Getting the count of this row to use it to calculate the actual cost
-                        costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
+                        costSumOfAllItems += countOfThisRow * (priceToSave + extraCost);
                         break;
 
                     //For the extras
@@ -856,18 +893,23 @@ function storeItemsInOrders(indexOfSpan) {
             if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
                 //then mark the element as being edited
                 thisElementThatWasClickedOn.parentElement.className = "td bg-warning";
+                thisElementThatWasClickedOn.parentElement.nextElementSibling.className = "td bg-warning";
+
+                //This is then written to the onclick attribute of the original element (that was clicked on)
+                //So then, the next time the changed content is being loaded.
+                thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
+                //The element's innerHTML gets the nameString, as the Items may have changed
+                thisElementThatWasClickedOn.innerHTML = namesOfItems;
+
+                //The Total also might have changed and this is updated too.
+                //This is rounded to 2 decimals
+
+                totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
+            } else {
+                //Nothing has changed so we dont do anything specific
             }
 
-            //This is then written to the onclick attribute of the original element (that was clicked on)
-            //So then, the next time the changed content is being loaded.
-            thisElementThatWasClickedOn.setAttribute('onclick', itemsStoredToJson);
-            //The element's innerHTML gets the nameString, as the Items may have changed
-            thisElementThatWasClickedOn.innerHTML = namesOfItems;
 
-            //The Total also might have changed and this is updated too.
-            //This is rounded to 2 decimals
-
-            totalElement.innerHTML = precisionRound(costSumOfAllItems, 2);
 
             errorMessageHTMLElement.innerHTML = "";
 
@@ -957,21 +999,19 @@ function saveExtrasPopup(btn) {
             extras.push(parseInt(list[i].firstChild.id));
         }
     }
-    var row = document.getElementsByClassName("tr menuElement")[index].children;
+    var row = document.getElementById("modal-table").getElementsByClassName("tr menuElementModal")[index].children;
     for (var n = 0; n < row.length; n++) {
-        if (row[n].firstChild.id.toLowerCase() == "items") {
+        if (row[n].firstChild.id.toLowerCase() == "extras") {
             var input = row[n].firstChild;
             var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
-            var paramString = "[" + onclickString[0].split("([")[1].split("}],")[0] + "}]";
-            var object = JSON.parse(paramString);
-            object.extras = extras;
-            var param = JSON.stringify(object);
-            var fnstr = "loadExtras(" + param + ", " + index + ");";
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('onclick', "getJsonByRequest(getExtras,'extras'); " + fnstr);
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.innerHTML = splitArray(object.extras).replace(/\s/g, '');
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('class', 'Input bg-warning');
+            if (extras.length == 0) extras = "None";
+            var paramVor = onclickString[0] + 'loadExtras(' + onclickString[1].split('extras":[')[0] + 'extras":[';
+            var paramNach = '],"count' + onclickString[1].split('],"count')[1];
+            var param = paramVor + extras + paramNach;
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].firstChild.setAttribute('onclick', param);
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].firstChild.innerHTML = splitArray(extras).replace(/;/g, ',');
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].setAttribute('class', 'td bg-warning');
         }
-
     }
 
     document.getElementById("closeModal").click();
@@ -996,11 +1036,13 @@ function saveContactPopup(index) {
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
-    console.log(document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement'));
     for (var j = 1; j < row.children.length; j++) {
-        if (row.children[j].firstElementChild.id == "Contact")
-            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+        if (row.children[j].firstElementChild.id == "Contact") {
+            row.children[j].setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            row.children[j].firstElementChild.innerHTML = json.name;
+        }
     }
+
 
     document.getElementById("closeModalItems").click();
 }
@@ -1027,18 +1069,14 @@ function saveContactOrdersPopup(index) {
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[0];
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact") {
-            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", 0)");
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContactOrder(" + JSON.stringify(json) + ", 0)");
         }
     }
+
 
     document.getElementById("closeModalContacts").click();
 }
 
-
-function precisionRound(input, decimal) {
-    var factor = Math.pow(10, decimal);
-    return Math.round(input * factor) / factor;
-}
 
 /**
  *

@@ -9,14 +9,15 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-from ajaxGoogleAPI import *
-from requestsJSON import *
-from sessionid import *
+from PythonCfg import ajaxGoogleAPI
+from PythonCfg import requestsJSON
+from PythonCfg import sessionid
 
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
 json_dir = server_root + "/json/"
+pdf_dir = server_root + "/pdf/"
 
 
 # commit
@@ -41,7 +42,6 @@ def saveJSON(request):
 
 
 def jsondata(request):
-    print(request)
     try:
         global json_dir
         # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
@@ -79,6 +79,27 @@ def fileupload(request):
     return response
 
 
+def pdfupload(request):
+    try:
+        pdf = request.decode("utf-8")
+        global pdf_dir
+        f = open(pdf_dir + pdf[pdf.find("name=") + 6: pdf.find(".pdf")] + ".pdf", 'wb')  # Datei wird erstellt
+        f.write(request)
+        f.close()  # und abgespeichert
+        response = {
+            'STATUS': 'OK',
+            'imgPath': str("../pdf/")
+        }
+    except IOError:
+        response = {
+            'STATUS': 'ERROR',
+            'img': ''
+        }
+
+    response = json.dumps(response)
+    return response
+
+
 def imglist():
     global img_dir
     imglist = os.listdir(server_root + "/img/menu/")
@@ -95,10 +116,11 @@ def login(request):
             'STATUS': 'ERROR'
         }
         for customer in customers:
-            if (request["value"]["email"] == customer["email"]
+            if (request["value"]["username"] == customer["email"]
                     and request["value"]["password"] == customer["password"]):
                 response = {
-                    'STATUS': 'OK'
+                    'STATUS': 'OK',
+                    'sid': sessionid.createSessionID()
                 }
         response = json.dumps(response)
         return response
@@ -178,7 +200,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         # rootdir = server_root
 
         if (self.path == "/"):
-            self.path = "/index.html"
+            self.path = "/speisekarte.html"
 
         if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
                 ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(
@@ -235,46 +257,49 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*  ')
         self.end_headers()
         request = self.rfile.read(int(self.headers['Content-Length']))
-        data = json.loads(request)
         try:
-            if data['request'] == 'fileUpload':
-                response = fileupload(data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'images':
-                response = imglist()
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'jsonRequest':
-                response = jsondata(data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'ajaxGoogleAPI':
-                response = calcDistance(data['plz_pizza'], data['plz_user'])
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'saveJSON':
-                response = saveJSON(data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'deleteHeader':
-                response = MyServer.delete_header(self)
-                self.wfile.write(bytes(response, "UTF8"))
-            if data['request'] == 'newOrder':
-                response = appendOrder(json_dir, data)
-                self.wfile.write(bytes(response, "UTF8"))
-            if data['request'] == 'getOrderbyId':
-                response = getOrderbyId(json_dir, data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'login':
-                response = login(data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'register':
-                response = register(data)
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'checkSID':
-                response = checkSessionID(data['value']['id'])
-                self.wfile.write(bytes(response, 'UTF8'))
-            if data['request'] == 'getOrderbyMail':
-                response = getOrderbyMail(json_dir, data)
-                self.wfile.write(bytes(response, 'UTF8'))
-        except IOError:
-            self.send_error(404, "Something went wrong")
+            data = json.loads(request)
+            try:
+                if data['request'] == 'fileUpload':
+                    response = fileupload(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'images':
+                    response = imglist()
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'jsonRequest':
+                    response = jsondata(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'ajaxGoogleAPI':
+                    response = ajaxGoogleAPI.calcDistance(data['plz_pizza'], data['plz_user'])
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'saveJSON':
+                    response = saveJSON(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'deleteHeader':
+                    response = MyServer.delete_header(self)
+                    self.wfile.write(bytes(response, "UTF8"))
+                if data['request'] == 'newOrder':
+                    response = requestsJSON.appendOrder(json_dir, data)
+                    self.wfile.write(bytes(response, "UTF8"))
+                if data['request'] == 'getOrderbyId':
+                    response = requestsJSON.getOrderbyId(json_dir, data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'login':
+                    response = login(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'register':
+                    response = register(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'checkSID':
+                    response = sessionid.checkSessionID(data['value']['id'])
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'getOrderbyMail':
+                    response = requestsJSON.getOrderbyMail(json_dir, data)
+                    self.wfile.write(bytes(response, 'UTF8'))
+            except IOError:
+                self.send_error(404, "Something went wrong")
+        except json.decoder.JSONDecodeError:
+            pdfupload(request);
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):

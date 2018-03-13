@@ -204,7 +204,7 @@ function saveTableToServer(table) {
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
                         var data = tmp.onclick.toString().split("loadContact(")[1];
-                        value = JSON.parse(data.replace("\)", "").replace("\}", ""));
+                        value = JSON.parse(data.substr(0, data.length - 6));
                     } else {
                         value = row[n].firstChild.innerHTML;
                         if (key == "id") {
