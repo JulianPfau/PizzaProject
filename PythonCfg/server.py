@@ -116,7 +116,7 @@ def login(request):
             'STATUS': 'ERROR'
         }
         for customer in customers:
-            if (request["value"]["email"] == customer["email"]
+            if (request["value"]["username"] == customer["email"]
                     and request["value"]["password"] == customer["password"]):
                 response = {
                     'STATUS': 'OK'
