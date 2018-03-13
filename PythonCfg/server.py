@@ -13,9 +13,6 @@ from PythonCfg import ajaxGoogleAPI
 from PythonCfg import requestsJSON
 from PythonCfg import sessionid
 
-'''
-Sets all necessary paths to global variables.
-'''
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
@@ -27,22 +24,6 @@ pdf_dir = server_root + "/pdf/"
 
 
 def saveJSON(request):
-    '''
-    Saves a transmitted json to the specified file.
-    !!Caution!! The file will be overwritten.
-    Functions for future expansion to backup and restore 
-    json-files.
-    
-    Function not possible to call because of security concerns.
-    
-    Args:
-        request (dict): contains the new json string 
-                        which will be written to the file
-    
-    Returns:
-        dict:   if successful: OK
-                Write not successful: Error    
-    '''
     global json_dir
     try:
         with open(json_dir + request["fileName"] + ".json", "w") as file:
@@ -61,19 +42,6 @@ def saveJSON(request):
 
 
 def jsondata(request):
-    '''
-    Reads the whole json-string out of the specified file and sets
-    ist as the response.
-    
-    Security Issue: Can leak all stored Informations because the ist no 
-    security check for the post-request yet.
-    
-    Args:
-        request (dict): contains the filename of the selected json-file
-    
-    Returns:
-        dict:   if successful: set the response to the containment of the file
-    '''
     try:
         global json_dir
         # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
