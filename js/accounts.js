@@ -12,19 +12,19 @@
    These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
    refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
 // Cart site filepath
-var CART_URL    = "cart.html";
+var CART_URL = "cart.html";
 // Profile site filepath
 var PROFILE_URL = "user.html";
 // Opening Hours site filepath
-var HOURS_URL   = "hours.html";
+var HOURS_URL = "hours.html";
 // Menu site filepath
-var MENU_URL    = "menu.html";
+var MENU_URL = "menu.html";
 // Ordering site filepath
-var ORDER_URL   = "order.html";
+var ORDER_URL = "order.html";
 // Login site filepath
-var LOGIN_URL   = "index.html";
+var LOGIN_URL = "index.html";
 // Register site filepath
-var REGISTER_URL= "reg.html";
+var REGISTER_URL = "reg.html";
 
 
 //Checks the login data and creates a Session if the Server confirms it
@@ -39,27 +39,27 @@ function checkLogin() {
         popup("Bitte alle Felder ausf&auml;llen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
-        var json = '{"username":"' + username + '", "password":"' + password + '"}';
+        var json = {"username": username, "password": password};
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
-        if(!response && response != undefined && response != ""){
-            createSession(response);            
+        if (!response && response != undefined && response != "") {
+            createSession(response);
             sessionStorage.setItem('email', username);
-            window.location = MENU_URL; 
-            
-        }else{
+            window.location = MENU_URL;
+
+        } else {
             popup("Passwort ist falsch"); //Debug
-            document.getElementById('password').value='';
+            document.getElementById('password').value = '';
         }
     }
 }
 
 //Writes the Session ID in the Session Storage
-function createSession(response){
+function createSession(response) {
     var data = response.parseJSON();
-    sessionStorage.setItem('SID',  data.id);
+    sessionStorage.setItem('SID', data.id);
     sessionStorage.setItem('name', data.firstname + ' ' + data.lastname);
 }
 
@@ -71,7 +71,7 @@ function ajax(index, content) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText != "false") {
-                ret =  this.responseText;
+                ret = this.responseText;
             }
         }
     };
@@ -114,14 +114,14 @@ function register() {
     var street = document.getElementById("street").value;
     var streetNr = document.getElementById("streetNr").value;
     var phone = document.getElementById("phone").value;
-	var ageCheck = document.getElementById("defaultCheck1").checked;
-	
-	//Checks if the age checkbox is set
-	if(!ageCheck){
-		popup("Bitte Haken setzen.");
-		return(false);
-	}
-	
+    var ageCheck = document.getElementById("defaultCheck1").checked;
+
+    //Checks if the age checkbox is set
+    if (!ageCheck) {
+        popup("Bitte Haken setzen.");
+        return (false);
+    }
+
     //Checks if the two password fields match 
     if (password != passwordConfirm) {
         popup("Passwörter stimmen nicht überein");
@@ -140,7 +140,7 @@ function register() {
     //Generates the JSON which is sent to the server via AJAX
     var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
     var result = ajax("register", json);
-    if (result == 'true'){
+    if (result == 'true') {
         window.location = PROFILE_URL;
     } else {
         popup('Unbekannter Fehler: ');
@@ -152,42 +152,42 @@ function checkSID() {
     var id = sessionStorage.getItem("SID");
 
     if (id != null || id != "") {
-        var ret = JSON.parse(ajax("checkSID", {"id":id}));
+        var ret = JSON.parse(ajax("checkSID", {"id": id}));
     }
     return (ret["STATUS"] == "OK");
 }
 
 //Logs the user out by deleting the Session ID from the Session Storage
-function logout(){
+function logout() {
     sessionStorage.removeItem('SID');
 }
 
 //Loads the user data from the Server, takes in the email of the User from which you want to load the data
-function loadOldData(email){
-    var json = ajax("getUserData", '{"email":"'+ email +'"}')
+function loadOldData(email) {
+    var json = ajax("getUserData", '{"email":"' + email + '"}')
     var decoded = JSON.parseJSON(json);
-    
+
     var name = decoded.firstname + ' ' + decoded.lastname;
-	documenet.getElementById('firstname').value = decoded.firstname;
-	document.getElementById('lastname').value = decoded.lastname;
-	document.getElementById('username').value = decoded.email;
-	document.getElementById('userstreet').value = decoded.street;
-	document.getElementById('userstreetnumber').value = decoded.street;
-	document.getElementById('userpostcode').value = decoded.number;
-	document.getElementById('usercity').value = decoded.city;
-	document.getElementById('userGreeting.').innerHTML = name;
+    documenet.getElementById('firstname').value = decoded.firstname;
+    document.getElementById('lastname').value = decoded.lastname;
+    document.getElementById('username').value = decoded.email;
+    document.getElementById('userstreet').value = decoded.street;
+    document.getElementById('userstreetnumber').value = decoded.street;
+    document.getElementById('userpostcode').value = decoded.number;
+    document.getElementById('usercity').value = decoded.city;
+    document.getElementById('userGreeting.').innerHTML = name;
 }
 
 //Sends new/modified User data back to the server to be saved in the JSON Database
-function sendNewData(){
+function sendNewData() {
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var postcode = document.getElementById("userpostcode").value;
     var street = document.getElementById("userstreet").value;
     var streetNr = document.getElementById("userstreetnumber").value;
-    var city = document.getElementById('usercity').value; 
+    var city = document.getElementById('usercity').value;
     var email = document.getElementById('username').value;
-	
+
 
     //Checks if the E-Mail is correct
     if (isEmail(email)) {
@@ -199,7 +199,7 @@ function sendNewData(){
     //Generates the JSON which is sent to the server via AJAX
     var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
     var result = ajax("updateData", json);
-    if (result == 'true'){
+    if (result == 'true') {
         popup("Änderung der Daten erfolgreich");
     } else {
         popup('Unbekannter Fehler: ')
@@ -207,36 +207,36 @@ function sendNewData(){
 }
 
 //Creates a Popup for informing the User about various events, takes in the Text displayed in the Popup
-function popup(text){
-    document.getElementById('popup').getElementsByClassName('modal-body')[0].innerText=text;
+function popup(text) {
+    document.getElementById('popup').getElementsByClassName('modal-body')[0].innerText = text;
     $('#popup').modal('show');
 }
 
 //Generates the Menu bar; is different if an User is logged on or not
-function generateMenu(){
-    if(checkSID()){
+function generateMenu() {
+    if (checkSID()) {
         //Shows proper Menu 
     } else {
-        window.location=LOGIN_URL;
+        window.location = LOGIN_URL;
     }
 }
 
 //Deletes an User account, takes in the email-address of the account which should be deleted
-function deleteUser(email){
-    ajax("deleteUser", '{"email":"'+email+'"}');
+function deleteUser(email) {
+    ajax("deleteUser", '{"email":"' + email + '"}');
     sessionStorage.removeItem('SID');
     popup("Please reload page");
 }
 
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
-function getHistory(){
-    var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
+function getHistory() {
+    var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
     return histoy;
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so
-function RedirectWithCheck(url){
-    if (checkSID()){
+function RedirectWithCheck(url) {
+    if (checkSID()) {
         windows.location(url);
     } else {
         logout();
