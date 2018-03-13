@@ -36,20 +36,36 @@ function checkLogin() {
     //checks if the password field is empty and if the E-Mail Adress is valid
     if (password == "" || !isEmail(username)) {
         //Gives out an popup when Password/Email is wrong
-        popup("Bitte alle Felder ausf&auml;llen oder E-Mail in korrektem Format angeben");
+        popup("Bitte alle Felder ausfüllen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
+<<<<<<< HEAD
+        var json = {"username": username , "password": password + };
+=======
         var json = {"username": username, "password": password};
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
+        
+        // DEBUG
+        // console.log(response);
+        
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
+<<<<<<< HEAD
+        if(!response && response != undefined && response != "" && response.status == "OK"){
+            createSession(response);            
+            sessionStorage.setItem('email', username);
+            window.location = MENU_URL;     
+        }else{
+=======
         if (!response && response != undefined && response != "") {
             createSession(response);
             sessionStorage.setItem('email', username);
             window.location = MENU_URL;
 
         } else {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
             popup("Passwort ist falsch"); //Debug
             document.getElementById('password').value = '';
         }
@@ -105,7 +121,7 @@ function isEmail(email) {
 //handels the registering of new Users
 function register() {
     //Pulls all the values from the HTML input fields to JS variables
-    var email = document.getElementById("email").value;
+    var email = document.getElementById("username").value;
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var password = document.getElementById("password").value;
@@ -138,12 +154,16 @@ function register() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var json = {"email": email ,"firstname": firstname,"lastname": lastname,"password": password,"postcode": postcode, "street": street,"streetNr": streetNr,"phone": phone};
     var result = ajax("register", json);
+<<<<<<< HEAD
+    if (result.status == 'OK'){
+=======
     if (result == 'true') {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         window.location = PROFILE_URL;
     } else {
-        popup('Unbekannter Fehler: ');
+        popup('Unbekannter Fehler');
     }
 }
 
@@ -197,12 +217,16 @@ function sendNewData() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var json = {"email": email,"firstname": firstname,"lastname": lastname,"postcode": postcode,"street": street,"streetNr": streetNr,"phone": phone};
     var result = ajax("updateData", json);
+<<<<<<< HEAD
+    if (result.status == 'OK'){
+=======
     if (result == 'true') {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         popup("Änderung der Daten erfolgreich");
     } else {
-        popup('Unbekannter Fehler: ')
+        popup('Unbekannter Fehler');
     }
 }
 
@@ -222,6 +246,16 @@ function generateMenu() {
 }
 
 //Deletes an User account, takes in the email-address of the account which should be deleted
+<<<<<<< HEAD
+function deleteUser(email){
+    ajax("deleteUser", '{"email":"'+email+'"}');
+}
+
+//gets the Order history from the server, gets the Email-Address from the SessionStorage
+function getHistory(){
+    var history = ajax("getOrderbyMail", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
+    return history;
+=======
 function deleteUser(email) {
     ajax("deleteUser", '{"email":"' + email + '"}');
     sessionStorage.removeItem('SID');
@@ -232,6 +266,7 @@ function deleteUser(email) {
 function getHistory() {
     var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
     return histoy;
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so
