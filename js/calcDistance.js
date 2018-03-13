@@ -10,7 +10,11 @@ function getPLZ() {
 	**/
 	
 	var plz = document.getElementById("postcode").value;
-	calcDistance(plz);
+    //length maybe needs to be changed 
+    //depending on what input (in this case: postcodes)
+    if (plz.length >= 4){
+        calcDistance(plz);
+    }
 }
 
 function calcDistance(plz_user) {
@@ -46,7 +50,8 @@ function ajaxPLZ(pizza, user) {
             //und blocken des weiter machen.
             var distance = this.responseText;
             if (distance <= 20000) {
-                document.getElementById("postcode").style.backgroundColor = 'green';
+                document.getElementById("postcode").style.backgroundColor = 'lightgreen';
+                document.getElementById("ans").innerHTML = "";
             }
             else {
                 document.getElementById("postcode").style.backgroundColor = 'red';
