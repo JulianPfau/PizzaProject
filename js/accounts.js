@@ -12,19 +12,19 @@
    These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
    refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
 // Cart site filepath
-var CART_URL    = "cart.html";
+var CART_URL = "cart.html";
 // Profile site filepath
 var PROFILE_URL = "user.html";
 // Opening Hours site filepath
-var HOURS_URL   = "hours.html";
+var HOURS_URL = "hours.html";
 // Menu site filepath
-var MENU_URL    = "menu.html";
+var MENU_URL = "menu.html";
 // Ordering site filepath
-var ORDER_URL   = "order.html";
+var ORDER_URL = "order.html";
 // Login site filepath
-var LOGIN_URL   = "index.html";
+var LOGIN_URL = "index.html";
 // Register site filepath
-var REGISTER_URL= "reg.html";
+var REGISTER_URL = "reg.html";
 
 
 //Checks the login data and creates a Session if the Server confirms it
@@ -67,7 +67,7 @@ function checkLogin() {
         } else {
 >>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
             popup("Passwort ist falsch"); //Debug
-            document.getElementById('password').value='';
+            document.getElementById('password').value = '';
         }
     }
 }
@@ -130,6 +130,14 @@ function register() {
     var street = document.getElementById("street").value;
     var streetNr = document.getElementById("streetNr").value;
     var phone = document.getElementById("phone").value;
+    var ageCheck = document.getElementById("defaultCheck1").checked;
+
+    //Checks if the age checkbox is set
+    if (!ageCheck) {
+        popup("Bitte Haken setzen.");
+        return (false);
+    }
+
     //Checks if the two password fields match 
     if (password != passwordConfirm) {
         popup("Passwörter stimmen nicht überein");
