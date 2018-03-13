@@ -39,7 +39,11 @@ function checkLogin() {
         popup("Bitte alle Felder ausfüllen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
+<<<<<<< HEAD
         var json = {"username": username , "password": password + };
+=======
+        var json = {"username": username, "password": password};
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
         
@@ -48,11 +52,20 @@ function checkLogin() {
         
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
+<<<<<<< HEAD
         if(!response && response != undefined && response != "" && response.status == "OK"){
             createSession(response);            
             sessionStorage.setItem('email', username);
             window.location = MENU_URL;     
         }else{
+=======
+        if (!response && response != undefined && response != "") {
+            createSession(response);
+            sessionStorage.setItem('email', username);
+            window.location = MENU_URL;
+
+        } else {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
             popup("Passwort ist falsch"); //Debug
             document.getElementById('password').value='';
         }
@@ -60,9 +73,9 @@ function checkLogin() {
 }
 
 //Writes the Session ID in the Session Storage
-function createSession(response){
+function createSession(response) {
     var data = response.parseJSON();
-    sessionStorage.setItem('SID',  data.id);
+    sessionStorage.setItem('SID', data.id);
     sessionStorage.setItem('name', data.firstname + ' ' + data.lastname);
 }
 
@@ -74,7 +87,7 @@ function ajax(index, content) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText != "false") {
-                ret =  this.responseText;
+                ret = this.responseText;
             }
         }
     };
@@ -117,14 +130,6 @@ function register() {
     var street = document.getElementById("street").value;
     var streetNr = document.getElementById("streetNr").value;
     var phone = document.getElementById("phone").value;
-	var ageCheck = document.getElementById("defaultCheck1").checked;
-	
-	//Checks if the age checkbox is set
-	if(!ageCheck){
-		popup("Bitte Haken setzen.");
-		return(false);
-	}
-	
     //Checks if the two password fields match 
     if (password != passwordConfirm) {
         popup("Passwörter stimmen nicht überein");
@@ -143,7 +148,11 @@ function register() {
     //Generates the JSON which is sent to the server via AJAX
     var json = {"email": email ,"firstname": firstname,"lastname": lastname,"password": password,"postcode": postcode, "street": street,"streetNr": streetNr,"phone": phone};
     var result = ajax("register", json);
+<<<<<<< HEAD
     if (result.status == 'OK'){
+=======
+    if (result == 'true') {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         window.location = PROFILE_URL;
     } else {
         popup('Unbekannter Fehler');
@@ -155,42 +164,42 @@ function checkSID() {
     var id = sessionStorage.getItem("SID");
 
     if (id != null || id != "") {
-        var ret = JSON.parse(ajax("checkSID", {"id":id}));
+        var ret = JSON.parse(ajax("checkSID", {"id": id}));
     }
     return (ret["STATUS"] == "OK");
 }
 
 //Logs the user out by deleting the Session ID from the Session Storage
-function logout(){
+function logout() {
     sessionStorage.removeItem('SID');
 }
 
 //Loads the user data from the Server, takes in the email of the User from which you want to load the data
-function loadOldData(email){
-    var json = ajax("getUserData", '{"email":"'+ email +'"}')
+function loadOldData(email) {
+    var json = ajax("getUserData", '{"email":"' + email + '"}')
     var decoded = JSON.parseJSON(json);
-    
+
     var name = decoded.firstname + ' ' + decoded.lastname;
-	documenet.getElementById('firstname').value = decoded.firstname;
-	document.getElementById('lastname').value = decoded.lastname;
-	document.getElementById('username').value = decoded.email;
-	document.getElementById('userstreet').value = decoded.street;
-	document.getElementById('userstreetnumber').value = decoded.street;
-	document.getElementById('userpostcode').value = decoded.number;
-	document.getElementById('usercity').value = decoded.city;
-	document.getElementById('userGreeting.').innerHTML = name;
+    documenet.getElementById('firstname').value = decoded.firstname;
+    document.getElementById('lastname').value = decoded.lastname;
+    document.getElementById('username').value = decoded.email;
+    document.getElementById('userstreet').value = decoded.street;
+    document.getElementById('userstreetnumber').value = decoded.street;
+    document.getElementById('userpostcode').value = decoded.number;
+    document.getElementById('usercity').value = decoded.city;
+    document.getElementById('userGreeting.').innerHTML = name;
 }
 
 //Sends new/modified User data back to the server to be saved in the JSON Database
-function sendNewData(){
+function sendNewData() {
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var postcode = document.getElementById("userpostcode").value;
     var street = document.getElementById("userstreet").value;
     var streetNr = document.getElementById("userstreetnumber").value;
-    var city = document.getElementById('usercity').value; 
+    var city = document.getElementById('usercity').value;
     var email = document.getElementById('username').value;
-	
+
 
     //Checks if the E-Mail is correct
     if (isEmail(email)) {
@@ -202,7 +211,11 @@ function sendNewData(){
     //Generates the JSON which is sent to the server via AJAX
     var json = {"email": email,"firstname": firstname,"lastname": lastname,"postcode": postcode,"street": street,"streetNr": streetNr,"phone": phone};
     var result = ajax("updateData", json);
+<<<<<<< HEAD
     if (result.status == 'OK'){
+=======
+    if (result == 'true') {
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
         popup("Änderung der Daten erfolgreich");
     } else {
         popup('Unbekannter Fehler');
@@ -210,21 +223,22 @@ function sendNewData(){
 }
 
 //Creates a Popup for informing the User about various events, takes in the Text displayed in the Popup
-function popup(text){
-    document.getElementById('popup').getElementsByClassName('modal-body')[0].innerText=text;
+function popup(text) {
+    document.getElementById('popup').getElementsByClassName('modal-body')[0].innerText = text;
     $('#popup').modal('show');
 }
 
 //Generates the Menu bar; is different if an User is logged on or not
-function generateMenu(){
-    if(checkSID()){
+function generateMenu() {
+    if (checkSID()) {
         //Shows proper Menu 
     } else {
-        window.location=LOGIN_URL;
+        window.location = LOGIN_URL;
     }
 }
 
 //Deletes an User account, takes in the email-address of the account which should be deleted
+<<<<<<< HEAD
 function deleteUser(email){
     ajax("deleteUser", '{"email":"'+email+'"}');
 }
@@ -233,11 +247,23 @@ function deleteUser(email){
 function getHistory(){
     var history = ajax("getOrderbyMail", '{"file":"orders", "email":"'+sessionStorage.getItem('email')+'"}');
     return history;
+=======
+function deleteUser(email) {
+    ajax("deleteUser", '{"email":"' + email + '"}');
+    sessionStorage.removeItem('SID');
+    popup("Please reload page");
+}
+
+//gets the Order history from the server, gets the Email-Address from the SessionStorage
+function getHistory() {
+    var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
+    return histoy;
+>>>>>>> e8c0cd263e5cbc8bcd8c96ddcb95c2f10771e7a7
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so
-function RedirectWithCheck(url){
-    if (checkSID()){
+function RedirectWithCheck(url) {
+    if (checkSID()) {
         windows.location(url);
     } else {
         logout();

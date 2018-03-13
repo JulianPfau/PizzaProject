@@ -27,10 +27,11 @@ function createTablefromJSON(rawData){
 
         var selAmount = document.createElement("select");
         selAmount.setAttribute("class","selectpicker");
-        selAmount.setAttribute("id", "amount");
+        var amId = 'amount' + i;
+        selAmount.setAttribute("id", amId); 
         selAmount.setAttribute("onChange","changePrice('"+i+"')");
 
-        for (var k = 0; k < 10; k++){
+        for (var k = 1; k < 10; k++){
             var option = document.createElement("option")
             option.setAttribute("value", k);
             option.innerHTML = k ;
@@ -40,7 +41,7 @@ function createTablefromJSON(rawData){
         btnOrder.setAttribute("class","btn orange-o75 btn-primary btn-lg btn-success");
         btnOrder.setAttribute("data-toggle","modal");
         btnOrder.setAttribute("data-target","#basicModal");
-        btnOrder.setAttribute("onclick","pizzaWahl();")
+        btnOrder.setAttribute("onclick","pizzaWahl(" + i + ");")
         btnOrder.innerHTML = "zum Warenkorb hinzufügen";
         /*
         item row = col-12 col-md
@@ -69,9 +70,10 @@ function createTablefromJSON(rawData){
                     var sel = document.createElement("select");
                     sel.setAttribute("class","selectpicker");
                     sel.setAttribute("onchange","changePrice("+i+")");
+                    var sizePickerName = 'size' + i;
+                    sel.setAttribute("id", sizePickerName);
                     for(var n = 0; n < value.length ;n++){
                         var opt = document.createElement("option");
-                        opt.setAttribute("value", n);
                         opt.innerHTML = value[n];
                         sel.appendChild(opt);
                     }
@@ -151,10 +153,13 @@ function openExtras(element, index) {
 
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
         input.setAttribute('id', extras[i].name);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Content & Change Event for extra
-        span.innerHTML = " " + extras[i].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
+        span.innerHTML = " " + extras[0].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
         span.onkeydown = function() {
             var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
             if (!keys.includes(event.keyCode)) {
@@ -208,7 +213,6 @@ function changePrice(element) {
     var priceCol = table[element].childNodes[5];
     var extraPrice = 0;
     var amount = 0;
-
     var pizzaPrice = table[element].childNodes[5].getElementsByTagName("input")[size].value;
 
     for (var i = 0; i < extras.length;i++){
@@ -228,4 +232,3 @@ function changePrice(element) {
     priceCol.getElementsByTagName("span")[0].innerHTML = "Preis: " + price;
 
 }
-
