@@ -301,8 +301,6 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             pdfupload(request);
 
 
-
-
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
     pass
 

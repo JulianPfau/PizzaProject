@@ -212,7 +212,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
                 menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
-                if (json[i].done == 1) menuInhalt[6].setAttribute('checked','');
+                if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
             //Extras
@@ -689,8 +689,8 @@ function loadNewFooter(span) {
 
                 if (newRow.childNodes[i].id == "img")
                     newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
-                if(newRow.childNodes[i].firstChild.id == "Extras"){
-                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({},"+ (document.getElementsByClassName("tr menuElement").length - 1 +");"));
+                if (newRow.childNodes[i].firstChild.id == "Extras") {
+                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({}," + (document.getElementsByClassName("tr menuElement").length - 1 + ");"));
                 }
             }
         }
@@ -1053,9 +1053,12 @@ function saveContactPopup(index) {
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
     for (var j = 1; j < row.children.length; j++) {
-        if (row.children[j].firstElementChild.id == "Contact")
-            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+        if (row.children[j].firstElementChild.id == "Contact") {
+            row.children[j].setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            row.children[j].firstElementChild.innerHTML = json.name;
+        }
     }
+
 
     document.getElementById("closeModalItems").click();
 }
@@ -1085,6 +1088,7 @@ function saveContactOrdersPopup(index) {
             row.children[j].firstElementChild.setAttribute('onclick', "loadContactOrder(" + JSON.stringify(json) + ", 0)");
         }
     }
+
 
     document.getElementById("closeModalContacts").click();
 }

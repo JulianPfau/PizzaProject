@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			var fertigesdict = {};
 			fertigesdict["request"] = "newOrder";
 			fertigesdict["jsonData"] = dict;
+
+			printPDF(fertigesdict);
 			fertigesdict = JSON.stringify(fertigesdict);
 			ordercheck(fertigesdict);
             }
