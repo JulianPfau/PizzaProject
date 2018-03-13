@@ -109,7 +109,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[7].removeAttribute('contenteditable');
                 menuInhalt[7].setAttribute('data-toggle', 'modal');
                 menuInhalt[7].setAttribute('data-target', '#modal');
-                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ')');
+                menuInhalt[7].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ',' + i + ');');
 
                 //Adds picture to Table
                 menuInhalt[8] = document.createElement('img');
@@ -134,6 +134,9 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].innerHTML = (json[i].types == "") ? "None" : json[i].types;
                 menuInhalt[6].innerHTML = (json[i].tags == "") ? "None" : splitArray(json[i].tags);
                 menuInhalt[7].innerHTML = (json[i].extras == "") ? "None" : splitArray(json[i].extras);
+
+                document.getElementById('footer').getElementsByClassName('Input footer')[6].setAttribute("onClick", "getJsonByRequest(getExtras,'extras'); loadExtras({}, " + (i + 1) + ");");
+
                 break;
 
             //Customers
@@ -160,6 +163,9 @@ function loadJSONToTable(json, index) {
                 menuInhalt[4].innerHTML = (json[i].email == "") ? "None" : json[i].email;
                 menuInhalt[5].innerHTML = (json[i].password == "") ? "None" : json[i].password;
                 menuInhalt[6].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
+
+                document.getElementById('footer').lastElementChild.setAttribute("onClick", "loadContact({}, " + (i + 1) + ")");
+
                 break;
 
             //Orders
@@ -180,6 +186,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[5].setAttribute('data-toggle', 'modal');
                 menuInhalt[5].setAttribute('data-target', '#modal');
                 menuInhalt[5].setAttribute('onClick', 'loadContactOrder(' + JSON.stringify(json[i].contact) + ', ' + i + ')');
+                menuInhalt[6] = document.createElement('input');
 
                 //IDs for each cell & remove option to change ID
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -189,6 +196,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[4].setAttribute('id', 'CustomerID');
                 menuInhalt[5].setAttribute('id', 'Contact');
                 menuInhalt[6].setAttribute('id', 'Done');
+                menuInhalt[6].setAttribute('type', 'checkbox');
 
                 //Save items name in Array to be displayed later
                 var items = new Array();
@@ -204,7 +212,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
                 menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
-                menuInhalt[6].innerHTML = json[i].done;
+                if (json[i].done == 1) menuInhalt[6].setAttribute('checked','');
                 break;
 
             //Extras
@@ -230,6 +238,9 @@ function loadJSONToTable(json, index) {
             menuRow[c].appendChild(menuInhalt[c]);
         }
     }
+
+    editFooter();
+
     //Add the option to change picture
     if (index == "menu") extendTable();
 }
@@ -242,12 +253,16 @@ function loadJSONToTable(json, index) {
  */
 function splitArray(array) {
     var str = "";
-    //Seperates the array content witch ";"
-    for (var i = 0; i < array.length; i++) {
-        str += array[i] + ";";
+    if (array == "None") {
+        str = "None";
+    } else {
+        //Seperates the array content witch ";"
+        for (var i = 0; i < array.length; i++) {
+            str += array[i] + ";";
+        }
+        //Removes the last ";"
+        str = str.substr(0, str.length - 1);
     }
-    //Removes the last ";"
-    str = str.substr(0, str.length - 1);
     return str;
 }
 
@@ -257,17 +272,63 @@ function splitArray(array) {
  * @param json The JSON woch should be displayed
  */
 function loadContact(json, index) {
-    console.log(json);
-    console.log(index);
     //Popup title is name of Contact
     document.getElementsByClassName("btn btn-primary")[0].setAttribute('onClick', 'saveContactPopup("' + index + '")');
     document.getElementsByClassName("modal-title")[0].innerHTML = (json.name == undefined) ? "" : json.name;
-    document.getElementById("IDContact").innerHTML = (json.name == undefined) ? "" : json.name;
+    document.getElementsByClassName("modal-title")[0].onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
+    document.getElementById("Name").innerHTML = (json.name == undefined) ? "" : json.name;
+    document.getElementById("Name").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Postcode").innerHTML = (json.postcode == undefined) ? "" : json.postcode;
+    document.getElementById("Postcode").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Street").innerHTML = (json.street == undefined) ? "" : json.street;
+    document.getElementById("Street").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("City").innerHTML = (json.city == undefined) ? "" : json.city;
+    document.getElementById("City").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Nr").innerHTML = (json.nr == undefined) ? "" : json.nr;
+    document.getElementById("Nr").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            document.getElementsByClassName('tr menuElement')[index].children[6].setAttribute('class', 'td bg-warning');
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
     document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
+    document.getElementById("Phone").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
 }
 
 /**
@@ -276,6 +337,11 @@ function loadContact(json, index) {
  * @param json wich should be displayed in Popup
  */
 function loadContactOrder(json, index) {
+
+    var fields = document.getElementsByClassName('modal-body')[2].getElementsByClassName('tr')[1].children;
+    for (var f = 0; f < fields.length; f++) fields[f].setAttribute('class', 'td');
+
+
     document.getElementsByClassName('btn btn-primary')[2].setAttribute('onclick', "saveContactOrdersPopup(" + index + ")");
     //Content for Cell
     document.getElementById("modalContactsTitle").innerHTML = (json.name == "") ? "None" : json.name;
@@ -289,6 +355,7 @@ function loadContactOrder(json, index) {
     document.getElementById("Name").innerHTML = (json.name == "") ? "None" : json.name;
     document.getElementById("Name").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].firstElementChild.innerHTML = document.getElementById("Name").innerHTML;
             document.getElementById("reload").setAttribute("class", "btn btn-lg active")
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
@@ -370,7 +437,7 @@ function loadExtras(product, index) {
         };
 
         //Checks weather the extras is already in selected or not and it'll be marked if so
-        if (product != undefined) {
+        if (product.extras != undefined) {
             for (var k = 0; k < extras.length; k++) {
                 if (product.extras[k] == extras[i].id)
                     input.setAttribute('checked', '');
@@ -419,7 +486,7 @@ function loadItems(json, indexOfSpan) {
 
         //Creats DOM-Element for row
         var row = document.createElement('div');
-        row.setAttribute('class', 'tr menuElement');
+        row.setAttribute('class', 'tr menuElementModal');
 
         //Arrays to save the content of each row
         var menuRow = new Array();
@@ -474,7 +541,13 @@ function loadItems(json, indexOfSpan) {
         menuInhalt[4].removeAttribute('contenteditable');
         menuInhalt[4].setAttribute('data-toggle', 'modal');
         menuInhalt[4].setAttribute('data-target', '#modalExtras');
-        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ')');
+        menuInhalt[4].setAttribute('onClick', 'getJsonByRequest(getExtras,"extras"); loadExtras(' + JSON.stringify(json[i]) + ', ' + i + ');');
+
+        menuInhalt[1].setAttribute('id', 'name');
+        menuInhalt[2].setAttribute('id', 'size');
+        menuInhalt[3].setAttribute('id', 'price');
+        menuInhalt[4].setAttribute('id', 'extras');
+        menuInhalt[5].setAttribute('id', 'count');
 
         //Einfügen in HTML
         table.insertBefore(row, document.getElementById("modal-footer"));
@@ -489,13 +562,8 @@ function loadItems(json, indexOfSpan) {
 
     //My Part for testing
 
-
     var buttonModalItemsSave = document.getElementById("button-modal-items-save");
     buttonModalItemsSave.setAttribute("onClick", 'storeItemsInOrders(' + indexOfSpan + ')');
-
-
-    //
-    //storeItemsInOrders(element);
 
 
 }
@@ -510,6 +578,7 @@ function markDelete(box) {
         box.parentElement.parentElement.setAttribute('class', 'tr bg-danger');
     } else {
         box.parentElement.parentElement.setAttribute('class', 'tr menuElement');
+        if (box.parentElement.parentElement.parentElement.id == "modal-table") box.parentElement.parentElement.setAttribute('class', 'tr menuElementModal');
     }
 }
 
@@ -585,7 +654,7 @@ function fillItems(btn, json) {
  */
 function loadNewFooter(span) {
     //If span not empty
-    if (span.innerHTML != "") {
+    if (span.innerHTML != "" && span.innerText != "None") {
 
         //Creates new row while removing ID from old footer and clone it
         var row = span.parentElement.parentElement;
@@ -615,8 +684,14 @@ function loadNewFooter(span) {
             if (newRow.childNodes[i].firstElementChild != null) {
                 newRow.childNodes[i].firstElementChild.innerHTML = "";
                 newRow.childNodes[i].firstElementChild.removeAttribute("bg-warning");
+                removeContent(newRow.childNodes[i].firstElementChild);
+                checkEmptyField(newRow.childNodes[i].firstElementChild);
+
                 if (newRow.childNodes[i].id == "img")
                     newRow.childNodes[i].firstElementChild.src = "../img/menu/default.png";
+                if(newRow.childNodes[i].firstChild.id == "Extras"){
+                    newRow.childNodes[i].firstChild.setAttribute("onclick", newRow.childNodes[i].firstChild.getAttribute("onclick") + "loadExtras({},"+ (document.getElementsByClassName("tr menuElement").length - 1 +");"));
+                }
             }
         }
     }
@@ -649,15 +724,15 @@ function loadNewFooter(span) {
  *  Last Change:    6.3.2018            Author:     Nickels Witte
  */
 function storeItemsInOrders(indexOfSpan) {
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
 
     //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
     //Getting all the entries with the class "menuElement", which basically are the tableRows (that are not marked to be deleted)
-    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElement");
+    var entriesOfTable = tableOfItemsModal.getElementsByClassName("menuElementModal");
 
     //Storing the amount of menuElement-elements we have for further use.
     var lengthOfEntriesOfTable = entriesOfTable.length;
-
 
 
     //This part will find the element that was clicked on by using the identifier
@@ -690,7 +765,6 @@ function storeItemsInOrders(indexOfSpan) {
     var errors = "";
 
 
-
     //Array with the json keywords
     var jsonFormatting = ["name", "size", "price", "extras", "count"];
 
@@ -719,6 +793,7 @@ function storeItemsInOrders(indexOfSpan) {
                 //Getting the current element of the table
                 //This needs two children-calls, as the spans are nested in divs.
                 var currentElement = entriesOfTable[i2].children[i3].children[0];
+
                 //Switch to differenciate between the different kinds of cells
                 switch (i3) {
                     //For the "name"
@@ -762,6 +837,9 @@ function storeItemsInOrders(indexOfSpan) {
                             errors += "n";
                         }
 
+                        var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
+                        var extraCost = parseFloat(calcExtrasPrice(extraElement));
+
                         //The price is still a string in the beginning. It is then trimmed, parsed to Float and rounded.
                         var priceToSave = precisionRound(parseFloat(currentElement.innerHTML.trim()), 2);
 
@@ -769,11 +847,13 @@ function storeItemsInOrders(indexOfSpan) {
                         itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":' + priceToSave;
 
                         //Getting the count of this row to use it to calculate the actual cost
-                        costSumOfAllItems += countOfThisRow * parseFloat(currentElement.innerHTML);
+                        costSumOfAllItems += countOfThisRow * (priceToSave + extraCost);
                         break;
 
                     //For the extras
-                    case 4:
+                    case
+                    4
+                    :
                         //Extras are a little bit special: They are in an array itself and this needs to be considered.
                         if (currentElement.innerHTML == "None") {
                             itemsStoredToJson += '"' + jsonFormatting[i3 - 1] + '":[]';
@@ -782,7 +862,9 @@ function storeItemsInOrders(indexOfSpan) {
                         }
                         break;
                     //For the "count"
-                    case 5:
+                    case
+                    5
+                    :
                         //checkin for errors
                         if (currentElement.innerHTML.trim().length == 0) {
                             errors += "e";
@@ -826,7 +908,7 @@ function storeItemsInOrders(indexOfSpan) {
         //Now the table has been scanned.
         //Based on the amount of errors, it will be decided what will happen.
         //When there are no errors, proceed normally
-        if(errors.length == 0) {
+        if (errors.length == 0) {
 
             //When there is a change in the data, we color the div of the outer table
             if (thisElementThatWasClickedOn.getAttribute("onclick") != itemsStoredToJson) {
@@ -850,7 +932,7 @@ function storeItemsInOrders(indexOfSpan) {
             //And close the modal window
             document.getElementById("closeModalItems").click();
 
-        //When there are errors
+            //When there are errors
         } else if (errors.length > 0) {
 
             //Open a strin for the error message
@@ -867,17 +949,17 @@ function storeItemsInOrders(indexOfSpan) {
                 } else if (errors.length > 1) {
                     stringPlaceholder += "Unerlaubte Symbole in Zahlenfeldern";
                 }
-            //When there are only empty fields
+                //When there are only empty fields
             } else if (isEmpty && !notANumber) {
                 if (errors.length == 1) {
                     stringPlaceholder += "Leeres Feld";
                 } else if (errors.length > 1) {
                     stringPlaceholder += "Leere Felder";
                 }
-            //When there is both
+                //When there is both
             } else if (notANumber && isEmpty) {
                 stringPlaceholder += "Leere Felder und unerlaubte Symbole in Zahlenfeldern";
-            //When there is nothing (which shouldnt happen)
+                //When there is nothing (which shouldnt happen)
             } else {
                 stringPlaceholder += "Eigentlich gibt es keine Fehler!?";
             }
@@ -889,16 +971,16 @@ function storeItemsInOrders(indexOfSpan) {
             //dont do anything further so the person corrects the mistakes
 
 
-
-        //For the case of anything else
+            //For the case of anything else
         } else {
             alert("There is an unknown error with the items menu.")
             document.getElementById("closeModalItems").click();
         }
 
 
-    //In case of no Item that can be stored (everything is deleted)
-    } else {
+        //In case of no Item that can be stored (everything is deleted)
+    }
+    else {
         //Setting the onclick attribute, but making the content empty
         thisElementThatWasClickedOn.setAttribute('onclick', 'loadItems([], ' + indexOfSpan + ')');
         //Setting the innerHTML
@@ -923,6 +1005,7 @@ function storeItemsInOrders(indexOfSpan) {
 }
 
 function saveExtrasPopup(btn) {
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");
     var extras = [];
@@ -932,27 +1015,26 @@ function saveExtrasPopup(btn) {
             extras.push(parseInt(list[i].firstChild.id));
         }
     }
-    var row = document.getElementsByClassName("tr menuElement")[index].children;
+    var row = document.getElementById("modal-table").getElementsByClassName("tr menuElementModal")[index].children;
     for (var n = 0; n < row.length; n++) {
-        if (row[n].firstChild.id.toLowerCase() == "items") {
+        if (row[n].firstChild.id.toLowerCase() == "extras") {
             var input = row[n].firstChild;
             var onclickString = input.getAttribute('onclick').toString().split('loadExtras(');
-            var paramString = "[" + onclickString[0].split("([")[1].split("}],")[0] + "}]";
-            var object = JSON.parse(paramString);
-            object.extras = extras;
-            var param = JSON.stringify(object);
-            var fnstr = "loadExtras(" + param + ", " + index + ")";
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('onclick', "getJsonByRequest(getExtras,'extras'); " + fnstr);
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.innerHTML = splitArray(object.extras).replace(/\s/g, '');
-            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElement')[index].children[4].firstChild.setAttribute('class', 'Input bg-warning');
+            if (extras.length == 0) extras = "None";
+            var paramVor = onclickString[0] + 'loadExtras(' + onclickString[1].split('extras":[')[0] + 'extras":[';
+            var paramNach = '],"count' + onclickString[1].split('],"count')[1];
+            var param = paramVor + extras + paramNach;
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].firstChild.setAttribute('onclick', param);
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].firstChild.innerHTML = splitArray(extras).replace(/;/g, ',');
+            document.getElementsByClassName("modal-body")[0].getElementsByClassName('tr menuElementModal')[index].children[4].setAttribute('class', 'td bg-warning');
         }
-
     }
 
     document.getElementById("closeModal").click();
 }
 
 function saveContactPopup(index) {
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
     var modal = document.getElementsByClassName("modal-body")[0].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
@@ -970,7 +1052,6 @@ function saveContactPopup(index) {
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
-    console.log(document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement'));
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact")
             row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
@@ -980,6 +1061,8 @@ function saveContactPopup(index) {
 }
 
 function saveContactOrdersPopup(index) {
+    document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].setAttribute('class', 'td bg-warning');
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
     var modal = document.getElementsByClassName("modal-body")[2].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
@@ -996,10 +1079,10 @@ function saveContactOrdersPopup(index) {
         }
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
-    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
+    var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[0];
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact") {
-            row.children[j].firstElementChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            row.children[j].firstElementChild.setAttribute('onclick', "loadContactOrder(" + JSON.stringify(json) + ", 0)");
         }
     }
 
@@ -1007,8 +1090,27 @@ function saveContactOrdersPopup(index) {
 }
 
 
-
 function precisionRound(input, decimal) {
     var factor = Math.pow(10, decimal);
     return Math.round(input * factor) / factor;
+}
+
+/**
+ *
+ * @param currentElement is span of extras <span class="Input" data-toggle="modal" data-target="#modalExtras" onclick="getJsonByRequest(getExtras,"extras"); loadExtras({"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1}, 0);">1,2</span>
+ * @returns price of extras
+ */
+function calcExtrasPrice(currentElement) {
+    var rtn = 0;
+    var extrasItems = currentElement.parentElement.parentElement.getElementsByClassName('td')[4].firstElementChild.innerHTML.split(',');
+    for (var e1 = 0; e1 < extrasItems.length; e1++) extrasItems[e1] = parseInt(extrasItems[e1]);
+    if (extrasItems != null && extrasItems[0] != "None") {
+        getJsonByRequest(getExtras, "extras");
+        for (var e = 0; e < extras.length; e++) {
+            if (extrasItems.includes(extras[e].id)) {
+                rtn += extras[e].price;
+            }
+        }
+    }
+    return rtn;
 }
