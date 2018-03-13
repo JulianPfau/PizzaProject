@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             function schreibe() {
+				
                 var timestamp = new Date(Date.now());
 
                 var orderId = timestamp.getUTCFullYear().toString() + timestamp.getUTCMonth()+1 + timestamp.getDate() + timestamp.getHours() + timestamp.getMinutes() + timestamp.getSeconds();
@@ -71,20 +72,32 @@ document.addEventListener('DOMContentLoaded', function () {
 			var pizzen = bestellung["items"];
 			var total = bestellung["total"];
 			
-			var dict = {};
-			dict["id"] = orderId;
-			dict["items"]=pizzen;
-			dict["contact"]=objcontact;
-			dict["total"]=total;
-			var fertigesdict = {};
-			fertigesdict["request"] = "newOrder";
-			fertigesdict["jsonData"] = dict;
+			if(firstname == "" || lastname == "" || postcode == "" || street == "" || town == "" || nr == "" || phone == ""){
+				alert("Sie haben ein Formularfeld leer gelassen!");
+			}
+			else{
+				if(total < 12) {
+					
+					alert("Mindestbestellwert von 12 Euro wurde nicht erreicht");
+				
+				}
+				else {
+					var dict = {};
+					dict["id"] = orderId;
+					dict["items"]=pizzen;
+					dict["contact"]=objcontact;
+					dict["total"]=total;
+					var fertigesdict = {};
+					fertigesdict["request"] = "newOrder";
+					fertigesdict["jsonData"] = dict;
 
-			printPDF(fertigesdict.jsonData);
-			fertigesdict = JSON.stringify(fertigesdict);
-			ordercheck(fertigesdict);
-            }
-
+					printPDF(fertigesdict.jsonData);
+					fertigesdict = JSON.stringify(fertigesdict);
+					ordercheck(fertigesdict);
+				}
+			}
+			}
+			
 // Bestellübersicht an Server und Antwort in SessionStorage
     function ordercheck(fertigesdict) {
         var xhttp = new XMLHttpRequest();

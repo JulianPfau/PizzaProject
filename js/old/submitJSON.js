@@ -245,26 +245,7 @@ function loadJSONToTable(json, index) {
     if (index == "menu") extendTable();
 }
 
-/**
- * Function to convert the Array into an displayable String
- *
- * @param array which should be convertet to be a ';' seperated String
- * @returns {string} the String to be displayed
- */
-function splitArray(array) {
-    var str = "";
-    if (array == "None") {
-        str = "None";
-    } else {
-        //Seperates the array content witch ";"
-        for (var i = 0; i < array.length; i++) {
-            str += array[i] + ";";
-        }
-        //Removes the last ";"
-        str = str.substr(0, str.length - 1);
-    }
-    return str;
-}
+
 
 /**
  * Loads the Contact Content into the Popup
@@ -589,7 +570,6 @@ function logOut() {
     xhr.open("GET", "./admin.html", true);
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa('myuser:mypswd'));
     xhr.onload = function () {
-        console.log(xhr.response);
         //Loads index site when loged out
         window.location = "../index.html"
     };
@@ -1097,12 +1077,6 @@ function saveContactOrdersPopup(index) {
     document.getElementById("closeModalContacts").click();
 }
 
-//Small function used to round precisely the decimals of numbers
-//This is used for various calculations
-function precisionRound(input, decimal) {
-    var factor = Math.pow(10, decimal);
-    return Math.round(input * factor) / factor;
-}
 
 /**
  *

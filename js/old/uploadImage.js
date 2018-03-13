@@ -310,11 +310,6 @@ function pictureSelection(param) {
         a.appendChild(b); // append the image list to the outer div container
     }
 
-    /*
-    *   Funktion damit alle Elemente des Bilder Dropdowns gelöscht werden.
-    *
-     */
-
     /**
      * Delete all entries from "imagelist"
      * @param elmnt html object of the input field of the table row
@@ -369,6 +364,11 @@ function extendTable() {
 
 }
 
+/**
+ * Function to load the JSON data as String from the Webserver
+ * @param name the file which will be called
+ * @param callback function to call after the json data has loaded
+ */
 function loadJSONfromServer(name, callback) {
     var xhttp = new XMLHttpRequest();
     var senddata = new Object();
@@ -387,18 +387,24 @@ function loadJSONfromServer(name, callback) {
     callback(res);
 }
 
+/**
+ * Save the popup data from the table input.
+ * @param btn
+ */
 
 function savePopup(btn) {
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");
-    //console.log(getJsonByRequest(null,"extras"));
+
     var extras = [];
     var index = modal.getElementsByTagName("ul")[0].getAttribute('name');
+    //push the value, if the checkbox is checked to an array
     for (var i = 0; i < list.length; i++) {
         if (list[i].firstChild.checked) {
             extras.push(parseInt(list[i].firstChild.id));
         }
     }
+    // edit loadExtras function of the menu element to "save" the data
     var row = document.getElementsByClassName("tr menuElement")[index].children;
     for (var n = 0; n < row.length; n++) {
         if (row[n].firstChild != null && row[n].firstChild.id.toLowerCase() == "extras") {
@@ -420,11 +426,15 @@ function savePopup(btn) {
 
 }
 
+/**
+ * Function to search the data of the table
+ * @param input HTML-object of search field
+ */
 function itemSearch(input) {
     var searchPattern = input.value.toLowerCase();
     var content = "";
     var rows = document.getElementsByClassName("tr menuElement");
-
+    //save all data in the table row into an String
     for (var i = 0; i < rows.length; i++) {
         var element = rows[i];
         var elements = rows[i].children;
@@ -443,7 +453,7 @@ function itemSearch(input) {
                 }
             }
         }
-        //.replace(/[^a-zA-Z0-9 ]/g, " ")
+        // if the String includes the searchPattern set the display attribute to table-row if not set it to none, to hide
         if (!content.toLocaleLowerCase().includes(searchPattern.toLocaleLowerCase())) {
             element.style.display = "none";
         } else {
@@ -453,6 +463,9 @@ function itemSearch(input) {
     }
 }
 
+/**
+ * Set empty field in the footer to "None", so FF and IE can click it
+ */
 function editFooter(){
     var footer = document.getElementById("footer");
     for (var i = 0 ; i < footer.childNodes.length; i++){
