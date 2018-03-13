@@ -18,17 +18,22 @@ function ajaxPLZ(pizza, user) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //document.getElementById("ans").innerHTML = this.responseText; //wird aufgerufen sobald die Rückmeldung
-            //vom server kam -> hier ifabfrage und einfärbung
-            //und blocken des weiter machen.
+            //vom server kam
             var distance = this.responseText;
+
+            var chance = "Bestellung ist möglich!";
+            var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry, keine Bestellung möglich!";
             if (distance <= 20000) {
                 document.getElementById("postcode").style.backgroundColor = 'green';
+                document.getElementById("ans").innerHTML = chance;
+
             }
             else {
                 document.getElementById("postcode").style.backgroundColor = 'red';
-                var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry!";
+               // document.getElementById("bestelluebersicht").setAttribute("disabled","true");
                 document.getElementById("ans").innerHTML = noChance;
             }
+
         }
 
     };

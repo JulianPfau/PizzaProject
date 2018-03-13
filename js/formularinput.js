@@ -4,6 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+
     // click Event an Button anhängen
             var elem = document.getElementById('bestelluebersicht');
             elem.addEventListener('click', schreibe);
@@ -16,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
+
+
             function schreibe() {
                 var timestamp = new Date(Date.now());
 
@@ -104,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function loeschen() {
         sessionStorage.removeItem("bestellung");
-        location.href="https://localhost:8080/speisekarte.html";
+        location.href="https://localhost:8080/index.html";
     };
 
 

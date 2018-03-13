@@ -111,5 +111,5 @@ function pizzaWahl ( x ) {
 function bestellen () {
     sessionStorage.removeItem('menu');
     sessionStorage.removeItem('extras');
-    location.href="https://localhost:8080/bestelluebersicht.html";
+    location.href="https://localhost:8080/orderoverview.html";
 }
