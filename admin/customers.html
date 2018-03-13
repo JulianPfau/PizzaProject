@@ -24,6 +24,7 @@
             <div class="search-container">
                     <input type="text" oninput="itemSearch(this)" placeholder="Suchen.." id="input">
                     <button type="submit" onclick="logOut()"><i class="fa fa-sign-out"></i></button>
+                    <button type="submit" onclick="location.href='../index.html'"><i class="fa fa-home"></i></button>
                     <button type="submit" onclick="saveInput('customers')"><i class="fa fa-search"></i></button>
             </div>
         </div>
@@ -39,7 +40,7 @@
                 <div class="td">Password</div>
                 <div class="td">Contact</div>
             </div>
-            <div class="tr" id="footer">
+            <div class="tr menuElement" id="footer">
                 <div class="td"></div>
                 <div class="td"><span class="Input footer" id="ID" contenteditable="true" ></span></div>
                 <div class="td"><span class="Input footer" id="FirstID" contenteditable="true"></span></div>
@@ -85,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="closeModalItems" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="saveContactPopup(this)">Save changes</button>
                 </div>
             </div>
         </div>

@@ -36,29 +36,40 @@ function checkLogin() {
     //checks if the password field is empty and if the E-Mail Adress is valid
     if (password == "" || !isEmail(username)) {
         //Gives out an popup when Password/Email is wrong
-        popup("Bitte alle Felder ausf&auml;llen oder E-Mail in korrektem Format angeben");
+        popup("Bitte alle Felder ausfüllen oder E-Mail in korrektem Format angeben");
     } else {
         //Creates a JSON-String with the username and password
         var json = {"username": username, "password": password};
+        var json = {"username": username, "password": password};
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
+
+        // DEBUG
+        // console.log(response);
+
         //Only saves the SessionID if it isn't undefined or false, the Server returns false when 
         //the login data isn't valid
-        if (!response && response != undefined && response != "") {
-            createSession(response);
+        if (response != undefined && JSON.parse(response).STATUS == "OK") {
+            createSession(JSON.parse(response).sid);
             sessionStorage.setItem('email', username);
             window.location = MENU_URL;
-
         } else {
-            popup("Passwort ist falsch"); //Debug
-            document.getElementById('password').value = '';
+            if (!response && response != undefined && response != "") {
+                createSession(JSON.parse(response).sid);
+                sessionStorage.setItem('email', username);
+                window.location = MENU_URL;
+
+            } else {
+                popup("Passwort ist falsch"); //Debug
+                document.getElementById('password').value = '';
+            }
         }
     }
 }
 
 //Writes the Session ID in the Session Storage
 function createSession(response) {
-    var data = response.parseJSON();
+    var data = JSON.parse(response);
     sessionStorage.setItem('SID', data.id);
     sessionStorage.setItem('name', data.firstname + ' ' + data.lastname);
 }
@@ -105,7 +116,7 @@ function isEmail(email) {
 //handels the registering of new Users
 function register() {
     //Pulls all the values from the HTML input fields to JS variables
-    var email = document.getElementById("email").value;
+    var email = document.getElementById("username").value;
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var password = document.getElementById("password").value;
@@ -122,7 +133,7 @@ function register() {
         return (false);
     }
 
-    //Checks if the two password fields match 
+    //Checks if the two password fields match
     if (password != passwordConfirm) {
         popup("Passwörter stimmen nicht überein");
         document.getElementById('password').value = "";
@@ -138,12 +149,23 @@ function register() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","password":"' + password + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var json = {
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "password": password,
+        "postcode": postcode,
+        "street": street,
+        "streetNr": streetNr,
+        "phone": phone
+    };
     var result = ajax("register", json);
-    if (result == 'true') {
-        window.location = PROFILE_URL;
-    } else {
-        popup('Unbekannter Fehler: ');
+    if (result.status == 'OK') {
+        if (result == 'true') {
+            window.location = PROFILE_URL;
+        } else {
+            popup('Unbekannter Fehler');
+        }
     }
 }
 
@@ -197,12 +219,22 @@ function sendNewData() {
     }
 
     //Generates the JSON which is sent to the server via AJAX
-    var json = '{"email":"' + email + '","firstname":"' + firstname + '","lastname":"' + lastname + '","postcode":"' + postcode + '","street":"' + street + '","streetNr":"' + streetNt + '","phone":"' + phone + '",}'
+    var json = {
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "postcode": postcode,
+        "street": street,
+        "streetNr": streetNr,
+        "phone": phone
+    };
     var result = ajax("updateData", json);
-    if (result == 'true') {
-        popup("Änderung der Daten erfolgreich");
-    } else {
-        popup('Unbekannter Fehler: ')
+    if (result.status == 'OK') {
+        if (result == 'true') {
+            popup("Änderung der Daten erfolgreich");
+        } else {
+            popup('Unbekannter Fehler');
+        }
     }
 }
 
@@ -215,13 +247,23 @@ function popup(text) {
 //Generates the Menu bar; is different if an User is logged on or not
 function generateMenu() {
     if (checkSID()) {
-        //Shows proper Menu 
+        //Shows proper Menu
     } else {
         window.location = LOGIN_URL;
     }
 }
 
 //Deletes an User account, takes in the email-address of the account which should be deleted
+function deleteUser(email) {
+    ajax("deleteUser", '{"email":"' + email + '"}');
+}
+
+//gets the Order history from the server, gets the Email-Address from the SessionStorage
+function getHistory() {
+    var history = ajax("getOrderbyMail", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
+    return history;
+}
+
 function deleteUser(email) {
     ajax("deleteUser", '{"email":"' + email + '"}');
     sessionStorage.removeItem('SID');
@@ -243,3 +285,4 @@ function RedirectWithCheck(url) {
         popup('Session abgelaufen!');
     }
 }
+

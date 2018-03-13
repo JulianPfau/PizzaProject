@@ -74,6 +74,7 @@ function createTablefromJSON(rawData){
                     sel.setAttribute("id", sizePickerName);
                     for(var n = 0; n < value.length ;n++){
                         var opt = document.createElement("option");
+                        opt.setAttribute("value", n);
                         opt.innerHTML = value[n];
                         sel.appendChild(opt);
                     }
@@ -154,9 +155,7 @@ function openExtras(element, index) {
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
         input.setAttribute('id', extras[i].name);
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Content & Change Event for extra
         span.innerHTML = " " + extras[0].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
@@ -214,6 +213,7 @@ function changePrice(element) {
     var extraPrice = 0;
     var amount = 0;
     var pizzaPrice = table[element].childNodes[5].getElementsByTagName("input")[size].value;
+    console.log(pizzaPrice);
 
     for (var i = 0; i < extras.length;i++){
 
@@ -221,7 +221,7 @@ function changePrice(element) {
             extraPrice = parseFloat(extraPrice) + parseFloat(extras[i].value);
         }
     }
-    console.log(table[element].getElementsByTagName("select")[0]);
+    //console.log(table[element].getElementsByTagName("select")[0]);
     if(table[element].getElementsByTagName("select")[1].value != 0){
 
         amount = table[element].getElementsByTagName("select")[1].value;

@@ -55,7 +55,7 @@ function pizzaWahl ( x ) {
     var name = chosenPizza['name'];
     var sizePickerName = 'size' + x; //variable for the name of the selectPicker belonging to chosen Pizza
     var chosenSize = document.getElementById(sizePickerName).value;
-    var sizeId;
+    var sizeId = 0;
     for (var i = 0; i < chosenPizza['sizes'].length; i++) {
         if (chosenSize == chosenPizza['sizes'][i]) {
             sizeId = i;
@@ -67,6 +67,8 @@ function pizzaWahl ( x ) {
     var amount = document.getElementById(amountPickerName).value;
     var pizzaPrices = chosenPizza['prices'];
     var pizzaPrice = pizzaPrices[sizeId];
+    console.log(pizzaPrices);
+    console.log(sizeId);
     var extras = [];
     var possibleExtras = chosenPizza['extras'];
     // loop through available extras
@@ -77,7 +79,7 @@ function pizzaWahl ( x ) {
             }
         }
     }
-    var extrasPrice;
+    var extrasPrice = 0;
     for (var i = 0; i<allExtras.lenght; i++) {
         for (var j = 0; j<extras.length; j++) {
             if ( allExtras[i] == extras[j]) {
@@ -86,7 +88,9 @@ function pizzaWahl ( x ) {
             }
         }
     }
-    var newPizza = {name:name, size:size, extras:extras, count:amount, price:pizzaPrice};
+    var price = pizzaPrice + extrasPrice;
+    console.log(price); 
+    var newPizza = {name:name, extras:extras, size:size, count:amount, price:price};
     var pizzaArray = [];
     var oldTotal;
     if (sessionStorage.getItem('bestellung') == null) {
