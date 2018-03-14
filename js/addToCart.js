@@ -49,8 +49,12 @@ function controll () {
 
 //detect chosen pizza with size, amount etc and add to bestellung which is saved in sessionStorage
 function pizzaWahl ( x ) {
+
+    //save menu and extras in sessionStorage
     var menu  = JSON.parse(sessionStorage.getItem('menu'));
     var allExtras = JSON.parse(sessionStorage.getItem('extras'));
+
+    //define all attributes of the pizza
     var chosenPizza = menu[x];
     var name = chosenPizza['name'];
     var sizePickerName = 'size' + x; //variable for the name of the selectPicker belonging to chosen Pizza
@@ -60,6 +64,7 @@ function pizzaWahl ( x ) {
     var amount = document.getElementById(amountPickerName).value;
     var pizzaPrices = chosenPizza['prices'];
     var pizzaPrice = pizzaPrices[chosenSize];
+    //create an array with the number of the Array of available sizes from menu.json
     var extras = [];
     var possibleExtras = chosenPizza['extras'];
     for ( var i = 0; i < possibleExtras.length; i++) {
@@ -70,11 +75,13 @@ function pizzaWahl ( x ) {
         }
       }
     }
+    //calculate the ExtraIds like they are in extras.json
     var extraIds = [];
     for ( var k = 0; k<extras.length; k++) {
       var id = possibleExtras[k];
       extraIds.push(id);
     }
+    //calculate price for all chosen extras
     var extrasPrice = 0;
     for (var i = 0; i<allExtras.length; i++) {
         for (var j = 0; j<extraIds.length; j++) {
@@ -86,6 +93,7 @@ function pizzaWahl ( x ) {
     var price = parseFloat(pizzaPrice) + parseFloat(extrasPrice);
     var newPizza = {name:name, extras:extraIds, size:size, count:amount, price:price};
     var pizzaArray = [];
+    //get old cart
     var oldTotal;
     if (sessionStorage.getItem('bestellung') == null) {
         pizzaArray.push(newPizza);
@@ -98,12 +106,13 @@ function pizzaWahl ( x ) {
         var oldTotal = oldBestellung['total'];
     }
     var total = oldTotal + (price*amount);
+    //create new cart
     var bestellung = JSON.stringify({items:pizzaArray, total:total});
     sessionStorage.setItem('bestellung', bestellung);
     var boxen = document.getElementsByClassName('extrasBox');
 }
 
 function bestellen () {
-
+    //link to orderoverview
     location.href="https://localhost:8080/orderoverview.html";
 }
