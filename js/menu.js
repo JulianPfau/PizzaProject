@@ -89,7 +89,6 @@ function createTablefromJSON(rawData){
                         input.value = value[p];
                         d.appendChild(input);
                     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////
                 }else if(key == "extras"){
 
                     var arrExtras = JSON.parse(extras)["jsonData"];
@@ -155,6 +154,7 @@ function openExtras(element, index) {
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
 
+/////////////////////////////////////////////////////////////////////////
         var extraCheckboxId = index + ":" + i;
 
         input.setAttribute('id', extraCheckboxId);

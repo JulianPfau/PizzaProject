@@ -70,17 +70,21 @@ function pizzaWahl ( x ) {
         }
       }
     }
+    var extraIds = [];
+    for ( var k = 0; k<extras.length; k++) {
+      var id = possibleExtras[k];
+      extraIds.push(id);
+    }
     var extrasPrice = 0;
     for (var i = 0; i<allExtras.length; i++) {
-        for (var j = 0; j<extras.length; j++) {
-            if ( allExtras[i]['id'] - 1 == extras[j]) {
+        for (var j = 0; j<extraIds.length; j++) {
+            if ( allExtras[i]['id'] == extraIds[j]) {
                 extrasPrice += allExtras[i]['price'];
-                console.log(extrasPrice);
             }
         }
     }
-    var price = pizzaPrice + extrasPrice;
-    var newPizza = {name:name, extras:extras, size:size, count:amount, price:price};
+    var price = parseFloat(pizzaPrice) + parseFloat(extrasPrice);
+    var newPizza = {name:name, extras:extraIds, size:size, count:amount, price:price};
     var pizzaArray = [];
     var oldTotal;
     if (sessionStorage.getItem('bestellung') == null) {
