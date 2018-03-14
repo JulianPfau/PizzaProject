@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				
                 var timestamp = new Date(Date.now());
 
-                //var orderId = timestamp.getUTCFullYear().toString() + timestamp.getUTCMonth()+1 + timestamp.getDate() + timestamp.getHours() + timestamp.getMinutes() + timestamp.getSeconds();
+                var orderId = timestamp.getUTCFullYear().toString() + timestamp.getUTCMonth()+1 + timestamp.getDate() + timestamp.getHours() + timestamp.getMinutes() + timestamp.getSeconds();
 
                 var firstname = document.getElementById('firstname').value;
 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 				else {
 					var dict = {};
-					//dict["id"] = orderId;
+					dict["id"] = orderId;
 					dict["items"]=pizzen;
 					dict["contact"]=objcontact;
 					dict["total"]=total;
