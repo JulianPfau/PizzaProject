@@ -66,7 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         zahlung: zahlung
                 };
 
-
+                // Delete menu and extras in sessionStorage after click Button 'kostenpföichtig bestellen.
+                sessionStorage.removeItem('menu');
+                sessionStorage.removeItem('extras');
 
 			var bestellung = sessionStorage["bestellung"];
 			bestellung = JSON.parse(bestellung);
