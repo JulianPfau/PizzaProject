@@ -36,9 +36,9 @@ function pizzenInListe(){
 		var extras = pizzen[i]["extras"];
 		var extratext = "";
 		for (var x in extras){
-			x = extras[x];
-			x -= 1;
-			var extra = alleextras[x]["name"];
+			y = extras[x];
+			y -= 1;
+			var extra = alleextras[y]["name"];
 			if (x==0){
 				extratext += " mit " + extra ;
 			}
