@@ -154,13 +154,12 @@ function openExtras(element, index) {
         //Defines the checkbox
         input.setAttribute('type', 'checkbox');
 
-/////////////////////////////////////////////////////////////////////////
         var extraCheckboxId = index + ":" + i;
 
         input.setAttribute('id', extraCheckboxId);
 
         //Content & Change Event for extra
-        span.innerHTML = " " + extras[0].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
+        span.innerHTML = " " + extras[i].innerText + "<br>"+parseFloat(extras[i].value).toFixed(2)+"€";
         span.onkeydown = function() {
             var keys = [16,17,18,20,33,34,35,36,37,38,39,40,45,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
             if (!keys.includes(event.keyCode)) {
