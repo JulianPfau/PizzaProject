@@ -687,7 +687,7 @@ function saveTableToServer(table) {
                         value = node.firstChild.value;
                     } else {
                         value = node.firstChild.innerHTML;
-                        if (key == "extras" && (value == "" || value == "None")) {
+                        if ((key == "extras" || key == "sizes") && (value == "" || value == "None")) {
                             value = [];
                         }
                     }

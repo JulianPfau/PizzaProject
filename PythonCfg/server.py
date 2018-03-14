@@ -235,7 +235,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         # rootdir = server_root
 
         if (self.path == "/"):
-            self.path = "/speisekarte.html"
+            self.path = "/index.html"
 
         if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
                 ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(

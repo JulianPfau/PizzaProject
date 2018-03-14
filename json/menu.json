@@ -1,1 +1,194 @@
-[{"name": "Salami", "description": "A classic meat Pizza", "prices": [4.99, 6.99, 8.99], "sizes": ["klein", "mittel", "gross"], "types": "Pizza", "tags": ["Meat", "Pizza", "Classic"], "extras": [2, 3], "picture": "pizzasalami.jpg", "pictureselection": "pizzasalami.jpg"}, {"name": "Cola", "description": "A classic Coca Cola", "prices": [2.99, 4.99], "sizes": ["0.33", "0.5"], "types": "Getr\u00e4nk", "tags": ["Getr\u00e4nk", "Cola", "Classic"], "extras": [1, 2], "picture": "cola.png", "pictureselection": "cola.png"}, {"name": "Bier", "description": "ist nice", "prices": [2.99, 4.99], "sizes": ["0.33", "0.5"], "types": "Getr\u00e4nk", "tags": ["Getr\u00e4nk", "Bier", "GEIL"], "extras": [], "picture": "getraenkbier.jpg", "pictureselection": "getraenkbier.jpg"}, {"name": "Schinken", "description": "A classic meat Pizza", "prices": [4.99, 6.99, 8.99], "sizes": ["klein", "mittel", "gross"], "types": "Pizza", "tags": ["Meat", "Pizza", "Classic"], "extras": [1, 3], "picture": "pizzaschinken.jpg", "pictureselection": "pizzaschinken.jpg"}, {"name": "Hawaii", "description": "A classic Pizza", "prices": [5.99, 7.99, 8.99], "sizes": ["klein", "mittel", "gross"], "types": "Pizza", "tags": ["Pizza", "Classic", "Sweet"], "extras": [1, 3], "picture": "pizzahawaii.jpg", "pictureselection": "pizzahawaii.jpg"}, {"name": "Schinken mit Pilzen", "description": "A classic Pizza", "prices": [5.99, 7.99, 8.99], "sizes": ["klein", "mittel", "gross"], "types": "Pizza", "tags": ["Pizza", "Classic"], "extras": [1, 3], "picture": "pizzaschinkenpilze.jpg", "pictureselection": "pizzaschinkenpilze.jpg"}, {"name": "Diavolo", "description": "A hot Pizza", "prices": [7.99, 10.99], "sizes": ["mittel", "gross"], "types": "Pizza", "tags": ["Pizza", " Hot"], "extras": [1, 3], "picture": "pizzadiavolo.jpg", "pictureselection": "pizzadiavolo.jpg"}, {"name": "Vodka Martini", "description": "A chassic Drink for a Gentlemen", "prices": [6, 5, 0], "sizes": "None", "types": "Getr\u00e4nk", "tags": ["Classic", "Drink"], "extras": [4, 5], "picture": "getraenkmartini.jpg", "pictureselection": "getraenkmartini.jpg"}]
+[
+  {
+    "name": "Salami",
+    "description": "A classic meat Pizza",
+    "prices": [
+      4.99,
+      6.99,
+      8.99
+    ],
+    "sizes": [
+      "klein",
+      "mittel",
+      "gross"
+    ],
+    "types": "Pizza",
+    "tags": [
+      "Meat",
+      "Pizza",
+      "Classic"
+    ],
+    "extras": [
+      2,
+      3
+    ],
+    "picture": "pizzasalami.jpg",
+    "pictureselection": "pizzasalami.jpg"
+  },
+  {
+    "name": "Cola",
+    "description": "A classic Coca Cola",
+    "prices": [
+      2.99,
+      4.99
+    ],
+    "sizes": [
+      "0.33",
+      "0.5"
+    ],
+    "types": "Getr\u00e4nk",
+    "tags": [
+      "Getr\u00e4nk",
+      "Cola",
+      "Classic"
+    ],
+    "extras": [
+      1,
+      2
+    ],
+    "picture": "cola.png",
+    "pictureselection": "cola.png"
+  },
+  {
+    "name": "Bier",
+    "description": "ist nice",
+    "prices": [
+      2.99,
+      4.99
+    ],
+    "sizes": [
+      "0.33",
+      "0.5"
+    ],
+    "types": "Getr\u00e4nk",
+    "tags": [
+      "Getr\u00e4nk",
+      "Bier",
+      "GEIL"
+    ],
+    "extras": [],
+    "picture": "getraenkbier.jpg",
+    "pictureselection": "getraenkbier.jpg"
+  },
+  {
+    "name": "Schinken",
+    "description": "A classic meat Pizza",
+    "prices": [
+      4.99,
+      6.99,
+      8.99
+    ],
+    "sizes": [
+      "klein",
+      "mittel",
+      "gross"
+    ],
+    "types": "Pizza",
+    "tags": [
+      "Meat",
+      "Pizza",
+      "Classic"
+    ],
+    "extras": [
+      1,
+      3
+    ],
+    "picture": "pizzaschinken.jpg",
+    "pictureselection": "pizzaschinken.jpg"
+  },
+  {
+    "name": "Hawaii",
+    "description": "A classic Pizza",
+    "prices": [
+      5.99,
+      7.99,
+      8.99
+    ],
+    "sizes": [
+      "klein",
+      "mittel",
+      "gross"
+    ],
+    "types": "Pizza",
+    "tags": [
+      "Pizza",
+      "Classic",
+      "Sweet"
+    ],
+    "extras": [
+      1,
+      3
+    ],
+    "picture": "pizzahawaii.jpg",
+    "pictureselection": "pizzahawaii.jpg"
+  },
+  {
+    "name": "Schinken mit Pilzen",
+    "description": "A classic Pizza",
+    "prices": [
+      5.99,
+      7.99,
+      8.99
+    ],
+    "sizes": [
+      "klein",
+      "mittel",
+      "gross"
+    ],
+    "types": "Pizza",
+    "tags": [
+      "Pizza",
+      "Classic"
+    ],
+    "extras": [
+      1,
+      3
+    ],
+    "picture": "pizzaschinkenpilze.jpg",
+    "pictureselection": "pizzaschinkenpilze.jpg"
+  },
+  {
+    "name": "Diavolo",
+    "description": "A hot Pizza",
+    "prices": [
+      7.99,
+      10.99
+    ],
+    "sizes": [
+      "mittel",
+      "gross"
+    ],
+    "types": "Pizza",
+    "tags": [
+      "Pizza",
+      " Hot"
+    ],
+    "extras": [
+      1,
+      3
+    ],
+    "picture": "pizzadiavolo.jpg",
+    "pictureselection": "pizzadiavolo.jpg"
+  },
+  {
+    "name": "Vodka Martini",
+    "description": "A chassic Drink for a Gentlemen",
+    "prices": [
+      6,
+      5,
+      0
+    ],
+    "sizes": [],
+    "types": "Getr\u00e4nk",
+    "tags": [
+      "Classic",
+      "Drink"
+    ],
+    "extras": [
+      4,
+      5
+    ],
+    "picture": "getraenkmartini.jpg",
+    "pictureselection": "getraenkmartini.jpg"
+  }
+]

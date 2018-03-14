@@ -362,3 +362,8 @@ button:hover{
 .input#pictureSelection{
     border: none;
 }
+
+.dropdown-menu li {
+    display: block; !important;
+    overflow: hidden; !important;
+}
