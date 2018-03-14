@@ -1,5 +1,4 @@
 //'use strict';
-
 function getPLZ() {
 	/**
 	 * Function takes the Location out of a Input box and
@@ -52,18 +51,19 @@ function ajaxPLZ(pizza, user) {
             var chance = "Bestellung ist möglich!";
             var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry, keine Bestellung möglich!";
             if (distance <= 20000) {
-                document.getElementById("postcode").style.backgroundColor = 'green';
+                document.getElementById("postcode").style.backgroundColor = 'lightgreen';
+                document.getElementById("bestelluebersicht").disabled=false;
                 document.getElementById("ans").innerHTML = chance;
-
             }
             else {
                 document.getElementById("postcode").style.backgroundColor = 'red';
-               // document.getElementById("bestelluebersicht").setAttribute("disabled","true");
+                document.getElementById("bestelluebersicht").disabled=true;
                 document.getElementById("ans").innerHTML = noChance;
+
             }
         }
-
     };
+
 
     var data = {
         "request": "ajaxGoogleAPI",
