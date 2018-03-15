@@ -1,21 +1,9 @@
 'use strict';
 
-// moved cause template.js
-//document.addEventListener('DOMContentLoaded', function () {
 
 
-    // click Event an Button anhängen
-
-
-
-
-
-
-
-    // Bestellformular und Pizzaausswahl wird in eine Json Datei geschrieben
-
-
-            function schreibe() {
+            //write orderformular and pizza selection in JSON
+            function writeOrderInStorageAndJson() {
 				
                 var timestamp = new Date(Date.now());
 
@@ -61,24 +49,29 @@
                         zahlung: zahlung
                 };
 
-                // Delete menu and extras in sessionStorage after click Button 'kostenpföichtig bestellen.
+                // Delete menu and extras in sessionStorage after click Button 'kostenpflichtig bestellen.
                 sessionStorage.removeItem('menu');
                 sessionStorage.removeItem('extras');
 
-			var bestellung = sessionStorage["bestellung"];
-			bestellung = JSON.parse(bestellung);
-			var pizzen = bestellung["items"];
-			var total = bestellung["total"];
-			
-			if(firstname == "" || lastname == "" || postcode == "" || street == "" || town == "" || nr == "" || phone == ""){
-				alert("Sie haben ein Formularfeld leer gelassen!");
-			}
-			else{
-				if(total < 12) {
+                //get order string of local storage and parse to JSON
+			    var bestellung = sessionStorage["bestellung"];
+			    bestellung = JSON.parse(bestellung);
+			    var pizzen = bestellung["items"];
+			    var total = bestellung["total"];
+
+
+			    //checks formularinput
+			    if(firstname == "" || lastname == "" || postcode == "" || street == "" || town == "" || nr == "" || phone == ""){
+				    alert("Sie haben ein Formularfeld leer gelassen!");
+			    }
+			    //checks for mindest order value
+			    else{
+				    if(total < 12) {
 					
 					alert("Mindestbestellwert von 12 Euro wurde nicht erreicht");
-				
 				}
+
+				//preparation of data for server request and the pdf generator for the pizza bakery
 				else {
 					var dict = {};
 					dict["id"] = orderId;
@@ -90,13 +83,15 @@
 					fertigesdict["jsonData"] = dict;
 
 					printPDF(fertigesdict.jsonData);
+
 					fertigesdict = JSON.stringify(fertigesdict);
 					ordercheck(fertigesdict);
-				}
-			}
+				    }
+			    }
 			}
 			
-// Bestellübersicht an Server und Antwort in SessionStorage
+
+    //order with order ID, request to server
     function ordercheck(fertigesdict) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -110,6 +105,7 @@
 
     }
 
+    //server response in session storage and link to bestellbestaetigung
     function writestorage(orderready) {
 		orderready = JSON.parse(orderready);
 		var fertigebestellung = orderready["response_data"];
@@ -117,11 +113,12 @@
         sessionStorage.setItem('bestellung', fertigebestellung);
         location.href="https://localhost:8080/bestellbestaetigung.html";
     }
-    function loeschen() {
+
+    // delte the order and link to index
+    function deleteOrder() {
         sessionStorage.removeItem("bestellung");
         location.href="https://localhost:8080/index.html";
     }
-//});
 
 
 
