@@ -65,9 +65,10 @@ function getdata() {
 }
 
 getJsonByRequest(getExtras, "extras");
-window.onload = function () {
+// moved cause template.js
+/*window.onload = function () {
 	getdata();
-}
+}*/
 
 
 

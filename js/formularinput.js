@@ -1,9 +1,7 @@
 'use strict';
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
-
+// moved cause template.js
+//document.addEventListener('DOMContentLoaded', function () {
 
 
     // click Event an Button anhängen
@@ -120,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var fertigebestellung = orderready["response_data"];
 		fertigebestellung = JSON.stringify(fertigebestellung);
         sessionStorage.setItem('bestellung', fertigebestellung);
-        location.href="https://localhost:8080/conf.html";
+        location.href="https://localhost:8080/bestellbestaetigung.html";
     }
     function loeschen() {
         sessionStorage.removeItem("bestellung");
@@ -128,8 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
 
-});
-
+//});
 
 
 

@@ -26,6 +26,12 @@ var LOGIN_URL = "index.html";
 // Register site filepath
 var REGISTER_URL = "reg.html";
 
+// checks Login on key press "Enter"
+function returnReg(e) {
+    if (e.keyCode == 13) {
+        checkLogin();
+    }
+}
 
 //Checks the login data and creates a Session if the Server confirms it
 function checkLogin() {
@@ -107,8 +113,15 @@ function isEmail(email) {
         return (true);
     }
     //Informs the User
-    popup("You have entered an invalid email address!")
+    popup("E-Mail nicht gültig")
     return (false);
+}
+
+// register on key press "Enter"
+function returnReg(e) {
+    if (e.keyCode == 13) {
+        register();
+    }
 }
 
 //handels the registering of new Users
@@ -120,6 +133,7 @@ function register() {
     var password = document.getElementById("password").value;
     var passwordConfirm = document.getElementById("passwordConfirm").value;
     var postcode = document.getElementById("postcode").value;
+    var city = document.getElementById("city").value;
     var street = document.getElementById("street").value;
     var streetNr = document.getElementById("streetNr").value;
     var phone = document.getElementById("phone").value;
@@ -140,9 +154,8 @@ function register() {
     }
 
     //Checks if the E-Mail is correct
-    if (isEmail(email)) {
-        popup("E-Mail nicht gültig");
-        document.getElementById('email').value = "";
+    if (!isEmail(email)) {
+        document.getElementById('username').value = "";
         return (false);
     }
 
@@ -153,11 +166,13 @@ function register() {
         "lastname": lastname,
         "password": password,
         "postcode": postcode,
+        "city": city,
         "street": street,
         "streetNr": streetNr,
         "phone": phone
     };
     var result = ajax("register", json);
+    console.log(result);
     if (result.status == 'OK') {
         if (result == 'true') {
             window.location = PROFILE_URL;
@@ -172,19 +187,31 @@ function checkSID() {
     var id = sessionStorage.getItem("SID");
 
     if (id != null || id != "") {
-        var ret = JSON.parse(ajax("checkSID", {"id": id}));
+        var ret = JSON.parse(ajax("checkSID", {"sid": id}));
+    }
+    if(ret["STATUS"] == "OK"){
+        console.log("login successfully");
+    }else{
+        console.log("login failed");
     }
     return (ret["STATUS"] == "OK");
 }
 
 //Logs the user out by deleting the Session ID from the Session Storage
 function logout() {
-    sessionStorage.removeItem('SID');
+    var id = sessionStorage.getItem("SID");
+    if (id != null || id != "") {
+        var ret = JSON.parse(ajax("logout", {"sid": id}));
+        if(ret["STATUS"] == "OK"){
+            sessionStorage.removeItem('SID');
+            popup("Erfolgreich abgemeldet.");
+        }
+    }
 }
 
 //Loads the user data from the Server, takes in the email of the User from which you want to load the data
 function loadOldData(email) {
-    var json = ajax("getUserData", '{"email":"' + email + '"}')
+    var json = ajax("getUserData", {"email": email });
     var decoded = JSON.parseJSON(json);
 
     var name = decoded.firstname + ' ' + decoded.lastname;
@@ -258,7 +285,7 @@ function deleteUser(email) {
 
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
 function getHistory() {
-    var history = ajax("getOrderbyMail", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
+    var history = ajax("getOrderbyMail", {"file":"orders", "email": sessionStorage.getItem('email')});
     return history;
 }
 

@@ -12,7 +12,7 @@ from socketserver import ThreadingMixIn
 #from PythonCfg import ajaxGoogleAPI
 #from PythonCfg import requestsJSON
 #from PythonCfg import sessionid
-import ajaxGoogleAPI
+#import ajaxGoogleAPI
 import requestsJSON
 import sessionid
 
@@ -482,11 +482,17 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 if data['request'] == 'login':
                     response = login(data)
                     self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'logout':
+                    response = sessionid.logout(data['value']['sid'])
+                    self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'register':
                     response = register(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'checkSID':
-                    response = sessionid.checkSessionID(data['value']['id'])
+                    response = sessionid.checkSessionID(data['value']['sid'])
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'getUserData':
+                    response = getUserData(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'getOrderbyMail':
                     response = requestsJSON.getOrderbyMail(json_dir, data)
