@@ -212,6 +212,36 @@ def login(request):
 
 
 def register(request):
+    '''
+    Handles a register request to the server.
+    Function tests if email address is already registered.
+    If not the new account information are stored.
+    
+    Args:
+        request (dict): Contains all informations of the 
+                        new customer 
+                        in this structure:
+                        {
+                            "id": ,
+                            "firstname": "",
+                            "lastname": "",
+                            "email": "",
+                            "password": "",
+                            "contact": {
+                                "name": "firstname" + " " + "lastname",
+                                "postcode": "",
+                                "street": "",
+                                "city": "",
+                                "nr": "",
+                                "phone": ""
+                            }
+                        }
+    
+    Return:
+        if email exist: Error
+        if successful stored: Ok
+        else: Error
+    '''
     global json_dir
 
     try:
@@ -267,10 +297,32 @@ def register(request):
 
 
 class MyServer(http.server.BaseHTTPRequestHandler):
+    '''
+    Serverclass, handles all the requests made by clients.
+    
+    Args:
+        http.server.BaseHTTPRequestHandler (handler)
+        
+    Return:
+        to the client:
+            different webpages via "get"
+            different actions via "post"
+            error messages,...
+    '''
     key = "Basic:test"  # Benutzer & Kennwort für admin Bereich
     key = base64.b64encode(bytes(key, "UTF8"))
 
     def do_AUTHHEAD(self):
+        '''
+        Sends a error message by a wrong authentication.
+        
+        Args:
+            self (class): contains the reference 
+                          informations to the own class
+        
+        Return:
+            Error 401
+        '''
         print("send header")
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"test\"')
@@ -278,12 +330,26 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        '''
+        Handles the "GET" requests to the server.
+        And a basic authentication for the admin page.
+        
+        Args:
+            self (class): contains the reference 
+                          informations to the own class
+        
+        Return:
+            different webpages to the client
+        '''
         global server_root
         # rootdir = server_root
 
         if (self.path == "/"):
             self.path = "/index.html"
-
+        
+        '''
+        appends to a file ".html" if no file extension is given
+        '''
         if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
                 ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(
             ".png") or self.path.endswith(".jpg") or self.path.endswith(".ico"))):
@@ -307,19 +373,41 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             pass
 
     def __getfile(self, path, encoding, mime):
+        '''
+        Loads requested files and sends it to the customer.
+        
+        Args:
+            self (class)  : contains the reference 
+                            informations to the own class
+            path (str)    : contains the requested path
+            encoding (str): if given: contains the encoding
+            mime (str)    : holds information of the mime-type
+        '''
         global server_root
         try:
             if encoding is None:
-                f = open(server_root + self.path, 'rb')  # open requested file
+                f = open(server_root + path, 'rb')  # open requested file
                 self.wfile.write(bytes(f.read()))
             else:
-                f = open(server_root + self.path)
+                f = open(server_root + path)
                 self.wfile.write(bytes(f.read(), "UTF8"))
                 f.close()
         except IOError:
             self.wfile.write(bytes(open(server_root + "/404.html").read(), "UTF8"))
 
     def __set_header(self, mime):
+        '''
+        Sets the header for a response to the client
+        if the request was successful.
+        
+        Args:
+            self (class)  : contains the reference 
+                            informations to the own class
+            mime (str)    : holds information of the mime-type
+        
+        Return:
+            Code 200, mimetype
+        '''
         self.send_response(200)
         self.send_header('Content-type', mime)
         self.end_headers()
@@ -331,9 +419,34 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         return "OK"
 
     def __convertHTML(self, path, encoding='UTF8'):
+        '''
+        Converts a html file to bytes.
+        
+        Args:
+            self (class)  : contains the reference 
+                            informations to the own class
+            path (str)    : contains the requested path
+            encoding (str): contains the encoding, 
+                            if not given sets it tp "UTF")
+        
+        Return:
+            encoded file content
+        '''
         return bytes(open(path, 'r').read(), encoding)
 
     def do_POST(self):
+        '''
+        Handles the "POST" requests to the server
+        based on the information stored in the "request" 
+        segment of the request.
+        
+        Args:
+            self (class): contains the reference 
+                          informations to the own class
+        
+        Return:
+            different informations to the client 
+        '''
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.send_header('Access-Control-Allow-Origin', '*  ')
@@ -385,28 +498,42 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
+    '''
+    Handles the multithreading of the webserver.
+    
+    Agrs:
+        ThreadixIn (touple): information about the ip and port
+        http.server.HTTPServer (handler)
+    
+    return:
+    '''
     pass
 
+if __name__ == '__main__':
+    '''
+    This sets the listening port, default port 8080
+    '''
+    if sys.argv[1:]:
+        PORT = int(sys.argv[1])
+    else:
+        PORT = 8080
 
-'''
-This sets the listening port, default port 8080
-'''
+    server = ThreadingSimpleServer(('localhost', PORT), MyServer)
 
-if sys.argv[1:]:
-    PORT = int(sys.argv[1])
-else:
-    PORT = 8080
-server = ThreadingSimpleServer(('localhost', PORT), MyServer)
-server.socket = ssl.wrap_socket(server.socket,
-                                server_side=True,
-                                certfile=server_dir + '/server_org.pem',
-                                ssl_version=ssl.PROTOCOL_TLSv1
-                                )
-print("running..")
-try:
-    while 1:
-        sys.stdout.flush()
-        server.handle_request()
+    '''
+    Changes the usual socket from the handler to a encrypted socket.
+    '''
+    server.socket = ssl.wrap_socket(server.socket,
+                                    server_side=True,
+                                    certfile=server_dir + '/server_org.pem',
+                                    ssl_version=ssl.PROTOCOL_TLSv1
+                                    )
 
-except KeyboardInterrupt:
-    print("Shutting down server per users request.")
+    print("running..")
+    try:
+        while 1:
+            sys.stdout.flush()
+            server.handle_request()
+
+    except KeyboardInterrupt:
+        print("Shutting down server per users request.")
