@@ -93,13 +93,25 @@ def jsondata(request):
 
 
 def fileupload(request):
+    '''
+    Function handles the image upload to the server.
+    The file ist transmitted  via a base64 encoded string
+    and on the server encodes it bag to the original format.
+    
+    Args:
+        request (dict): contains the image string and image name
+    
+    Return:
+        dict    successful: OK, image path
+                else: error, image name
+    '''
     try:
         en_string = request['fileData']
         global img_dir
-        f = open(img_dir + "/menu/" + request['name'], 'wb')  # Datei wird erstellt
+        f = open(img_dir + "/menu/" + request['name'], 'wb')
         de_string = en_string.split(',')[1]
-        f.write(base64.b64decode(de_string))  # String wird in die Datei geschrieben
-        f.close()  # und abgespeichert
+        f.write(base64.b64decode(de_string))
+        f.close()
         response = {
             'STATUS': 'OK',
             'imgPath': str("../img/menu/" + request['name'])
@@ -115,6 +127,17 @@ def fileupload(request):
 
 
 def pdfupload(request):
+    '''
+    Handles the pdf upload. The pdf ist encoded with utf8
+    and on the server decoded again.
+    
+    Args:
+        request (dict): contains the name and content of the pdf
+    
+    Return:
+        dict    if successful: ok, path to directory
+                else: Error
+    '''
     try:
         pdf = request.decode("utf-8")
         global pdf_dir
@@ -136,12 +159,36 @@ def pdfupload(request):
 
 
 def imglist():
+    '''
+    Lists all the on the server stored pictures.
+    
+    Args:
+    
+    Return:
+        dict    List of the Pictures as a json-string
+    '''
     global img_dir
     imglist = os.listdir(server_root + "/img/menu/")
     return json.dumps(imglist)
 
 
 def login(request):
+    '''
+    Handles the login of the server and creates a session id.
+    
+    Args:
+        request (dict)  contains the username/email-address and password
+                        in this structure:
+                        {
+                            "request" : "login",
+                            "username" : "",
+                            "password" : ""
+                        }
+    
+    Return:
+        if successful: OK, SessionId
+        else: False
+    '''
     try:
         global json_dir
         with open(json_dir + "customers.json") as json_data:
