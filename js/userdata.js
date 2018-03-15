@@ -28,7 +28,7 @@ function getJsonByRequest(cFunction, file) {
 }
 
 //function which checks wheater the email and pw are like them in the user library
-function anmelden(){
+function login(){
 	var email = document.getElementById("email").value;
 	var passwort = document.getElementById("passwort").value;
 	var vorhanden = false;
@@ -36,7 +36,7 @@ function anmelden(){
 		if (konten[i]["email"] == email && konten[i]["password"] == passwort){
 			vorhanden = true;
 			var kontaktdaten = konten[i]["contact"];
-			ausfuellen(kontaktdaten);
+			fillformular(kontaktdaten);
 		}	
 	}
 	if (vorhanden == false){
@@ -45,7 +45,7 @@ function anmelden(){
 }
 
 //this function fullfills the formular on the html page with the correct user datas
-function ausfuellen(kontaktdaten){
+function fillformular(kontaktdaten){
 	var name = kontaktdaten["name"];
 	name = name.split(" ");
 	var firstname = name[0];
