@@ -36,8 +36,9 @@ function pizzenInListe(){
 		var extras = pizzen[i]["extras"];
 		var extratext = "";
 		for (var x in extras){
-			x = extras[x];
-			var extra = alleextras[x]["name"];
+			y = extras[x];
+			y -= 1;
+			var extra = alleextras[y]["name"];
 			if (x==0){
 				extratext += " mit " + extra ;
 			}
@@ -48,7 +49,7 @@ function pizzenInListe(){
 		
 		
 		//bestelltext f�r einzelne pizza erstellen
-		var bestellungstext = count + " x" + " Pizza " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
+		var bestellungstext = count + " x" + " " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
 	
 		//text zur liste auf der html seite hinzuf�gen
 		var listItem = document.createElement("li");
