@@ -3,8 +3,62 @@
 
 
  */
+var extras;
 
+/**
+ * Function to load Extras into Popup on menu site
+ *
+ * @param product the JSON of the Item
+ * @param index to get the parent on save needed
+ */
+function loadExtras(product, index) {
+    //Sets title of Extras Popup
+    document.getElementById("modalExtrasItems").innerHTML = (product == undefined) ? "Extras" : product.name + " Extras";
+    //Sets index for write
+    var extrasBox = document.getElementById("extrasBox");
+    extrasBox.setAttribute('name', index);
 
+    //Removes all Extras from Popup
+    while (extrasBox.firstChild) {
+        extrasBox.removeChild(extrasBox.firstChild);
+    }
+
+    //Loops every extra from JSON
+    for (var i = 0; i < extras.length; i++) {
+        //Creates DOM-Elements for Popup
+        var li = document.createElement('li');
+        var label = document.createElement('label');
+        var input = document.createElement('input');
+        var span = document.createElement('span');
+
+        //Defines the checkbox
+        input.setAttribute('type', 'checkbox');
+        input.setAttribute('id', extras[i].id);
+
+        //Content & Change Event for extra
+        span.innerHTML = " " + extras[i].name;
+        span.onkeydown = function () {
+            if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+                document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                this.parentElement.setAttribute('class', 'td bg-warning');
+            }
+        };
+
+        //Checks weather the extras is already in selected or not and it'll be marked if so
+        if (product.extras != undefined) {
+            for (var k = 0; k < extras.length; k++) {
+                if (product.extras[k] == extras[i].id)
+                    input.setAttribute('checked', '');
+            }
+        }
+
+        //Appends all DOM-Elemnts to bi displayed
+        label.appendChild(input);
+        label.appendChild(span);
+        li.appendChild(label);
+        extrasBox.appendChild(li);
+    }
+}
 
 
 /**
