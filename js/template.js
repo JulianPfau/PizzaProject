@@ -388,5 +388,6 @@ function t_orderoverview(){
         document.head.append(script);
         pizzenInListe();
 	    totalinListe();
+		allreadylogin();
     });
 }

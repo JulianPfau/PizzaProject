@@ -67,6 +67,20 @@ function fillformular(kontaktdaten){
 }
 
 
+
+function allreadylogin(){
+	if(sessionStorage["email"] != null){
+		var email = sessionStorage["email"];
+		for(i in konten){
+			if(konten[i]["email"] == email){
+				var kontaktdaten = konten[i]["contact"];
+				fillformular(kontaktdaten);
+			}
+		}
+	}
+}
+
+
 getJsonByRequest(getCustomers, "customers");
 
 
