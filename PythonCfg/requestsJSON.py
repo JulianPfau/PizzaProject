@@ -24,7 +24,7 @@ def findExtrainExtras(extras, intId):
 	Searches for extra characteristics in the extras based on its id.
 	
 	Args:
-		extras (dict):	content of the json in which all the extra 
+		extras (dict):	content of the json in which all the extra
 						characteristics are written
 		intId (int):	id of the extra to look for
 	
@@ -98,7 +98,7 @@ def appendOrder(json_dir, request):
 				extras_item = findExtrainExtras(extras, extra)
 				price_total += extras_item["price"] * int(item["count"])
 		
-		request['jsonData']['total'] = rount(price_total, 2)
+		request['jsonData']['total'] = round(price_total, 2)
 	except IOError:
 		response = {
 			'STATUS': 'ERROR'
@@ -203,7 +203,89 @@ def getCustomerIdbyMail(json_dir, mail):
 	except IOError:
 		return 0
 
-def getOrderbyMail(json_dir,  request):
+
+def getCustomerDatabyMail(json_dir, mail):
+	'''
+	Looksup the customers data based on the stored mail-address in the customers.json
+
+	Args:
+		json_dir (str):	string to the dicetory where the json-files
+						are located
+		request (dict):	request contains all the transmitted informations
+						from the customer.
+
+	Returns:
+		dict:	if successful: all collected characteristics from the extra
+				Pizza does not exist: Error, Extra not valid.
+	'''
+	try:
+		with open(json_dir + "customers.json", "r") as f:
+			data = json.load(f)
+
+		for item in data:
+			if str(mail) == str(item['email']):
+				return json.dumps(item)
+		return 0
+	except IOError:
+		return 0
+
+# changes the data of a user
+def updateUserData(json_dir, request):
+	try:
+		with open(json_dir + "customers.json", "r") as f:
+			data = json.load(f)
+
+		for item in data:
+			if str(request['email']) == str(item['email']):
+				item['firstname'] = request['firstname']
+				item['lastname'] = request['lastname']
+				item['contact']['postcode'] = request['postcode']
+				item['contact']['street'] = request['street']
+				item['contact']['nr'] = request['streetNr']
+				item['contact']['city'] = request['city']
+				item['contact']['phone'] = request['phone']
+
+		with open(json_dir + "customers.json", "w") as f:
+			json.dump(data, f)
+
+		response = {
+			'STATUS': 'OK',
+			"response_data": data[len(data) - 1]
+		}
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	response = json.dumps(response)
+	return response
+
+# removes the user
+def deleteUser(json_dir, request):
+	try:
+		with open(json_dir + "customers.json", "r") as f:
+			data = json.load(f)
+
+		pos = 0
+		for item in data:
+			if str(request['email']) == str(item['email']):
+				print("deleted user")
+				del data[pos]
+			pos +=1
+
+		with open(json_dir + "customers.json", "w") as f:
+			json.dump(data, f)
+
+		response = {
+			'STATUS': 'OK'
+		}
+	except IOError:
+		response = {
+			'STATUS': 'ERROR'
+		}
+	response = json.dumps(response)
+	return response
+
+def getOrderbyMail(json_dir, request):
 	"""
 	Returns all ever submitted orders based on the stored mail-address 
 	
@@ -230,7 +312,7 @@ def getOrderbyMail(json_dir,  request):
 
 		old_orders = []
 		for customer in data:
-			if customer["customerid"] == customerid:
+			if "customerid" in customer and str(customer["customerid"]) == str(customerid):
 				old_orders.append(customer["items"])
 
 		response = {

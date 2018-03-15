@@ -75,9 +75,10 @@ function totalinListe(){
 
 //pizzen aus sessionstorage auslesen und parsen
 var bestellung = sessionStorage["bestellung"];
-bestellung = JSON.parse(bestellung);
+    bestellung = JSON.parse(bestellung);
 var pizzen = bestellung["items"];
 var total = bestellung["total"];
+
 
 
 

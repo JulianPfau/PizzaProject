@@ -204,6 +204,7 @@ function logout() {
         var ret = JSON.parse(ajax("logout", {"sid": id}));
         if(ret["STATUS"] == "OK"){
             sessionStorage.removeItem('SID');
+            sessionStorage.removeItem('email');
             popup("Erfolgreich abgemeldet.");
         }
     }
@@ -212,17 +213,18 @@ function logout() {
 //Loads the user data from the Server, takes in the email of the User from which you want to load the data
 function loadOldData(email) {
     var json = ajax("getUserData", {"email": email });
-    var decoded = JSON.parseJSON(json);
+    var decoded = JSON.parse(json);
 
     var name = decoded.firstname + ' ' + decoded.lastname;
-    documenet.getElementById('firstname').value = decoded.firstname;
+    document.getElementById('firstname').value = decoded.firstname;
     document.getElementById('lastname').value = decoded.lastname;
     document.getElementById('username').value = decoded.email;
-    document.getElementById('userstreet').value = decoded.street;
-    document.getElementById('userstreetnumber').value = decoded.street;
-    document.getElementById('userpostcode').value = decoded.number;
-    document.getElementById('usercity').value = decoded.city;
-    document.getElementById('userGreeting.').innerHTML = name;
+    document.getElementById('userstreet').value = decoded.contact.street;
+    document.getElementById('userstreetnumber').value = decoded.contact.nr;
+    document.getElementById('userpostcode').value = decoded.contact.postcode;
+    document.getElementById('usercity').value = decoded.contact.city;
+    document.getElementById('userphone').value = decoded.contact.phone;
+    document.getElementById('userGreeting').innerHTML = name;
 }
 
 //Sends new/modified User data back to the server to be saved in the JSON Database
@@ -233,13 +235,14 @@ function sendNewData() {
     var street = document.getElementById("userstreet").value;
     var streetNr = document.getElementById("userstreetnumber").value;
     var city = document.getElementById('usercity').value;
-    var email = document.getElementById('username').value;
+    var email = sessionStorage.getItem("email");
+    var phone = document.getElementById('userphone').value;
 
 
     //Checks if the E-Mail is correct
-    if (isEmail(email)) {
+    if (!isEmail(email)) {
         popup("E-Mail nicht gültig");
-        document.getElementById('email').value = "";
+        document.getElementById('username').value = "";
         return (false);
     }
 
@@ -251,15 +254,15 @@ function sendNewData() {
         "postcode": postcode,
         "street": street,
         "streetNr": streetNr,
-        "phone": phone
+        "phone": phone,
+        "city": city
     };
-    var result = ajax("updateData", json);
-    if (result.status == 'OK') {
-        if (result == 'true') {
-            popup("Änderung der Daten erfolgreich");
-        } else {
-            popup('Unbekannter Fehler');
-        }
+    var result = JSON.parse(ajax("updateData", json));
+    if(result["STATUS"] == 'OK') {
+        popup("Änderung der Daten erfolgreich");
+        setTimeout(location.href = PROFILE_URL, 2000);
+    } else {
+        popup('Unbekannter Fehler');
     }
 }
 
@@ -278,27 +281,18 @@ function generateMenu() {
     }
 }
 
-//Deletes an User account, takes in the email-address of the account which should be deleted
-function deleteUser(email) {
-    ajax("deleteUser", '{"email":"' + email + '"}');
-}
-
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
 function getHistory() {
     var history = ajax("getOrderbyMail", {"file":"orders", "email": sessionStorage.getItem('email')});
     return history;
 }
 
-function deleteUser(email) {
-    ajax("deleteUser", '{"email":"' + email + '"}');
-    sessionStorage.removeItem('SID');
-    popup("Please reload page");
-}
-
-//gets the Order history from the server, gets the Email-Address from the SessionStorage
-function getHistory() {
-    var history = ajax("getOrderByCustomerID", '{"file":"orders", "email":"' + sessionStorage.getItem('email') + '"}');
-    return history;
+//Deletes an User account, takes in the email-address of the account which should be deleted
+function deleteUser() {
+    ajax("deleteUser", {"email": sessionStorage.getItem("email")});
+    logout();
+    popup("Konto erfolgreich gelöscht.");
+    setTimeout(location.href=MENU_URL, 2000);
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so

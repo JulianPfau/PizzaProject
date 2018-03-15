@@ -92,6 +92,7 @@ function t_logout() {
         var ret = JSON.parse(t_ajax("logout", {"sid": id}));
         if(ret["STATUS"] == "OK"){
             sessionStorage.removeItem('SID');
+            sessionStorage.removeItem('email');
             location.href = MENU_URL;
         }
     }
@@ -255,31 +256,35 @@ function t_register(){
 function t_users(){
     // User Template File
     var UserFile = "users.html";
-    var data = getHistory();
-	var orderHistory = data ? JSON.parse(data):null;
+    //var data = getHistory();
+	//var orderHistory = JSON.parse(data);
 
 	// var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
 	
 	//Adds the template to the document
 	$(MainID).load(TemplatePath + UserFile, function (){
+        
+        // load user data
+        loadOldData(sessionStorage.getItem("email"));
 
         //loads the orderHistoryContentTemplate syncronously
-        if(orderHistory != null && orderHistory != "" && orderHistory != undefined){
+        if(orderHistory != null && orderHistory != "" && orderHistory != undefined && orderHistory["STATUS"] == "OK"){
             $.ajax({
                 url: TemplatePath + "orderHistoryContentTemplate.html",
                 async: false
 
                 //fills the template with the required data
             }).done(function(data){
+                console.log(orderHistory);
 
-                for(var j = 0; j < orderHistory.length; j++){
+                for(var j = 0; j < orderHistory.response_data.length; j++){
 
-                    var order = orderHistory[j];
+                    var order = orderHistory.response_data[j];
 
-                    for(var i = 0; i < order.items.length; i++){
+                    for(var i = 0; i < order.length; i++){
 
                         $("#orderHistory").append(data);
-                        var item = order.items[i];
+                        var item = order;
 
                         document.getElementById("quantity").innerText = item.count + "x";
                         document.getElementById("type").innerText = item.name;
@@ -378,7 +383,7 @@ function t_orderoverview(){
         
         // site specific functions
         var script = document.createElement("script");
-        script.src = "js/formularinput.js";
+        script.src = "js/formularinput.js";       
         
         document.head.append(script);
         pizzenInListe();

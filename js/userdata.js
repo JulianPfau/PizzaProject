@@ -28,7 +28,7 @@ function getJsonByRequest(cFunction, file) {
 }
 
 //function which checks wheater the email and pw are like them in the user library
-function login(){
+function anmelden(){
 	var email = document.getElementById("email").value;
 	var passwort = document.getElementById("passwort").value;
 	var vorhanden = false;
