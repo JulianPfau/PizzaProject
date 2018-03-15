@@ -492,10 +492,17 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = sessionid.checkSessionID(data['value']['sid'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'getUserData':
-                    response = getUserData(data)
+                    response = requestsJSON.getCustomerDatabyMail(json_dir, data['value']['email'])
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'updateData':
+                    response = requestsJSON.updateUserData(json_dir, data['value'])
+                    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'deleteUser':
+                    response = requestsJSON.deleteUser(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'getOrderbyMail':
-                    response = requestsJSON.getOrderbyMail(json_dir, data)
+                    print("order by email request")
+                    response = requestsJSON.getOrderbyMail(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
             except IOError:
                 self.send_error(404, "Something went wrong")
