@@ -6,7 +6,7 @@
                         <label>Anmelden:</label>
                         <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="E-Mail">
                         <input type="password" class="form-control" id="passwort" aria-describedby="emailHelp" placeholder="Passwort">
-                        <button id="anmeldebutton" type="button" onclick="anmelden()" class="btn orange-o75">Anmelden</button>
+                        <button id="anmeldebutton" type="button" onclick="login()" class="btn orange-o75">Anmelden</button>
                     </div>
                     <hr>
 
@@ -55,8 +55,8 @@
 
 
 
-                    <button id="bestelluebersicht" type="button" class="btn orange-o75">kostenpflichtig bestellen</button>
-                    <button id="bestellungloeschen" type="button" class="btn orange-o75">Löschen</button>
+                    <button id="bestelluebersicht" type="button" onclick="schreibe()" class="btn orange-o75">kostenpflichtig bestellen</button>
+                    <button id="bestellungloeschen" type="button" onclick="loeschen()" class="btn orange-o75">Löschen</button>
                     <output></output>
                 </form>
             </div>

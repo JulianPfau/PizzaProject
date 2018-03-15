@@ -5,11 +5,8 @@
 
 
     // click Event an Button anhängen
-            var elem = document.getElementById('bestelluebersicht');
-            elem.addEventListener('click', schreibe);
 
-            var del = document.getElementById('bestellungloeschen');
-            del.addEventListener('click', loeschen);
+
 
 
 
