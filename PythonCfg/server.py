@@ -12,7 +12,7 @@ from socketserver import ThreadingMixIn
 #from PythonCfg import ajaxGoogleAPI
 #from PythonCfg import requestsJSON
 #from PythonCfg import sessionid
-#import ajaxGoogleAPI
+import ajaxGoogleAPI
 import requestsJSON
 import sessionid
 
