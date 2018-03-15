@@ -12,19 +12,19 @@ Description: Template System is managing the main websites parts. The navigation
    These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
    refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
 // Cart site filepath
-var CART_URL    = "cart.html";
+var CART_URL    = "orderoverview.html";
 // Profile site filepath
 var PROFILE_URL = "user.html";
 // Opening Hours site filepath
 var HOURS_URL   = "hours.html";
 // Menu site filepath
-var MENU_URL    = "menu.html";
+var MENU_URL    = "index.html";
 // Ordering site filepath
 var ORDER_URL   = "order.html";
 // Login site filepath
-var LOGIN_URL   = "index.html";
+var LOGIN_URL   = "login.html";
 // Register site filepath
-var REGISTER_URL= "reg.html";
+var REGISTER_URL= "register.html";
 // 404 site filepath
 var E404_URL= "404.html";
 
@@ -44,6 +44,58 @@ var popupID = "#t_popup";
 var navigationID = "#t_navigation";
 // Main wrapper ID
 var MainID = "#main";
+
+
+/* ajax function */
+//Generic AJAX function which takes in the url to send the request to and the conten of the POST-request
+function t_ajax(index, content) {
+    var xhttp = new XMLHttpRequest();
+    var ret;
+    //Defines what happens when you receive an answer with status code 200
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText != "false") {
+                ret = this.responseText;
+            }
+        }
+    };
+
+    //Opens the Request in POST-Mode with the given URL
+    xhttp.open("POST", 'https://localhost:8080', false);
+
+    //Sends the request with the JSON in the POST
+    var data = Object();
+    data.request = index;
+    data.value = content;
+    xhttp.send(JSON.stringify(data));
+    return ret;
+}
+/* Login Function to be able to see the user that is logged in */
+//Sends the currently used Session ID to the server and returns if it is still valid
+function t_checkSID() {
+    var id = sessionStorage.getItem("SID");
+
+    if (id != null || id != "") {
+        var ret = JSON.parse(t_ajax("checkSID", {"sid": id}));
+    }
+    if(ret["STATUS"] == "OK"){
+        console.log("login successfully");
+    }else{
+        console.log("login failed");
+    }
+    return (ret["STATUS"] == "OK");
+}
+//Logs the user out by deleting the Session ID from the Session Storage
+function t_logout() {
+    var id = sessionStorage.getItem("SID");
+    if (id != null || id != "") {
+        var ret = JSON.parse(t_ajax("logout", {"sid": id}));
+        if(ret["STATUS"] == "OK"){
+            sessionStorage.removeItem('SID');
+            location.href = MENU_URL;
+        }
+    }
+}
 
 
 /* [T] Main Template Function */
@@ -77,6 +129,14 @@ function template(page) {
             case "orderconf":
                 // orderconf site
 				t_orderconf();
+				break;
+            case "menu":
+                // menu site
+				t_menu();
+				break;
+            case "orderoverview":
+                // orderoverview site
+				t_orderoverview();
 				break;
             case "404":
                 // 404 site
@@ -112,7 +172,7 @@ function showpreloader(){
 function hidepreloader(){
    setTimeout(function (){
        $(PreloaderID).fadeOut();
-   }, 1400);
+   }, 500);
 }
 
 
@@ -131,6 +191,7 @@ function t_navigation() {
     var NavigationFile = "navigation.html";
     
     $(navigationID).load(TemplatePath + NavigationFile, function () {
+        var logo = document.getElementById("logo");
         var hours = document.getElementById("hours");
         var state = document.getElementById("state");
         var cart = document.getElementById("cart");
@@ -138,13 +199,14 @@ function t_navigation() {
 		var menu = document.getElementById("menu");
         
         // inserts the page links into the navigation
+        logo.href = MENU_URL;
         hours.href = HOURS_URL;
         state.href = LOGIN_URL;
         cart.href = CART_URL;
         menu.href = MENU_URL;
         
         // if the user is logged in show the Profile name
-        if (checkSID()) {
+        if (t_checkSID()) {
             state.innerText = "Profil"; //sessionStorage.getItem('name');
             state.href = PROFILE_URL;
             logout.style.display = "block";
@@ -153,9 +215,9 @@ function t_navigation() {
 		}
         
         // if the localstorage of the cart exists, show the item amount
-        var cartstorage = localStorage.getItem("bestellung");
+        var cartstorage = sessionStorage.getItem("bestellung");
         if(cartstorage != null && cartstorage != undefined){
-            var amount = JSON.parse(cartstorage)["total"]; // cart local Storage
+            var amount = JSON.parse(cartstorage)["items"].length; // cart local Storage
             cart.innerText = amount + " | Warenkorb";
         }
         
@@ -261,5 +323,53 @@ function t_orderconf(){
         
         // run the site specific functions
         getdata();
+    });
+}
+
+/* [T] menu Template */
+function t_menu(){
+    // Filename of the menu Template
+    var menufile = "menu.html";
+    $.ajax({
+            url: TemplatePath + menufile,
+            async: false
+            }).done(function(data){
+        $(MainID).append(data);
+        
+        // run site specific functions
+        loadJSONfromServer("menu", createTablefromJSON);
+        controll();
+
+        function loadMenu(jsonData){
+            var json = jsonData["jsonData"];
+            console.log(json);
+            for ( var i = 0 ; i < json.length; i++){
+                var row = document.createElement("div");
+                row.setAttribute("class","row justify-content-md-center");
+                console.log(json[i]);
+
+            }
+
+        }
+    });
+}
+
+/* [T] orderoverview Template */
+function t_orderoverview(){
+    // Filename of the menu Template
+    var file = "orderoverview.html";
+    $.ajax({
+            url: TemplatePath + file,
+            async: false
+            }).done(function(data){
+        $(MainID).append(data);
+        
+        // site specific functions
+        var script = document.createElement("script");
+        script.src = "js/formularinput.js";
+        
+        document.head.append(script);
+        pizzenInListe();
+	    totalinListe();
     });
 }

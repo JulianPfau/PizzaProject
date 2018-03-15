@@ -30,7 +30,40 @@ oldsessionIDs = json.load(file)
 
 # creates a random number between 100 000 and 2 147 483 648
 def createSessionID():
-    return random.randrange(100000, 2147483648)
+    sid = random.randrange(100000, 2147483648)
+    ts = getTimeStamp()
+
+    # write the sid in the data base
+    file = open(json_dir + "sessionIDs.json")
+    jsonfile = json.load(file)
+    appenddata = {"sessionID": sid, "timestamp": ts}
+    jsonfile.append(appenddata)
+
+    file = open(json_dir + "sessionIDs.json", "w")
+    file.write(json.dumps(jsonfile))
+
+    return sid
+
+# removes the sid in the database
+def logout(sid):
+    # write the sid in the data base
+    file = open(json_dir + "sessionIDs.json")
+    jsonfile = json.load(file)
+    pos = 0
+    for id in jsonfile:
+        if str(id["sessionID"]) in str(sid):
+            break
+        pos += 1
+    del jsonfile[pos]
+
+    file = open(json_dir + "sessionIDs.json", "w")
+    file.write(json.dumps(jsonfile))
+
+    response = {
+        'STATUS': 'OK'
+    }
+    return json.dumps(response)
+
 
 
 # returns the current timestamp
@@ -43,42 +76,35 @@ def getTimeStamp():
 
 # a function to check if the user is still logged in or not
 # it will return true if the user is logged in, otherwise false
+# check if the SessionID is already stored in the database
+# the reason for that is ever use has his own and unique sessionID
+# so during the sessionID check the Client don't have to send data of the user.
 def checkSessionID(sessionID):
+    file = open(json_dir + "sessionIDs.json")
+    oldsessionIDs = json.load(file)
+
     # if the sessionID is stored
     i = 0
     while (i < len(oldsessionIDs)):
-        if (sessionID == oldsessionIDs[i]["sessionID"]):
+        if(str(oldsessionIDs[i]["sessionID"]) == str(sessionID)):
             sessiontimestamp = oldsessionIDs[i]["timestamp"]
             currenttimestamp = getTimeStamp()
+
+            print("found sid")
 
             # check if the session is still the lifetime range
             if (sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp):
                 # sessionID and timestamp is valid (User is logged in)
+                print("and sid is valid")
                 response = {
                     'STATUS': 'OK'
                 }
                 return json.dumps(response)
 
         i += 1
+
     # sessionID and timestamp is invalid (User is no longer logged in)
     response = {
         'STATUS': 'ERROR'
     }
     return json.dumps(response)
-
-
-# creates the sessionID
-sessionID = createSessionID()
-
-# check if the SessionID is already stored in the database
-# the reason for that is ever use has his own and unique sessionID
-# so during the sessionID check the Client don't have to send data of the user.
-while (sessionID in oldsessionIDs):
-    sessionID = createSessionID()
-
-timestamp = getTimeStamp()
-
-# the variables: timestamp and sessionID can now be used to store in the database
-#(sessionID)
-#print(timestamp)
-#print(checkSessionID(301480207))

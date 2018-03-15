@@ -81,7 +81,8 @@ var total = bestellung["total"];
 
 
 getJsonByRequest(getExtras, "extras");
-window.onload = function () {
+// moved cause template.js
+/*window.onload = function () {
 	pizzenInListe();
 	totalinListe();
-}
+}*/
