@@ -108,7 +108,7 @@ function loadJSONToTable(json, index) {
                 //Key-Codes which will be ignored
                 if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     //Activates the del changes button
-                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                     this.parentElement.setAttribute('class', 'td bg-warning');
                 }
             };
@@ -220,7 +220,7 @@ function loadJSONToTable(json, index) {
                 for (var k = 0; k < json[i].items.length; k++) {
                     items[k] = "";
                     if (json[i].items[k].count > 1)
-                        items[k] = json[i].items[k].count + "x "
+                        items[k] = json[i].items[k].count + "x ";
                     items[k] += json[i].items[k].name;
                 }
                 //Content from JSON to be displayed
@@ -290,6 +290,7 @@ function splitArray(array) {
  * Function to load Items into Popup on orders site
  *
  * @param json with the Items to be loaded
+ * @param indexOfSpan
  */
 function loadItems(json, indexOfSpan) {
     //get the table in wich should be loaded
@@ -331,7 +332,7 @@ function loadItems(json, indexOfSpan) {
             //Onchange event
             menuInhalt[n].onkeydown = function () {
                 if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                     this.parentElement.setAttribute('class', 'td bg-warning');
                 }
             };
@@ -423,7 +424,7 @@ function loadNewFooter(span) {
         var row = span.parentElement.parentElement;
         row.removeAttribute("id");
         row.parentElement.appendChild(row.cloneNode(true));
-        row.setAttribute("id", "footer")
+        row.setAttribute("id", "footer");
 
         //Empty all content and adds change Event
         //Removes the create new footer function
@@ -463,7 +464,7 @@ function loadNewFooter(span) {
 
 
 function saveExtrasPopup(btn) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");
     var extras = [];
@@ -493,7 +494,7 @@ function saveExtrasPopup(btn) {
 
 
 function saveContactPopup(index) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = document.getElementsByClassName("modal-body")[0].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
@@ -526,7 +527,7 @@ function saveContactPopup(index) {
 
 function saveContactOrdersPopup(index) {
     document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].setAttribute('class', 'td bg-warning');
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = document.getElementsByClassName("modal-body")[2].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
@@ -858,14 +859,11 @@ function checkEmptyField(element){
 }
 
 
-
-
-
-
 /**
  * Loads the Contact Content into the Popup
  *
  * @param json The JSON woch should be displayed
+ * @param index
  */
 function loadContact(json, index) {
     //Popup title is name of Contact
@@ -921,7 +919,7 @@ function loadContact(json, index) {
     document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
     document.getElementById("Phone").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };

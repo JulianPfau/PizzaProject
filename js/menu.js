@@ -32,7 +32,7 @@ function createTablefromJSON(rawData) {
         selAmount.setAttribute("onChange", "changePrice('" + i + "')");
 
         for (var k = 1; k < 10; k++) {
-            var option = document.createElement("option")
+            var option = document.createElement("option");
             option.setAttribute("value", k);
             option.innerHTML = k;
             selAmount.appendChild(option);
@@ -41,7 +41,7 @@ function createTablefromJSON(rawData) {
         btnOrder.setAttribute("class", "btn orange-o75 btn-primary btn-lg btn-success");
         btnOrder.setAttribute("data-toggle", "modal");
         btnOrder.setAttribute("data-target", "#basicModal");
-        btnOrder.setAttribute("onclick", "pizzaWahl(" + i + ");")
+        btnOrder.setAttribute("onclick", "pizzaWahl(" + i + ");");
         btnOrder.innerHTML = "zum Warenkorb hinzufügen";
         /*
         item row = col-12 col-md
@@ -168,7 +168,7 @@ function openExtras(element, index) {
         span.onkeydown = function () {
             var keys = [16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 45, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144, 145];
             if (!keys.includes(event.keyCode)) {
-                document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                 this.setAttribute('class', 'bg-warning');
             }
         };

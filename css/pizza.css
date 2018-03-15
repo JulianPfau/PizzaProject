@@ -6,11 +6,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    background-image: url("../img/pizza.png");
-    background-position: center;
     background-size: 64px;
-    background-repeat: no-repeat;
+    background: rgba(255, 255, 255, 0.9) url("../img/pizza.png") no-repeat center;
 }
 
 /* boxes */
@@ -27,7 +24,7 @@
 }
 
 .box {
-    box-shadow: 10px 10px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 10px 10px 0 rgba(255, 255, 255, 0.5);
     margin-top: 25px;
     animation: fadeIn ease;
     animation-duration: 1s;
@@ -45,7 +42,7 @@
 /* OVERRIDES */
 
 .btn {
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     transition: 0.4s;
 }
 
@@ -55,13 +52,17 @@
     transition: 0.4s;
 }
 
+a.btn.orange:hover {
+    color: #6d747a;
+}
+
 .btn.orange {
-    box-shadow: 5px 5px 0px rgba(225, 111, 85, 0.5) !important;
+    box-shadow: 5px 5px 0 rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
 .btn.orange:active {
-    box-shadow: 1px 1px 0px rgba(225, 111, 85, 0.5) !important;
+    box-shadow: 1px 1px 0 rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
@@ -86,7 +87,7 @@ input:focus {
 }
 
 .input-group-text input {
-    border-left-width: 0px !important;
+    border-left-width: 0 !important;
 }
 
 
@@ -124,12 +125,12 @@ input:focus {
 }
 
 .grey-o5 {
-    background-color: rgba(66, 66, 6, , 0.5) !important;
+    background-color: rgba(66, 66, 6, 0.5) !important;
     color: white;
 }
 
 .text-grey-o5 {
-    color: rgba(66, 66, 6, , 0.5) !important;
+    color: rgba(66, 66, 6, 0.5) !important;
 }
 
 .light-grey {

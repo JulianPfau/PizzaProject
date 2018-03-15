@@ -146,6 +146,10 @@ function template(page) {
                 // 401 site
 				t_401();
 				break;
+            case "hours":
+                // 401 site
+                t_hours();
+                break;
                 
             // every other page if nothing is called
             case undefined:
@@ -286,7 +290,7 @@ function t_users(){
                     }
 
                     var buttonthingy = $("<div>").load(TemplatePath + "orderAgainButtonTemplate.html");
-                    $("#orderHistory").append(buttonthingy);
+                    document.getElementById('orderHistory').append(buttonthingy);
                 }
             });
         }else{
@@ -307,6 +311,14 @@ function t_404(){
 function t_401(){
     // Filename of the 404 Template
     var errorfile = "401.html";
+
+    $(MainID).load(TemplatePath + errorfile);
+}
+
+/* [T] hours Template */
+function t_hours(){
+    // Filename of the hours Template
+    var errorfile = "hours.html";
 
     $(MainID).load(TemplatePath + errorfile);
 }

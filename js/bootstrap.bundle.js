@@ -2120,7 +2120,6 @@ function getOppositePlacement(placement) {
  * Get offsets to the popper
  * @method
  * @memberof Popper.Utils
- * @param {Object} position - CSS position the Popper will get applied
  * @param {HTMLElement} popper - the popper element
  * @param {Object} referenceOffsets - the reference offsets (the popper will be relative to this)
  * @param {String} placement - one of the valid placement options
@@ -2433,13 +2432,13 @@ function disableEventListeners() {
   }
 }
 
-/**
- * Tells if a given input is a number
- * @method
- * @memberof Popper.Utils
- * @param {*} input to check
- * @return {Boolean}
- */
+    /**
+     * Tells if a given input is a number
+     * @method
+     * @memberof Popper.Utils
+     * @return {Boolean}
+     * @param n
+     */
 function isNumeric(n) {
   return n !== '' && !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -2510,16 +2509,20 @@ function applyStyle(data) {
   return data;
 }
 
-/**
- * Set the x-placement attribute before everything else because it could be used
- * to add margins to the popper margins needs to be calculated to get the
- * correct popper offsets.
- * @method
- * @memberof Popper.modifiers
- * @param {HTMLElement} reference - The reference element used to position the popper
- * @param {HTMLElement} popper - The HTML element used as popper.
- * @param {Object} options - Popper.js options
- */
+    /**
+     * Set the x-placement attribute before everything else because it could be used
+     * to add margins to the popper margins needs to be calculated to get the
+     * correct popper offsets.
+     * @method
+     * @memberof Popper.modifiers
+     * @param {HTMLElement} reference - The reference element used to position the popper
+     * @param {HTMLElement} popper - The HTML element used as popper.
+     * @param {Object} options - Popper.js options
+     * @param modifierOptions
+     * @param state
+     * @param modifierOptions
+     * @param state
+     */
 function applyStyleOnLoad(reference, popper, options, modifierOptions, state) {
   // compute reference element offsets
   var referenceOffsets = getReferenceOffsets(state, popper, reference);
@@ -3682,7 +3685,6 @@ var Popper = function () {
    * @class Popper
    * @param {HTMLElement|referenceObject} reference - The reference element used to position the popper
    * @param {HTMLElement} popper - The HTML element used as popper.
-   * @param {Object} options - Your custom options to override the ones defined in [Defaults](#defaults)
    * @return {Object} instance - The generated Popper.js instance
    */
   function Popper(reference, popper) {

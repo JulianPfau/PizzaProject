@@ -32,7 +32,7 @@ function calcDistance(plz_user) {
 function ajaxPLZ(pizza, user) {
 	/**
 	 * Function requests (POST) distance from the server
-	 * and colours the inpud field red or green depending
+	 * and colours the input field red or green depending
 	 * on the response.
 	 *
 	 * Args:
@@ -70,7 +70,7 @@ function ajaxPLZ(pizza, user) {
         "plz_pizza": pizza,
         "plz_user": user
     };
-    parse = JSON.stringify(data);
+    var parse = JSON.stringify(data);
     xhttp.open("POST", "https://localhost:8080", true);
     xhttp.send(parse);
 

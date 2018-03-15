@@ -8,7 +8,7 @@ function getExtras(element, file){
 //function for getting all available extras
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         //readystate == 4       = Request is DONE
@@ -21,7 +21,7 @@ function getJsonByRequest(cFunction, file) {
         } else {
             //Nothing here, as this is called multiple times, even if it is successful.
         }
-    }
+    };
     //Initializes the request
     xhr.open('GET', url, false);
     //Sends the request
@@ -85,4 +85,4 @@ getJsonByRequest(getExtras, "extras");
 window.onload = function () {
 	pizzenInListe();
 	totalinListe();
-}
+};

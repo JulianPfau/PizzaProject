@@ -30,7 +30,7 @@ pdf_dir = server_root + "/pdf/"
 
 
 def saveJSON(request):
-    '''
+    """
     Saves a transmitted json to the specified file.
     !!Caution!! The file will be overwritten.
     Functions for future expansion to backup and restore 
@@ -45,7 +45,7 @@ def saveJSON(request):
     Returns:
         dict:   if successful: OK
                 Write not successful: Error    
-    '''
+    """
     global json_dir
     try:
         with open(json_dir + request["fileName"] + ".json", "w") as file:
@@ -64,7 +64,7 @@ def saveJSON(request):
 
 
 def jsondata(request):
-    '''
+    """
     Reads the whole json-string out of the specified file and sets
     ist as the response.
     
@@ -76,7 +76,7 @@ def jsondata(request):
     
     Returns:
         dict:   if successful: set the response to the containment of the file
-    '''
+    """
     try:
         global json_dir
         # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
@@ -93,7 +93,7 @@ def jsondata(request):
 
 
 def fileupload(request):
-    '''
+    """
     Function handles the image upload to the server.
     The file ist transmitted  via a base64 encoded string
     and on the server encodes it bag to the original format.
@@ -104,7 +104,7 @@ def fileupload(request):
     Return:
         dict    successful: OK, image path
                 else: error, image name
-    '''
+    """
     try:
         en_string = request['fileData']
         global img_dir
@@ -127,7 +127,7 @@ def fileupload(request):
 
 
 def pdfupload(request):
-    '''
+    """
     Handles the pdf upload. The pdf ist encoded with utf8
     and on the server decoded again.
     
@@ -137,7 +137,7 @@ def pdfupload(request):
     Return:
         dict    if successful: ok, path to directory
                 else: Error
-    '''
+    """
     try:
         pdf = request.decode("utf-8")
         global pdf_dir
@@ -159,21 +159,21 @@ def pdfupload(request):
 
 
 def imglist():
-    '''
+    """
     Lists all the on the server stored pictures.
     
     Args:
     
     Return:
         dict    List of the Pictures as a json-string
-    '''
+    """
     global img_dir
     imglist = os.listdir(server_root + "/img/menu/")
     return json.dumps(imglist)
 
 
 def login(request):
-    '''
+    """
     Handles the login of the server and creates a session id.
     
     Args:
@@ -188,7 +188,7 @@ def login(request):
     Return:
         if successful: OK, SessionId
         else: False
-    '''
+    """
     try:
         global json_dir
         with open(json_dir + "customers.json") as json_data:
@@ -212,7 +212,7 @@ def login(request):
 
 
 def register(request):
-    '''
+    """
     Handles a register request to the server.
     Function tests if email address is already registered.
     If not the new account information are stored.
@@ -241,7 +241,7 @@ def register(request):
         if email exist: Error
         if successful stored: Ok
         else: Error
-    '''
+    """
     global json_dir
 
     try:
@@ -252,17 +252,17 @@ def register(request):
             found = False
 
             for contact in contacts:
-                if (value["email"] == contact["email"]):
+                if value["email"] == contact["email"]:
                     response = {
                         'STATUS': 'ERROR'
                     }
                     found = True
                     break
 
-                if (number < int(contact["id"])):
+                if number < int(contact["id"]):
                     number = int(contact["id"])
 
-            if (not found):
+            if not found:
                 data = {
                     "id": (number + 1),
                     "firstname": value["firstname"],
@@ -297,7 +297,7 @@ def register(request):
 
 
 class MyServer(http.server.BaseHTTPRequestHandler):
-    '''
+    """
     Serverclass, handles all the requests made by clients.
     
     Args:
@@ -308,12 +308,12 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             different webpages via "get"
             different actions via "post"
             error messages,...
-    '''
+    """
     key = "Basic:test"  # Benutzer & Kennwort für admin Bereich
     key = base64.b64encode(bytes(key, "UTF8"))
 
     def do_AUTHHEAD(self):
-        '''
+        """
         Sends a error message by a wrong authentication.
         
         Args:
@@ -322,7 +322,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Return:
             Error 401
-        '''
+        """
         print("send header")
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"test\"')
@@ -330,7 +330,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        '''
+        """
         Handles the "GET" requests to the server.
         And a basic authentication for the admin page.
         
@@ -340,11 +340,11 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Return:
             different webpages to the client
-        '''
+        """
         global server_root
         # rootdir = server_root
 
-        if (self.path == "/"):
+        if self.path == "/":
             self.path = "/index.html"
         
         '''
@@ -356,13 +356,13 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             self.path += ".html"
 
         mime, encoding = mimetypes.guess_type(self.path)
-        if ("admin" in self.path):
+        if "admin" in self.path:
             if ('Basic ' + MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers[
-                'Authorization'] == None):
+                'Authorization'] is None):
                 self.do_AUTHHEAD()
                 self.wfile.write(bytes(open(server_root + "/401.html").read(), "UTF8"))
                 pass
-            elif (self.headers['Authorization'] in 'Basic ' + MyServer.key.decode("utf-8")):
+            elif self.headers['Authorization'] in 'Basic ' + MyServer.key.decode("utf-8"):
                 print("passed")
                 self.__set_header(mime)
                 self.__getfile(self.path, encoding, mime)
@@ -373,7 +373,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             pass
 
     def __getfile(self, path, encoding, mime):
-        '''
+        """
         Loads requested files and sends it to the customer.
         
         Args:
@@ -382,7 +382,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             path (str)    : contains the requested path
             encoding (str): if given: contains the encoding
             mime (str)    : holds information of the mime-type
-        '''
+        """
         global server_root
         try:
             if encoding is None:
@@ -396,7 +396,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             self.wfile.write(bytes(open(server_root + "/404.html").read(), "UTF8"))
 
     def __set_header(self, mime):
-        '''
+        """
         Sets the header for a response to the client
         if the request was successful.
         
@@ -407,7 +407,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Return:
             Code 200, mimetype
-        '''
+        """
         self.send_response(200)
         self.send_header('Content-type', mime)
         self.end_headers()
@@ -418,8 +418,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         return "OK"
 
-    def __convertHTML(self, path, encoding='UTF8'):
-        '''
+    @staticmethod
+    def __convertHTML(path, encoding='UTF8'):
+        """
         Converts a html file to bytes.
         
         Args:
@@ -431,11 +432,11 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Return:
             encoded file content
-        '''
+        """
         return bytes(open(path, 'r').read(), encoding)
 
     def do_POST(self):
-        '''
+        """
         Handles the "POST" requests to the server
         based on the information stored in the "request" 
         segment of the request.
@@ -446,7 +447,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Return:
             different informations to the client 
-        '''
+        """
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.send_header('Access-Control-Allow-Origin', '*  ')
@@ -500,11 +501,11 @@ class MyServer(http.server.BaseHTTPRequestHandler):
             except IOError:
                 self.send_error(404, "Something went wrong")
         except json.decoder.JSONDecodeError:
-            pdfupload(request);
+            pdfupload(request)
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
-    '''
+    """
     Handles the multithreading of the webserver.
     
     Agrs:
@@ -512,7 +513,7 @@ class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
         http.server.HTTPServer (handler)
     
     return:
-    '''
+    """
     pass
 
 if __name__ == '__main__':

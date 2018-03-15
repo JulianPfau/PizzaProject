@@ -4,11 +4,11 @@
  */
 
 
-
 /**
  * Loads JSON content to Contacts on orders site
  *
  * @param json wich should be displayed in Popup
+ * @param index
  */
 function loadContactOrder(json, index) {
 
@@ -22,7 +22,7 @@ function loadContactOrder(json, index) {
     //Change Event
     document.getElementById("modalContactsTitle").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
@@ -30,42 +30,42 @@ function loadContactOrder(json, index) {
     document.getElementById("Name").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].firstElementChild.innerHTML = document.getElementById("Name").innerHTML;
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
     document.getElementById("Postcode").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
     document.getElementById("Street").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
     document.getElementById("City").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
     document.getElementById("Nr").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
     document.getElementById("Phone").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
@@ -155,7 +155,7 @@ function fillItems(btn, json) {
  *  Last Change:    6.3.2018            Author:     Nickels Witte
  */
 function storeItemsInOrders(indexOfSpan) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
 
     //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
@@ -409,7 +409,7 @@ function storeItemsInOrders(indexOfSpan) {
 
             //For the case of anything else
         } else {
-            alert("There is an unknown error with the items menu.")
+            alert("There is an unknown error with the items menu.");
             document.getElementById("closeModalItems").click();
         }
 

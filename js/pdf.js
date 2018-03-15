@@ -21,7 +21,7 @@ console.log(order);
     doc.text(10, 45, "Bestellung Nr. " + order.id);
 
     doc.setFontSize(20);
-    doc.text(5, 55, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+    doc.text(5, 55, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
     doc.setFontSize(15);
     doc.text(10, 65, "Kontakt:");
@@ -31,7 +31,7 @@ console.log(order);
     doc.text(20, 91, order.contact.phone);
 
     doc.setFontSize(20);
-    doc.text(5, 100, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+    doc.text(5, 100, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
     doc.setFontSize(15);
     doc.text(10, 110, "Stueck");
@@ -59,14 +59,14 @@ console.log(order);
     }
 
     doc.setFontSize(20);
-    doc.text(5, off + 3, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+    doc.text(5, off + 3, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
     doc.setFontSize(15);
     doc.text(143, off + 12, "Gesamtbetrag:");
     doc.text(184, off + 12, order.total + "");
 
     doc.setFontSize(20);
-    doc.text(5, off + 20, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+    doc.text(5, off + 20, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
     var data = new FormData();
     data.append("order" + order.id + ".pdf", doc.output());

@@ -123,9 +123,7 @@
     function loeschen() {
         sessionStorage.removeItem("bestellung");
         location.href="https://localhost:8080/index.html";
-    };
-
-
+    }
 //});
 
 

@@ -113,7 +113,7 @@ function isEmail(email) {
         return (true);
     }
     //Informs the User
-    popup("E-Mail nicht gültig")
+    popup("E-Mail nicht gültig");
     return (false);
 }
 

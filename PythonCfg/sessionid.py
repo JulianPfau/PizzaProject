@@ -84,15 +84,15 @@ def checkSessionID(sessionID):
 
     # if the sessionID is stored
     i = 0
-    while (i < len(oldsessionIDs)):
-        if(str(oldsessionIDs[i]["sessionID"]) == str(sessionID)):
+    while i < len(oldsessionIDs):
+        if str(oldsessionIDs[i]["sessionID"]) == str(sessionID):
             sessiontimestamp = oldsessionIDs[i]["timestamp"]
             currenttimestamp = getTimeStamp()
 
             print("found sid")
 
             # check if the session is still the lifetime range
-            if (sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp):
+            if sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp:
                 # sessionID and timestamp is valid (User is logged in)
                 print("and sid is valid")
                 response = {

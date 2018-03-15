@@ -5,7 +5,7 @@
 }
 
 .box{
-    box-shadow: 10px 10px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 10px 10px 0 rgba(255, 255, 255, 0.5);
     margin-top: 25px;
     animation: fadeIn ease;
     animation-duration: 1s;
@@ -26,7 +26,7 @@
     border-radius: 4px !important;
     transition: 0.4s;
 	box-shadow: none;
-	border-color:none;
+	/*border-color: none;*/
 	margin-left: 100px;
 }
 
@@ -37,12 +37,12 @@
 }
 
 .btn.orange {
-	box-shadow: 5px 5px 0px rgba(225, 111, 85, 0.5) !important;
+	box-shadow: 5px 5px 0 rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
 .btn.orange:active {
-	box-shadow: 1px 1px 0px rgba(225, 111, 85, 0.5) !important;
+	box-shadow: 1px 1px 0 rgba(225, 111, 85, 0.5) !important;
     transition: 0.4s;
 }
 
@@ -97,12 +97,12 @@ input{
 }
 
 .grey-o5{
-    background-color: rgba(66, 66, 6,, 0.5);
+    background-color: rgba(66, 66, 6, 0.5);
     color: white;
 }
 
 .text-grey-o5{
-    color: rgba(66, 66, 6,, 0.5);
+    color: rgba(66, 66, 6, 0.5);
 }
 
 .light-grey{

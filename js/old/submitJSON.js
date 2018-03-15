@@ -91,7 +91,7 @@ function loadJSONToTable(json, index) {
                 //Key-Codes which will be ignored
                 if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
                     //Activates the del changes button
-                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                     this.parentElement.setAttribute('class', 'td bg-warning');
                 }
             };
@@ -203,7 +203,7 @@ function loadJSONToTable(json, index) {
                 for (var k = 0; k < json[i].items.length; k++) {
                     items[k] = "";
                     if (json[i].items[k].count > 1)
-                        items[k] = json[i].items[k].count + "x "
+                        items[k] = json[i].items[k].count + "x ";
                     items[k] += json[i].items[k].name;
                 }
                 //Content from JSON to be displayed
@@ -246,11 +246,11 @@ function loadJSONToTable(json, index) {
 }
 
 
-
 /**
  * Loads the Contact Content into the Popup
  *
  * @param json The JSON woch should be displayed
+ * @param index
  */
 function loadContact(json, index) {
     //Popup title is name of Contact
@@ -306,7 +306,7 @@ function loadContact(json, index) {
     document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
     document.getElementById("Phone").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
@@ -316,6 +316,7 @@ function loadContact(json, index) {
  * Loads JSON content to Contacts on orders site
  *
  * @param json wich should be displayed in Popup
+ * @param index
  */
 function loadContactOrder(json, index) {
 
@@ -329,7 +330,7 @@ function loadContactOrder(json, index) {
     //Change Event
     document.getElementById("modalContactsTitle").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
@@ -337,42 +338,42 @@ function loadContactOrder(json, index) {
     document.getElementById("Name").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].firstElementChild.innerHTML = document.getElementById("Name").innerHTML;
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Postcode").innerHTML = (json.postcode == "") ? "None" : json.postcode;
     document.getElementById("Postcode").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Street").innerHTML = (json.street == "") ? "None" : json.street;
     document.getElementById("Street").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("City").innerHTML = (json.city == "") ? "None" : json.city;
     document.getElementById("City").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Nr").innerHTML = (json.nr == "") ? "None" : json.nr;
     document.getElementById("Nr").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
     document.getElementById("Phone").innerHTML = (json.phone == "") ? "None" : json.phone;
     document.getElementById("Phone").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-            document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
@@ -412,7 +413,7 @@ function loadExtras(product, index) {
         span.innerHTML = " " + extras[i].name;
         span.onkeydown = function () {
             if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-                document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                 this.parentElement.setAttribute('class', 'td bg-warning');
             }
         };
@@ -446,6 +447,7 @@ function getExtras(json) {
  * Function to load Items into Popup on orders site
  *
  * @param json with the Items to be loaded
+ * @param indexOfSpan
  */
 function loadItems(json, indexOfSpan) {
     //get the table in wich should be loaded
@@ -487,7 +489,7 @@ function loadItems(json, indexOfSpan) {
             //Onchange event
             menuInhalt[n].onkeydown = function () {
                 if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
-                    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+                    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
                     this.parentElement.setAttribute('class', 'td bg-warning');
                 }
             };
@@ -638,7 +640,7 @@ function loadNewFooter(span) {
         var row = span.parentElement.parentElement;
         row.removeAttribute("id");
         row.parentElement.appendChild(row.cloneNode(true));
-        row.setAttribute("id", "footer")
+        row.setAttribute("id", "footer");
 
         //Empty all content and adds change Event
         //Removes the create new footer function
@@ -702,7 +704,7 @@ function loadNewFooter(span) {
  *  Last Change:    6.3.2018            Author:     Nickels Witte
  */
 function storeItemsInOrders(indexOfSpan) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
 
     //Getting the table of the modal window
     var tableOfItemsModal = document.getElementById("modal-table");
@@ -817,7 +819,7 @@ function storeItemsInOrders(indexOfSpan) {
 
                         //Getting the span element of the extras, for calculating their price
                         var extraElement = entriesOfTable[i2].children[i3 + 1].children[0];
-                        var extraCost = parseFloat(calcExtrasPrice(extraElement));
+                        var extraCost = calcExtrasPrice(parseFloat(extraElement));
 
                         //The price is still a string in the beginning. It is then trimmed, parsed to Float and rounded.
                         var priceToSave = precisionRound(parseFloat(currentElement.innerHTML.trim()), 2);
@@ -957,7 +959,7 @@ function storeItemsInOrders(indexOfSpan) {
 
             //For the case of anything else
         } else {
-            alert("There is an unknown error with the items menu.")
+            alert("There is an unknown error with the items menu.");
             document.getElementById("closeModalItems").click();
         }
 
@@ -989,7 +991,7 @@ function storeItemsInOrders(indexOfSpan) {
 }
 
 function saveExtrasPopup(btn) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");
     var extras = [];
@@ -1018,7 +1020,7 @@ function saveExtrasPopup(btn) {
 }
 
 function saveContactPopup(index) {
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = document.getElementsByClassName("modal-body")[0].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
@@ -1049,7 +1051,7 @@ function saveContactPopup(index) {
 
 function saveContactOrdersPopup(index) {
     document.getElementsByClassName('tr menuElement')[index].getElementsByClassName('td')[5].setAttribute('class', 'td bg-warning');
-    document.getElementById("reload").setAttribute("class", "btn btn-lg active")
+    document.getElementById("reload").setAttribute("class", "btn btn-lg active");
     var modal = document.getElementsByClassName("modal-body")[2].firstElementChild.getElementsByClassName('tr')[1];
     var json = "{";
 
