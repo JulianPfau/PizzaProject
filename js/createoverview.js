@@ -28,6 +28,7 @@ function getJsonByRequest(cFunction, file) {
     xhr.send(null);
 }
 
+
 //this function add every single pizza in a list on the html site
 function pizzenInListe(){
 		for (i in pizzen){
@@ -83,7 +84,3 @@ var total = bestellung["total"];
 
 
 getJsonByRequest(getExtras, "extras");
-window.onload = function () {
-	pizzenInListe();
-	totalinListe();
-};
