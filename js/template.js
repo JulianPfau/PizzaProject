@@ -371,7 +371,7 @@ function t_orderoverview(){
         
         // site specific functions
         var script = document.createElement("script");
-        script.src = "js/formularinput.js";
+        script.src = "js/formularinput.js";       
         
         document.head.append(script);
         pizzenInListe();
