@@ -1,10 +1,11 @@
-//globale Variable setzen
+//set global variable
 var alleextras;
 
 function getExtras(element, file){
 	 alleextras = element;
 	}
 
+//function for getting all available extras
 function getJsonByRequest(cFunction, file) {
     var url = "https://localhost:8080/json/" + file + ".json";
     var xhr = new XMLHttpRequest()
@@ -27,6 +28,7 @@ function getJsonByRequest(cFunction, file) {
     xhr.send(null);
 }
 
+//this function add every single pizza in a list on the html site
 function pizzenInListe(){
 		for (i in pizzen){
 		var name = pizzen[i]["name"];
@@ -46,21 +48,19 @@ function pizzenInListe(){
 				extratext += " und " + extra ;
 			}	
 		}
-		
-		
-		//bestelltext f�r einzelne pizza erstellen
+		//create an order text for every single pizza
 		var bestellungstext = count + " x" + " " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
 	
-		//text zur liste auf der html seite hinzuf�gen
+		//add the order text to the list
 		var listItem = document.createElement("li");
 		listItem.innerText = bestellungstext;
 		var list = document.getElementById("bestellliste");
 		list.appendChild(listItem);
 		}
 	}
-	
+
 function totalinListe(){
-		//gesamtpreis in liste auf html seite hinzuf�gen
+		//finally add the total price to the list
 		total = "Zusammen: " + total + " \u20AC";
 		var listItem = document.createElement("li");
 		listItem.innerText = total;

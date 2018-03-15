@@ -1,45 +1,5 @@
+//set global variable
 var konten;
-getJsonByRequest(getCustomers, "customers");
-
-
-function anmelden(){
-	var email = document.getElementById("email").value;
-	var passwort = document.getElementById("passwort").value;
-	var vorhanden = false;
-	for (var i in konten){
-		if (konten[i]["email"] == email && konten[i]["password"] == passwort){
-			vorhanden = true;
-			var kontaktdaten = konten[i]["contact"];
-			ausfuellen(kontaktdaten);
-		}	
-	}
-	if (vorhanden == false){
-		alert("E-Mail oder Passwort falsch");
-	}
-	
-}
-
-function ausfuellen(kontaktdaten){
-	var name = kontaktdaten["name"];
-	name = name.split(" ");
-	var firstname = name[0];
-	var lastname = name[1];
-	var postcode = kontaktdaten["postcode"];
-	var street = kontaktdaten["street"];
-	var city = kontaktdaten["city"];
-	var nr = kontaktdaten["nr"];
-	var phone = kontaktdaten["phone"];
-	
-	document.getElementById("firstname").value = firstname;
-	document.getElementById("lastname").value = lastname;
-	document.getElementById("street").value = street;
-	document.getElementById("nr").value = nr;
-	document.getElementById("postcode").value = postcode;
-	document.getElementById("town").value = city;
-	document.getElementById("phone").value = phone;
-	
-}
-
 
 function getCustomers(element, file){
 	 konten = element;
@@ -66,4 +26,49 @@ function getJsonByRequest(cFunction, file) {
     //Sends the request
     xhr.send(null);
 }
+
+//function which checks wheater the email and pw are like them in the user library
+function anmelden(){
+	var email = document.getElementById("email").value;
+	var passwort = document.getElementById("passwort").value;
+	var vorhanden = false;
+	for (var i in konten){
+		if (konten[i]["email"] == email && konten[i]["password"] == passwort){
+			vorhanden = true;
+			var kontaktdaten = konten[i]["contact"];
+			ausfuellen(kontaktdaten);
+		}	
+	}
+	if (vorhanden == false){
+		alert("E-Mail oder Passwort falsch");
+	}
+}
+
+//this function fullfills the formular on the html page with the correct user datas
+function ausfuellen(kontaktdaten){
+	var name = kontaktdaten["name"];
+	name = name.split(" ");
+	var firstname = name[0];
+	var lastname = name[1];
+	var postcode = kontaktdaten["postcode"];
+	var street = kontaktdaten["street"];
+	var city = kontaktdaten["city"];
+	var nr = kontaktdaten["nr"];
+	var phone = kontaktdaten["phone"];
+	
+	document.getElementById("firstname").value = firstname;
+	document.getElementById("lastname").value = lastname;
+	document.getElementById("street").value = street;
+	document.getElementById("nr").value = nr;
+	document.getElementById("postcode").value = postcode;
+	document.getElementById("town").value = city;
+	document.getElementById("phone").value = phone;
+	
+}
+
+
+getJsonByRequest(getCustomers, "customers");
+
+
+
 
