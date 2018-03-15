@@ -98,7 +98,7 @@ def appendOrder(json_dir, request):
 				extras_item = findExtrainExtras(extras, extra)
 				price_total += extras_item["price"] * int(item["count"])
 		
-		request['jsonData']['total'] = price_total
+		request['jsonData']['total'] = rount(price_total, 2)
 	except IOError:
 		response = {
 			'STATUS': 'ERROR'
