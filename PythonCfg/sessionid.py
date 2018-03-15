@@ -65,7 +65,6 @@ def logout(sid):
     return json.dumps(response)
 
 
-
 # returns the current timestamp
 # to read the timestamp in a YYYY-MM-DD HH:MM:SS format
 # use this: datetime.datetime.fromtimestamp(TIMESTAMP).strftime('%Y-%m-%d %H:%M:%S')

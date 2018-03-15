@@ -226,9 +226,10 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
-                menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : json[i].total;
-                menuInhalt[4].innerHTML = (json[i].customerid == "") ? "None" : json[i].customerid;
-                menuInhalt[5].innerHTML = (json[i].contact.name == "") ? "None" : json[i].contact.name;
+                console.log(json[i].contact.name);
+                menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : precisionRound(parseFloat(json[i].total),2);
+                menuInhalt[4].innerHTML = (json[i].customerid == undefined) ? "None" : json[i].customerid;
+                menuInhalt[5].innerHTML = (json[i].contact.name == " ") ? "None" : json[i].contact.name;
                 if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
