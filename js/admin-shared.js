@@ -687,9 +687,10 @@ function saveTableToServer(table) {
                         value = node.firstChild.value;
                     } else {
                         value = node.firstChild.innerHTML;
-                        if ((key == "extras" || key == "sizes") && (value == "" || value == "None")) {
-                            value = [];
-                        }
+
+                    if ((key == "extras" || key == "sizes")) {
+                        value = node.firstChild.innerText;
+                    }
                     }
                     if (value) {
                         if (value.includes(";")) {
@@ -700,6 +701,10 @@ function saveTableToServer(table) {
                                 }
                             }
                         }
+                    }
+
+                    if (value == "None"){
+                        value = "";
                     }
                     objElement[key] = value;
                 }
@@ -749,6 +754,7 @@ function saveTableToServer(table) {
             }
             break;
     }
+
     sendJSONtoServer(json,table);
     location.reload();
 }
