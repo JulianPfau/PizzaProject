@@ -78,7 +78,7 @@ function pizzaWahl ( x ) {
     //calculate the ExtraIds like they are in extras.json
     var extraIds = [];
     for ( var k = 0; k<extras.length; k++) {
-      var id = possibleExtras[k];
+      var id = possibleExtras[extras[k]];
       extraIds.push(id);
     }
     //calculate price for all chosen extras
