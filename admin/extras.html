@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
 
 
+    <title>PizzaProjekt - Verwaltung Extras</title>
 
-        <title>PizzaProjekt - Verwaltung Extras</title>
+    <!-- Style -->
+    <link rel="icon" href="../img/favicon.ico">
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/admin.css" rel="stylesheet"/>
 
-        <!-- Style -->
-        <link rel="icon" href="../img/favicon.ico">
-        <link href="../css/bootstrap.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="../css/admin.css" rel="stylesheet" />
+    <!-- Libraries -->
+    <script src="../js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
 
-        <!-- Libraries -->
-        <script src="../js/jquery-3.3.1.slim.min.js"></script>
-        <script src="../js/bootstrap.js"></script>
-
-        <!-- Javascript -->
-        <script src="../js/admin-shared.js"></script>
-    </head>
+    <!-- Javascript -->
+    <script src="../js/admin-shared.js"></script>
+</head>
 <body>
 <div class="container">
     <div class="topnav" id="navbar">
@@ -45,14 +44,17 @@
             <div class="td">Price</div>
         </div>
         <div class="tr menuElement" id="footer">
-            <div class="td" ></div>
-            <div class="td" id="id"><span class="Input footer" id="ID" contenteditable="true" onblur="loadNewFooter(this);"></span></div>
+            <div class="td"></div>
+            <div class="td" id="id"><span class="Input footer" id="ID" contenteditable="true"
+                                          onblur="loadNewFooter(this);"></span></div>
             <div class="td" id="name"><span class="Input footer" id="Name" contenteditable="true"></span></div>
             <div class="td" id="preis"><span class="Input footer" id="Preis" contenteditable="true"></span></div>
         </div>
     </div>
-    <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('extras');">Speichern</a>
-    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
+    <a class="btn btn-lg active" role="button" aria-pressed="true"
+       onclick="if (confirm('Save all changes?') == true) saveTableToServer('extras');">Speichern</a>
+    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true"
+       onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
 
 

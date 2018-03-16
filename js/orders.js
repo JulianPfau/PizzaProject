@@ -104,7 +104,6 @@ function dropdownItems(json) {
 }
 
 
-
 /**
  * Function to add content to the Dropdown MEnu in orders
  *
@@ -122,10 +121,6 @@ function fillItems(btn, json) {
     row[3].firstChild.innerHTML = json.prices[json.prices.length - 1];
     row[3].firstChild.parentElement.setAttribute('class', 'td bg-warning');
 }
-
-
-
-
 
 
 /*
@@ -437,7 +432,6 @@ function storeItemsInOrders(indexOfSpan) {
         document.getElementById("closeModalItems").click();
     }
 }
-
 
 
 /**

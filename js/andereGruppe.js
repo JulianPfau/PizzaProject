@@ -4,7 +4,7 @@ function login(json) {
     var data = new Object();
     data.request = "login";
     data.value = json;
-    xhttp.open("POST","https://localhost:8080",false);
+    xhttp.open("POST", "https://localhost:8080", false);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(JSON.stringify(data));
 
@@ -17,7 +17,7 @@ function register(json) {
     var data = new Object();
     data.request = "register";
     data.value = json;
-    xhttp.open("POST","https://localhost:8080",false);
+    xhttp.open("POST", "https://localhost:8080", false);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(JSON.stringify(data));
 

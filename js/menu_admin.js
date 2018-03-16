@@ -193,7 +193,6 @@ function extendTable() {
 }
 
 
-
 function savePopup(btn) {
     var modal = btn.parentElement.parentElement.getElementsByClassName("modal-body")[0];
     var list = modal.getElementsByTagName("label");

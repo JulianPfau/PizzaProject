@@ -12,21 +12,21 @@ Description: Template System is managing the main websites parts. The navigation
    These variables contain the filepath of the different websites. Those will be used to mainpulate links in the template to
    refere to the correct page. (This means if sitename/filename changes, you only have change these variables.)*/
 // Cart site filepath
-var CART_URL    = "orderoverview.html";
+var CART_URL = "orderoverview.html";
 // Profile site filepath
 var PROFILE_URL = "user.html";
 // Opening Hours site filepath
-var HOURS_URL   = "hours.html";
+var HOURS_URL = "hours.html";
 // Menu site filepath
-var MENU_URL    = "index.html";
+var MENU_URL = "index.html";
 // Ordering site filepath
-var ORDER_URL   = "order.html";
+var ORDER_URL = "order.html";
 // Login site filepath
-var LOGIN_URL   = "login.html";
+var LOGIN_URL = "login.html";
 // Register site filepath
-var REGISTER_URL= "register.html";
+var REGISTER_URL = "register.html";
 // 404 site filepath
-var E404_URL= "404.html";
+var E404_URL = "404.html";
 
 
 /* Template Directory Path
@@ -47,6 +47,7 @@ var MainID = "#main";
 
 
 /* ajax function */
+
 //Generic AJAX function which takes in the url to send the request to and the conten of the POST-request
 function t_ajax(index, content) {
     var xhttp = new XMLHttpRequest();
@@ -70,7 +71,9 @@ function t_ajax(index, content) {
     xhttp.send(JSON.stringify(data));
     return ret;
 }
+
 /* Login Function to be able to see the user that is logged in */
+
 //Sends the currently used Session ID to the server and returns if it is still valid
 function t_checkSID() {
     var id = sessionStorage.getItem("SID");
@@ -78,19 +81,20 @@ function t_checkSID() {
     if (id != null || id != "") {
         var ret = JSON.parse(t_ajax("checkSID", {"sid": id}));
     }
-    if(ret["STATUS"] == "OK"){
+    if (ret["STATUS"] == "OK") {
         console.log("login successfully");
-    }else{
+    } else {
         console.log("login failed");
     }
     return (ret["STATUS"] == "OK");
 }
+
 //Logs the user out by deleting the Session ID from the Session Storage
 function t_logout() {
     var id = sessionStorage.getItem("SID");
     if (id != null || id != "") {
         var ret = JSON.parse(t_ajax("logout", {"sid": id}));
-        if(ret["STATUS"] == "OK"){
+        if (ret["STATUS"] == "OK") {
             sessionStorage.removeItem('SID');
             sessionStorage.removeItem('email');
             location.href = MENU_URL;
@@ -100,21 +104,22 @@ function t_logout() {
 
 
 /* [T] Main Template Function */
+
 /* Template Main Function
    On every site this function has to be called to let the Template System work.
    At the pageload it will manage the site.
    If you want to run a specific website you have to add the page name as a string. Otherwise leave the parameter clear.*/
 function template(page) {
     window.onload = function () {
-        
+
         // main functions that goning to be exectuted if the template system is called.
         // adds the navigation
         t_navigation();
         // adds the popup template
         t_popup();
-        
+
         // Page names that gonna execute certain template functions
-        switch(page){
+        switch (page) {
             case "login":
                 // Login site
                 t_login();
@@ -125,33 +130,33 @@ function template(page) {
                 break;
             case "users":
                 // User site
-				t_users();
-				break;
+                t_users();
+                break;
             case "orderconf":
                 // orderconf site
-				t_orderconf();
-				break;
+                t_orderconf();
+                break;
             case "menu":
                 // menu site
-				t_menu();
-				break;
+                t_menu();
+                break;
             case "orderoverview":
                 // orderoverview site
-				t_orderoverview();
-				break;
+                t_orderoverview();
+                break;
             case "404":
                 // 404 site
-				t_404();
-				break;
+                t_404();
+                break;
             case "401":
                 // 401 site
-				t_401();
-				break;
+                t_401();
+                break;
             case "hours":
                 // 401 site
                 t_hours();
                 break;
-                
+
             // every other page if nothing is called
             case undefined:
             case "":
@@ -160,24 +165,25 @@ function template(page) {
             default:
                 break;
         }
-        
+
         // hides the preloader
         hidepreloader();
-        
+
     }
 }
 
 /* [T] Preloader Template */
+
 // show the preloader
-function showpreloader(){
+function showpreloader() {
     $(PreloaderID).fadeIn();
 }
 
 //hide the preloader
-function hidepreloader(){
-   setTimeout(function (){
-       $(PreloaderID).fadeOut();
-   }, 500);
+function hidepreloader() {
+    setTimeout(function () {
+        $(PreloaderID).fadeOut();
+    }, 500);
 }
 
 
@@ -186,7 +192,7 @@ function hidepreloader(){
 function t_popup() {
     // Filename of the Popup Template
     var PopupFile = "popup.html";
-    
+
     $(popupID).load(TemplatePath + PopupFile);
 }
 
@@ -194,94 +200,94 @@ function t_popup() {
 function t_navigation() {
     // Filename of the Naviagtion Template
     var NavigationFile = "navigation.html";
-    
+
     $(navigationID).load(TemplatePath + NavigationFile, function () {
         var logo = document.getElementById("logo");
         var hours = document.getElementById("hours");
         var state = document.getElementById("state");
         var cart = document.getElementById("cart");
         var logout = document.getElementById("logout");
-		var menu = document.getElementById("menu");
-        
+        var menu = document.getElementById("menu");
+
         // inserts the page links into the navigation
         logo.href = MENU_URL;
         hours.href = HOURS_URL;
         state.href = LOGIN_URL;
         cart.href = CART_URL;
         menu.href = MENU_URL;
-        
+
         // if the user is logged in show the Profile name
         if (t_checkSID()) {
             state.innerText = "Profil"; //sessionStorage.getItem('name');
             state.href = PROFILE_URL;
             logout.style.display = "block";
-        }else{
-			logout.style.display = "none";
-		}
-        
+        } else {
+            logout.style.display = "none";
+        }
+
         // if the localstorage of the cart exists, show the item amount
         var cartstorage = sessionStorage.getItem("bestellung");
-        if(cartstorage != null && cartstorage != undefined){
+        if (cartstorage != null && cartstorage != undefined) {
             var amount = JSON.parse(cartstorage)["items"].length; // cart local Storage
             cart.innerText = amount + " | Warenkorb";
         }
-        
+
     });
 }
 
 
 /* [T] Login Template */
-function t_login(){
+function t_login() {
     // Filename of the Login Template
     var LoginFile = "login.html";
 
-    $(MainID).load(TemplatePath + LoginFile, function (){
+    $(MainID).load(TemplatePath + LoginFile, function () {
         // changes the register link in the template
         document.getElementById("t_link_register").href = REGISTER_URL;
     });
 }
 
 /* [T] Register Template */
-function t_register(){
+function t_register() {
     // Filename of the Register Template
     var Registerile = "register.html";
 
-    $(MainID).load(TemplatePath + Registerile, function (){
+    $(MainID).load(TemplatePath + Registerile, function () {
         // changes the login link in the template
         document.getElementById("t_link_login").href = LOGIN_URL;
     });
 }
 
 /* [T] User site Template */
-function t_users(){
+function t_users() {
     // User Template File
     var UserFile = "users.html";
     //var data = getHistory();
-	//var orderHistory = JSON.parse(data);
+    //var orderHistory = JSON.parse(data);
 
-	// var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
-	
-	//Adds the template to the document
-	$(MainID).load(TemplatePath + UserFile, function (){
-        
+    // var orderHistory = JSON.parse('[{"id":10180206123143,"items":[{"name":"Salami","size":"L","price":7.99,"extras":[1,2],"count":1},{"name":"Cola","size":"0.5","price":4.99,"extras":[],"count":2}],"total":17.97,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0},{"id":20180206123143,"items":[{"name":"Cola","size":"0.3","price":2.99,"extras":[],"count":1}],"total":2.99,"customerid":1,"contact":{"name":"Max Mustermann","postcode":82299,"city":"Musterstadt","street":"Daheim","nr":"1","phone":"01245556783"},"done":0}]');
+
+    //Adds the template to the document
+    $(MainID).load(TemplatePath + UserFile, function () {
+
         // load user data
         loadOldData(sessionStorage.getItem("email"));
 
         //loads the orderHistoryContentTemplate syncronously
-        if(orderHistory != null && orderHistory != "" && orderHistory != undefined && orderHistory["STATUS"] == "OK"){
+        if (orderHistory != null && orderHistory != "" && orderHistory != undefined && orderHistory["STATUS"] == "OK") {
             $.ajax({
                 url: TemplatePath + "orderHistoryContentTemplate.html",
                 async: false
 
                 //fills the template with the required data
-            }).done(function(data){
+            }).done(function (data) {
                 console.log(orderHistory);
 
-                for(var j = 0; j < orderHistory.response_data.length; j++){
+                for (var j = 0; j < orderHistory.response_data.length; j++) {
 
                     var order = orderHistory.response_data[j];
 
-                    for(var i = 0; i < order.length; i++){
+                    for (var i = 0; i < order.length; i++) {
 
                         $("#orderHistory").append(data);
                         var item = order;
@@ -298,14 +304,14 @@ function t_users(){
                     document.getElementById('orderHistory').append(buttonthingy);
                 }
             });
-        }else{
-            
+        } else {
+
         }
     });
 }
 
 /* [T] 404 Template */
-function t_404(){
+function t_404() {
     // Filename of the 404 Template
     var errorfile = "404.html";
 
@@ -313,7 +319,7 @@ function t_404(){
 }
 
 /* [T] 401 Template */
-function t_401(){
+function t_401() {
     // Filename of the 404 Template
     var errorfile = "401.html";
 
@@ -321,7 +327,7 @@ function t_401(){
 }
 
 /* [T] hours Template */
-function t_hours(){
+function t_hours() {
     // Filename of the hours Template
     var errorfile = "hours.html";
 
@@ -329,40 +335,40 @@ function t_hours(){
 }
 
 /* [T] orderconf Template */
-function t_orderconf(){
+function t_orderconf() {
     // Filename of the 404 Template
     var orderconffile = "orderconf.html";
     $.ajax({
-            url: TemplatePath + orderconffile,
-            async: false
-            }).done(function(data){
+        url: TemplatePath + orderconffile,
+        async: false
+    }).done(function (data) {
         $(MainID).append(data);
-        
+
         // run the site specific functions
         getdata();
     });
 }
 
 /* [T] menu Template */
-function t_menu(){
+function t_menu() {
     // Filename of the menu Template
     var menufile = "menu.html";
     $.ajax({
-            url: TemplatePath + menufile,
-            async: false
-            }).done(function(data){
+        url: TemplatePath + menufile,
+        async: false
+    }).done(function (data) {
         $(MainID).append(data);
-        
+
         // run site specific functions
         loadJSONfromServer("menu", createTablefromJSON);
         controll();
 
-        function loadMenu(jsonData){
+        function loadMenu(jsonData) {
             var json = jsonData["jsonData"];
             console.log(json);
-            for ( var i = 0 ; i < json.length; i++){
+            for (var i = 0; i < json.length; i++) {
                 var row = document.createElement("div");
-                row.setAttribute("class","row justify-content-md-center");
+                row.setAttribute("class", "row justify-content-md-center");
                 console.log(json[i]);
 
             }
@@ -372,22 +378,22 @@ function t_menu(){
 }
 
 /* [T] orderoverview Template */
-function t_orderoverview(){
+function t_orderoverview() {
     // Filename of the menu Template
     var file = "orderoverview.html";
     $.ajax({
-            url: TemplatePath + file,
-            async: false
-            }).done(function(data){
+        url: TemplatePath + file,
+        async: false
+    }).done(function (data) {
         $(MainID).append(data);
-        
+
         // site specific functions
         var script = document.createElement("script");
-        script.src = "js/formularinput.js";       
-        
+        script.src = "js/formularinput.js";
+
         document.head.append(script);
         pizzenInListe();
-	    totalinListe();
-		allreadylogin();
+        totalinListe();
+        allreadylogin();
     });
 }

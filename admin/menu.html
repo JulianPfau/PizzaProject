@@ -6,9 +6,9 @@
 
     <!-- Style -->
     <link rel="icon" href="../img/favicon.ico">
-    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="../css/admin.css" rel="stylesheet" />
+    <link href="../css/admin.css" rel="stylesheet"/>
 
     <!-- Libraries -->
     <script src="../js/jquery-3.3.1.slim.min.js"></script>
@@ -51,18 +51,22 @@
         </div>
         <div class="tr menuElement" id="footer">
             <div class="td"></div>
-            <div class="td"><span class="Input footer" id="Name" contenteditable="true" onblur="loadNewFooter(this);"></span></div>
+            <div class="td"><span class="Input footer" id="Name" contenteditable="true"
+                                  onblur="loadNewFooter(this);"></span></div>
             <div class="td"><span class="Input footer" id="Description" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Prices" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Sizes" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Types" contenteditable="true"></span></div>
             <div class="td"><span class="Input footer" id="Tags" contenteditable="true"></span></div>
-            <div class="td"><span class="Input footer" id="Extras" data-toggle="modal" data-target="#modal" onClick="getJsonByRequest(getExtras,'extras'); loadExtras()">None</span></div>
+            <div class="td"><span class="Input footer" id="Extras" data-toggle="modal" data-target="#modal"
+                                  onClick="getJsonByRequest(getExtras,'extras'); loadExtras()">None</span></div>
             <div class="td" id="img"><img src="../img/menu/default.png" id="img" width="25px"></div>
         </div>
     </div>
-    <a class="btn btn-lg active" role="button" aria-pressed="true" onclick="if (confirm('Save all changes?') == true) saveTableToServer('menu');">Speichern</a>
-    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true" onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
+    <a class="btn btn-lg active" role="button" aria-pressed="true"
+       onclick="if (confirm('Save all changes?') == true) saveTableToServer('menu');">Speichern</a>
+    <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true"
+       onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
 
 

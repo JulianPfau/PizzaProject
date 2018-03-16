@@ -1,9 +1,9 @@
 //set global variable
 var alleextras;
 
-function getExtras(element, file){
-	 alleextras = element;
-	}
+function getExtras(element, file) {
+    alleextras = element;
+}
 
 //function for getting all available extras
 function getJsonByRequest(cFunction, file) {
@@ -30,57 +30,52 @@ function getJsonByRequest(cFunction, file) {
 
 
 //this function add every single pizza in a list on the html site
-function pizzenInListe(){
-		for (i in pizzen){
-		var name = pizzen[i]["name"];
-		var size = pizzen[i]["size"];
-		var price = pizzen[i]["price"];
-		var count = pizzen[i]["count"];
-		var extras = pizzen[i]["extras"];
-		var extratext = "";
-		for (var x in extras){
-			y = extras[x];
-			y -= 1;
-			var extra = alleextras[y]["name"];
-			if (x==0){
-				extratext += " mit " + extra ;
-			}
-			else{
-				extratext += " und " + extra ;
-			}	
-		}
-		//create an order text for every single pizza
-		var bestellungstext = count + " x" + " " + name + extratext  + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
-	
-		//add the order text to the list
-		var listItem = document.createElement("li");
-		listItem.innerText = bestellungstext;
-		var list = document.getElementById("bestellliste");
-		list.appendChild(listItem);
-		}
-	}
+function pizzenInListe() {
+    for (i in pizzen) {
+        var name = pizzen[i]["name"];
+        var size = pizzen[i]["size"];
+        var price = pizzen[i]["price"];
+        var count = pizzen[i]["count"];
+        var extras = pizzen[i]["extras"];
+        var extratext = "";
+        for (var x in extras) {
+            y = extras[x];
+            y -= 1;
+            var extra = alleextras[y]["name"];
+            if (x == 0) {
+                extratext += " mit " + extra;
+            }
+            else {
+                extratext += " und " + extra;
+            }
+        }
+        //create an order text for every single pizza
+        var bestellungstext = count + " x" + " " + name + extratext + "\nGr\u00F6\u00DFe: " + size + "\nPreis: " + price + " \u20AC";
 
-function totalinListe(){
-		//finally add the total price to the list
-		total = Number((total).toFixed(2));
-		total = "Zusammen: " + total + " \u20AC";
-		var listItem = document.createElement("li");
-		listItem.innerText = total;
-		var list = document.getElementById("gesamtpreis");
-		list.appendChild(listItem);
+        //add the order text to the list
+        var listItem = document.createElement("li");
+        listItem.innerText = bestellungstext;
+        var list = document.getElementById("bestellliste");
+        list.appendChild(listItem);
+    }
 }
 
-
-
+function totalinListe() {
+    //finally add the total price to the list
+    total = Number((total).toFixed(2));
+    total = "Zusammen: " + total + " \u20AC";
+    var listItem = document.createElement("li");
+    listItem.innerText = total;
+    var list = document.getElementById("gesamtpreis");
+    list.appendChild(listItem);
+}
 
 
 //pizzen aus sessionstorage auslesen und parsen
 var bestellung = sessionStorage["bestellung"];
-    bestellung = JSON.parse(bestellung);
+bestellung = JSON.parse(bestellung);
 var pizzen = bestellung["items"];
 var total = bestellung["total"];
-
-
 
 
 getJsonByRequest(getExtras, "extras");

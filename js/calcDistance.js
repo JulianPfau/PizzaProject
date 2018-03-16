@@ -1,44 +1,44 @@
 //'use strict';
 function getPLZ() {
-	/**
-	 * Function takes the Location out of a Input box and
-	 * requests the distance between two locations from
-	 * the server.
-	 *
-	 * HTML-Code for the input field <input type="text" id="fname" onkeyup="getPLZ()">
-	**/
+    /**
+     * Function takes the Location out of a Input box and
+     * requests the distance between two locations from
+     * the server.
+     *
+     * HTML-Code for the input field <input type="text" id="fname" onkeyup="getPLZ()">
+     **/
 
-	var plz = document.getElementById("postcode").value;
+    var plz = document.getElementById("postcode").value;
     //length maybe needs to be changed
     //depending on what input (in this case: postcodes)
-    if (plz.length >= 4){
+    if (plz.length >= 4) {
         calcDistance(plz);
     }
 }
 
 function calcDistance(plz_user) {
-	/**
-	 * Functions sets the location of the pizzeria and
-	 * and makes a request to the server.
-	 *
-	 * Args:
-	 * 		plz_user (string):	location of the customer.
-	**/
+    /**
+     * Functions sets the location of the pizzeria and
+     * and makes a request to the server.
+     *
+     * Args:
+     *        plz_user (string):    location of the customer.
+     **/
 
-	var plz_pizza = "88045+Fallenbrunn";
-	ajaxPLZ(plz_pizza, plz_user);
+    var plz_pizza = "88045+Fallenbrunn";
+    ajaxPLZ(plz_pizza, plz_user);
 }
 
 function ajaxPLZ(pizza, user) {
-	/**
-	 * Function requests (POST) distance from the server
-	 * and colours the input field red or green depending
-	 * on the response.
-	 *
-	 * Args:
-	 * 		pizza (string):	location of the pizzeria.
-	 * 		user (string):	location of the customer.
-	**/
+    /**
+     * Function requests (POST) distance from the server
+     * and colours the input field red or green depending
+     * on the response.
+     *
+     * Args:
+     *        pizza (string):    location of the pizzeria.
+     *        user (string):    location of the customer.
+     **/
 
     var xhttp = new XMLHttpRequest();
 
@@ -52,12 +52,12 @@ function ajaxPLZ(pizza, user) {
             var noChance = "Ihr Ort liegt leider nicht im Lieferradius. Sorry, keine Bestellung möglich!";
             if (distance <= 20000) {
                 document.getElementById("postcode").style.backgroundColor = 'lightgreen';
-                document.getElementById("bestelluebersicht").disabled=false;
+                document.getElementById("bestelluebersicht").disabled = false;
                 document.getElementById("ans").innerHTML = chance;
             }
             else {
                 document.getElementById("postcode").style.backgroundColor = 'red';
-                document.getElementById("bestelluebersicht").disabled=true;
+                document.getElementById("bestelluebersicht").disabled = true;
                 document.getElementById("ans").innerHTML = noChance;
 
             }

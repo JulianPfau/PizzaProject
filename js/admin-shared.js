@@ -9,11 +9,6 @@
  */
 
 
-
-
-
-
-
 var extras;
 
 
@@ -47,9 +42,6 @@ function getJsonByRequest(cFunction, file) {
     //Sends the request
     xhr.send(null);
 }
-
-
-
 
 
 /**
@@ -227,7 +219,7 @@ function loadJSONToTable(json, index) {
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
                 console.log(json[i].contact.name);
-                menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : precisionRound(parseFloat(json[i].total),2);
+                menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : precisionRound(parseFloat(json[i].total), 2);
                 menuInhalt[4].innerHTML = (json[i].customerid == undefined) ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == " ") ? "None" : json[i].contact.name;
                 if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
@@ -390,7 +382,6 @@ function loadItems(json, indexOfSpan) {
 }
 
 
-
 /**
  * Function to logout a user on Admin sites
  */
@@ -406,9 +397,6 @@ function logOut() {
     };
     xhr.send();
 }
-
-
-
 
 
 /**
@@ -460,7 +448,6 @@ function loadNewFooter(span) {
         }
     }
 }
-
 
 
 function saveExtrasPopup(btn) {
@@ -522,7 +509,6 @@ function saveContactPopup(index) {
 
     document.getElementById("closeModalItems").click();
 }
-
 
 
 function saveContactOrdersPopup(index) {
@@ -624,8 +610,6 @@ function updateTable(table, value) {
 }
 
 
-
-
 /**
  *   The passed table get saved to an Array and afterwards the Array get passed with the filename to the transfer function
  *   to save the data onto the server.
@@ -690,9 +674,9 @@ function saveTableToServer(table) {
                     } else {
                         value = node.firstChild.innerHTML;
 
-                    if ((key == "extras" || key == "sizes")) {
-                        value = node.firstChild.innerText;
-                    }
+                        if ((key == "extras" || key == "sizes")) {
+                            value = node.firstChild.innerText;
+                        }
                     }
                     if (value) {
                         if (value.includes(";")) {
@@ -705,7 +689,7 @@ function saveTableToServer(table) {
                         }
                     }
 
-                    if (value == "None"){
+                    if (value == "None") {
                         value = "";
                     }
                     objElement[key] = value;
@@ -757,7 +741,7 @@ function saveTableToServer(table) {
             break;
     }
 
-    sendJSONtoServer(json,table);
+    sendJSONtoServer(json, table);
     location.reload();
 }
 
@@ -815,43 +799,43 @@ function itemSearch(input) {
 }
 
 
-function editFooter(){
+function editFooter() {
     var footer = document.getElementById("footer");
-    for (var i = 0 ; i < footer.childNodes.length; i++){
+    for (var i = 0; i < footer.childNodes.length; i++) {
         checkEmptyField(footer.childNodes[i].firstChild);
     }
 
 }
 
-function removeContent(element){
-    if(element.innerHTML == "None" && element.id != "Extras"){
+function removeContent(element) {
+    if (element.innerHTML == "None" && element.id != "Extras") {
         element.innerHTML = "";
     }
 }
 
-function checkEmptyField(element){
-    if(element) {
+function checkEmptyField(element) {
+    if (element) {
         if (element.innerHTML == "") {
             element.innerHTML = "None";
         } else if (element.innerText == "") {
             element.innerText == "None";
         }
 
-        if(element.getAttribute("onclick")) {
+        if (element.getAttribute("onclick")) {
             if (!element.getAttribute("onclick").toString().includes("removeContent")) {
                 element.setAttribute("onclick", element.getAttribute("onclick") + "removeContent(this);");
             }
-        }else {
+        } else {
             element.setAttribute("onclick", "removeContent(this);");
         }
-        if(element.getAttribute("onblur")){
+        if (element.getAttribute("onblur")) {
 
         }
         if (element.getAttribute("onblur")) {
             if (!element.getAttribute("onblur").toString().includes("checkEmptyField")) {
                 element.setAttribute("onblur", element.getAttribute("onblur") + "checkEmptyField(this);");
             }
-        }else{
+        } else {
             element.setAttribute("onblur", "checkEmptyField(this);");
         }
 
@@ -926,13 +910,6 @@ function loadContact(json, index) {
 }
 
 
-
-
-
-
-
-
-
 //------------------------------------------Small helper functions---------------------------------------------------------
 
 /**
@@ -948,7 +925,6 @@ function markDelete(box) {
         if (box.parentElement.parentElement.parentElement.id == "modal-table") box.parentElement.parentElement.setAttribute('class', 'tr menuElementModal');
     }
 }
-
 
 
 //Small function used to round precisely the decimals of numbers
@@ -977,7 +953,6 @@ function sendJSONtoServer(jsonData, fileName) {
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(JSON.stringify(data));
 }
-
 
 
 /**

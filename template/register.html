@@ -1,65 +1,74 @@
 <div class="row">
-                <div class="col-sm-6 white">
-                    <h4>Registrieren</h4>
-                    <div>
-                        <div class="form-group">
-                            <label for="firstname">Vorname</label>
-                            <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Vorname">
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname">Nachname</label>
-                            <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Nachname">
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <label for="postcode">Postleitzahl</label>
-                            <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="Postleitzahl" onchange="getPLZ();">
-                            <div id="ans"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="postcode">Stadt</label>
-                            <input type="text" class="form-control" id="city" aria-describedby="emailHelp" placeholder="Stadt">
-                        </div>
-                        <div class="form-group">
-                            <label for="street">Straße</label>
-                            <input type="text" class="form-control" id="street" aria-describedby="emailHelp" placeholder="Straße">
-                        </div>
-                        <div class="form-group">
-                            <label for="streetNr">Hausnummer</label>
-                            <input type="text" class="form-control" id="streetNr" aria-describedby="emailHelp" placeholder="Hausnummer">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Telefonnummer</label>
-                            <input type="text" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Telefonnummer">
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Email</label>
-                            <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="E-Mail">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Passwort</label>
-                            <input type="password" class="form-control" id="password" placeholder="Passwort">
-                        </div>
-                        <div class="form-group">
-                            <label for="passwordConfirm">Passwort wiederholen</label>
-                            <input type="password" class="form-control" id="passwordConfirm" placeholder="Passwort wiederholen">
-                        </div>
-                        <hr>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">Hiermit best&auml;tige ich, dass ich 14 Jahre odder &auml;lter bin.</label>
-                        </div>
-                        <hr>
-                        <button id="bestelluebersicht" onclick="register()" onkeypress="return returnReg(event)" class="btn orange-o75">Konto erstellen</button>
-                    </div>
-                </div>
-                <div class="col-sm-6 card orange">
-                    <div class="align-middle align-self-center text-center">
-                        <img src="../img/pizza.png" style="width: 96px">
-                        <hr>
-                        <h1>Schon registriert?</h1>
-                        <p>Dann melde dich jetzt an.</p>
-                        <a id="t_link_login" href=""><p>Jetzt anmelden</p></a>
-                    </div>
-                </div>
+    <div class="col-sm-6 white">
+        <h4>Registrieren</h4>
+        <div>
+            <div class="form-group">
+                <label for="firstname">Vorname</label>
+                <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp"
+                       placeholder="Vorname">
             </div>
+            <div class="form-group">
+                <label for="lastname">Nachname</label>
+                <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp"
+                       placeholder="Nachname">
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="postcode">Postleitzahl</label>
+                <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp"
+                       placeholder="Postleitzahl" onchange="getPLZ();">
+                <div id="ans"></div>
+            </div>
+            <div class="form-group">
+                <label for="postcode">Stadt</label>
+                <input type="text" class="form-control" id="city" aria-describedby="emailHelp" placeholder="Stadt">
+            </div>
+            <div class="form-group">
+                <label for="street">Straße</label>
+                <input type="text" class="form-control" id="street" aria-describedby="emailHelp" placeholder="Straße">
+            </div>
+            <div class="form-group">
+                <label for="streetNr">Hausnummer</label>
+                <input type="text" class="form-control" id="streetNr" aria-describedby="emailHelp"
+                       placeholder="Hausnummer">
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefonnummer</label>
+                <input type="text" class="form-control" id="phone" aria-describedby="emailHelp"
+                       placeholder="Telefonnummer">
+            </div>
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" class="form-control" id="username" aria-describedby="emailHelp"
+                       placeholder="E-Mail">
+            </div>
+            <div class="form-group">
+                <label for="password">Passwort</label>
+                <input type="password" class="form-control" id="password" placeholder="Passwort">
+            </div>
+            <div class="form-group">
+                <label for="passwordConfirm">Passwort wiederholen</label>
+                <input type="password" class="form-control" id="passwordConfirm" placeholder="Passwort wiederholen">
+            </div>
+            <hr>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">Hiermit best&auml;tige ich, dass ich 14 Jahre odder
+                    &auml;lter bin.</label>
+            </div>
+            <hr>
+            <button id="bestelluebersicht" onclick="register()" onkeypress="return returnReg(event)"
+                    class="btn orange-o75">Konto erstellen
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-6 card orange">
+        <div class="align-middle align-self-center text-center">
+            <img src="../img/pizza.png" style="width: 96px">
+            <hr>
+            <h1>Schon registriert?</h1>
+            <p>Dann melde dich jetzt an.</p>
+            <a id="t_link_login" href=""><p>Jetzt anmelden</p></a>
+        </div>
+    </div>
+</div>

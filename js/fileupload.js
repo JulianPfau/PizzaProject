@@ -4,8 +4,6 @@
  */
 
 
-
-
 /**
  * Creates an object to send image files via "POST" request to the server as base64 encoded string.
  *

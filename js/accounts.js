@@ -187,9 +187,9 @@ function checkSID() {
     if (id != null || id != "") {
         var ret = JSON.parse(ajax("checkSID", {"sid": id}));
     }
-    if(ret["STATUS"] == "OK"){
+    if (ret["STATUS"] == "OK") {
         console.log("login successfully");
-    }else{
+    } else {
         console.log("login failed");
     }
     return (ret["STATUS"] == "OK");
@@ -200,7 +200,7 @@ function logout() {
     var id = sessionStorage.getItem("SID");
     if (id != null || id != "") {
         var ret = JSON.parse(ajax("logout", {"sid": id}));
-        if(ret["STATUS"] == "OK"){
+        if (ret["STATUS"] == "OK") {
             sessionStorage.removeItem('SID');
             sessionStorage.removeItem('email');
             popup("Erfolgreich abgemeldet.");
@@ -210,7 +210,7 @@ function logout() {
 
 //Loads the user data from the Server, takes in the email of the User from which you want to load the data
 function loadOldData(email) {
-    var json = ajax("getUserData", {"email": email });
+    var json = ajax("getUserData", {"email": email});
     var decoded = JSON.parse(json);
 
     var name = decoded.firstname + ' ' + decoded.lastname;
@@ -256,7 +256,7 @@ function sendNewData() {
         "city": city
     };
     var result = JSON.parse(ajax("updateData", json));
-    if(result["STATUS"] == 'OK') {
+    if (result["STATUS"] == 'OK') {
         popup("Änderung der Daten erfolgreich");
         setTimeout(location.href = PROFILE_URL, 2000);
     } else {
@@ -281,7 +281,7 @@ function generateMenu() {
 
 //gets the Order history from the server, gets the Email-Address from the SessionStorage
 function getHistory() {
-    var history = ajax("getOrderbyMail", {"file":"orders", "email": sessionStorage.getItem('email')});
+    var history = ajax("getOrderbyMail", {"file": "orders", "email": sessionStorage.getItem('email')});
     return history;
 }
 
@@ -290,7 +290,7 @@ function deleteUser() {
     ajax("deleteUser", {"email": sessionStorage.getItem("email")});
     logout();
     popup("Konto erfolgreich gelöscht.");
-    setTimeout(location.href=MENU_URL, 2000);
+    setTimeout(location.href = MENU_URL, 2000);
 }
 
 //Redirects the User to a new Page but checks the SessionID before doing so

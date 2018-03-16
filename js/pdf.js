@@ -1,14 +1,15 @@
 var extras;
 /**
  *
-     * @param order {"id": 10180206123143,"items": [{"name": "Salami","size": "L","price": 7.99,"extras": [1,2],"count": 1},{"name": "Cola","size": "0.5","price": 4.99,"extras": [],"count": 2}],"total": 17.97,"customerid": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 1}
+ * @param order {"id": 10180206123143,"items": [{"name": "Salami","size": "L","price": 7.99,"extras": [1,2],"count": 1},{"name": "Cola","size": "0.5","price": 4.99,"extras": [],"count": 2}],"total": 17.97,"customerid": 1,"contact": {"name": "Max Mustermann","postcode": 82299,"city": "Musterstadt","street": "Daheim","nr": "1","phone": "01245556783"},"done": 1}
  */
 
 getJsonByRequest(getExtras, "extras");
+
 function printPDF(order) {
     // You'll need to make your image into a Data URL
     // Use http://dataurl.net/#dataurlmaker
-console.log(order);
+    console.log(order);
     var doc = new jsPDF();
 
     doc.setFontSize(13);
@@ -43,7 +44,7 @@ console.log(order);
     for (var i = 0; i < order.items.length; i++) {
         doc.text(12, off, order.items[i].count + "");
         doc.text(30, off, toASCII(order.items[i].size) + "");
-        doc.text(48, off, toASCII(  order.items[i].name) + "");
+        doc.text(48, off, toASCII(order.items[i].name) + "");
         doc.text(186, off, order.items[i].price + "");
 
         if (order.items[i].extras[0] != null) {
