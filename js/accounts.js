@@ -27,7 +27,7 @@ var LOGIN_URL = "index.html";
 var REGISTER_URL = "reg.html";
 
 // checks Login on key press "Enter"
-function returnReg(e) {
+function returnLog(e) {
     if (e.keyCode == 13) {
         checkLogin();
     }
@@ -171,14 +171,12 @@ function register() {
         "streetNr": streetNr,
         "phone": phone
     };
-    var result = ajax("register", json);
+    var result = JSON.parse(ajax("register", json));
     console.log(result);
-    if (result.status == 'OK') {
-        if (result == 'true') {
-            window.location = PROFILE_URL;
-        } else {
-            popup('Unbekannter Fehler');
-        }
+    if (result["STATUS"] == 'OK') {
+        window.location = LOGIN_URL;
+    } else {
+        popup('Unbekannter Fehler');
     }
 }
 
