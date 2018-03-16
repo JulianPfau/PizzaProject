@@ -13,7 +13,8 @@
                         <hr>
                         <div class="form-group">
                             <label for="postcode">Postleitzahl</label>
-                            <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="Postleitzahl">
+                            <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="Postleitzahl" onchange="getPLZ();">
+                            <div id="ans"></div>
                         </div>
                         <div class="form-group">
                             <label for="postcode">Stadt</label>
@@ -49,7 +50,7 @@
                             <label class="form-check-label" for="defaultCheck1">Hiermit best&auml;tige ich, dass ich 14 Jahre odder &auml;lter bin.</label>
                         </div>
                         <hr>
-                        <button onclick="register()" onkeypress="return returnReg(event)" class="btn orange-o75">Konto erstellen</button>
+                        <button id="bestelluebersicht" onclick="register()" onkeypress="return returnReg(event)" class="btn orange-o75">Konto erstellen</button>
                     </div>
                 </div>
                 <div class="col-sm-6 card orange">

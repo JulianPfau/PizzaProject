@@ -160,7 +160,8 @@ def pdfupload(request):
 
 def imglist():
     """
-    Lists all the on the server stored pictures.
+    Lists all the pictures stored in the folder menu
+    on the server.
     
     Args:
     
