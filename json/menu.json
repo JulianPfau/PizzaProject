@@ -51,7 +51,7 @@
   },
   {
     "name": "Bier",
-    "description": "ist nice",
+    "description": "Weizenbier frisch vom Fass",
     "prices": [
       2.99,
       4.99
@@ -63,8 +63,7 @@
     "types": "Getr\u00e4nk",
     "tags": [
       "Getr\u00e4nk",
-      "Bier",
-      "GEIL"
+      "Bier"
     ],
     "extras": [],
     "picture": "getraenkbier.jpg",
@@ -172,7 +171,7 @@
   },
   {
     "name": "Vodka Martini",
-    "description": "A chassic Drink for a Gentlemen",
+    "description": "A classic Drink for a Gentlemen",
     "prices": [
       6,
       5,

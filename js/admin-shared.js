@@ -633,11 +633,12 @@ function saveTableToServer(table) {
                     key = row[n].firstChild.id.toLowerCase();
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadContactOrder(")[1].substr(0, tmp.onclick.toString().split("loadContactOrder(")[1].length - 6);
+                        var data = tmp.onclick.toString().split("loadContactOrder(")[1].substr(0, tmp.onclick.toString().split("loadContactOrder(")[1].length - 6).replace(/,\s*$/, "");
                         value = JSON.parse(data);
                     } else if (key == "items") {
                         var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadItems(")[1].substr(0, tmp.onclick.toString().split("loadItems(")[1].length - 6);
+                        var data = tmp.onclick.toString().split("loadItems(")[1].substr(0, tmp.onclick.toString().split("loadItems(")[1].length - 6).replace(/,\s*$/, "");
+
                         value = JSON.parse(data.split("\)")[0]);
                     } else if (key == "done") {
                         value = 0;
@@ -705,6 +706,8 @@ function saveTableToServer(table) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
                 for (var n = 1; n < row.length; n++) {
+                    try{
+                    console.log(row[n].firstChild);
                     key = row[n].firstChild.id.toLowerCase();
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
@@ -715,8 +718,12 @@ function saveTableToServer(table) {
                         if (key == "id") {
                             value = parseInt(value);
                         }
+                    }} catch(err){
+                        console.log(err);
                     }
-                    objElement[key] = value;
+                    if (value != "" && value != "None") {
+                        objElement[key] = value;
+                    }
                 }
                 json.push(objElement);
             }

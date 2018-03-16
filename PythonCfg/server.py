@@ -469,9 +469,9 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 if data['request'] == 'ajaxGoogleAPI':
                     response = ajaxGoogleAPI.calcDistance(data)
                     self.wfile.write(bytes(response, 'UTF8'))
-                #if data['request'] == 'saveJSON':
-                #    response = saveJSON(data)
-                #    self.wfile.write(bytes(response, 'UTF8'))
+                if data['request'] == 'saveJSON':
+                    response = saveJSON(data)
+                    self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'deleteHeader':
                     response = MyServer.delete_header(self)
                     self.wfile.write(bytes(response, "UTF8"))
