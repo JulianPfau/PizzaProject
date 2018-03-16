@@ -23,7 +23,7 @@ Es wurden folgende Kernaspekte berücksichtigt:
 
 ---How to operate---
 
-1. Start Server.py
+1. Start Server.py (Es wird python3 mit dem Modul "requests" benötigt)
 2. tbd
 
 
