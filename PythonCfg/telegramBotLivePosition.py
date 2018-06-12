@@ -84,3 +84,12 @@ def get_json(file):
     except IOError:
         return False
 
+
+def delivery_time(bot, update, args):
+    chat_id = update.message.chat.id
+    orders = json.loads(get_json("orders"))
+    for order in orders:
+        if order['driver'] == chat_id & order['delivered'] == "false":
+            print(order)
+
+    bot.sendMessage(chat_id, "estimated delivery time: ")
