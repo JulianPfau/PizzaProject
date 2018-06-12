@@ -1,4 +1,4 @@
 {
-    "TOKEN" : "",
+    "TOKEN" : "594624535:AAEWESe1NTB6B0Mg6FtdBpT7fJbneYAQxDw",
     "Description" : "Put your token between the double apostrophes. Put this file in the same folder as the server.py/telegramBot.py. Name this file 'conf.json' Delete or Ignore the description."
 }
