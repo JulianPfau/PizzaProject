@@ -9,9 +9,9 @@ import ssl
 import sys
 from socketserver import ThreadingMixIn
 
-#from PythonCfg import ajaxGoogleAPI
-#from PythonCfg import requestsJSON
-#from PythonCfg import sessionid
+# from PythonCfg import ajaxGoogleAPI
+# from PythonCfg import requestsJSON
+# from PythonCfg import sessionid
 import telegramBot
 import ajaxGoogleAPI
 import requestsJSON
@@ -348,7 +348,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
         if self.path == "/":
             self.path = "/index.html"
-        
+
         '''
         appends to a file ".html" if no file extension is given
         '''
