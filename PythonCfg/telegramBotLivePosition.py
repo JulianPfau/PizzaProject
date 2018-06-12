@@ -1,5 +1,6 @@
 import json
 import os
+import ajaxGoogleAPI
 
 messages = {}  # {"Drivers_ID": {"message": messages, "sendTo": {}}}
 
@@ -88,8 +89,8 @@ def get_json(file):
 def delivery_time(bot, update, args):
     chat_id = update.message.chat.id
     orders = json.loads(get_json("orders"))
-    for order in orders:
-        if order['driver'] == chat_id & order['delivered'] == "false":
-            print(order)
+    for order in orders['jsonData']: # loop trough all oders
+        if order['driver'] == chat_id and not order['delivered']: # get all orders assigned to driver and check if they are already finished
+            distance = ajaxGoogleAPI.calcDriveDuration(str(order["contact"]["postcode"] + "+" + order["contact"]["street"]), "88045")
 
-    bot.sendMessage(chat_id, "estimated delivery time: ")
+    bot.sendMessage(chat_id, "Die vorraussichtliche Lieferzeit der Bestellung " + order["id"] + " beträgt: " + distance)
