@@ -25,7 +25,7 @@ function calcDistance(plz_user) {
      *        plz_user (string):    location of the customer.
      **/
 
-    var plz_pizza = "88045+Fallenbrunn";
+    var plz_pizza = "88045";
     ajaxPLZ(plz_pizza, plz_user);
 }
 
