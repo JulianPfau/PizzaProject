@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e109c087-4ce3-4e68-88ca-4d8c0d1c262a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonCfg/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonCfg/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonCfg/telegramBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonCfg/telegramBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonCfg/telegramBotLivePosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonCfg/telegramBotLivePosition.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,16 +13,25 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/PizzaProject$PizzaProject.coverage" NAME="PizzaProject Coverage Results" MODIFIED="1528806776935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonCfg" />
+    <SUITE FILE_PATH="coverage/PizzaProject$PizzaProject.coverage" NAME="PizzaProject Coverage Results" MODIFIED="1528807850716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonCfg" />
     <SUITE FILE_PATH="coverage/PizzaProject$telegramBot.coverage" NAME="telegramBot Coverage Results" MODIFIED="1528806385886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonCfg" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="telegramBot.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PythonCfg/server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="telegramBot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="87" selection-start-line="19" selection-start-column="87" selection-end-line="19" selection-end-column="87" />
+            <state relative-caret-position="170">
+              <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
               </folding>
@@ -32,19 +39,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="requestsJSON.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PythonCfg/requestsJSON.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4641">
-              <caret line="39" column="35" lean-forward="true" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="telegramBotLivePosition.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotLivePosition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-649">
+            <state relative-caret-position="578">
               <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -53,13 +51,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/PythonCfg/server.py">
+      <file leaf-file-name="telegramBotOrder.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotOrder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="34">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="telegramBotStart.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotStart.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conf_example.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PythonCfg/conf_example.json">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -144,9 +156,9 @@
         <option value="$PROJECT_DIR$/json/orders.json" />
         <option value="$PROJECT_DIR$/PythonCfg/requestsJSON.py" />
         <option value="$PROJECT_DIR$/PythonCfg/conf" />
-        <option value="$PROJECT_DIR$/PythonCfg/telegramBot.py" />
         <option value="$PROJECT_DIR$/PythonCfg/telegramBotLivePosition.py" />
         <option value="$PROJECT_DIR$/PythonCfg/server.py" />
+        <option value="$PROJECT_DIR$/PythonCfg/telegramBot.py" />
       </list>
     </option>
   </component>
@@ -405,7 +417,7 @@
       <workItem from="1528450900484" duration="680000" />
       <workItem from="1528717491256" duration="8247000" />
       <workItem from="1528783247086" duration="7763000" />
-      <workItem from="1528802828940" duration="3724000" />
+      <workItem from="1528802828940" duration="5127000" />
     </task>
     <task id="LOCAL-00001" summary="Fixes&#10;&#10;-Flo">
       <created>1521117845265</created>
@@ -470,11 +482,25 @@
       <option name="project" value="LOCAL" />
       <updated>1528805835556</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="FIXES ALL IMPORT PROBLEMS&#10;&#10;-Flo">
+      <created>1528806819621</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1528806819621</updated>
+    </task>
+    <task id="LOCAL-00011" summary="SAFE FUNKTIONIERT DAS JETZT&#10;ICH HABS WIEDER GEFIXT IHR BOBOS!!!!!!&#10;&#10;-Flo">
+      <created>1528807897747</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1528807897747</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36310000" />
+    <option name="totallyTimeSpent" value="37713000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -489,13 +515,14 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3295711" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3248731" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3282572" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3248731" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12412178" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12412178" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3282572" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -506,7 +533,6 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3282572" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -529,7 +555,9 @@
     <MESSAGE value="Live Position v.1.1&#10;&#10;-Flo" />
     <MESSAGE value="Live Position End added&#10;&#10;-Flo" />
     <MESSAGE value="Für den Bot startet telegramBot.py&#10;&#10;-Flo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Für den Bot startet telegramBot.py&#10;&#10;-Flo" />
+    <MESSAGE value="FIXES ALL IMPORT PROBLEMS&#10;&#10;-Flo" />
+    <MESSAGE value="SAFE FUNKTIONIERT DAS JETZT&#10;ICH HABS WIEDER GEFIXT IHR BOBOS!!!!!!&#10;&#10;-Flo" />
+    <option name="LAST_COMMIT_MESSAGE" value="SAFE FUNKTIONIERT DAS JETZT&#10;ICH HABS WIEDER GEFIXT IHR BOBOS!!!!!!&#10;&#10;-Flo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -537,13 +565,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PythonCfg/sessionid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1800">
-          <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/json/sessionIDs.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -841,16 +862,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotStart.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="34" lean-forward="true" selection-start-column="34" selection-end-line="1" selection-end-column="39" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/PythonCfg/conf_example.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonCfg/requestsJSON.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4641">
+        <state relative-caret-position="663">
           <caret line="39" column="35" lean-forward="true" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
         </state>
       </provider>
@@ -864,7 +881,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotLivePosition.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-649">
+        <state relative-caret-position="578">
           <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -872,20 +889,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBot.py">
+    <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBotStart.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="87" selection-start-line="19" selection-start-column="87" selection-end-line="19" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonCfg/server.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
