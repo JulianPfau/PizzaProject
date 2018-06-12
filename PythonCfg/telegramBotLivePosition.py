@@ -1,6 +1,6 @@
 import json
 
-import PythonCfg.server as server
+import server
 
 messages = {}  # {"Drivers_ID": {"message": messages, "sendTo": {}}}
 
@@ -70,3 +70,4 @@ def is_driver(chat_id):
     if response["STATUS"] == "OK":
         json_data = response["jsonData"]
         return str(chat_id) in list(json_data.keys())
+
