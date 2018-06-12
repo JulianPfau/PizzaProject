@@ -1,6 +1,5 @@
 import json
-
-import server
+import os
 
 messages = {}  # {"Drivers_ID": {"message": messages, "sendTo": {}}}
 
@@ -33,7 +32,7 @@ def deliver(bot, update, args):
     if is_driver(update.message.chat.id) and args:
         order_number = args[0]
 
-        response = json.loads(server.jsondata({"file": "orders"}))
+        response = json.loads(get_json({"file": "orders"}))
         if response["STATUS"] == "OK":
             json_data = response["jsonData"]
             for order in json_data:
@@ -50,7 +49,7 @@ def deliver(bot, update, args):
 
 
 def get_drivers_for_all_order():
-    response = json.loads(server.jsondata({"file": "orders"}))
+    response = json.loads(get_json({"file": "orders"}))
     if response["STATUS"] == "OK":
         orders = response["jsonData"]
         for order in orders:
@@ -65,9 +64,23 @@ def get_drivers_for_all_order():
 
 
 def is_driver(chat_id):
-    response = json.loads(server.jsondata({"file": "driver"}))
+    response = json.loads(get_json({"file": "driver"}))
 
     if response["STATUS"] == "OK":
         json_data = response["jsonData"]
         return str(chat_id) in list(json_data.keys())
+
+
+def get_json(file):
+    try:
+        with open(os.path.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.path.sep)[:-1]) + "/json/" + file + ".json") as json_data:
+            d = json.load(json_data)
+        response = {
+            'STATUS': 'OK',
+            'jsonData': d
+        }
+        response = json.dumps(response)
+        return response
+    except IOError:
+        return False
 
