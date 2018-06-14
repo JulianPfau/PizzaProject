@@ -191,7 +191,7 @@ function hidepreloader() {
    This will create a hidden popup div to the page so the popup() function can be called.*/
 function t_popup() {
     // Filename of the Popup Template
-    var PopupFile = "popup.html";
+    var PopupFile = "essentials/popup.html";
 
     $(popupID).load(TemplatePath + PopupFile);
 }
@@ -199,7 +199,7 @@ function t_popup() {
 /* [T] Navigation Template */
 function t_navigation() {
     // Filename of the Naviagtion Template
-    var NavigationFile = "navigation.html";
+    var NavigationFile = "essentials/navigation.html";
 
     $(navigationID).load(TemplatePath + NavigationFile, function () {
         var logo = document.getElementById("logo");
@@ -239,7 +239,7 @@ function t_navigation() {
 /* [T] Login Template */
 function t_login() {
     // Filename of the Login Template
-    var LoginFile = "login.html";
+    var LoginFile = "essentials/login.html";
 
     $(MainID).load(TemplatePath + LoginFile, function () {
         // changes the register link in the template
@@ -250,7 +250,7 @@ function t_login() {
 /* [T] Register Template */
 function t_register() {
     // Filename of the Register Template
-    var Registerile = "register.html";
+    var Registerile = "essentials/register.html";
 
     $(MainID).load(TemplatePath + Registerile, function () {
         // changes the login link in the template
@@ -261,7 +261,7 @@ function t_register() {
 /* [T] User site Template */
 function t_users() {
     // User Template File
-    var UserFile = "users.html";
+    var UserFile = "user/users.html";
     //var data = getHistory();
     //var orderHistory = JSON.parse(data);
 
@@ -313,7 +313,7 @@ function t_users() {
 /* [T] 404 Template */
 function t_404() {
     // Filename of the 404 Template
-    var errorfile = "404.html";
+    var errorfile = "errors/404.html";
 
     $(MainID).load(TemplatePath + errorfile);
 }
@@ -321,7 +321,7 @@ function t_404() {
 /* [T] 401 Template */
 function t_401() {
     // Filename of the 404 Template
-    var errorfile = "401.html";
+    var errorfile = "errors/401.html";
 
     $(MainID).load(TemplatePath + errorfile);
 }
@@ -337,7 +337,7 @@ function t_hours() {
 /* [T] orderconf Template */
 function t_orderconf() {
     // Filename of the 404 Template
-    var orderconffile = "orderconf.html";
+    var orderconffile = "order/orderconf.html";
     $.ajax({
         url: TemplatePath + orderconffile,
         async: false
@@ -380,7 +380,7 @@ function t_menu() {
 /* [T] orderoverview Template */
 function t_orderoverview() {
     // Filename of the menu Template
-    var file = "orderoverview.html";
+    var file = "order/orderoverview.html";
     $.ajax({
         url: TemplatePath + file,
         async: false
@@ -389,7 +389,7 @@ function t_orderoverview() {
 
         // site specific functions
         var script = document.createElement("script");
-        script.src = "js/formularinput.js";
+        script.src = "js/orders/formularinput.js";
 
         document.head.append(script);
         pizzenInListe();

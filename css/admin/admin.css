@@ -215,27 +215,27 @@ li {
 }
 
 li:nth-child(1) button {
-    background: url(../img/orders.png);
+    background: url(../../img/orders.png);
     background-size: 100% 100%;
 }
 
 li:nth-child(2) button {
-    background: url(../img/menu.png);
+    background: url(../../img/menu.png);
     background-size: 100% 100%;
 }
 
 li:nth-child(3) button {
-    background: url(../img/customers.png);
+    background: url(../../img/customers.png);
     background-size: 100% 100%;
 }
 
 li:nth-child(4) button {
-    background: url(../img/extras.png);
+    background: url(../../img/extras.png);
     background-size: 100% 100%;
 }
 
 li:nth-child(5) button {
-    background: url(../img/fileupload.png);
+    background: url(../../img/fileupload.png);
     background-size: 100% 100%;
 }
 
