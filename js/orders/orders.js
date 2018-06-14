@@ -69,8 +69,8 @@ function loadContactOrder(json, index) {
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
-    document.getElementById("telegram").innerHTML = (json.chat_id == "") ? "None" : json.chat_id;
-    document.getElementById("telegram").onkeydown = function () {
+    document.getElementById("Chat_id").innerHTML = (json.chat_id == "") ? "None" : json.chat_id;
+    document.getElementById("Chat_id").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');

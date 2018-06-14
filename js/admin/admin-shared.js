@@ -218,7 +218,7 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
-                console.log(json[i].contact.name);
+                //console.log(json[i].contact.name);
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : precisionRound(parseFloat(json[i].total), 2);
                 menuInhalt[4].innerHTML = (json[i].customerid == undefined) ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == " ") ? "None" : json[i].contact.name;
@@ -498,10 +498,11 @@ function saveContactPopup(index) {
         }
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
+    console.log(json);
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact") {
-            row.children[j].setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            var tmp = row.children[j].firstChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
             row.children[j].firstElementChild.innerHTML = json.name;
         }
     }
@@ -702,12 +703,12 @@ function saveTableToServer(table) {
             break;
 
         case "customers":
-            for (var i = 0; i < rows.length; i++) {
+            for (var i = 0; i < rows.length -1; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
                 for (var n = 1; n < row.length; n++) {
                     try{
-                    console.log(row[n].firstChild);
+                    //console.log(row[n].firstChild);
                     key = row[n].firstChild.id.toLowerCase();
                     if (key == "contact") {
                         var tmp = row[n].firstChild;
@@ -747,7 +748,6 @@ function saveTableToServer(table) {
             }
             break;
     }
-
     sendJSONtoServer(json, table);
     location.reload();
 }
@@ -909,6 +909,13 @@ function loadContact(json, index) {
     };
     document.getElementById("Phone").innerHTML = (json.phone == undefined) ? "" : json.phone;
     document.getElementById("Phone").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
+    document.getElementById("Chat_id").innerHTML = (json.chat_id == undefined) ? "" : json.chat_id;
+    document.getElementById("Chat_id").onkeydown = function () {
         if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
             document.getElementById("reload").setAttribute("class", "btn btn-lg active");
             this.parentElement.setAttribute('class', 'td bg-warning');
