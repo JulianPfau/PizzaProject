@@ -2,75 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e109c087-4ce3-4e68-88ca-4d8c0d1c262a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/401.html" afterPath="$PROJECT_DIR$/401.html" />
-      <change beforePath="$PROJECT_DIR$/404.html" afterPath="$PROJECT_DIR$/404.html" />
-      <change beforePath="$PROJECT_DIR$/admin.html" afterPath="$PROJECT_DIR$/admin.html" />
-      <change beforePath="$PROJECT_DIR$/bestellbestaetigung.html" afterPath="$PROJECT_DIR$/bestellbestaetigung.html" />
-      <change beforePath="$PROJECT_DIR$/conf.html" afterPath="$PROJECT_DIR$/conf.html" />
-      <change beforePath="$PROJECT_DIR$/css/admin.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/admin_old.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.min.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.min.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.min.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.min.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.min.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.min.css.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/hours.html" afterPath="$PROJECT_DIR$/hours.html" />
-      <change beforePath="$PROJECT_DIR$/img/customers.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/img/extras.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/img/fileupload.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/img/menu.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/img/orders.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change beforePath="$PROJECT_DIR$/js/TweenMax.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/accounts.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/admin-html.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/admin-shared.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.min.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.min.js.map" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/conf1.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/createoverview.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/fileupload.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/formularinput.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/jquery-3.3.1.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/jquery-3.3.1.slim.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/jspdf.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/menu.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/menu_admin.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/orders.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/pdf.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/js/userdata.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/login.html" afterPath="$PROJECT_DIR$/login.html" />
-      <change beforePath="$PROJECT_DIR$/orderoverview.html" afterPath="$PROJECT_DIR$/orderoverview.html" />
-      <change beforePath="$PROJECT_DIR$/register.html" afterPath="$PROJECT_DIR$/register.html" />
-      <change beforePath="$PROJECT_DIR$/template/401.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/404.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/bestellhistorieTemplate.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/login.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/navigation.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/nochmalBestellenTemplate.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/orderAgainButtonTemplate.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/orderHistoryContentTemplate.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/orderconf.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/orderoverview.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/popup.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/preloader.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/register.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/template.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/template/users.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/user.html" afterPath="$PROJECT_DIR$/user.html" />
+      <change beforePath="$PROJECT_DIR$/admin/customers.html" afterPath="$PROJECT_DIR$/admin/customers.html" />
+      <change beforePath="$PROJECT_DIR$/admin/extras.html" afterPath="$PROJECT_DIR$/admin/extras.html" />
+      <change beforePath="$PROJECT_DIR$/admin/fileupload.html" afterPath="$PROJECT_DIR$/admin/fileupload.html" />
+      <change beforePath="$PROJECT_DIR$/admin/menu.html" afterPath="$PROJECT_DIR$/admin/menu.html" />
+      <change beforePath="$PROJECT_DIR$/js/admin/admin-shared.js" afterPath="$PROJECT_DIR$/js/admin/admin-shared.js" />
+      <change beforePath="$PROJECT_DIR$/json/sessionIDs.json" afterPath="$PROJECT_DIR$/json/sessionIDs.json" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -98,7 +35,7 @@
       <file leaf-file-name="telegramBot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="68">
               <caret line="10" column="33" lean-forward="false" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
@@ -334,8 +271,8 @@
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Python.telegramBot" />
-      <item index="1" class="java.lang.String" itemvalue="Python.PizzaProject" />
+      <item index="0" class="java.lang.String" itemvalue="Python.PizzaProject" />
+      <item index="1" class="java.lang.String" itemvalue="Python.telegramBot" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -465,20 +402,20 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -772,7 +709,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonCfg/telegramBot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="68">
           <caret line="10" column="33" lean-forward="false" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
           <folding>
             <element signature="e#0#73#0" expanded="true" />

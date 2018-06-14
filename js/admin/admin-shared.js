@@ -61,12 +61,75 @@ function loadJSONToTable(json, index) {
         length = 9;
     } else if (index == "extras") {
         length = 4;
+    } else if (index == "driver") {
+        length = 4;
     } else {
         length = 7;
     }
 
     //Gets the DOM-Element of the table
     var table = document.getElementsByClassName("table")[0];
+
+    //Driver
+    if (index == "driver") {
+        // loop for driver
+        for (key in json) {
+
+            //Arrays to save the content of each row
+            var menuRow = new Array();
+            var menuInhalt = new Array();
+
+            //Creates the table row DON-Element
+            var row = document.createElement('div');
+            row.setAttribute('class', 'tr menuElement');
+
+            //Creates the table rows cells
+            for (var k = 0; k < length; k++) {
+                menuRow[k] = document.createElement('div');
+                menuRow[k].setAttribute('class', 'td');
+            }
+
+            //Gives the table on menu site the img specification
+            if (index == "menu") { //Menu
+                menuRow[8].setAttribute('id', 'img');
+            }
+
+            //Adds to all cells an inner DOM-Element which can be edited
+            for (var n = 1; n < length; n++) {
+                menuInhalt[n] = document.createElement('span');
+                menuInhalt[n].setAttribute('class', 'Input');
+                menuInhalt[n].setAttribute('contenteditable', 'true');
+                //Also add the event for highlighting changes
+                menuInhalt[n].onkeydown = function (event) {
+                    //Key-Codes which will be ignored
+                    if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+                        //Activates the del changes button
+                        document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+                        this.parentElement.setAttribute('class', 'td bg-warning');
+                    }
+                };
+            }
+            // Creates the delet Button and add function to change
+            menuInhalt[0] = document.createElement('input');
+            menuInhalt[0].setAttribute('type', 'checkbox');
+            menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
+
+            //Content from JSON to be displayes 
+            menuInhalt[1].innerHTML = (key == "") ? "None" : key;
+            menuInhalt[2].innerHTML = (json[key]["name"] == "") ? "None" : json[key]["name"];
+            menuInhalt[3].innerHTML = (json[key]["available"] == "") ? "None" : json[key]["available"];
+
+
+            //Insert in HTML on end of table, but befor footer(the last/empty row)
+            table.insertBefore(row, document.getElementById("footer"));
+
+            //Appends all cell content to cell and each cell to row
+            for (var c = 0; c < length; c++) {
+                row.appendChild(menuRow[c]);
+                menuRow[c].appendChild(menuInhalt[c]);
+            }
+        }
+    }
 
     //Loop all JSON Entries
     for (var i = 0; i < json.length; i++) {
@@ -148,7 +211,7 @@ function loadJSONToTable(json, index) {
 
                 break;
 
-            //Customers
+                //Customers
             case "customers":
                 //Sets everything to open Contact Popup
                 menuInhalt[6] = document.createElement('span');
@@ -177,7 +240,7 @@ function loadJSONToTable(json, index) {
 
                 break;
 
-            //Orders
+                //Orders
             case "orders":
                 //Sets everything to open Items Popup
                 menuInhalt[2].removeAttribute('contenteditable');
@@ -225,7 +288,7 @@ function loadJSONToTable(json, index) {
                 if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
-            //Extras
+                //Extras
             case "extras":
                 //IDs for each cell
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -703,23 +766,24 @@ function saveTableToServer(table) {
             break;
 
         case "customers":
-            for (var i = 0; i < rows.length -1; i++) {
+            for (var i = 0; i < rows.length - 1; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
                 for (var n = 1; n < row.length; n++) {
-                    try{
-                    //console.log(row[n].firstChild);
-                    key = row[n].firstChild.id.toLowerCase();
-                    if (key == "contact") {
-                        var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadContact(")[1];
-                        value = JSON.parse(data.substr(0, data.length - 6));
-                    } else {
-                        value = row[n].firstChild.innerHTML;
-                        if (key == "id") {
-                            value = parseInt(value);
+                    try {
+                        //console.log(row[n].firstChild);
+                        key = row[n].firstChild.id.toLowerCase();
+                        if (key == "contact") {
+                            var tmp = row[n].firstChild;
+                            var data = tmp.onclick.toString().split("loadContact(")[1];
+                            value = JSON.parse(data.substr(0, data.length - 6));
+                        } else {
+                            value = row[n].firstChild.innerHTML;
+                            if (key == "id") {
+                                value = parseInt(value);
+                            }
                         }
-                    }} catch(err){
+                    } catch (err) {
                         console.log(err);
                     }
                     if (value != "" && value != "None") {
@@ -788,8 +852,7 @@ function itemSearch(input) {
                 if (elements[n].children[0].hasAttribute("onclick")) {
                     try {
                         content += elements[n].firstChild.getAttribute('onclick').toString();
-                    } catch (err) {
-                    }
+                    } catch (err) {}
                 } else {
                     content += elements[n].firstChild.innerHTML.toLowerCase() + ",";
                 }
@@ -977,8 +1040,3 @@ function sendJSONtoServer(jsonData, fileName) {
 function getExtras(json) {
     extras = json;
 }
-
-
-
-
-
