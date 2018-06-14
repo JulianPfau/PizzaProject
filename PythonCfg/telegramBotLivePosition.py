@@ -89,8 +89,19 @@ def get_json(file):
 def delivery_time(bot, update, args):
     chat_id = update.message.chat.id
     orders = json.loads(get_json("orders"))
+    waypoints = []
+    related_orders = []
     for order in orders['jsonData']: # loop trough all oders
         if order['driver'] == chat_id and not order['delivered']: # get all orders assigned to driver and check if they are already finished
-            distance = ajaxGoogleAPI.calcDriveDuration(str(order["contact"]["postcode"] + "+" + order["contact"]["street"]), "88045")
-
-    bot.sendMessage(chat_id, "Die vorraussichtliche Lieferzeit der Bestellung " + order["id"] + " beträgt: " + distance)
+            related_orders.append(order)
+    if len(related_orders) != 0:
+        if len(waypoints) == 1:
+            distance = ajaxGoogleAPI.calcDriveDuration("88045+Fallenbrunnen", [], str(related_orders[0]["contact"]["postcode"] + "+" + related_orders[0]["contact"]["street"]))
+        else:
+            for o in related_orders:
+                waypoints.append(str(o["contact"]["postcode"] + "+" + o["contact"]["street"] + "+" + o["contact"]["nr"]))
+            distance = ajaxGoogleAPI.calcDriveDuration("88045+Fallenbrunnen", waypoints, waypoints[len(waypoints) - 1])
+        bot.sendMessage(chat_id, ajaxGoogleAPI.calcDriveWay("88045+Fallenbrunnen+2", waypoints, "88045+Fallenbrunnen+2"))
+        bot.sendMessage(chat_id, "Die vorraussichtliche Fahrzeit beträgt: " + distance)
+    else:
+        bot.sendMessage(chat_id, "Aktuell sind keine Bestellungen zugewiesen.")
