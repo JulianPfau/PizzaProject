@@ -235,7 +235,8 @@ def register(request):
                                 "street": "",
                                 "city": "",
                                 "nr": "",
-                                "phone": ""
+                                "phone": "",
+                                "chat_id": ""
                             }
                         }
     
@@ -277,7 +278,8 @@ def register(request):
                         "street": value["street"],
                         "city": value["city"],
                         "nr": value["streetNr"],
-                        "phone": value["phone"]
+                        "phone": value["phone"],
+                        "chat_id": value["chat_id"]
                     }
                 }
                 contacts.append(data)

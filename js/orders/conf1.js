@@ -36,6 +36,7 @@ function getdata() {
     document.getElementById('adress').value = bestellung["contact"]["postcode"] + " " + bestellung["contact"]["city"];
     document.getElementById('street').value = bestellung["contact"]["street"] + " " + bestellung["contact"]["nr"];
     document.getElementById('phone').value = bestellung["contact"]["phone"];
+    document.getElementById('telegram').value = bestellung["contact"]["chat_id"];
     document.getElementById('total').value = bestellung["total"] + "\u20AC";
     document.getElementById('payment').value = bestellung["contact"]["zahlung"];
 
