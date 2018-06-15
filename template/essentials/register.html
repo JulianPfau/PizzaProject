@@ -1,22 +1,23 @@
 <div class="row">
-    <div class="col-sm-6 white">
+    <div class="col-sm-12 white">
         <h4>Registrieren</h4>
+        <div class="alert alert-warning" role="alert">
+            <h6>Schon registriert?</h6>
+            Dann melde dich jetzt an. <a id="t_link_login" href="">Jetzt anmelden</a>
+        </div>
         <div>
             <div class="form-group">
                 <label for="firstname">Vorname</label>
-                <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp"
-                       placeholder="Vorname">
+                <input type="text" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Vorname">
             </div>
             <div class="form-group">
                 <label for="lastname">Nachname</label>
-                <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp"
-                       placeholder="Nachname">
+                <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Nachname">
             </div>
             <hr>
             <div class="form-group">
                 <label for="postcode">Postleitzahl</label>
-                <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp"
-                       placeholder="Postleitzahl" onchange="getPLZ();">
+                <input type="text" class="form-control" id="postcode" aria-describedby="emailHelp" placeholder="Postleitzahl" onchange="getPLZ();">
                 <div id="ans"></div>
             </div>
             <div class="form-group">
@@ -29,23 +30,19 @@
             </div>
             <div class="form-group">
                 <label for="streetNr">Hausnummer</label>
-                <input type="text" class="form-control" id="streetNr" aria-describedby="emailHelp"
-                       placeholder="Hausnummer">
+                <input type="text" class="form-control" id="streetNr" aria-describedby="emailHelp" placeholder="Hausnummer">
             </div>
             <div class="form-group">
                 <label for="phone">Telefonnummer</label>
-                <input type="text" class="form-control" id="phone" aria-describedby="emailHelp"
-                       placeholder="Telefonnummer">
+                <input type="text" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Telefonnummer">
             </div>
             <div class="form-group">
                 <label for="telegram">Telegram ChatID</label>
-                <input type="text" class="form-control" id="telegram" aria-describedby="emailHelp"
-                       placeholder="Telegram ChatID">
+                <input type="text" class="form-control" id="telegram" aria-describedby="emailHelp" placeholder="Telegram ChatID">
             </div>
             <div class="form-group">
                 <label for="username">Email</label>
-                <input type="email" class="form-control" id="username" aria-describedby="emailHelp"
-                       placeholder="E-Mail">
+                <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="E-Mail">
             </div>
             <div class="form-group">
                 <label for="password">Passwort</label>
@@ -62,18 +59,8 @@
                     &auml;lter bin.</label>
             </div>
             <hr>
-            <button id="bestelluebersicht" onclick="register()" onkeypress="return returnReg(event)"
-                    class="btn orange-o75">Konto erstellen
+            <button id="bestelluebersicht" onclick="register()" onkeypress="return returnReg(event)" class="btn orange-o75">Konto erstellen
             </button>
-        </div>
-    </div>
-    <div class="col-sm-6 card orange">
-        <div class="align-middle align-self-center text-center">
-            <img src="../img/pizza.png" style="width: 96px">
-            <hr>
-            <h1>Schon registriert?</h1>
-            <p>Dann melde dich jetzt an.</p>
-            <a id="t_link_login" href=""><p>Jetzt anmelden</p></a>
         </div>
     </div>
 </div>

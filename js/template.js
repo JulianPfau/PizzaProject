@@ -27,6 +27,11 @@ var LOGIN_URL = "login.html";
 var REGISTER_URL = "register.html";
 // 404 site filepath
 var E404_URL = "404.html";
+// Telegram Information page
+var TELEGRAM_URL = "telegram.html";
+
+/* Telegram Bot*/
+var TELEGRAM_BOT_LINK = "http://google.com";
 
 
 /* Template Directory Path
@@ -38,7 +43,7 @@ var TemplatePath = "template/";
    IMPORTANT: These are the jQuery ID names (these contain "#" at the beginning)*/
 // Preloader ID
 var PreloaderID = "#t_preloader";
-// Popup ID
+// Popup IDF
 var popupID = "#t_popup";
 // navigation ID
 var navigationID = "#t_navigation";
@@ -144,6 +149,9 @@ function template(page) {
                 // orderoverview site
                 t_orderoverview();
                 break;
+            case "telegram":
+                t_telegram();
+                break;
             case "404":
                 // 404 site
                 t_404();
@@ -208,6 +216,7 @@ function t_navigation() {
         var cart = document.getElementById("cart");
         var logout = document.getElementById("logout");
         var menu = document.getElementById("menu");
+        var telegram = document.getElementById("telegram");
 
         // inserts the page links into the navigation
         logo.href = MENU_URL;
@@ -215,6 +224,7 @@ function t_navigation() {
         state.href = LOGIN_URL;
         cart.href = CART_URL;
         menu.href = MENU_URL;
+        telegram.href = TELEGRAM_URL;
 
         // if the user is logged in show the Profile name
         if (t_checkSID()) {
@@ -235,6 +245,16 @@ function t_navigation() {
     });
 }
 
+
+/* [T] Telegram Template */
+function t_telegram() {
+    // Filename of the Login Template
+    var LoginFile = "telegram.html";
+
+    $(MainID).load(TemplatePath + LoginFile, function () {
+        document.getElementById("t_telegram_bot").href = TELEGRAM_BOT_LINK;
+    });
+}
 
 /* [T] Login Template */
 function t_login() {
@@ -358,6 +378,9 @@ function t_menu() {
         async: false
     }).done(function (data) {
         $(MainID).append(data);
+        
+        document.getElementById("t_telegram").href = TELEGRAM_BOT_LINK;
+        document.getElementById("t_telegram_info").href = TELEGRAM_URL;
 
         // run site specific functions
         loadJSONfromServer("menu", createTablefromJSON);
