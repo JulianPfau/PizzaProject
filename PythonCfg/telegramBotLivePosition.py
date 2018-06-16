@@ -53,6 +53,7 @@ def get(bot, update):
                     active_deliverys[chat_id] = bot.sendLocation(chat_id=chat_id, latitude=location.latitude,
                                                                       longitude=location.longitude,
                                                                       disable_notification=True, live_period=2700)['message_id']
+                    bot.send_message(chat_id=driver, text="Die nächste Bestellung hat die Bestellnummer {}.\n{}".format(item["id"], ppAddress(item)))
                     break
     
     
@@ -61,6 +62,9 @@ def get(bot, update):
     write_json("orders", orders)
     
     bot.editMessageLiveLocation(chat_id=chat_id, message_id = active_deliverys[chat_id] ,latitude=location.latitude, longitude=location.longitude)
+
+def ppAddress(order):
+    return "Kontakt ist {},\nTel. {},\nDie Addresse ist \n{} {},\n  {},\nZahlung: {}".format(order["contact"]["name"], order["contact"]["phone"], order["contact"]["street"],  order["contact"]["nr"], order["contact"]["city"], order["contact"]["postcode"], order["contact"]["zahlung"])
     
 def is_driver(chat_id):
     response = get_json("driver")
