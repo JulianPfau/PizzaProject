@@ -1015,6 +1015,51 @@ function loadContact(json, index) {
     };
 }
 
+/**
+ * Function to create a new row of a specific table
+ *
+ *
+ *  @param table
+ */
+function createNewRow(table){
+    switch(table){
+        case "driver":
+            var master_table = document.getElementsByClassName("table")[0];
+            var footer = document.getElementById("footer");
+            
+            var newRow = document.createElement("div");
+            newRow.setAttribute('class', 'tr menuElement');
+            
+            var newRowElements = [];
+            
+            // Creates the delet Button and add function to change
+            newRowElements[0] = document.createElement('input');
+            newRowElements[0].setAttribute('type', 'checkbox');
+            newRowElements[0].setAttribute('onchange', 'markDelete(this)');
+            
+            for(var i = 1; i<3; i++){
+                newRowElements[i] = document.createElement("span");
+                newRowElements[i].setAttribute('class', 'Input');
+                newRowElements[i].setAttribute('contenteditable', 'true');
+                newRowElements[i].innerText = "Neuer Fahrer"
+            }
+            
+            // create available cell
+            newRowElements[3] = document.createElement('input');
+            newRowElements[3].setAttribute('type', 'checkbox');
+            
+            // append the new row to the table
+            for(var i = 0; i< newRowElements.length; i++){
+                var td = document.createElement("div");
+                td.setAttribute('class', 'td');
+                td.append(newRowElements[i]);
+                newRow.appendChild(td);
+            }
+            master_table.insertBefore(newRow, footer);
+            
+    }
+}
+
 
 //------------------------------------------Small helper functions---------------------------------------------------------
 

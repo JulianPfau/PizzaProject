@@ -54,6 +54,8 @@
     </div>
     <a class="btn btn-lg active" role="button" aria-pressed="true"
        onclick="if (confirm('Save all changes?') == true) saveTableToServer('driver');">Speichern</a>
+       <a class="btn btn-lg" id="reload" role="button" aria-pressed="true"
+       onclick="createNewRow('driver')">neuer Fahrer</a>
     <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true"
        onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
