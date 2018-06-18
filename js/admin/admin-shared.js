@@ -89,11 +89,6 @@ function loadJSONToTable(json, index) {
                 menuRow[k].setAttribute('class', 'td');
             }
 
-            //Gives the table on menu site the img specification
-            if (index == "menu") { //Menu
-                menuRow[8].setAttribute('id', 'img');
-            }
-
             //Adds to all cells an inner DOM-Element which can be edited
             for (var n = 1; n < length; n++) {
                 menuInhalt[n] = document.createElement('span');
@@ -117,8 +112,16 @@ function loadJSONToTable(json, index) {
             //Content from JSON to be displayes 
             menuInhalt[1].innerHTML = (key == "") ? "None" : key;
             menuInhalt[2].innerHTML = (json[key]["name"] == "") ? "None" : json[key]["name"];
-            menuInhalt[3].innerHTML = (json[key]["available"] == "") ? "None" : json[key]["available"];
-
+            
+            menuInhalt[3] = document.createElement('input');
+            menuInhalt[3].setAttribute('type', 'checkbox');
+            if(json[key]["available"] == ""){
+                menuInhalt[3].checked = false;
+            }else{
+                if(json[key]["available"]=="true"){
+                    menuInhalt[3].checked = true;
+                }
+            }
 
             //Insert in HTML on end of table, but befor footer(the last/empty row)
             table.insertBefore(row, document.getElementById("footer"));
@@ -685,11 +688,34 @@ function updateTable(table, value) {
 
 function saveTableToServer(table) {
     var rows = document.getElementsByClassName("tr menuElement");
-    var json = [];
     var key, value, row;
 
     switch (table) {
+        
+        case "driver":
+            var json = {};
+            
+            for (var i = 0; i < rows.length - 1; i++) {
+                var objElement = new Object();
+                row = rows[i].childNodes;
+                
+                // only get parameters and build array if it should not be deleted
+                if(!row[0].firstChild.checked){
+                    // get parameters
+                    var chat_id = row[1].firstChild.innerText;
+                    var name = row[2].firstChild.innerText;
+                    var available = row[3].firstChild.checked;
+
+                    // build array object
+                    json[chat_id] = {};
+                    json[chat_id].name = name;
+                    json[chat_id].available = available.toString();
+                }
+            }
+            break;
+        
         case "orders":
+            var json = [];
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
@@ -722,6 +748,7 @@ function saveTableToServer(table) {
             break;
         case "menu":
             var node;
+            var json = [];
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].children;
@@ -766,6 +793,7 @@ function saveTableToServer(table) {
             break;
 
         case "customers":
+            var json = [];
             for (var i = 0; i < rows.length - 1; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
@@ -794,6 +822,7 @@ function saveTableToServer(table) {
             }
             break;
         case "extras":
+            var json = [];
             //Placeholder
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
@@ -984,6 +1013,51 @@ function loadContact(json, index) {
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
+}
+
+/**
+ * Function to create a new row of a specific table
+ *
+ *
+ *  @param table
+ */
+function createNewRow(table){
+    switch(table){
+        case "driver":
+            var master_table = document.getElementsByClassName("table")[0];
+            var footer = document.getElementById("footer");
+            
+            var newRow = document.createElement("div");
+            newRow.setAttribute('class', 'tr menuElement');
+            
+            var newRowElements = [];
+            
+            // Creates the delet Button and add function to change
+            newRowElements[0] = document.createElement('input');
+            newRowElements[0].setAttribute('type', 'checkbox');
+            newRowElements[0].setAttribute('onchange', 'markDelete(this)');
+            
+            for(var i = 1; i<3; i++){
+                newRowElements[i] = document.createElement("span");
+                newRowElements[i].setAttribute('class', 'Input');
+                newRowElements[i].setAttribute('contenteditable', 'true');
+                newRowElements[i].innerText = "Neuer Fahrer"
+            }
+            
+            // create available cell
+            newRowElements[3] = document.createElement('input');
+            newRowElements[3].setAttribute('type', 'checkbox');
+            
+            // append the new row to the table
+            for(var i = 0; i< newRowElements.length; i++){
+                var td = document.createElement("div");
+                td.setAttribute('class', 'td');
+                td.append(newRowElements[i]);
+                newRow.appendChild(td);
+            }
+            master_table.insertBefore(newRow, footer);
+            
+    }
 }
 
 
