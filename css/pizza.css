@@ -7,7 +7,21 @@
     right: 0;
     bottom: 0;
     background-size: 64px;
-    background: rgba(255, 255, 255, 0.9) url("../img/pizza.png") no-repeat center;
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: url("../img/pizza.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#t_preloader p{
+    position: absolute;
+    display: block;
+    text-align: center;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 40%;
+    opacity: 0.5;
 }
 
 

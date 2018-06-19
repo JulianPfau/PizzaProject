@@ -28,14 +28,14 @@ function createTablefromJSON(rawData) {
 
     for (var i = 0; i < json.length; i++) {                                            // loop through the JSON Object
         var container = document.createElement("div");
-        container.setAttribute("class", "col-12 col-md");
+        container.setAttribute("class", "row");
+        container.setAttribute("style", "border-radius: 10px; border: solid 0.5px rgba(0,0,0,0.2); margin: 10px");
         container.setAttribute("name", i + "_" + json[i]["name"]);                     //create a HTML Object and set the name by index and name of the product
-        container.style.display = "flex";
 
         var btnOrder = document.createElement("button");
 
         var selAmount = document.createElement("select");
-        selAmount.setAttribute("class", "selectpicker");
+        selAmount.setAttribute("class", "selectpicker col-sm-1");
         var amId = 'amount' + i;
         selAmount.setAttribute("id", amId);
         selAmount.setAttribute("onChange", "changePrice('" + i + "')");                  //set onChange event with index of the element
@@ -47,7 +47,7 @@ function createTablefromJSON(rawData) {
             selAmount.appendChild(option);
         }
 
-        btnOrder.setAttribute("class", "btn orange-o75 btn-primary btn-lg btn-success");
+        btnOrder.setAttribute("class", "col-sm-5 btn orange-o75");
         btnOrder.setAttribute("data-toggle", "modal");
         btnOrder.setAttribute("data-target", "#basicModal");
         btnOrder.setAttribute("onclick", "pizzaWahl(" + i + ");");
@@ -61,25 +61,28 @@ function createTablefromJSON(rawData) {
         arrContent.forEach(function (key) {                                         // for each key set above go through the element and create an div element
             var value = json[i][key];
             var d = document.createElement("div");
-            d.setAttribute("class", "col-12 col-md");
+            //d.setAttribute("class", "col-sm-12");
             // if it's a picture create img src
             if (key == "picture") {                                                 // set attribute to display an image in html
                 var content = document.createElement("img");
+                d.setAttribute("class", "col-sm-4");
+                
                 content.setAttribute("src", "/img/menu/" + value);
                 content.setAttribute("id", key);
-                content.style.maxWidth = "100px";
-                content.style.maxHeight = "100px";
+                content.style.maxWidth = "125px";
+                content.style.maxHeight = "125px";
                 content.style.display = "block";
                 content.style.marginLeft = "auto";
                 content.style.marginRight = "auto";
                 d.appendChild(content);
                 container.appendChild(d);
-            } else {
+            } else {               
                 var content = document.createElement("span");
                 content.setAttribute("class", "mb-1");
                 content.setAttribute("id", key);
                 //content.style.flexDirection = "column";
                 if (key == "sizes" && value.length != 0) {                          // create an dropdown to select one of the different sizes
+                    d.setAttribute("class", "col-sm-2");
                     var sel = document.createElement("select");
                     sel.setAttribute("class", "selectpicker");
                     sel.setAttribute("onchange", "changePrice(" + i + ")");
@@ -93,6 +96,7 @@ function createTablefromJSON(rawData) {
                     }
                     content.appendChild(sel);
                 } else if (key == "prices") {                                       // set the default price to the first price of the product
+                    d.setAttribute("class", "col-sm-6 text-right");
                     content.innerHTML = "Preis: " + value[0] + " €";
 
                     for (var p = 0; p < value.length; p++) {
@@ -103,7 +107,7 @@ function createTablefromJSON(rawData) {
                         d.appendChild(input);
                     }
                 } else if (key == "extras" && value.length != 0) {
-
+                    d.setAttribute("class", "col-sm-2");
                     var arrExtras = JSON.parse(extras)["jsonData"];
 
                     for (var e = 0; e < value.length; e++) {
@@ -120,12 +124,14 @@ function createTablefromJSON(rawData) {
                     }
 
                     content.innerHTML = "Extras";
+                    content.setAttribute('class', 'btn btn btn-outline-dark btn-sm');
                     content.setAttribute('data-toggle', 'modal');
                     content.setAttribute('data-target', '#modal');
                     content.setAttribute('onClick', "openExtras(this," + i + ")");
 
                 }
                 else {
+                    d.setAttribute("class", "col-sm-2");
                     content.innerHTML = value;
                 }
                 d.appendChild(content);
