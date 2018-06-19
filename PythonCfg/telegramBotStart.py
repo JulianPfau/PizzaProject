@@ -120,16 +120,16 @@ def reply(bot, update):
 
 def edit(bot, update):
     button_list = [
-        telegram.InlineKeyboardButton('Vorname', callback_data='0'),
-        telegram.InlineKeyboardButton('Nachname', callback_data='1'),
-        telegram.InlineKeyboardButton('E-Mail', callback_data='2'),
-        telegram.InlineKeyboardButton('Passwort', callback_data='3'),
-        telegram.InlineKeyboardButton('Stadt', callback_data='4'),
-        telegram.InlineKeyboardButton('PLZ', callback_data='5'),
-        telegram.InlineKeyboardButton('Straﬂe', callback_data='6'),
-        telegram.InlineKeyboardButton('Hausnummer', callback_data='7'),
-        telegram.InlineKeyboardButton('Handy Nummer', callback_data='8'),
-        telegram.InlineKeyboardButton('Delete', callback_data='del')
+        telegram.InlineKeyboardButton('Vorname', callback_data=json.dumps({'type': 'reg', "id": '0'})),
+        telegram.InlineKeyboardButton('Nachname', callback_data=json.dumps({'type': 'reg', "id": '1'})),
+        telegram.InlineKeyboardButton('E-Mail', callback_data=json.dumps({'type': 'reg', "id": '2'})),
+        telegram.InlineKeyboardButton('Passwort', callback_data=json.dumps({'type': 'reg', "id": '3'})),
+        telegram.InlineKeyboardButton('Stadt', callback_data=json.dumps({'type': 'reg', "id": '4'})),
+        telegram.InlineKeyboardButton('PLZ', callback_data=json.dumps({'type': 'reg', "id": '5'})),
+        telegram.InlineKeyboardButton('Straﬂe', callback_data=json.dumps({'type': 'reg', "id": '6'})),
+        telegram.InlineKeyboardButton('Hausnummer', callback_data=json.dumps({'type': 'reg', "id": '7'})),
+        telegram.InlineKeyboardButton('Handy Nummer', callback_data=json.dumps({'type': 'reg', "id": '8'})),
+        telegram.InlineKeyboardButton('Delete', callback_data=json.dumps({"type": "reg", "id": 'del'}))
     ]
 
     reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
