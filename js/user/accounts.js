@@ -171,7 +171,7 @@ function register() {
         "street": street,
         "streetNr": streetNr,
         "phone": phone,
-        "chat_id": telegram
+        "chat_id": parseFloat(telegram)
     };
     var result = JSON.parse(ajax("register", json));
     console.log(result);
@@ -239,6 +239,8 @@ function sendNewData() {
     var email = sessionStorage.getItem("email");
     var phone = document.getElementById('userphone').value;
     var telegram = document.getElementById('telegram').value;
+    
+    console.log(phone);
 
 
     //Checks if the E-Mail is correct
@@ -258,15 +260,18 @@ function sendNewData() {
         "streetNr": streetNr,
         "phone": phone,
         "city": city,
-        "chat_id": telegram
+        "chat_id": parseFloat(telegram)
     };
+    console.log(json);
     var result = JSON.parse(ajax("updateData", json));
+    console.log(result);
+    /*
     if (result["STATUS"] == 'OK') {
         popup("Änderung der Daten erfolgreich");
         setTimeout(location.href = PROFILE_URL, 2000);
     } else {
         popup('Unbekannter Fehler');
-    }
+    }*/
 }
 
 //Creates a Popup for informing the User about various events, takes in the Text displayed in the Popup

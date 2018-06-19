@@ -115,13 +115,7 @@ function loadJSONToTable(json, index) {
             
             menuInhalt[3] = document.createElement('input');
             menuInhalt[3].setAttribute('type', 'checkbox');
-            if(json[key]["available"] == ""){
-                menuInhalt[3].checked = false;
-            }else{
-                if(json[key]["available"]=="true"){
-                    menuInhalt[3].checked = true;
-                }
-            }
+            menuInhalt[3].checked = (json[key]["available"] == "") ? false : json[key]["available"];
 
             //Insert in HTML on end of table, but befor footer(the last/empty row)
             table.insertBefore(row, document.getElementById("footer"));
@@ -555,7 +549,7 @@ function saveContactPopup(index) {
         var key = modal.children[i].firstElementChild.id.toLowerCase();
         var value = modal.children[i].firstElementChild.innerHTML;
 
-        if (key != "postcode") {
+        if (key != "chat_id") {
             json += '"' + key + '":"' + value + '",';
         } else {
             if (value == "")
@@ -588,7 +582,7 @@ function saveContactOrdersPopup(index) {
         var key = modal.children[i].firstElementChild.id.toLowerCase();
         var value = modal.children[i].firstElementChild.innerHTML;
 
-        if (key != "postcode") {
+        if (key != "chat_id") {
             json += '"' + key + '":"' + value + '",';
         } else {
             if (value == "")
@@ -709,7 +703,7 @@ function saveTableToServer(table) {
                     // build array object
                     json[chat_id] = {};
                     json[chat_id].name = name;
-                    json[chat_id].available = available.toString();
+                    json[chat_id].available = available;
                 }
             }
             break;

@@ -31,7 +31,7 @@ var E404_URL = "404.html";
 var TELEGRAM_URL = "telegram.html";
 
 /* Telegram Bot*/
-var TELEGRAM_BOT_LINK = "http://google.com";
+var TELEGRAM_BOT_LINK = "http://t.me/PizzaProjekt_bot";
 
 
 /* Template Directory Path
@@ -216,7 +216,7 @@ function t_navigation() {
         var cart = document.getElementById("cart");
         var logout = document.getElementById("logout");
         var menu = document.getElementById("menu");
-        var telegram = document.getElementById("telegram");
+        var telegram = document.getElementById("t_telegram");
 
         // inserts the page links into the navigation
         logo.href = MENU_URL;

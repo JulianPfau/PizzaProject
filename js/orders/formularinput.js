@@ -48,7 +48,7 @@ function writeOrderInStorageAndJson() {
         nr: nr,
         phone: phone,
         zahlung: zahlung,
-        chat_id: telegram
+        chat_id: parseFloat(telegram)
     };
 
     // Delete menu and extras in sessionStorage after click Button 'kostenpflichtig bestellen.
@@ -80,6 +80,7 @@ function writeOrderInStorageAndJson() {
             dict["items"] = pizzen;
             dict["contact"] = objcontact;
             dict["total"] = total;
+            dict["driver"] = null;
             dict["delivered"] = false;
             
             var fertigesdict = {};

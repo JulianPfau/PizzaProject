@@ -236,6 +236,7 @@ def updateUserData(json_dir, request):
 		with open(json_dir + "customers.json", "r") as f:
 			data = json.load(f)
 
+		print(request)
 		for item in data:
 			if str(request['email']) == str(item['email']):
 				item['firstname'] = request['firstname']

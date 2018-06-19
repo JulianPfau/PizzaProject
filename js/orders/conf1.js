@@ -39,6 +39,7 @@ function getdata() {
     document.getElementById('telegram').value = bestellung["contact"]["chat_id"];
     document.getElementById('total').value = bestellung["total"] + "\u20AC";
     document.getElementById('payment').value = bestellung["contact"]["zahlung"];
+    document.getElementById('telegram').value = bestellung["contact"]["chat_id"];
 
 
     var pizzen = bestellung["items"];
