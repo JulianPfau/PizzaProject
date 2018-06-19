@@ -164,7 +164,6 @@ def deliver(bot, update, args):
             json_data = response["jsonData"]
             for order in json_data:
                 if order["id"] == order_number and not order["delivered"]:
-
                     order["delivered"] = True
 
                     drivers = get_json("driver")["jsonData"]
@@ -247,11 +246,12 @@ def request_order(bot, update):
         if len(button_list) > 0:
             reply_markup = telegram.InlineKeyboardMarkup([button_list])
             print(reply_markup)
-            bot.sendMessage(chat_id=update.callback_query.message.chat.id,
-                            inline_message_id=update.callback_query.message.message_id,
-                            text="select an order", reply_markup=reply_markup)
+            bot.editMessageText(chat_id=update.callback_query.message.chat.id,
+                                message_id=update.callback_query.message.message_id,
+                                text="Select an order", reply_markup=reply_markup)
         else:
-            bot.sendMessage(chat_id=update.callback_query.message.chat.id, text="No open orders")
+            bot.editMessageText(chat_id=update.callback_query.message.chat.id,
+                                message_id=update.callback_query.message.message_id, text="No open orders")
 
     elif q_data["type"] == "order":
         driver_id = q_data["id"]
@@ -260,5 +260,6 @@ def request_order(bot, update):
             if orders["jsonData"][i]["id"] == order_id:
                 orders["jsonData"][i]["driver"] = driver_id
         write_json("orders", orders["jsonData"])
-        bot.sendMessage(chat_id=update.callback_query.message.chat.id,
-                        text="Order " + order_id + " wurde dem Fahrer " + driver_id + " zugewiesen")
+        bot.editMessageText(chat_id=update.callback_query.message.chat.id,
+                            message_id=update.callback_query.message.message_id,
+                            text="Order " + order_id + " wurde dem Fahrer " + driver_id + " zugewiesen")
