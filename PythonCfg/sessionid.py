@@ -7,7 +7,7 @@ import random
 import time
 
 # 24h maximum lifetime of the sessionID
-SESSIONIDLIFETIME = 86400
+SESSION_ID_LIFETIME = 86400
 
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
@@ -25,39 +25,40 @@ json_dir = server_root + "/json/"
 # contains every stored sessionID in an array
 file = open(json_dir + "sessionIDs.json")
 # JSON SessionID database array
-oldsessionIDs = json.load(file)
+old_session_ids = json.load(file)
 
 
-# creates a random number between 100 000 and 2 147 483 648
-def createSessionID():
+def create_session_id():
+    """creates a random number between 100 000 and 2 147 483 648"""
     sid = random.randrange(100000, 2147483648)
-    ts = getTimeStamp()
+    ts = get_time_stamp()
 
     # write the sid in the data base
     file = open(json_dir + "sessionIDs.json")
-    jsonfile = json.load(file)
-    appenddata = {"sessionID": sid, "timestamp": ts}
-    jsonfile.append(appenddata)
+    json_file = json.load(file)
+    append_data = {"sessionID": sid, "timestamp": ts}
+    json_file.append(append_data)
 
     file = open(json_dir + "sessionIDs.json", "w")
-    file.write(json.dumps(jsonfile))
+    file.write(json.dumps(json_file))
 
     return sid
 
-# removes the sid in the database
+
 def logout(sid):
+    """removes the sid in the database"""
     # write the sid in the data base
     file = open(json_dir + "sessionIDs.json")
-    jsonfile = json.load(file)
+    json_file = json.load(file)
     pos = 0
-    for id in jsonfile:
+    for id in json_file:
         if str(id["sessionID"]) in str(sid):
             break
         pos += 1
-    del jsonfile[pos]
+    del json_file[pos]
 
     file = open(json_dir + "sessionIDs.json", "w")
-    file.write(json.dumps(jsonfile))
+    file.write(json.dumps(json_file))
 
     response = {
         'STATUS': 'OK'
@@ -65,35 +66,39 @@ def logout(sid):
     return json.dumps(response)
 
 
-# returns the current timestamp
-# to read the timestamp in a YYYY-MM-DD HH:MM:SS format
-# use this: datetime.datetime.fromtimestamp(TIMESTAMP).strftime('%Y-%m-%d %H:%M:%S')
-# ! important: you have to import the datetime module
-def getTimeStamp():
+def get_time_stamp():
+    """
+     returns the current timestamp
+    to read the timestamp in a YYYY-MM-DD HH:MM:SS format
+    use this: datetime.datetime.fromtimestamp(TIMESTAMP).strftime('%Y-%m-%d %H:%M:%S')
+    ! important: you have to import the datetime module
+    """
     return time.time()
 
 
-# a function to check if the user is still logged in or not
-# it will return true if the user is logged in, otherwise false
-# check if the SessionID is already stored in the database
-# the reason for that is ever use has his own and unique sessionID
-# so during the sessionID check the Client don't have to send data of the user.
-def checkSessionID(sessionID):
+def check_session_id(session_id):
+    """
+    a function to check if the user is still logged in or not
+    it will return true if the user is logged in, otherwise false
+    check if the SessionID is already stored in the database
+    the reason for that is ever use has his own and unique session_id
+    so during the session_id check the Client don't have to send data of the user.
+    """
     file = open(json_dir + "sessionIDs.json")
-    oldsessionIDs = json.load(file)
+    old_session_ids = json.load(file)
 
-    # if the sessionID is stored
+    # if the session_id is stored
     i = 0
-    while i < len(oldsessionIDs):
-        if str(oldsessionIDs[i]["sessionID"]) == str(sessionID):
-            sessiontimestamp = oldsessionIDs[i]["timestamp"]
-            currenttimestamp = getTimeStamp()
+    while i < len(old_session_ids):
+        if str(old_session_ids[i]["session_id"]) == str(session_id):
+            session_timestamp = old_session_ids[i]["timestamp"]
+            current_timestamp = get_time_stamp()
 
             print("found sid")
 
             # check if the session is still the lifetime range
-            if sessiontimestamp + SESSIONIDLIFETIME > currenttimestamp:
-                # sessionID and timestamp is valid (User is logged in)
+            if session_timestamp + SESSION_ID_LIFETIME > current_timestamp:
+                # session_id and timestamp is valid (User is logged in)
                 print("and sid is valid")
                 response = {
                     'STATUS': 'OK'
@@ -102,7 +107,7 @@ def checkSessionID(sessionID):
 
         i += 1
 
-    # sessionID and timestamp is invalid (User is no longer logged in)
+    # session_id and timestamp is invalid (User is no longer logged in)
     response = {
         'STATUS': 'ERROR'
     }

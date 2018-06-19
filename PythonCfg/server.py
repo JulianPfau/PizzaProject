@@ -30,7 +30,7 @@ pdf_dir = server_root + "/pdf/"
 # commit
 
 
-def saveJSON(request):
+def save_json(request):
     """
     Saves a transmitted json to the specified file.
     !!Caution!! The file will be overwritten.
@@ -64,7 +64,7 @@ def saveJSON(request):
     return response
 
 
-def jsondata(request):
+def get_json_data(request):
     """
     Reads the whole json-string out of the specified file and sets
     ist as the response.
@@ -127,7 +127,7 @@ def fileupload(request):
     return response
 
 
-def pdfupload(request):
+def pdf_upload(request):
     """
     Handles the pdf upload. The pdf ist encoded with utf8
     and on the server decoded again.
@@ -159,7 +159,7 @@ def pdfupload(request):
     return response
 
 
-def imglist():
+def img_list():
     """
     Lists all the pictures stored in the folder menu
     on the server.
@@ -170,8 +170,8 @@ def imglist():
         dict    List of the Pictures as a json-string
     """
     global img_dir
-    imglist = os.listdir(server_root + "/img/menu/")
-    return json.dumps(imglist)
+    img_list_data = os.listdir(server_root + "/img/menu/")
+    return json.dumps(img_list_data)
 
 
 def login(request):
@@ -361,8 +361,8 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
         mime, encoding = mimetypes.guess_type(self.path)
         if "admin" in self.path:
-            if ('Basic ' + MyServer.key.decode("utf-8") != self.headers['Authorization'] or self.headers[
-                'Authorization'] is None):
+            if ('Basic ' + MyServer.key.decode("utf-8") != self.headers['Authorization'] or
+                    self.headers['Authorization'] is None):
                 self.do_AUTHHEAD()
                 self.wfile.write(bytes(open(server_root + "/401.html").read(), "UTF8"))
                 pass
@@ -464,16 +464,16 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = fileupload(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'images':
-                    response = imglist()
+                    response = img_list()
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'jsonRequest':
-                    response = jsondata(data)
+                    response = get_json_data(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'ajaxGoogleAPI':
                     response = ajaxGoogleAPI.calcDistance(data)
                     self.wfile.write(bytes(response, 'UTF8'))
-                if data['request'] == 'saveJSON':
-                    response = saveJSON(data)
+                if data['request'] == 'save_json':
+                    response = save_json(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'deleteHeader':
                     response = MyServer.delete_header(self)
@@ -481,7 +481,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 if data['request'] == 'newOrder':
                     response = requestsJSON.appendOrder(json_dir, data)
                     self.wfile.write(bytes(response, "UTF8"))
-                if data['request'] == 'getOrderbyId':
+                if data['request'] == 'get_order_by_id':
                     response = requestsJSON.getOrderbyId(json_dir, data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'login':
@@ -502,17 +502,17 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                 if data['request'] == 'updateData':
                     response = requestsJSON.updateUserData(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
-                if data['request'] == 'deleteUser':
+                if data['request'] == 'delete_user':
                     response = requestsJSON.deleteUser(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
-                if data['request'] == 'getOrderbyMail':
+                if data['request'] == 'get_order_by_mail':
                     print("order by email request")
                     response = requestsJSON.getOrderbyMail(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
             except IOError:
                 self.send_error(404, "Something went wrong")
         except json.decoder.JSONDecodeError:
-            pdfupload(request)
+            pdf_upload(request)
 
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
@@ -548,7 +548,7 @@ if __name__ == '__main__':
                                     ssl_version=ssl.PROTOCOL_TLSv1
                                     )
 
-    print("running..")
+    print("running on https://localhost:" + str(PORT))
     try:
         while 1:
             sys.stdout.flush()

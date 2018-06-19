@@ -8,12 +8,13 @@ server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 json_dir = server_root + "/json/"
 
 
-# Order-Command, # prints out the Buttons to select Drinks/Food
 def order(bot, update):
+    """prints out the Buttons to select Drinks/Food"""
     global foodDict, drinksDict
     foodDict = {}
     drinksDict = {}
 
+    # Appends all types from json to variable types
     types = []
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
@@ -31,8 +32,8 @@ def order(bot, update):
     bot.send_message(chat_id=update.message.chat.id, text="Bitte wählen", reply_markup=reply_markup)
 
 
-# adds an Element to the FoodList of a specific ChatID
 def add_to_food_list(chat_id, food):
+    """adds an Element to the FoodList of a specific ChatID"""
     if chat_id in foodDict:
         temp_list = foodDict[chat_id]
         temp_list.append(food.replace("_", " | "))
@@ -41,48 +42,53 @@ def add_to_food_list(chat_id, food):
         foodDict[chat_id] = [food.replace("_", " | ")]
 
 
-# adds an Element to the Drink List of a specific ChatID
 def add_to_drinks_list(chat_id, drink):
+    """adds an Element to the Drink List of a specific ChatID"""
     if chat_id in drinksDict:
-        # print('Added Drink; exisitng ID')
         temp_list = drinksDict[chat_id]
         temp_list.append(drink.replace("_", " | "))
-        # print(str(drink).split('_'))
         drinksDict[chat_id] = temp_list
     else:
-        # print("added drink, new id")
         drinksDict[chat_id] = [drink.replace("_", " | ")]
 
 
-# processes the Callbacks
 def button(bot, update):
+    """Is called on callback"""
+    # Pizzen
     if update.callback_query.data == "pizzen":
+        # Sends all pizzas
         bot.editMessageReplyMarkup(chat_id=update.callback_query.message.chat.id,
                                    message_id=update.callback_query.message.message_id,
                                    text="Bitte wählen sie ihre Pizza",
                                    reply_markup=generate_pizza_button_markup())
+    # Getränke
     elif update.callback_query.data == "getraenke":
+        # Sends all drinks
         bot.editMessageReplyMarkup(chat_id=update.callback_query.message.chat.id,
                                    message_id=update.callback_query.message.message_id,
                                    text="Bitte wählen sie ihr Getränk",
                                    reply_markup=generate_drinks_buttons_markup())
+    # Drinks
     elif update.callback_query.data.startswith('D:'):
+        # adds the drink to the order
         add_to_drinks_list(update.callback_query.message.chat.id, update.callback_query.data[2:])
         bot.editMessageText(chat_id=update.callback_query.message.chat.id,
                             message_id=update.callback_query.message.message_id,
                             text="Getränk " + update.callback_query.data[2:] + " erfolgreich hinzugefügt",
                             reply_markup=generate_drinks_buttons_markup())
+    # Pizzen
     elif update.callback_query.data.startswith('P:'):
+        # adds the pizza to the order
         add_to_food_list(update.callback_query.message.chat.id, update.callback_query.data[2:])
         bot.editMessageText(chat_id=update.callback_query.message.chat.id,
                             message_id=update.callback_query.message.message_id,
                             text="Pizza " + update.callback_query.data[2:] + " erfolgreich hinzugefügt",
                             reply_markup=generate_pizza_button_markup())
-
+    # Submit
     elif update.callback_query.data == 'finish':
+        # Summaries the order and calculates the total price
         chat_id = update.callback_query.message.chat.id
         summary = 'Zusammenfassung der Bestellung:\n'
-        # print(drinksDict)
         total = 0.0
         if chat_id in drinksDict:
             summary += 'Getränke:\n'
@@ -103,53 +109,59 @@ def button(bot, update):
             telegram.InlineKeyboardButton('Abbrechen/Neustarten', callback_data="reset"),
             telegram.InlineKeyboardButton('Bestellung abschicken', callback_data="order")
         ]
-
+        # Sends the keyboard and the summary
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
         bot.editMessageText(chat_id=update.callback_query.message.chat.id,
                             message_id=update.callback_query.message.message_id, text=summary,
                             reply_markup=reply_markup)
 
     elif update.callback_query.data == 'reset':
-        # del food[:]
-        # del drinks[:]
-        # t.clear()
+        # Abort the order process
         bot.editMessageText(chat_id=update.callback_query.message.chat.id,
                             message_id=update.callback_query.message.message_id,
                             text='Zum Neustarten der Bestellung /order eingeben')
     elif update.callback_query.data == 'order':
+        # Completes the order
         chat_id = update.callback_query.message.chat.id
         bot.editMessageText(chat_id=chat_id, message_id=update.callback_query.message.message_id,
                             text='Vielen Dank für ihre Bestellung :)')
+
+        # Generates the json for the "order.json"
         timestamp = datetime.datetime.now()
         order_dict = {}
         if chat_id in drinksDict:
             order_dict['drinks'] = drinksDict[chat_id]
-        print(order_dict)
         if chat_id in foodDict:
             order_dict['food'] = foodDict[chat_id]
         order_dict['chat_id'] = chat_id
         order_dict['date'] = str(timestamp.date())
         order_dict['time'] = str(timestamp.time())
 
+        # sets the id of the order
         d = datetime.datetime.now()
-        user_id = str(d.year) + str(d.month) + str(d.day) + str(d.hour) + str(d.minute) + str(d.second)
+        id_of_order = str(d.year) + str(d.month) + str(d.day) + str(d.hour) + str(d.minute) + str(d.second)
 
+        # Adds all Items
         items = []
+        # Loops all drinks
         if chat_id in list(drinksDict.keys()):
             for p in drinksDict[chat_id]:
                 split = p.split('|')
                 items = add_to_items(items, split[0][:-1], split[1][1:-1], split[2][1:-1])
 
+        # Loops all food
         if chat_id in list(foodDict.keys()):
             for p in foodDict[chat_id]:
                 split = p.split('|')
                 items = add_to_items(items, split[0][:-1], split[1][1:-1], split[2][1:-1])
+
+        # Calculates and sends the total price
         total = round(get_total_price(items), 2)
         bot.editMessageReplyMarkup(chat_id=update.callback_query.message.chat.id,
                                    message_id=update.callback_query.message.message_id,
                                    text='Der Gesamtpreis beträgt ' + str(total) + '€')
-
-        to_json = {'id': user_id, 'items': items, 'contact': get_contact_date(chat_id), 'total': str(total),
+        # Combines all to the json and appends it to the "orders.json"
+        to_json = {'id': id_of_order, 'items': items, 'contact': get_contact_date(chat_id), 'total': str(total),
                    'delivered': False, 'driver': None}
         with open(json_dir + "orders.json", "r") as file:
             tmp_json = json.loads(file.read())
@@ -159,19 +171,21 @@ def button(bot, update):
             file.write(json.dumps(tmp_json))
 
 
-# Generates the Buttons for the Pizza Menu
 def generate_pizza_button_markup():
+    """Generates the Buttons for the Pizza Menu"""
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
     pizzen = []
+    # Loops all pizzas in menu
     for p in data:
         if p["types"] == "Pizza":
+            # Appends them to the the "pizzen" variable
             for x in range(len(p["sizes"])):
                 app_string = str(p['name']) + '_' + str(p['sizes'][x]) + ' | ' + str(p['prices'][x]) + '€'
                 pizzen.append(app_string)
     button_list = []
+    # Adds all pizzas to to a keyboard
     for p in pizzen:
-        # txt = json.dumps({"type": "bestell", "id": ("P:" + p)})
         txt = "P:" + p
         button_list.append(
             telegram.InlineKeyboardButton(text=p, callback_data=txt))
@@ -187,18 +201,21 @@ def generate_pizza_button_markup():
     return reply_markup
 
 
-# Generates the List of the Buttons for the drinks Menu
 def generate_drinks_buttons_markup():
+    """Generates the List of the Buttons for the drinks Menu"""
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
     drinks = []
+    # Loops all drinkes from menus
     for p in data:
         if p["types"] == "Getr\u00e4nk":
+            # Adds all drinks to "drinks" variable
             for x in range(len(p["sizes"])):
                 app_string = str(p['name']) + '_' + str(p['sizes'][x]) + ' | ' + str(p['prices'][x]) + '€'
                 drinks.append(app_string)
 
     button_list = []
+    # Adds all drinks to the keyboard
     for d in drinks:
         txt = 'D:' + d
         button_list.append(
@@ -215,11 +232,9 @@ def generate_drinks_buttons_markup():
     return reply_markup
 
 
-# helper Function for Building the InlineButtons
-def build_menu(buttons,
-               n_cols,
-               header_buttons=None,
-               footer_buttons=None):
+def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    """Function to generate a nice keyboard style"""
+    # Creates a 2D Array, based on n_cols as column count
     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
     if header_buttons:
         menu.insert(0, header_buttons)
@@ -229,6 +244,7 @@ def build_menu(buttons,
 
 
 def add_to_items(items, name, size, price):
+    """Creates the item dict for the items in orders.json"""
     index = items_contains_name(items, name)
     if index == 0:
         temp = {'name': name, 'size': size, 'count': 1, 'price': price}
@@ -239,7 +255,9 @@ def add_to_items(items, name, size, price):
 
 
 def items_contains_name(items, name):
+    """Checks if an item contains name"""
     ret = 0
+    # Loops all items and saves the searched one
     for x in range(len(items)):
         if items[x]['name'] == name:
             ret = x
@@ -247,17 +265,22 @@ def items_contains_name(items, name):
 
 
 def get_total_price(items):
+    """Calculates a total price"""
     total = 0
+    # Loops all items and add the price to total
     for i in items:
         total += float(i['price'])
     return total
 
 
 def get_contact_date(chat_id):
+    """Creates the dict for the contact from order.json"""
+    # Reads the customers.json
     with open(json_dir + 'customers.json') as f:
         data = json.load(f)
     contact = None
     for d in data:
+        # Searches the correct customer and returns all his values
         if d['contact']['chat_id'] == chat_id:
             contact = {'name': d['contact']['name'], 'postcode': d['contact']['postcode'],
                        'street': d['contact']['street'], 'city': d['contact']['city'], 'nr': d['contact']['nr'],

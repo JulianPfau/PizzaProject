@@ -3,24 +3,30 @@ import telegram
 import os
 import json
 
+"""JSON folder location"""
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 json_dir = server_root + "/json/"
 
+"""global variables"""
 data = {}  # {chat_id:1, chat_id2: 3}
 users = {}
 password = []
 
 
 def start(bot, update):
+    """/start starts the register process"""
     global data, users
     chat_id = int(float(update.message.chat_id))
 
     if registered(chat_id):
         bot.sendMessage(chat_id, "Du bist schon registriert")
     else:
+        # Variable to check how far the register process is and weather it is a change of data or the register
         data[chat_id] = {"id": 0, "edit": False}
         if chat_id not in list(users.keys()):
+            # Variable where the user json format is initialised
+            # Generates an unique id and saves the chat ID
             users[chat_id] = {"id": get_new_id(), "firstname": "", "lastname": "", "email": None, "password": None,
                               "contact": {"name": None, "postcode": None, "street": None, "city": None,
                                           "nr": None, "phone": None, "chat_id": chat_id}}
@@ -28,8 +34,16 @@ def start(bot, update):
 
 
 def reply(bot, update):
+    """Is called, when somebody reply to an message"""
+    """Checks the value that should be inserted or changed"""
     global data, users
     chat_id = update.message.chat_id
+
+    # if user is at this point
+    #   saves the input to variable
+    #   if it is not an change
+    #      the next question is asked
+    #      register progress is changed
 
     # Vorname
     if data[chat_id]["id"] == 0:
@@ -98,9 +112,11 @@ def reply(bot, update):
             bot.sendMessage(chat_id, "Danke!")
             data[chat_id]["id"] = 9
 
+    # Auto generates the name, from first ans last name
     users[chat_id]["contact"]["name"] = users[chat_id]["firstname"] + " " + users[chat_id]["lastname"]
     data[chat_id]["edit"] = False
 
+    # Saves the progress/changes to the "customers.json"
     with open(json_dir + "customers.json", "r") as f:
         json_data = json.load(f)
 
@@ -119,7 +135,12 @@ def reply(bot, update):
 
 
 def edit(bot, update):
+    """Starts the progress to change a user data"""
+    # Generates the Keyboard
     button_list = [
+        # Keyboard button             Text to be displayed     data to be send on click
+        #                                                      type to define the function
+        #                                                      id the actual needed value
         telegram.InlineKeyboardButton('Vorname', callback_data=json.dumps({'type': 'reg', "id": '0'})),
         telegram.InlineKeyboardButton('Nachname', callback_data=json.dumps({'type': 'reg', "id": '1'})),
         telegram.InlineKeyboardButton('E-Mail', callback_data=json.dumps({'type': 'reg', "id": '2'})),
@@ -132,16 +153,20 @@ def edit(bot, update):
         telegram.InlineKeyboardButton('Delete', callback_data=json.dumps({"type": "reg", "id": 'del'}))
     ]
 
+    # Generates a nice keyboard style and adds it to the reply markup
     reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
+    # Sends the keyboard
     bot.sendMessage(update.message.chat.id, "Was möchten sie ändern?", reply_markup=reply_markup)
 
 
 def change(bot, update):
+    """Called on callback query fot changes of user data"""
     global data
 
     chat_id = update.callback_query.message.chat.id
     int_id = int(float(update.callback_query.data))
 
+    # Adds user to working variables if not there
     if chat_id not in list(users.keys()):
         with(open(json_dir + "customers.json")) as file:
             json_data = json.loads(file.read())
@@ -151,6 +176,7 @@ def change(bot, update):
                 users[chat_id] = json_data[i]
                 break
 
+    # changes the progress of the registration and send the request for the new value
     if chat_id not in list(data.keys()):
         data[chat_id] = {"id": int_id, "edit": True}
     else:
@@ -160,12 +186,8 @@ def change(bot, update):
     bot.sendMessage(chat_id, "Bitte schreib mir deine Änderung nun!", reply_markup=telegram.ForceReply(True))
 
 
-'''
-    Reads json and generates new unused ID
-'''
-
-
 def get_new_id():
+    """Generates new unique ID"""
     with open(json_dir + "customers.json", "r") as f:
         json_data = json.load(f)
 
@@ -181,11 +203,9 @@ def get_new_id():
     return customer_id
 
 
-# helper Function for Building the InlineButtons
-def build_menu(buttons,
-               n_cols,
-               header_buttons=None,
-               footer_buttons=None):
+def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    """Function to generate a nice keyboard style"""
+    # Creates a 2D Array, based on n_cols as column count
     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
     if header_buttons:
         menu.insert(0, header_buttons)
@@ -195,9 +215,12 @@ def build_menu(buttons,
 
 
 def registered(chat_id):
+    """Checks weather the user with this chat ID is registered or not"""
+    # Reads the json file
     with open(json_dir + "customers.json", "r") as f:
         json_data = json.load(f)
 
+    # Loops the json file until found or end
     reg = False
     for entry in json_data:
         if entry["contact"]['chat_id'] == chat_id:
