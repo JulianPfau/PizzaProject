@@ -1,7 +1,7 @@
 import json
 import os
 import ajaxGoogleAPI
-
+import telegram
 server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 img_dir = server_root + "/img/"
@@ -110,3 +110,44 @@ def delivery_time(bot, update, args):
         bot.sendMessage(chat_id, "Die vorraussichtliche Fahrzeit beträgt: " + distance)
     else:
         bot.sendMessage(chat_id, "Aktuell sind keine Bestellungen zugewiesen.")
+
+
+def add_driver_to_order(bot, update):
+    chat_id = update.message.chat.id
+    drivers = get_json("driver")
+    button_list = []
+    data = {}
+    data["type"] = "driver"
+    for d in drivers["jsonData"]:
+        data["id"] = d
+        button = telegram.InlineKeyboardButton(str(drivers["jsonData"][d]["name"]), callback_data=json.dumps(data))
+        button_list.append(button)
+    reply_markup = telegram.InlineKeyboardMarkup([button_list])
+    update.message.reply_text('Please choose: ', reply_markup=reply_markup)
+
+
+def request_order(bot, update):
+    q_data = json.loads(update.callback_query.data)
+    orders = get_json("orders")
+    if q_data["type"] == "driver":
+        button_list = []
+        data = {}
+        data["type"] = "order"
+        data["id"] = q_data["id"]
+        for o in orders["jsonData"]:
+            if not o['driver'] and not o['delivered']:
+                data["order_id"] = o["id"]
+                button = telegram.InlineKeyboardButton(str(o["contact"]["name"]), callback_data=json.dumps(data))
+                button_list.append(button)
+        reply_markup = telegram.InlineKeyboardMarkup([button_list])
+        bot.sendMessage(chat_id=update.callback_query.message.chat.id,
+                            inline_message_id=update.callback_query.message.message_id,
+                            text="select an order", reply_markup=reply_markup)
+    elif q_data["type"] == "order":
+        driver_id = q_data["id"]
+        order_id = q_data["order_id"]
+        for o in orders["jsonData"]:
+            if o["id"] == order_id:
+                o["driver"] = driver_id
+        write_json("orders", orders)
+        bot.sendMessage(chat_id=update.callback_query.message.chat.id, text="Order " + order_id + " wurde dem Fahrer "+ driver_id + " zugewiesen")
