@@ -35,6 +35,16 @@ def get_json(filename):
 
 
 def write_json(filename, data):
+    """
+    Writes a string to a json file.
+
+    Args:
+        filename (str): filename
+        data (dict): data in form of a json string
+
+    Returns:
+        boolean:     Successful: True, else: False
+    """
     try:
         with open(json_dir + filename + ".json", "w") as json_data:
             json.dump(data, json_data)
@@ -73,20 +83,23 @@ def get(bot, update):
                     item["driver"] = driver
                     drivers[driver]["available"] = False
                     drivers[driver]["order_id"] = item["id"]
-                    tmp = [bot.sendLocation(chat_id=item["contact"]["chat_id"], latitude=location.latitude,
-                                            longitude=location.longitude,
-                                            disable_notification=True, live_period=2700)['message_id'],
-                           item["contact"]["chat_id"]]
-                    active_deliveries[chat_id] = tmp
+                    tmp = []
+                    tmp.append(bot.sendLocation(chat_id=item["contact"]["chat_id"], latitude=location.latitude,
+                                                longitude=location.longitude,
+                                                disable_notification=True,
+                                                live_period=2700)['message_id'])
+                    tmp.append(item["contact"]["chat_id"])
+                    active_deliverys[chat_id] = tmp
                     bot.send_message(chat_id=driver,
                                      text="Die nächste Bestellung hat die Bestellnummer {}.\n{}\nTo mark as delivered, "
-                                          "type: \n'/delivered {}'".format(item["id"], pp_address(item), item["id"]))
+                                          "type: \n'/delivered {}'".format(item["id"],
+                                                                           pp_address(item), item["id"]))
                     break
 
             write_json("driver", drivers)
     write_json("orders", orders)
 
-    bot.editMessageLiveLocation(chat_id=active_deliveries[chat_id][1], message_id=active_deliveries[chat_id][0],
+    bot.editMessageLiveLocation(chat_id=active_deliverys[chat_id][1], message_id=active_deliverys[chat_id][0],
                                 latitude=location.latitude, longitude=location.longitude)
 
 
@@ -143,6 +156,7 @@ def deliver(bot, update, args):
     Returns:
         message to customer that pizza is delivered
     """
+    global active_deliverys
     if is_driver(update.message.chat.id) and args:
         order_number = args[0]
         response = get_json("orders")
@@ -150,6 +164,7 @@ def deliver(bot, update, args):
             json_data = response["jsonData"]
             for order in json_data:
                 if order["id"] == order_number and not order["delivered"]:
+
                     order["delivered"] = True
 
                     drivers = get_json("driver")["jsonData"]
@@ -158,12 +173,13 @@ def deliver(bot, update, args):
                     driver["order_id"] = None
 
                     bot.send_message(chat_id=order["contact"]["chat_id"], text="Pizza wurde geliefert.")
-                    chat_id = order["contact"]["chat_id"]
-                    bot.stopMessageLiveLocation(chat_id=chat_id, message_id=active_deliveries[chat_id])
-                    active_deliveries.pop(chat_id, None)
+                    bot.stopMessageLiveLocation(chat_id=order["contact"]["chat_id"],
+                                                message_id=active_deliverys[int(order["driver"])][0])
+                    active_deliverys.pop(int(order["driver"]), None)
                     write_json("driver", drivers)
-            write_json("orders", json_data)
-    get(bot, update)
+        write_json("orders", json_data)
+    # print("CALL GET")
+    # get(bot, update)
 
 
 def delivery_time(bot, update):
@@ -201,6 +217,7 @@ def delivery_time(bot, update):
 
 
 def add_driver_to_order(bot, update):
+    chat_id = update.message.chat.id
     drivers = get_json("driver")
     button_list = []
     data = {"type": "driver"}
@@ -215,7 +232,6 @@ def add_driver_to_order(bot, update):
 def request_order(bot, update):
     q_data = json.loads(update.callback_query.data)
     orders = get_json("orders")
-    print(orders)
     if q_data["type"] == "driver":
 
         button_list = []
@@ -225,7 +241,8 @@ def request_order(bot, update):
         for i in range(0, len(orders["jsonData"])):
             if not orders["jsonData"][i]['driver'] and not orders["jsonData"][i]['delivered']:
                 data["order_id"] = orders["jsonData"][i]["id"]
-                button = telegram.InlineKeyboardButton(str(orders["jsonData"][i]["contact"]["name"]), callback_data=json.dumps(data))
+                button = telegram.InlineKeyboardButton(str(orders["jsonData"][i]["contact"]["name"]),
+                                                       callback_data=json.dumps(data))
                 button_list.append(button)
         if len(button_list) > 0:
             reply_markup = telegram.InlineKeyboardMarkup([button_list])
@@ -237,13 +254,11 @@ def request_order(bot, update):
             bot.sendMessage(chat_id=update.callback_query.message.chat.id, text="No open orders")
 
     elif q_data["type"] == "order":
-        print(1)
         driver_id = q_data["id"]
         order_id = q_data["order_id"]
         for i in range(0, len(orders["jsonData"])):
             if orders["jsonData"][i]["id"] == order_id:
                 orders["jsonData"][i]["driver"] = driver_id
-        print(2)
         write_json("orders", orders["jsonData"])
         bot.sendMessage(chat_id=update.callback_query.message.chat.id,
                         text="Order " + order_id + " wurde dem Fahrer " + driver_id + " zugewiesen")
