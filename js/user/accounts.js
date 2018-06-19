@@ -46,7 +46,6 @@ function checkLogin() {
     } else {
         //Creates a JSON-String with the username and password
         var json = {"username": username, "password": password};
-        var json = {"username": username, "password": password};
         //sends the JSON to the server over AJAX and saves the return value as Session ID
         var response = ajax("login", json);
 
