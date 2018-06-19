@@ -10,6 +10,14 @@
     background: rgba(255, 255, 255, 0.9) url("../img/pizza.png") no-repeat center;
 }
 
+
+#t_navigation{
+    position: relative;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
 /* boxes */
 
 @keyframes fadeIn {

@@ -27,6 +27,11 @@ var LOGIN_URL = "login.html";
 var REGISTER_URL = "register.html";
 // 404 site filepath
 var E404_URL = "404.html";
+// Telegram Information page
+var TELEGRAM_URL = "telegram.html";
+
+/* Telegram Bot*/
+var TELEGRAM_BOT_LINK = "http://google.com";
 
 
 /* Template Directory Path
@@ -38,7 +43,7 @@ var TemplatePath = "template/";
    IMPORTANT: These are the jQuery ID names (these contain "#" at the beginning)*/
 // Preloader ID
 var PreloaderID = "#t_preloader";
-// Popup ID
+// Popup IDF
 var popupID = "#t_popup";
 // navigation ID
 var navigationID = "#t_navigation";
@@ -144,6 +149,9 @@ function template(page) {
                 // orderoverview site
                 t_orderoverview();
                 break;
+            case "telegram":
+                t_telegram();
+                break;
             case "404":
                 // 404 site
                 t_404();
@@ -191,7 +199,7 @@ function hidepreloader() {
    This will create a hidden popup div to the page so the popup() function can be called.*/
 function t_popup() {
     // Filename of the Popup Template
-    var PopupFile = "popup.html";
+    var PopupFile = "essentials/popup.html";
 
     $(popupID).load(TemplatePath + PopupFile);
 }
@@ -199,7 +207,7 @@ function t_popup() {
 /* [T] Navigation Template */
 function t_navigation() {
     // Filename of the Naviagtion Template
-    var NavigationFile = "navigation.html";
+    var NavigationFile = "essentials/navigation.html";
 
     $(navigationID).load(TemplatePath + NavigationFile, function () {
         var logo = document.getElementById("logo");
@@ -208,6 +216,7 @@ function t_navigation() {
         var cart = document.getElementById("cart");
         var logout = document.getElementById("logout");
         var menu = document.getElementById("menu");
+        var telegram = document.getElementById("telegram");
 
         // inserts the page links into the navigation
         logo.href = MENU_URL;
@@ -215,6 +224,7 @@ function t_navigation() {
         state.href = LOGIN_URL;
         cart.href = CART_URL;
         menu.href = MENU_URL;
+        telegram.href = TELEGRAM_URL;
 
         // if the user is logged in show the Profile name
         if (t_checkSID()) {
@@ -236,10 +246,20 @@ function t_navigation() {
 }
 
 
+/* [T] Telegram Template */
+function t_telegram() {
+    // Filename of the Login Template
+    var LoginFile = "telegram.html";
+
+    $(MainID).load(TemplatePath + LoginFile, function () {
+        document.getElementById("t_telegram_bot").href = TELEGRAM_BOT_LINK;
+    });
+}
+
 /* [T] Login Template */
 function t_login() {
     // Filename of the Login Template
-    var LoginFile = "login.html";
+    var LoginFile = "essentials/login.html";
 
     $(MainID).load(TemplatePath + LoginFile, function () {
         // changes the register link in the template
@@ -250,7 +270,7 @@ function t_login() {
 /* [T] Register Template */
 function t_register() {
     // Filename of the Register Template
-    var Registerile = "register.html";
+    var Registerile = "essentials/register.html";
 
     $(MainID).load(TemplatePath + Registerile, function () {
         // changes the login link in the template
@@ -261,7 +281,7 @@ function t_register() {
 /* [T] User site Template */
 function t_users() {
     // User Template File
-    var UserFile = "users.html";
+    var UserFile = "user/users.html";
     //var data = getHistory();
     //var orderHistory = JSON.parse(data);
 
@@ -313,7 +333,7 @@ function t_users() {
 /* [T] 404 Template */
 function t_404() {
     // Filename of the 404 Template
-    var errorfile = "404.html";
+    var errorfile = "errors/404.html";
 
     $(MainID).load(TemplatePath + errorfile);
 }
@@ -321,7 +341,7 @@ function t_404() {
 /* [T] 401 Template */
 function t_401() {
     // Filename of the 404 Template
-    var errorfile = "401.html";
+    var errorfile = "errors/401.html";
 
     $(MainID).load(TemplatePath + errorfile);
 }
@@ -337,7 +357,7 @@ function t_hours() {
 /* [T] orderconf Template */
 function t_orderconf() {
     // Filename of the 404 Template
-    var orderconffile = "orderconf.html";
+    var orderconffile = "order/orderconf.html";
     $.ajax({
         url: TemplatePath + orderconffile,
         async: false
@@ -358,6 +378,9 @@ function t_menu() {
         async: false
     }).done(function (data) {
         $(MainID).append(data);
+        
+        document.getElementById("t_telegram").href = TELEGRAM_BOT_LINK;
+        document.getElementById("t_telegram_info").href = TELEGRAM_URL;
 
         // run site specific functions
         loadJSONfromServer("menu", createTablefromJSON);
@@ -380,7 +403,7 @@ function t_menu() {
 /* [T] orderoverview Template */
 function t_orderoverview() {
     // Filename of the menu Template
-    var file = "orderoverview.html";
+    var file = "order/orderoverview.html";
     $.ajax({
         url: TemplatePath + file,
         async: false
@@ -389,7 +412,7 @@ function t_orderoverview() {
 
         // site specific functions
         var script = document.createElement("script");
-        script.src = "js/formularinput.js";
+        script.src = "js/orders/formularinput.js";
 
         document.head.append(script);
         pizzenInListe();

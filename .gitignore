@@ -1,0 +1,7 @@
+PythonCfg/__pycache__/
+.idea
+pdf/*
+PythonCfg/conf.json
+
+# ignoring all json files in /json
+json/*.json

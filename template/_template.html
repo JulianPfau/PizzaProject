@@ -1,26 +1,28 @@
+<!-- 
+    This file shows the default structure of a page
+-->
 <html>
 <head>
-    <title>PizzaProjekt - User</title>
-    <link rel="icon" href="./img/favicon.ico">
     <!-- UTF8 -->
     <meta charset="utf-8"/>
     <!-- Import jQuery for the Bootstrap framework -->
-    <script src="js/thirdparty/jquery-3.3.1.js"></script>
+    <script src="../js/jquery-3.3.1.js"></script>
     <!-- Import the Bootstrap framework -->
-    <link href="css/thirdparty/bootstrap.css" rel="stylesheet"/>
-    <script src="js/thirdparty/bootstrap.js"></script>
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
+    <script src="../js/bootstrap.js"></script>
 
     <!-- Import the Bootstrap Override Stylesheet-->
-    <link href="css/pizza.css" rel="stylesheet"/>
+    <link href="../css/pizza.css" rel="stylesheet"/>
 
     <!-- Import the self written JavaScript functions-->
-    <script src="js/user/accounts.js"></script>
+    <script src="../accounts.js"></script>
 
     <!-- Import and start of the template system -->
-    <script src="js/template.js"></script>
+    <script src="../template.js"></script>
     <script>
         // run the template system
-        template("users");
+        template();
+
     </script>
 </head>
 
@@ -32,7 +34,7 @@
     <div id="t_popup"></div>
     <!-- END of Container for the Template System -->
 
-    <div id="main" class="">
+    <div id="main" class="box white">
     </div>
 </div>
 </body>

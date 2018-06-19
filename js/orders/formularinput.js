@@ -23,6 +23,8 @@ function writeOrderInStorageAndJson() {
     var town = document.getElementById('town').value;
 
     var phone = document.getElementById('phone').value;
+    
+    var telegram = document.getElementById('telegram').value;
 
     if (document.getElementById('bar').checked === true) {
         var zahlung = "Bar";
@@ -45,7 +47,8 @@ function writeOrderInStorageAndJson() {
         city: town,
         nr: nr,
         phone: phone,
-        zahlung: zahlung
+        zahlung: zahlung,
+        chat_id: telegram
     };
 
     // Delete menu and extras in sessionStorage after click Button 'kostenpflichtig bestellen.
@@ -77,6 +80,8 @@ function writeOrderInStorageAndJson() {
             dict["items"] = pizzen;
             dict["contact"] = objcontact;
             dict["total"] = total;
+            dict["delivered"] = false;
+            
             var fertigesdict = {};
             fertigesdict["request"] = "newOrder";
             fertigesdict["jsonData"] = dict;

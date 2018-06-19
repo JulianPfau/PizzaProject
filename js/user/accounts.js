@@ -138,6 +138,7 @@ function register() {
     var streetNr = document.getElementById("streetNr").value;
     var phone = document.getElementById("phone").value;
     var ageCheck = document.getElementById("defaultCheck1").checked;
+    var telegram = document.getElementById("telegram").value;
 
     //Checks if the age checkbox is set
     if (!ageCheck) {
@@ -169,7 +170,8 @@ function register() {
         "city": city,
         "street": street,
         "streetNr": streetNr,
-        "phone": phone
+        "phone": phone,
+        "chat_id": telegram
     };
     var result = JSON.parse(ajax("register", json));
     console.log(result);
@@ -223,6 +225,7 @@ function loadOldData(email) {
     document.getElementById('usercity').value = decoded.contact.city;
     document.getElementById('userphone').value = decoded.contact.phone;
     document.getElementById('userGreeting').innerHTML = name;
+    document.getElementById('telegram').value = (isset(decoded.contact.chat_id)) ? decoded.contact.chat_id : "";
 }
 
 //Sends new/modified User data back to the server to be saved in the JSON Database
@@ -235,6 +238,7 @@ function sendNewData() {
     var city = document.getElementById('usercity').value;
     var email = sessionStorage.getItem("email");
     var phone = document.getElementById('userphone').value;
+    var telegram = document.getElementById('telegram').value;
 
 
     //Checks if the E-Mail is correct
@@ -253,7 +257,8 @@ function sendNewData() {
         "street": street,
         "streetNr": streetNr,
         "phone": phone,
-        "city": city
+        "city": city,
+        "chat_id": telegram
     };
     var result = JSON.parse(ajax("updateData", json));
     if (result["STATUS"] == 'OK') {
@@ -303,3 +308,10 @@ function RedirectWithCheck(url) {
     }
 }
 
+// checks if a variable exists and is not null and not empty
+function isset(variable){
+    if(variable == "" | variable == null | variable == undefined){
+        return false;
+    }
+    return true;
+}

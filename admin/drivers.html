@@ -3,9 +3,9 @@
 <head>
 
 
-    <title>PizzaProjekt - Verwaltung Extras</title>
+    <title>PizzaProjekt - Verwaltung Fahrer</title>
 
-    <!-- Style -->
+    <!--Style-->
     <link rel="icon" href="../img/favicon.ico">
     <link href="../css/thirdparty/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,6 +17,7 @@
 
     <!-- Javascript -->
     <script src="../js/admin/admin-shared.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -24,8 +25,8 @@
         <a href="orders.html"> Bestellungen </a>
         <a href="menu.html"> Speisekarte </a>
         <a href="customers.html"> Benutzer </a>
-        <a href="drivers.html" href=""> Fahrer </a>
-        <a class="active" href="#"> Extras </a>
+        <a class="active" href=""> Fahrer </a>
+        <a href="extras.html"> Extras </a>
         <a href="fileupload.html"> File Upload </a>
         <a href="javascript:void(0);" class="icon" onclick="unfold()">&#9776;</a>
         <div class="search-container">
@@ -40,50 +41,26 @@
     <div class="table">
         <div class="tr" id="head">
             <div class="td">Delete</div>
-            <div class="td">ID</div>
+            <div class="td">Telegram ChatID</div>
             <div class="td">Name</div>
-            <div class="td">Price</div>
+            <div class="td">verf&uuml;gbar?</div>
         </div>
         <div class="tr menuElement" id="footer">
             <div class="td"></div>
-            <div class="td" id="id"><span class="Input footer" id="ID" contenteditable="true"
-                                          onblur="loadNewFooter(this);"></span></div>
-            <div class="td" id="name"><span class="Input footer" id="Name" contenteditable="true"></span></div>
-            <div class="td" id="preis"><span class="Input footer" id="Preis" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="ChatID" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Name" contenteditable="true"></span></div>
+            <div class="td"><span class="Input footer" id="Available" contenteditable="true"></span></div>
         </div>
     </div>
     <a class="btn btn-lg active" role="button" aria-pressed="true"
-       onclick="if (confirm('Save all changes?') == true) saveTableToServer('extras');">Speichern</a>
+       onclick="if (confirm('Save all changes?') == true) saveTableToServer('driver');">Speichern</a>
+       <a class="btn btn-lg" id="reload" role="button" aria-pressed="true"
+       onclick="createNewRow('driver')">neuer Fahrer</a>
     <a class="btn btn-lg disabled" id="reload" role="button" aria-pressed="true"
        onclick="if (confirm('L&ouml;sche alle &Auml;nderungen?') == true) location.reload();">L&ouml;schen</a>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalExtrasItems">Extras:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <fieldset>
-                    <ul id="extrasBox">
-                    </ul>
-                </fieldset>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>getJsonByRequest(loadJSONToTable, "extras");</script>
+<script>getJsonByRequest(loadJSONToTable, "driver");</script>
 
 </body>
 </html>

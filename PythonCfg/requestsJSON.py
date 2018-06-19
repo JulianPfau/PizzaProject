@@ -63,7 +63,8 @@ def appendOrder(json_dir, request):
 						 "city":"",
 						 "nr":"",
 						 "phone":"",
-						 "zahlung":""},
+						 "zahlung":"",
+						 "chat_id": ""},
 					"total": 
 				}
 			}
@@ -243,7 +244,8 @@ def updateUserData(json_dir, request):
 				item['contact']['street'] = request['street']
 				item['contact']['nr'] = request['streetNr']
 				item['contact']['city'] = request['city']
-				item['contact']['phone'] = request['phone']
+				item['contact']['phone'] = request['phone'],
+				item['contact']['chat_id'] = request['chat_id']
 
 		with open(json_dir + "customers.json", "w") as f:
 			json.dump(data, f)

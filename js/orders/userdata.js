@@ -55,6 +55,7 @@ function fillformular(kontaktdaten) {
     var city = kontaktdaten["city"];
     var nr = kontaktdaten["nr"];
     var phone = kontaktdaten["phone"];
+    var telegram = kontaktdaten["chat_id"];
 
     document.getElementById("firstname").value = firstname;
     document.getElementById("lastname").value = lastname;
@@ -63,6 +64,7 @@ function fillformular(kontaktdaten) {
     document.getElementById("postcode").value = postcode;
     document.getElementById("town").value = city;
     document.getElementById("phone").value = phone;
+    document.getElementById("telegram").value = telegram;
 
 }
 

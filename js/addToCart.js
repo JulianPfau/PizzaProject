@@ -110,6 +110,8 @@ function pizzaWahl(x) {
     var bestellung = JSON.stringify({items: pizzaArray, total: total});
     sessionStorage.setItem('bestellung', bestellung);
     var boxen = document.getElementsByClassName('extrasBox');
+    
+    window.location.reload();
 }
 
 function bestellen() {

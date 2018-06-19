@@ -61,12 +61,78 @@ function loadJSONToTable(json, index) {
         length = 9;
     } else if (index == "extras") {
         length = 4;
+    } else if (index == "driver") {
+        length = 4;
     } else {
         length = 7;
     }
 
     //Gets the DOM-Element of the table
     var table = document.getElementsByClassName("table")[0];
+
+    //Driver
+    if (index == "driver") {
+        // loop for driver
+        for (key in json) {
+
+            //Arrays to save the content of each row
+            var menuRow = new Array();
+            var menuInhalt = new Array();
+
+            //Creates the table row DON-Element
+            var row = document.createElement('div');
+            row.setAttribute('class', 'tr menuElement');
+
+            //Creates the table rows cells
+            for (var k = 0; k < length; k++) {
+                menuRow[k] = document.createElement('div');
+                menuRow[k].setAttribute('class', 'td');
+            }
+
+            //Adds to all cells an inner DOM-Element which can be edited
+            for (var n = 1; n < length; n++) {
+                menuInhalt[n] = document.createElement('span');
+                menuInhalt[n].setAttribute('class', 'Input');
+                menuInhalt[n].setAttribute('contenteditable', 'true');
+                //Also add the event for highlighting changes
+                menuInhalt[n].onkeydown = function (event) {
+                    //Key-Codes which will be ignored
+                    if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+                        //Activates the del changes button
+                        document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+                        this.parentElement.setAttribute('class', 'td bg-warning');
+                    }
+                };
+            }
+            // Creates the delet Button and add function to change
+            menuInhalt[0] = document.createElement('input');
+            menuInhalt[0].setAttribute('type', 'checkbox');
+            menuInhalt[0].setAttribute('onchange', 'markDelete(this)');
+
+            //Content from JSON to be displayes 
+            menuInhalt[1].innerHTML = (key == "") ? "None" : key;
+            menuInhalt[2].innerHTML = (json[key]["name"] == "") ? "None" : json[key]["name"];
+            
+            menuInhalt[3] = document.createElement('input');
+            menuInhalt[3].setAttribute('type', 'checkbox');
+            if(json[key]["available"] == ""){
+                menuInhalt[3].checked = false;
+            }else{
+                if(json[key]["available"]=="true"){
+                    menuInhalt[3].checked = true;
+                }
+            }
+
+            //Insert in HTML on end of table, but befor footer(the last/empty row)
+            table.insertBefore(row, document.getElementById("footer"));
+
+            //Appends all cell content to cell and each cell to row
+            for (var c = 0; c < length; c++) {
+                row.appendChild(menuRow[c]);
+                menuRow[c].appendChild(menuInhalt[c]);
+            }
+        }
+    }
 
     //Loop all JSON Entries
     for (var i = 0; i < json.length; i++) {
@@ -148,7 +214,7 @@ function loadJSONToTable(json, index) {
 
                 break;
 
-            //Customers
+                //Customers
             case "customers":
                 //Sets everything to open Contact Popup
                 menuInhalt[6] = document.createElement('span');
@@ -177,7 +243,7 @@ function loadJSONToTable(json, index) {
 
                 break;
 
-            //Orders
+                //Orders
             case "orders":
                 //Sets everything to open Items Popup
                 menuInhalt[2].removeAttribute('contenteditable');
@@ -218,14 +284,14 @@ function loadJSONToTable(json, index) {
                 //Content from JSON to be displayed
                 menuInhalt[1].innerHTML = (json[i].id == "") ? "None" : json[i].id;
                 menuInhalt[2].innerHTML = (items == "") ? "None" : items;
-                console.log(json[i].contact.name);
+                //console.log(json[i].contact.name);
                 menuInhalt[3].innerHTML = (json[i].total == "") ? "None" : precisionRound(parseFloat(json[i].total), 2);
                 menuInhalt[4].innerHTML = (json[i].customerid == undefined) ? "None" : json[i].customerid;
                 menuInhalt[5].innerHTML = (json[i].contact.name == " ") ? "None" : json[i].contact.name;
                 if (json[i].done == 1) menuInhalt[6].setAttribute('checked', '');
                 break;
 
-            //Extras
+                //Extras
             case "extras":
                 //IDs for each cell
                 menuInhalt[1].setAttribute('id', 'ID');
@@ -498,10 +564,11 @@ function saveContactPopup(index) {
         }
     }
     json = JSON.parse(json.substr(0, json.length - 1) + "}");
+    console.log(json);
     var row = document.getElementsByClassName('table')[0].getElementsByClassName('tr menuElement')[index];
     for (var j = 1; j < row.children.length; j++) {
         if (row.children[j].firstElementChild.id == "Contact") {
-            row.children[j].setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
+            var tmp = row.children[j].firstChild.setAttribute('onclick', "loadContact(" + JSON.stringify(json) + ", " + index + ")");
             row.children[j].firstElementChild.innerHTML = json.name;
         }
     }
@@ -621,11 +688,34 @@ function updateTable(table, value) {
 
 function saveTableToServer(table) {
     var rows = document.getElementsByClassName("tr menuElement");
-    var json = [];
     var key, value, row;
 
     switch (table) {
+        
+        case "driver":
+            var json = {};
+            
+            for (var i = 0; i < rows.length - 1; i++) {
+                var objElement = new Object();
+                row = rows[i].childNodes;
+                
+                // only get parameters and build array if it should not be deleted
+                if(!row[0].firstChild.checked){
+                    // get parameters
+                    var chat_id = row[1].firstChild.innerText;
+                    var name = row[2].firstChild.innerText;
+                    var available = row[3].firstChild.checked;
+
+                    // build array object
+                    json[chat_id] = {};
+                    json[chat_id].name = name;
+                    json[chat_id].available = available.toString();
+                }
+            }
+            break;
+        
         case "orders":
+            var json = [];
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
@@ -658,6 +748,7 @@ function saveTableToServer(table) {
             break;
         case "menu":
             var node;
+            var json = [];
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
                 row = rows[i].children;
@@ -702,23 +793,25 @@ function saveTableToServer(table) {
             break;
 
         case "customers":
-            for (var i = 0; i < rows.length; i++) {
+            var json = [];
+            for (var i = 0; i < rows.length - 1; i++) {
                 var objElement = new Object();
                 row = rows[i].childNodes;
                 for (var n = 1; n < row.length; n++) {
-                    try{
-                    console.log(row[n].firstChild);
-                    key = row[n].firstChild.id.toLowerCase();
-                    if (key == "contact") {
-                        var tmp = row[n].firstChild;
-                        var data = tmp.onclick.toString().split("loadContact(")[1];
-                        value = JSON.parse(data.substr(0, data.length - 6));
-                    } else {
-                        value = row[n].firstChild.innerHTML;
-                        if (key == "id") {
-                            value = parseInt(value);
+                    try {
+                        //console.log(row[n].firstChild);
+                        key = row[n].firstChild.id.toLowerCase();
+                        if (key == "contact") {
+                            var tmp = row[n].firstChild;
+                            var data = tmp.onclick.toString().split("loadContact(")[1];
+                            value = JSON.parse(data.substr(0, data.length - 6));
+                        } else {
+                            value = row[n].firstChild.innerHTML;
+                            if (key == "id") {
+                                value = parseInt(value);
+                            }
                         }
-                    }} catch(err){
+                    } catch (err) {
                         console.log(err);
                     }
                     if (value != "" && value != "None") {
@@ -729,6 +822,7 @@ function saveTableToServer(table) {
             }
             break;
         case "extras":
+            var json = [];
             //Placeholder
             for (var i = 0; i < rows.length; i++) {
                 var objElement = new Object();
@@ -747,7 +841,6 @@ function saveTableToServer(table) {
             }
             break;
     }
-
     sendJSONtoServer(json, table);
     location.reload();
 }
@@ -788,8 +881,7 @@ function itemSearch(input) {
                 if (elements[n].children[0].hasAttribute("onclick")) {
                     try {
                         content += elements[n].firstChild.getAttribute('onclick').toString();
-                    } catch (err) {
-                    }
+                    } catch (err) {}
                 } else {
                     content += elements[n].firstChild.innerHTML.toLowerCase() + ",";
                 }
@@ -914,6 +1006,58 @@ function loadContact(json, index) {
             this.parentElement.setAttribute('class', 'td bg-warning');
         }
     };
+    document.getElementById("Chat_id").innerHTML = (json.chat_id == undefined) ? "" : json.chat_id;
+    document.getElementById("Chat_id").onkeydown = function () {
+        if (event.keyCode == 8 || (event.keyCode > 44 && event.keyCode < 111) || (event.keyCode > 185 && event.keyCode < 192) || (event.keyCode > 218 && event.keyCode < 223)) {
+            document.getElementById("reload").setAttribute("class", "btn btn-lg active");
+            this.parentElement.setAttribute('class', 'td bg-warning');
+        }
+    };
+}
+
+/**
+ * Function to create a new row of a specific table
+ *
+ *
+ *  @param table
+ */
+function createNewRow(table){
+    switch(table){
+        case "driver":
+            var master_table = document.getElementsByClassName("table")[0];
+            var footer = document.getElementById("footer");
+            
+            var newRow = document.createElement("div");
+            newRow.setAttribute('class', 'tr menuElement');
+            
+            var newRowElements = [];
+            
+            // Creates the delet Button and add function to change
+            newRowElements[0] = document.createElement('input');
+            newRowElements[0].setAttribute('type', 'checkbox');
+            newRowElements[0].setAttribute('onchange', 'markDelete(this)');
+            
+            for(var i = 1; i<3; i++){
+                newRowElements[i] = document.createElement("span");
+                newRowElements[i].setAttribute('class', 'Input');
+                newRowElements[i].setAttribute('contenteditable', 'true');
+                newRowElements[i].innerText = "Neuer Fahrer"
+            }
+            
+            // create available cell
+            newRowElements[3] = document.createElement('input');
+            newRowElements[3].setAttribute('type', 'checkbox');
+            
+            // append the new row to the table
+            for(var i = 0; i< newRowElements.length; i++){
+                var td = document.createElement("div");
+                td.setAttribute('class', 'td');
+                td.append(newRowElements[i]);
+                newRow.appendChild(td);
+            }
+            master_table.insertBefore(newRow, footer);
+            
+    }
 }
 
 
@@ -970,8 +1114,3 @@ function sendJSONtoServer(jsonData, fileName) {
 function getExtras(json) {
     extras = json;
 }
-
-
-
-
-
