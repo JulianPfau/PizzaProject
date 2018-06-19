@@ -60,6 +60,7 @@ def get(bot, update):
 
     Returns:
     """
+    print("GET")
     location = None
     chat_id = None
     if update.edited_message:
@@ -84,6 +85,7 @@ def get(bot, update):
                                                                       longitude=location.longitude,
                                                                       disable_notification=True, live_period=2700)['message_id'])
                     tmp.append(item["contact"]["chat_id"])
+                    global active_deliverys
                     active_deliverys[chat_id] = tmp
                     bot.send_message(chat_id=driver, text="Die nächste Bestellung hat die Bestellnummer {}.\n{}\nTo mark as delivered, type: \n'/delivered {}'".format(item["id"], ppAddress(item), item["id"]))
                     break
@@ -144,6 +146,7 @@ def deliver(bot, update, args):
             json_data = response["jsonData"]
             for order in json_data:
                 if order["id"] == order_number and not order["delivered"]:
+                    global active_deliverys
                     order["delivered"] = True
                     
                     drivers = get_json("driver")["jsonData"]
@@ -152,12 +155,12 @@ def deliver(bot, update, args):
                     driver["order_id"] = None
                     
                     bot.send_message(chat_id=order["contact"]["chat_id"], text="Pizza wurde geliefert.")
-                    chat_id = order["contact"]["chat_id"]
-                    bot.stopMessageLiveLocation(chat_id=chat_id, message_id = active_deliverys[chat_id][0] )
-                    active_deliverys.pop(chat_id, None)
-                    write_json("driver", drivers) 
+                    bot.stopMessageLiveLocation( chat_id=order["contact"]["chat_id"], message_id = active_deliverys[int(order["driver"])][0] )
+                    active_deliverys.pop(int(order["driver"]), None)
+                    write_json("driver", drivers)
         write_json("orders", json_data)
-    get(bot, update)
+    #print("CALL GET")
+    #get(bot, update)
 
 def delivery_time(bot, update, args):
     """
