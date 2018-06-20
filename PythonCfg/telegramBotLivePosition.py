@@ -8,6 +8,8 @@ server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 json_dir = server_root + "/json/"
 
+PLZ_PIZZA = "88045+Fallenbrunnen+19"
+
 active_deliveries = {}  # { "driver_id" : ["message_id", customer_id]}
 
 
@@ -193,25 +195,27 @@ def delivery_time(bot, update):
     # Loops all orders
     for order in orders['jsonData']:  # loop trough all orders
         # get all orders assigned to driver and check if they are already finished
-        if order['driver'] == chat_id and not order['delivered']:
+        if int(order['driver']) == chat_id and not order['delivered']:
             related_orders.append(order)
     # If has orders
     if len(related_orders) != 0:
-        # Has one stop
+
+        # Loops all stops
+        for o in related_orders:
+            # Add stop to list
+            waypoints.append(
+                str(o["contact"]["postcode"] + "+" + o["contact"]["street"] + "+" + o["contact"]["nr"]))
+        
         if len(waypoints) == 1:
             # gets the distance to the destination
-            distance = ajaxGoogleAPI.calcDriveDuration("88045+Fallenbrunnen", [], str(
+            distance = ajaxGoogleAPI.calc_drive_duration(PLZ_PIZZA, [], str(
                 related_orders[0]["contact"]["postcode"] + "+" + related_orders[0]["contact"]["street"]))
         else:
-            # Loops all stops
-            for o in related_orders:
-                # Add stop to list
-                waypoints.append(
-                    str(o["contact"]["postcode"] + "+" + o["contact"]["street"] + "+" + o["contact"]["nr"]))
-            distance = ajaxGoogleAPI.calcDriveDuration("88045+Fallenbrunnen", waypoints, waypoints[len(waypoints) - 1])
+            distance = ajaxGoogleAPI.calc_drive_duration(PLZ_PIZZA, waypoints, waypoints[len(waypoints) - 1])
+            
         # Sends the route
         bot.sendMessage(chat_id,
-                        ajaxGoogleAPI.calcDriveWay("88045+Fallenbrunnen+2", waypoints, "88045+Fallenbrunnen+2"))
+                        ajaxGoogleAPI.calc_drive_way(PLZ_PIZZA, waypoints, PLZ_PIZZA))
         bot.sendMessage(chat_id, "Die vorraussichtliche Fahrzeit beträgt: " + distance)
     else:
         bot.sendMessage(chat_id, "Aktuell sind keine Bestellungen zugewiesen.")
