@@ -69,7 +69,7 @@ def get_json_data(request):
     Reads the whole json-string out of the specified file and sets
     ist as the response.
     
-    Security Issue: Can leak all stored Informations because the ist no 
+    Security Issue: Can leak all stored information because the ist no
     security check for the post-request yet.
     
     Args:
@@ -80,7 +80,6 @@ def get_json_data(request):
     """
     try:
         global json_dir
-        # f = open(json_dir + request['file'] + ".json", 'r')  # Datei wird erstellt
         with open(json_dir + request['file'] + ".json") as json_data:
             d = json.load(json_data)
         response = {
@@ -142,9 +141,9 @@ def pdf_upload(request):
     try:
         pdf = request.decode("utf-8")
         global pdf_dir
-        f = open(pdf_dir + pdf[pdf.find("name=") + 6: pdf.find(".pdf")] + ".pdf", 'wb')  # Datei wird erstellt
+        f = open(pdf_dir + pdf[pdf.find("name=") + 6: pdf.find(".pdf")] + ".pdf", 'wb')  # File is created
         f.write(request)
-        f.close()  # und abgespeichert
+        f.close()  # and saved
         response = {
             'STATUS': 'OK',
             'imgPath': str("../pdf/")
@@ -220,7 +219,7 @@ def register(request):
     If not the new account information are stored.
     
     Args:
-        request (dict): Contains all informations of the 
+        request (dict): Contains all information of the
                         new customer 
                         in this structure:
                         {
@@ -302,18 +301,18 @@ def register(request):
 
 class MyServer(http.server.BaseHTTPRequestHandler):
     """
-    Serverclass, handles all the requests made by clients.
+    Server class, handles all the requests made by clients.
     
     Args:
         http.server.BaseHTTPRequestHandler (handler)
         
     Return:
         to the client:
-            different webpages via "get"
+            different web pages via "get"
             different actions via "post"
             error messages,...
     """
-    key = "Basic:test"  # Benutzer & Kennwort für admin Bereich
+    key = "Basic:test"  # User & Password for admin Page
     key = base64.b64encode(bytes(key, "UTF8"))
 
     def do_AUTHHEAD(self):
@@ -322,7 +321,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class): contains the reference 
-                          informations to the own class
+                          information to the own class
         
         Return:
             Error 401
@@ -340,13 +339,12 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class): contains the reference 
-                          informations to the own class
+                          information to the own class
         
         Return:
-            different webpages to the client
+            different web pages to the client
         """
         global server_root
-        # rootdir = server_root
 
         if self.path == "/":
             self.path = "/index.html"
@@ -382,7 +380,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class)  : contains the reference 
-                            informations to the own class
+                            information to the own class
             path (str)    : contains the requested path
             encoding (str): if given: contains the encoding
             mime (str)    : holds information of the mime-type
@@ -406,11 +404,11 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class)  : contains the reference 
-                            informations to the own class
+                            information to the own class
             mime (str)    : holds information of the mime-type
         
         Return:
-            Code 200, mimetype
+            Code 200, mime type
         """
         self.send_response(200)
         self.send_header('Content-type', mime)
@@ -429,7 +427,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class)  : contains the reference 
-                            informations to the own class
+                            information to the own class
             path (str)    : contains the requested path
             encoding (str): contains the encoding, 
                             if not given sets it tp "UTF")
@@ -447,10 +445,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         
         Args:
             self (class): contains the reference 
-                          informations to the own class
+                          information to the own class
         
         Return:
-            different informations to the client 
+            different information to the client
         """
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -517,10 +515,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
 
 class ThreadingSimpleServer(ThreadingMixIn, http.server.HTTPServer):
     """
-    Handles the multithreading of the webserver.
+    Handles the multithreading of the web server.
     
-    Agrs:
-        ThreadixIn (touple): information about the ip and port
+    Args:
+        ThreadingMixIn (tuple): information about the ip and port
         http.server.HTTPServer (handler)
     
     return:

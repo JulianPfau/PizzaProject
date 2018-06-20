@@ -13,19 +13,19 @@ server_dir = os.path.dirname(os.path.abspath(__file__))
 server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 json_dir = server_root + "/json/"
 
-# when the user sucessully logged in to the system,
+# when the user successfully logged in to the system,
 # a session ID should be created. Its a random number
 # that is stored in the user data base (json) and in
-# the sesseionStorage of the user. Also a timestamp should be
-# stored so after 1 Day the sessionID is invaild.
+# the session Storage of the user. Also a timestamp should be
+# stored so after 1 Day the sessionID is invalid.
 # After each connection
 # the Session ID's should be compared. If its equal the user
 # is still logged in.
 
 # contains every stored sessionID in an array
-file = open(json_dir + "sessionIDs.json")
+tmp_file = open(json_dir + "sessionIDs.json")
 # JSON SessionID database array
-old_session_ids = json.load(file)
+old_session_ids = json.load(tmp_file)
 
 
 def create_session_id():
@@ -51,8 +51,8 @@ def logout(sid):
     file = open(json_dir + "sessionIDs.json")
     json_file = json.load(file)
     pos = 0
-    for id in json_file:
-        if str(id["sessionID"]) in str(sid):
+    for s_id in json_file:
+        if str(s_id["sessionID"]) in str(sid):
             break
         pos += 1
     del json_file[pos]
@@ -84,6 +84,7 @@ def check_session_id(session_id):
     the reason for that is ever use has his own and unique session_id
     so during the session_id check the Client don't have to send data of the user.
     """
+    global old_session_ids
     file = open(json_dir + "sessionIDs.json")
     old_session_ids = json.load(file)
 

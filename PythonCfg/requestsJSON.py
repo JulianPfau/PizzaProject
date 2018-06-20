@@ -43,11 +43,11 @@ def find_extra_in_extras(extras, int_id):
 def append_order(json_dir, request):
     """
     Appends a submitted Order, checks the calculated price and returns the
-    corrected informations to the customer.
+    corrected information to the customer.
 
     Args:
         json_dir (str):	string to all stored json-files
-        request (dict):	transmitted informations in this structure:
+        request (dict):	transmitted information in this structure:
             {
                 "request" : "newOrder",
                 "jsonData" :
@@ -66,7 +66,6 @@ def append_order(json_dir, request):
                          "city":"",
                          "nr":"",
                          "phone":"",
-                         "zahlung":"",
                          "chat_id": ""},
                     "total":
                 }
@@ -141,9 +140,9 @@ def get_order_by_id(json_dir, request):
     based on its id.
 
     Args:
-        json_dir (str):	string to the dicetory where the json-files
+        json_dir (str):	string to the directory where the json-files
                         are located
-        request (dict):	request contains all the transmitted informations
+        request (dict):	request contains all the transmitted information
                         from the customer in this structure:
                             {
                                 "request" : "get_order_by_id",
@@ -207,9 +206,9 @@ def get_customer_data_by_mail(json_dir, mail):
     Looks up the customers data based on the stored mail-address in the customers.json
 
     Args:
-        json_dir (str):	string to the dicetory where the json-files
+        json_dir (str):	string to the directory where the json-files
                         are located
-        mail (dict):	request contains all the transmitted informations
+        mail (dict):	request contains all the transmitted information
                         from the customer.
 
     Returns:
@@ -293,9 +292,9 @@ def get_order_by_mail(json_dir, request):
     Returns all ever submitted orders based on the stored mail-address
 
     Args:
-        json_dir (str):	string to the dicetory where the json-files
+        json_dir (str):	string to the directory where the json-files
                         are located
-        request (dict):	request contains all the transmitted informations
+        request (dict):	request contains all the transmitted information
                         from the customer in this structure:
                             {
                                 "request" : "get_order_by_mail",

@@ -240,7 +240,7 @@ def generate_drinks_buttons_markup():
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
     drinks = []
-    # Loops all drinkes from menus
+    # Loops all drinks from menus
     for p in data:
         if p["types"] == "Getr\u00e4nk":
             # Adds all drinks to "drinks" variable

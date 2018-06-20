@@ -1,15 +1,16 @@
-import requests
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
+
+import requests
 
 
 def calc_drive_duration(origin, waypoints, destination):
     """
-    returns the drive duratoin between the pizzeria and customer
+    returns the drive duration between the pizzeria and customer
 
-    Funktion makes a request to the GoogleMapsAPI.
-    Basend on two places (street/postcode/city name) the API
-    returns informations about the duration(and some more).
+    Function makes a request to the GoogleMapsAPI.
+    Based on two places (street/postcode/city name) the API
+    returns information about the duration(and some more).
     
     Example call: calc_drive_duration("plz+village", "plz+village+street+number")
     
@@ -47,7 +48,7 @@ def calc_drive_way(origin, waypoints, destination):
         destination (str) - location string of the destination
 
     Returns:
-        str - Link for Google Maps wiht the best route
+        str - Link for Google Maps with the best route
     """
     header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1',
               'Host': 'maps.googleapis.com',
@@ -138,7 +139,7 @@ def get_duration(text):
     extracts the duration from the response of the GoogleMapsAPI
 
     Args:
-        text (str) - contains the response of the GooglaAPI
+        text (str) - contains the response of the GoogleAPI
 
     Returns:
         str - duration to drive between two locations (hh:mm:ss)
@@ -156,7 +157,7 @@ def get_distance(text):
     extracts the distance from the response of the GoogleMapsAPI
 
     Args:
-        text (str) - contains the response of the GooglaAPI
+        text (str) - contains the response of the GoogleAPI
 
     Returns:
         int - distance between two locations
