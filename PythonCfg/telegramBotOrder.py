@@ -147,10 +147,12 @@ def button(bot, update):
     elif update.callback_query.data == 'order':
         # Completes the order
         chat_id = update.callback_query.message.chat.id
-        bot.editMessageText(chat_id=chat_id, message_id=update.callback_query.message.message_id,
+        print('halle')
+        bot.send_message(chat_id=chat_id,
                             text='Vielen Dank für ihre Bestellung :)')
 
         # Generates the json for the "order.json"
+        print("testtest")
         timestamp = datetime.datetime.now()
         order_dict = {}
         if chat_id in drinksDict:
@@ -187,6 +189,7 @@ def button(bot, update):
         # Combines all to the json and appends it to the "orders.json"
         to_json = {'id': id_of_order, 'items': items, 'contact': get_contact_date(chat_id), 'total': str(total),
                    'delivered': False, 'driver': None}
+        print(to_json)
         with open(json_dir + "orders.json", "r") as file:
             tmp_json = json.loads(file.read())
         tmp_json.append(to_json)
