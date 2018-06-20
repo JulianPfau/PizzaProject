@@ -72,9 +72,9 @@ def get(bot, update):
         location = update.message.location
 
     if is_driver(chat_id):
-        if update.edited_message:
-            bot.editMessageLiveLocation(chat_id=active_deliveries[chat_id][1], message_id = active_deliveries[chat_id][0] ,latitude=location.latitude, longitude=location.longitude)
-        elif update.message:
+        #if update.edited_message:
+        
+        if update.message:
             # Saves all drivers
             drivers = get_json("driver")["jsonData"]
             if drivers[chat_id]["available"]:
@@ -93,7 +93,7 @@ def get(bot, update):
                         break
                 write_json("orders", orders)
             write_json("driver", drivers)
-
+        bot.editMessageLiveLocation(chat_id=active_deliveries[chat_id][1], message_id = active_deliveries[chat_id][0] ,latitude=location.latitude, longitude=location.longitude)
 
 def pp_address(order):
     """
