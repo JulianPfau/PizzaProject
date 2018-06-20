@@ -60,8 +60,6 @@ def get(bot, update):
     Args:
         bot (class): Class of the bot in use
         update (dict?): last update of the bot
-
-    Returns:
     """
     # Saves the location and the chat ID
     location = None
@@ -161,9 +159,6 @@ def deliver(bot, update, args):
         bot (class): Class of the bot in use
         update (dict?): last update of the bot
         args (list): fist element should contain the orderid
-
-    Returns:
-        message to customer that pizza is delivered
     """
     global active_deliverys
     # Checks if sender is an driver and has send an order number
@@ -206,8 +201,6 @@ def delivery_time(bot, update):
     Args:
         bot (class): Class of the bot in use
         update (dict?): last update of the bot
-
-    Returns:
     """
     chat_id = update.message.chat.id
     orders = get_json("orders")
@@ -241,7 +234,13 @@ def delivery_time(bot, update):
 
 
 def add_driver_to_order(bot, update):
-    """Connects a driver with an user"""
+    """
+    Connects a driver with an user
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     drivers = get_json("driver")
     button_list = []
     data = {"type": "driver"}
@@ -257,11 +256,16 @@ def add_driver_to_order(bot, update):
 
 
 def request_order(bot, update):
-    """Is called when a driver is selected to add him to an order"""
+    """
+    Is called when a driver is selected to add him to an order
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     q_data = json.loads(update.callback_query.data)
     orders = get_json("orders")
 
-    # Checks if callback is for this function
     if q_data["type"] == "driver":
         button_list = []
         data = {}

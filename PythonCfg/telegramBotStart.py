@@ -15,7 +15,13 @@ password = []
 
 
 def start(bot, update):
-    """/start starts the register process"""
+    """
+    /start starts the register process
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     global data, users
     chat_id = int(float(update.message.chat_id))
 
@@ -34,8 +40,14 @@ def start(bot, update):
 
 
 def reply(bot, update):
-    """Is called, when somebody reply to an message"""
-    """Checks the value that should be inserted or changed"""
+    """
+    Is called, when somebody reply to an message
+    Checks the value that should be inserted or changed
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     global data, users
     chat_id = update.message.chat_id
 
@@ -135,7 +147,13 @@ def reply(bot, update):
 
 
 def edit(bot, update):
-    """Starts the progress to change a user data"""
+    """
+    Starts the progress to change a user data
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     # Generates the Keyboard
     button_list = [
         # Keyboard button             Text to be displayed     data to be send on click
@@ -160,7 +178,13 @@ def edit(bot, update):
 
 
 def change(bot, update):
-    """Called on callback query fot changes of user data"""
+    """
+    Called on callback query fot changes of user data
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     global data
 
     chat_id = update.callback_query.message.chat.id
@@ -187,7 +211,12 @@ def change(bot, update):
 
 
 def get_new_id():
-    """Generates new unique ID"""
+    """
+    Generates new unique customer ID
+
+    Returns:
+        customer_id (int) - A unique int ID
+    """
     with open(json_dir + "customers.json", "r") as f:
         json_data = json.load(f)
 
@@ -204,7 +233,18 @@ def get_new_id():
 
 
 def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
-    """Function to generate a nice keyboard style"""
+    """
+    Function to generate a nice keyboard style
+
+    Args:
+        buttons ([]) - A list of Buttons, that should be rearranged
+        n_cols (int) - The number of columns
+        header_buttons ([]) - OPTIONAL The buttons that should be in the first row
+        footer_buttons ([]) - OPTIONAL The buttons that should be in the last row
+
+    Returns:
+        menu ([[]]) - A 2D List rearranged as in Args defined
+    """
     # Creates a 2D Array, based on n_cols as column count
     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
     if header_buttons:
@@ -215,7 +255,15 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
 
 def registered(chat_id):
-    """Checks weather the user with this chat ID is registered or not"""
+    """
+    Checks weather the user with this chat ID is registered or not
+
+    Args:
+        chat_id (int) - The chat ID which should be checked
+
+    Returns:
+         reg (bool) - Weather the chat ID is registered or not
+    """
     # Reads the json file
     with open(json_dir + "customers.json", "r") as f:
         json_data = json.load(f)

@@ -14,13 +14,13 @@ def calc_drive_duration(origin, waypoints, destination):
     Example call: calc_drive_duration("plz+village", "plz+village+street+number")
     
     Args:
-        origin (str): location string of the origin
-        waypoints (list): location of all waypoints on the route (no waypoints: [])
-        destination (str) location string of the destination
+        origin (str) - location string of the origin
+        waypoints (list) - location of all waypoints on the route (no waypoints: [])
+        destination (str) - location string of the destination
 
     Returns:
-        str:    If successful: returns the duration as string with time unit. Format hh:mm:ss
-        str:    No valid location entered: Error.
+        str - If successful: returns the duration as string with time unit. Format hh:mm:ss
+        str - No valid location entered: Error.
     """
     header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1',
               'Host': 'maps.googleapis.com',
@@ -42,12 +42,12 @@ def calc_drive_way(origin, waypoints, destination):
     Creates a String for Google Maps based on a destination and origin and optional waypoints
 
     Args:
-        origin (str): location string of the origin
-        waypoints (list): location of all waypoints on the route (no waypoints: [])
-        destination (str) location string of the destination
+        origin (str) - location string of the origin
+        waypoints (list) - location of all waypoints on the route (no waypoints: [])
+        destination (str) - location string of the destination
 
     Returns:
-        str:     Link for Google Maps wiht the best route
+        str - Link for Google Maps wiht the best route
     """
     header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1',
               'Host': 'maps.googleapis.com',
@@ -75,7 +75,7 @@ def calc_distance(request):
     returns information about the distance(and some more).
 
     Args:
-        request (dict):    request contains all the transmitted information
+        request (dict) -    request contains all the transmitted information
                         from the customer in this structure:
                             {
                                 "request": "ajaxGoogleAPI",
@@ -84,8 +84,8 @@ def calc_distance(request):
                             }
 
     Returns:
-        int:    If successful: returns the distance in meters.
-        str:    No valid location entered: Error.
+        int - If successful: returns the distance in meters.
+        str - No valid location entered: Error.
     """
     url = "http://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + str(
         request['plz_pizza']) + "+DE&destinations=" + str(request['plz_user']) + "+DE"
@@ -102,12 +102,12 @@ def gen_request_url(origin, waypoints, destination):
     Generates the URI for the GoogleMaps API request
 
     Args:
-        origin (str): location string of the origin
-        waypoints (list): location of all waypoints on the route
-        destination (str) location string of the destination
+        origin (str) - location string of the origin
+        waypoints (list) - location of all waypoints on the route
+        destination (str) - location string of the destination
 
     Returns:
-        str:     Request URI for the API
+        str - Request URI for the API
     """
     if len(waypoints) == 0:
         return "http://maps.googleapis.com/maps/api/directions/json?origin={}&destination={}&sensor=false".format(
@@ -122,10 +122,10 @@ def pp_waypoints(waypoints):
     Converts the Waypoints into the format for the GoogleAPI request 
 
     Args:
-        waypoints (list) :    contains all the waypoints of the GoogleAPI
+        waypoints (list) - contains all the waypoints of the GoogleAPI
 
     Returns:
-        str:     pretty printed waypoints
+        str - pretty printed waypoints
     """
     string_waypoints = ""
     for i in waypoints:
@@ -138,10 +138,10 @@ def get_duration(text):
     extracts the duration from the response of the GoogleMapsAPI
 
     Args:
-        text (str) :    contains the response of the GooglaAPI
+        text (str) - contains the response of the GooglaAPI
 
     Returns:
-        str:     duration to drive between two locations (hh:mm:ss)
+        str - duration to drive between two locations (hh:mm:ss)
     """
     duration = 0
 
@@ -156,10 +156,10 @@ def get_distance(text):
     extracts the distance from the response of the GoogleMapsAPI
 
     Args:
-        text (str) :    contains the response of the GooglaAPI
+        text (str) - contains the response of the GooglaAPI
 
     Returns:
-        int:     distance between two locations
+        int - distance between two locations
     """
     pos_beg = text.find("<value>", text.find("distance")) + 7
     return text[pos_beg:text.find("</value>", pos_beg)]

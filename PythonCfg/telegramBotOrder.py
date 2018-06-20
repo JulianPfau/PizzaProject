@@ -9,7 +9,13 @@ json_dir = server_root + "/json/"
 
 
 def order(bot, update):
-    """prints out the Buttons to select Drinks/Food"""
+    """
+    Prints out the Buttons to select Drinks/Food
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     global foodDict, drinksDict
     foodDict = {}
     drinksDict = {}
@@ -33,7 +39,13 @@ def order(bot, update):
 
 
 def add_to_food_list(chat_id, food):
-    """adds an Element to the FoodList of a specific ChatID"""
+    """
+    Adds an Element to the FoodList of a specific ChatID
+
+    Args:
+        chat_id (int) - The ID from the message sender
+        food (str) - The food witch should be added to the basket
+    """
     if chat_id in foodDict:
         temp_list = foodDict[chat_id]
         temp_list.append(food.replace("_", " | "))
@@ -43,7 +55,13 @@ def add_to_food_list(chat_id, food):
 
 
 def add_to_drinks_list(chat_id, drink):
-    """adds an Element to the Drink List of a specific ChatID"""
+    """
+    Adds an Element to the Drink List of a specific ChatID
+
+    Args:
+        chat_id (int) - The ID from the message sender
+        drink (str) - The drink witch should be added to the basket
+    """
     if chat_id in drinksDict:
         temp_list = drinksDict[chat_id]
         temp_list.append(drink.replace("_", " | "))
@@ -53,7 +71,13 @@ def add_to_drinks_list(chat_id, drink):
 
 
 def button(bot, update):
-    """Is called on callback"""
+    """
+    Is called on callback
+
+    Args:
+        bot (telegram.Bot) - The bot that is running
+        update (telegram.Update) - Incoming Update
+    """
     # Pizzen
     if update.callback_query.data == "pizzen":
         # Sends all pizzas
@@ -172,7 +196,12 @@ def button(bot, update):
 
 
 def generate_pizza_button_markup():
-    """Generates the Buttons for the Pizza Menu"""
+    """
+    Generates the Buttons for the Pizza Menu
+
+    Returns:
+        reply_markup (telegram.ReplyMarkup) - The reply markup for all pizzas in basket
+    """
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
     pizzen = []
@@ -202,7 +231,12 @@ def generate_pizza_button_markup():
 
 
 def generate_drinks_buttons_markup():
-    """Generates the List of the Buttons for the drinks Menu"""
+    """
+    Generates the List of the Buttons for the drinks Menu
+
+    Returns:
+        reply_markup (telegram.ReplyMarkup) - The reply markup for all drinks in basket
+    """
     with open(json_dir + 'menu.json') as f:
         data = json.load(f)
     drinks = []
@@ -233,7 +267,18 @@ def generate_drinks_buttons_markup():
 
 
 def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
-    """Function to generate a nice keyboard style"""
+    """
+    Function to generate a nice keyboard style
+
+    Args:
+        buttons ([]) - A list of Buttons, that should be rearranged
+        n_cols (int) - The number of columns
+        header_buttons ([]) - OPTIONAL The buttons that should be in the first row
+        footer_buttons ([]) - OPTIONAL The buttons that should be in the last row
+
+    Returns:
+        menu ([[]]) - A 2D List rearranged as in Args defined
+    """
     # Creates a 2D Array, based on n_cols as column count
     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
     if header_buttons:
@@ -244,7 +289,18 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
 
 def add_to_items(items, name, size, price):
-    """Creates the item dict for the items in orders.json"""
+    """
+    Creates the item dict for the items in orders.json
+
+    Args:
+        items ([]) - The list of items
+        name (str) - Name of the item
+        size (str) - Size of the item
+        price (str) - Price of the item
+
+    Returns:
+         items ([]) - The list with the generated item dict
+    """
     index = items_contains_name(items, name)
     if index == 0:
         temp = {'name': name, 'size': size, 'count': 1, 'price': price}
@@ -255,7 +311,16 @@ def add_to_items(items, name, size, price):
 
 
 def items_contains_name(items, name):
-    """Checks if an item contains name"""
+    """
+    Checks if an item contains name
+
+    Args:
+        items ([]) - The list of items in which should be searched
+        name (str) - The name which should be searched
+
+    Returns:
+        ret (bool) - Weather the name was found or not
+    """
     ret = 0
     # Loops all items and saves the searched one
     for x in range(len(items)):
@@ -265,7 +330,15 @@ def items_contains_name(items, name):
 
 
 def get_total_price(items):
-    """Calculates a total price"""
+    """
+    Calculates a total price
+
+    Args:
+        items ([]) - List of items, which should be looped
+
+    Returns:
+        total (float) - The total price of all items
+    """
     total = 0
     # Loops all items and add the price to total
     for i in items:
@@ -274,7 +347,15 @@ def get_total_price(items):
 
 
 def get_contact_date(chat_id):
-    """Creates the dict for the contact from order.json"""
+    """
+    Creates the dict for the contact from order.json
+
+    Args:
+        chat_id (int) - The chat ID of contact that should be searched
+
+    Returns:
+        contact (dict) - The dict of the contact
+    """
     # Reads the customers.json
     with open(json_dir + 'customers.json') as f:
         data = json.load(f)
