@@ -85,7 +85,7 @@ def get(bot, update):
                     if item["contact"]["chat_id"] is not None and item["driver"] is None and not item["delivered"]:
                         item["driver"] = chat_id
                         drivers[chat_id]["available"] = False
-                        drivers[chat_id]["order_id"] = item["id"]
+                        #drivers[chat_id]["order_id"] = item["id"]
                         tmp = [bot.sendLocation(chat_id=item["contact"]["chat_id"], latitude=location.latitude,
                                                                           longitude=location.longitude,
                                                                           disable_notification=True, live_period=2700)
@@ -167,7 +167,7 @@ def deliver(bot, update, args):
                     drivers = get_json("driver")["jsonData"]
                     driver = drivers[order["driver"]]
                     driver["available"] = True
-                    driver["order_id"] = None
+                    #driver["order_id"] = None
 
                     # Informs the user and stops the Live Location
                     bot.send_message(chat_id=order["contact"]["chat_id"], text="Pizza wurde geliefert.")
@@ -195,7 +195,7 @@ def delivery_time(bot, update):
     # Loops all orders
     for order in orders['jsonData']:  # loop trough all orders
         # get all orders assigned to driver and check if they are already finished
-        if int(order['driver']) == chat_id and not order['delivered']:
+        if order['driver'] == str(chat_id) and not order['delivered']:
             related_orders.append(order)
     # If has orders
     if len(related_orders) != 0:
