@@ -9,6 +9,8 @@ server_root = os.path.sep.join(server_dir.split(os.path.sep)[:-1])
 json_dir = server_root + "/json/"
 
 """global variables"""
+names = ["en Vorname", "en Nachname", "e E-Mail", "Passwort", "e Stadt", "e Postleitzahl", "e Straße", "e Hausnummer",
+         "e Telefonnummer"]
 data = {}  # {chat_id:1, chat_id2: 3}
 users = {}
 password = []
@@ -26,7 +28,7 @@ def start(bot, update):
     chat_id = int(float(update.message.chat_id))
 
     if registered(chat_id):
-        bot.sendMessage(chat_id, "Du bist schon registriert")
+        bot.sendMessage(chat_id, "<b>Du bist schon registriert</b>", parse_mode="HTML")
     else:
         # Variable to check how far the register process is and weather it is a change of data or the register
         data[chat_id] = {"id": 0, "edit": False}
@@ -36,7 +38,8 @@ def start(bot, update):
             users[chat_id] = {"id": get_new_id(), "firstname": "", "lastname": "", "email": None, "password": None,
                               "contact": {"name": None, "postcode": None, "street": None, "city": None,
                                           "nr": None, "phone": None, "chat_id": chat_id}}
-        bot.sendMessage(chat_id, "Geben Sie bitte Ihren Vornamen ein", reply_markup=telegram.ForceReply(True))
+        bot.sendMessage(chat_id, "Geben Sie bitte Ihren <b>Vornamen</b> ein", parse_mode="HTML",
+                        reply_markup=telegram.ForceReply(True))
 
 
 def reply(bot, update):
@@ -61,28 +64,31 @@ def reply(bot, update):
     if data[chat_id]["id"] == 0:
         users[chat_id]["firstname"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Bitte geben Sie Ihren Nachnamen ein", reply_markup=telegram.ForceReply(True))
+            bot.sendMessage(chat_id, "Bitte geben Sie Ihren <b>Nachnamen</b> ein", parse_mode="HTML",
+                            reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 1
 
     # Nachname
     elif data[chat_id]["id"] == 1:
         users[chat_id]["lastname"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Was ist Ihre E-Mail Adresse?", reply_markup=telegram.ForceReply(True))
+            bot.sendMessage(chat_id, "Was ist Ihre <b>E-Mail Adresse</b>?", parse_mode="HTML",
+                            reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 2
 
     # Email
     elif data[chat_id]["id"] == 2:
         users[chat_id]["email"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Vergeben Sie bitte ein sicheres Passwort", reply_markup=telegram.ForceReply(True))
+            bot.sendMessage(chat_id, "Vergeben Sie bitte ein sicheres <b>Passwort</b>", parse_mode="HTML",
+                            reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 3
 
     # Password
     elif data[chat_id]["id"] == 3:
         users[chat_id]["password"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "In welcher Stadt haben Sie Ihren Wohnsitz?",
+            bot.sendMessage(chat_id, "In welcher <b>Stadt</b> haben Sie Ihren Wohnsitz?", parse_mode="HTML",
                             reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 4
 
@@ -90,7 +96,7 @@ def reply(bot, update):
     elif data[chat_id]["id"] == 4:
         users[chat_id]["contact"]["city"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Wie lautet die Postleitzahl Ihres Wohnortes?",
+            bot.sendMessage(chat_id, "Wie lautet die <b>Postleitzahl</b> Ihres Wohnortes?", parse_mode="HTML",
                             reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 5
 
@@ -98,7 +104,7 @@ def reply(bot, update):
     elif data[chat_id]["id"] == 5:
         users[chat_id]["contact"]["postcode"] = int(float(update.message.text))
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "In welcher Straße wohnen Sie? (ohne Hausnummer)",
+            bot.sendMessage(chat_id, "In welcher <b>Straße</b> wohnen Sie? (<b>ohne</b> Hausnummer)", parse_mode="HTML",
                             reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 6
 
@@ -106,14 +112,15 @@ def reply(bot, update):
     elif data[chat_id]["id"] == 6:
         users[chat_id]["contact"]["street"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Hausnummer", reply_markup=telegram.ForceReply(True))
+            bot.sendMessage(chat_id, "Was ist ihre <b>Hausnummer</b>?", parse_mode="HTML",
+                            reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 7
 
     # Nr
     elif data[chat_id]["id"] == 7:
         users[chat_id]["contact"]["nr"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Unter welcher Nummer sind Sie erreichbar?",
+            bot.sendMessage(chat_id, "Unter welcher <b>Nummer</b> sind Sie erreichbar?", parse_mode="HTML",
                             reply_markup=telegram.ForceReply(True))
             data[chat_id]["id"] = 8
 
@@ -121,7 +128,7 @@ def reply(bot, update):
     elif data[chat_id]["id"] == 8:
         users[chat_id]["contact"]["phone"] = update.message.text
         if not data[chat_id]["edit"]:
-            bot.sendMessage(chat_id, "Danke!")
+            bot.sendMessage(chat_id, "<b>Danke!</b>", parse_mode="HTML")
             data[chat_id]["id"] = 9
 
     # Auto generates the name, from first ans last name
@@ -186,28 +193,40 @@ def change(bot, update):
         update (telegram.Update) - Incoming Update
     """
     global data
-
     chat_id = update.callback_query.message.chat.id
-    int_id = int(float(update.callback_query.data))
 
-    # Adds user to working variables if not there
-    if chat_id not in list(users.keys()):
+    if update.callback_query.data == "del":
         with(open(json_dir + "customers.json")) as file:
             json_data = json.loads(file.read())
 
         for i in range(0, len(json_data)):
             if chat_id == json_data[i]["contact"]["chat_id"]:
-                users[chat_id] = json_data[i]
+                del json_data[i:i + 1]
                 break
 
-    # changes the progress of the registration and send the request for the new value
-    if chat_id not in list(data.keys()):
-        data[chat_id] = {"id": int_id, "edit": True}
+        bot.sendMessage(chat_id, "Deine Account wurde <b>gelöscht</b>", parse_mode="HTML")
     else:
-        data[chat_id]["id"] = int_id
-        data[chat_id]["edit"] = True
+        int_id = int(float(update.callback_query.data))
 
-    bot.sendMessage(chat_id, "Bitte schreib mir deine Änderung nun!", reply_markup=telegram.ForceReply(True))
+        # Adds user to working variables if not there
+        if chat_id not in list(users.keys()):
+            with(open(json_dir + "customers.json")) as file:
+                json_data = json.loads(file.read())
+
+            for i in range(0, len(json_data)):
+                if chat_id == json_data[i]["contact"]["chat_id"]:
+                    users[chat_id] = json_data[i]
+                    break
+
+        # changes the progress of the registration and send the request for the new value
+        if chat_id not in list(data.keys()):
+            data[chat_id] = {"id": int_id, "edit": True}
+        else:
+            data[chat_id]["id"] = int_id
+            data[chat_id]["edit"] = True
+
+        bot.sendMessage(chat_id, "Bitte schreib mir nun <b>dein" + names[int_id] + "</b>!", parse_mode="HTML",
+                        reply_markup=telegram.ForceReply(True))
 
 
 def get_new_id():
