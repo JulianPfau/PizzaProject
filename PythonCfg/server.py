@@ -203,7 +203,7 @@ def login(request):
                     and request["value"]["password"] == customer["password"]):
                 response = {
                     'STATUS': 'OK',
-                    'sid': sessionid.createSessionID()
+                    'sid': sessionid.create_session_id()
                 }
         response = json.dumps(response)
         return response
@@ -353,8 +353,8 @@ class MyServer(http.server.BaseHTTPRequestHandler):
         appends to a file ".html" if no file extension is given
         '''
         if (not (self.path.endswith(".html") or self.path.endswith(".css") or self.path.endswith(
-                ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(
-            ".png") or self.path.endswith(".jpg") or self.path.endswith(".ico"))):
+                ".json") or self.path.endswith(".js") or self.path.endswith(".gif") or self.path.endswith(".png")
+                 or self.path.endswith(".jpg") or self.path.endswith(".ico"))):
             self.path += ".html"
 
         mime, encoding = mimetypes.guess_type(self.path)
@@ -468,7 +468,7 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = get_json_data(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'ajaxGoogleAPI':
-                    response = ajaxGoogleAPI.calcDistance(data)
+                    response = ajaxGoogleAPI.calc_distance(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'save_json':
                     response = save_json(data)
@@ -477,10 +477,10 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = MyServer.delete_header(self)
                     self.wfile.write(bytes(response, "UTF8"))
                 if data['request'] == 'newOrder':
-                    response = requestsJSON.appendOrder(json_dir, data)
+                    response = requestsJSON.append_order(json_dir, data)
                     self.wfile.write(bytes(response, "UTF8"))
                 if data['request'] == 'get_order_by_id':
-                    response = requestsJSON.getOrderbyId(json_dir, data)
+                    response = requestsJSON.get_order_by_id(json_dir, data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'login':
                     response = login(data)
@@ -492,20 +492,20 @@ class MyServer(http.server.BaseHTTPRequestHandler):
                     response = register(data)
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'checkSID':
-                    response = sessionid.checkSessionID(data['value']['sid'])
+                    response = sessionid.check_session_id(data['value']['sid'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'getUserData':
-                    response = requestsJSON.getCustomerDatabyMail(json_dir, data['value']['email'])
+                    response = requestsJSON.get_customer_data_by_mail(json_dir, data['value']['email'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'updateData':
-                    response = requestsJSON.updateUserData(json_dir, data['value'])
+                    response = requestsJSON.update_user_data(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'delete_user':
-                    response = requestsJSON.deleteUser(json_dir, data['value'])
+                    response = requestsJSON.delete_user(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
                 if data['request'] == 'get_order_by_mail':
                     print("order by email request")
-                    response = requestsJSON.getOrderbyMail(json_dir, data['value'])
+                    response = requestsJSON.get_order_by_mail(json_dir, data['value'])
                     self.wfile.write(bytes(response, 'UTF8'))
             except IOError:
                 self.send_error(404, "Something went wrong")

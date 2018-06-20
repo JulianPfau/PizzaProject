@@ -91,7 +91,7 @@ def check_session_id(session_id):
     # if the session_id is stored
     i = 0
     while i < len(old_session_ids):
-        if str(old_session_ids[i]["session_id"]) == str(session_id):
+        if str(old_session_ids[i]["sessionID"]) == str(session_id):
             session_timestamp = old_session_ids[i]["timestamp"]
             current_timestamp = get_time_stamp()
 
