@@ -1091,7 +1091,7 @@ function precisionRound(input, decimal) {
 function sendJSONtoServer(jsonData, fileName) {
     var xhttp = new XMLHttpRequest();
     var data = new Object();
-    data.request = "saveJSON";
+    data.request = "save_json";
     data.fileName = fileName;
     data.jsonData = jsonData;
     xhttp.open("POST", "https://localhost:8080", false);
