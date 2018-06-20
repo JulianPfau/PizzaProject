@@ -59,16 +59,16 @@ def get(bot, update):
 
     Args:
         bot (class): Class of the bot in use
-        update (dict?): last update of the bot
+        update (telegram.update.Update): last update of the bot
     """
     # Saves the location and the chat ID
     location = None
     chat_id = None
     if update.edited_message:
-        chat_id = update.edited_message.chat.id
+        chat_id = str(update.edited_message.chat.id)
         location = update.edited_message.location
     elif update.message:
-        chat_id = update.message.chat.id
+        chat_id = str(update.message.chat.id)
         location = update.message.location
 
     if is_driver(chat_id):
@@ -169,9 +169,8 @@ def deliver(bot, update, args):
 
                     # Informs the user and stops the Live Location
                     bot.send_message(chat_id=order["contact"]["chat_id"], text="Pizza wurde geliefert.")
-                    bot.stopMessageLiveLocation(chat_id=order["contact"]["chat_id"],
-                                                message_id=active_deliveries[int(order["driver"])][0])
-                    active_deliveries.pop(int(order["driver"]), None)
+                    bot.stopMessageLiveLocation( chat_id=order["contact"]["chat_id"], message_id = active_deliveries[order["driver"]][0] )
+                    active_deliveries.pop(order["driver"], None) 
 
                     # Saves the driver
                     write_json("driver", drivers)
