@@ -71,41 +71,28 @@ def get(bot, update):
         chat_id = update.message.chat.id
         location = update.message.location
 
-    # Saves the orders
-    orders = get_json("orders")["jsonData"]
-    # Loops all orders
-    for item in orders:
-        # If the order has an chat ID, a driver and isn't delivered yet
-        if item["contact"]["chat_id"] is not None and item["driver"] is None and not item["delivered"]:
+    if is_driver(chat_id):
+        if update.edited_message:
+            bot.editMessageLiveLocation(chat_id=active_deliveries[chat_id][1], message_id = active_deliveries[chat_id][0] ,latitude=location.latitude, longitude=location.longitude)
+        elif update.message:
             # Saves all drivers
             drivers = get_json("driver")["jsonData"]
-            # Loops all drivers
-            for driver in drivers:
-                # if driver is available
-                if drivers[driver]["available"]:
-                    # Adds a driver to an order
-                    item["driver"] = driver
-                    drivers[driver]["available"] = False
-                    drivers[driver]["order_id"] = item["id"]
-                    # Sends the Live Location from the driver to the customer
-                    tmp = [bot.sendLocation(chat_id=item["contact"]["chat_id"], latitude=location.latitude,
-                                            longitude=location.longitude,
-                                            disable_notification=True,
-                                            live_period=2700)['message_id'], item["contact"]["chat_id"]]
-                    active_deliveries[chat_id] = tmp
-                    bot.send_message(chat_id=driver,
-                                     text="Die nächste Bestellung hat die Bestellnummer {}.\n{}\nTo mark as delivered, "
-                                          "type: \n'/delivered {}'".format(item["id"],
-                                                                           pp_address(item), item["id"]))
-                    break
-            # Saves the drivers
+            if drivers[chat_id]["available"]:
+                orders = get_json("orders")["jsonData"]
+                for item in orders:
+                    if item["contact"]["chat_id"] is not None and item["driver"] is None and not item["delivered"]:
+                        item["driver"] = chat_id
+                        drivers[chat_id]["available"] = False
+                        drivers[chat_id]["order_id"] = item["id"]
+                        tmp = [bot.sendLocation(chat_id=item["contact"]["chat_id"], latitude=location.latitude,
+                                                                          longitude=location.longitude,
+                                                                          disable_notification=True, live_period=2700)
+                               ['message_id'], item["contact"]["chat_id"]]
+                        active_deliveries[chat_id] = tmp
+                        bot.send_message(chat_id=chat_id, text="Die nächste Bestellung hat die Bestellnummer {}.\n{}\nTo mark as delivered, type: \n'/delivered {}'".format(item["id"], pp_address(item), item["id"]))
+                        break
+                write_json("orders", orders)
             write_json("driver", drivers)
-    # Saves the orders
-    write_json("orders", orders)
-
-    # Keeps the Live Location live
-    bot.editMessageLiveLocation(chat_id=active_deliveries[chat_id][1], message_id=active_deliveries[chat_id][0],
-                                latitude=location.latitude, longitude=location.longitude)
 
 
 def pp_address(order):
@@ -125,7 +112,9 @@ def pp_address(order):
                                                                                               order["contact"]["nr"],
                                                                                               order["contact"][
                                                                                                   "postcode"],
-                                                                                              order["contact"]["city"])
+                                                                                              order["contact"]["city"],
+                                                                                              order["contact"][
+                                                                                                  "zahlung"])
 
 
 def is_driver(chat_id):
@@ -262,6 +251,7 @@ def request_order(bot, update):
     q_data = json.loads(update.callback_query.data)
     orders = get_json("orders")
 
+    # Checks if callback is for this function
     if q_data["type"] == "driver":
         button_list = []
         data = {"type": "order", "id": q_data["id"]}
