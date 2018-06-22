@@ -29,7 +29,13 @@ old_session_ids = json.load(tmp_file)
 
 
 def create_session_id():
-    """creates a random number between 100 000 and 2 147 483 648"""
+    """
+    creates a random number between 100 000 and 2 147 483 648
+    
+    Args:
+    
+    Return:    
+    """
     sid = random.randrange(100000, 2147483648)
     ts = get_time_stamp()
 
@@ -46,7 +52,15 @@ def create_session_id():
 
 
 def logout(sid):
-    """removes the sid in the database"""
+    """
+    removes the sid in the database
+    
+    Args:
+        - sid (str) : contains the unique session id of the user
+        
+    Return:
+        str: OK, when removed
+    """
     # write the sid in the data base
     file = open(json_dir + "sessionIDs.json")
     json_file = json.load(file)
@@ -68,10 +82,15 @@ def logout(sid):
 
 def get_time_stamp():
     """
-     returns the current timestamp
+    returns the current timestamp
     to read the timestamp in a YYYY-MM-DD HH:MM:SS format
     use this: datetime.datetime.fromtimestamp(TIMESTAMP).strftime('%Y-%m-%d %H:%M:%S')
     ! important: you have to import the datetime module
+    
+    Args:
+    
+    Return:   
+        str: current formatted system time
     """
     return time.time()
 
@@ -83,6 +102,13 @@ def check_session_id(session_id):
     check if the SessionID is already stored in the database
     the reason for that is ever use has his own and unique session_id
     so during the session_id check the Client don't have to send data of the user.
+    
+    Args:
+        - session_id (str): session id of the user
+        
+    Return:
+        str: Json-String containing Error, if not successful
+             or OK, if successful
     """
     global old_session_ids
     file = open(json_dir + "sessionIDs.json")

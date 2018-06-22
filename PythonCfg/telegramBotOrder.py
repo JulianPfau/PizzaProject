@@ -15,6 +15,8 @@ def order(bot, update):
     Args:
         bot (telegram.Bot) - The bot that is running
         update (telegram.Update) - Incoming Update
+        
+    Return:
     """
     global foodDict, drinksDict
     foodDict = {}
@@ -45,6 +47,8 @@ def add_to_food_list(chat_id, food):
     Args:
         chat_id (int) - The ID from the message sender
         food (str) - The food witch should be added to the basket
+    
+    Return:
     """
     if chat_id in foodDict:
         temp_list = foodDict[chat_id]
@@ -61,6 +65,8 @@ def add_to_drinks_list(chat_id, drink):
     Args:
         chat_id (int) - The ID from the message sender
         drink (str) - The drink witch should be added to the basket
+    
+    Return:
     """
     if chat_id in drinksDict:
         temp_list = drinksDict[chat_id]
@@ -72,11 +78,14 @@ def add_to_drinks_list(chat_id, drink):
 
 def button(bot, update):
     """
-    Is called on callback
+    Is called on callback and updates the displayed keyboard
+    to set the requestet informations.
 
     Args:
         bot (telegram.Bot) - The bot that is running
         update (telegram.Update) - Incoming Update
+        
+    Return:
     """
     # Pizzen
     if update.callback_query.data == "pizzen":

@@ -62,6 +62,8 @@ def get(bot, update):
     Args:
         bot (class): Class of the bot in use
         update (telegram.update.Update): last update of the bot
+        
+    Return:
     """
     # Saves the location and the chat ID
     location = None
@@ -146,6 +148,8 @@ def deliver(bot, update, args):
         bot (class): Class of the bot in use
         update (dict?): last update of the bot
         args (list): fist element should contain the order ID
+        
+    Return:
     """
     global active_deliveries
     # Checks if sender is an driver and has send an order number
@@ -187,6 +191,8 @@ def delivery_time(bot, update):
     Args:
         bot (class): Class of the bot in use
         update (dict?): last update of the bot
+    
+    Return:
     """
     chat_id = update.message.chat.id
     orders = get_json("orders")
@@ -228,6 +234,8 @@ def add_driver_to_order(bot, update):
     Args:
         bot (telegram.Bot) - The bot that is running
         update (telegram.Update) - Incoming Update
+        
+    Return:
     """
     drivers = get_json("driver")
     button_list = []
@@ -250,6 +258,8 @@ def request_order(bot, update):
     Args:
         bot (telegram.Bot) - The bot that is running
         update (telegram.Update) - Incoming Update
+    
+    Return:
     """
     q_data = json.loads(update.callback_query.data)
     orders = get_json("orders")
