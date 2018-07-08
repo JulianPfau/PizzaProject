@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "firstname": "Max",
+    "lastname": "Musterman",
+    "email": "maxmusterman@test.com",
+    "password": "12345",
+    "contact": {
+      "name": "Max Musterman",
+      "postcode": "88045",
+      "street": "a",
+      "city": "Friedrichshafen",
+      "nr": "1",
+      "phone": "123",
+      "chat_id": 8
+    }
+  }
+]
